@@ -1,0 +1,26 @@
+$id: "https://dataworks.stanford.edu/dataworks-0.0.1.yml"
+title: Dataworks Schema
+description: >
+  A schema for validating dataset metadata for the Dataworks application.
+
+  Unless otherwise specified, this schema is based on the DataCite Metadata Schema (https://schema.datacite.org/)
+type: object
+properties:
+  titles:
+    type: array
+    items:
+      $ref: '#/components/schemas/Title'
+    minItems: 1
+required:
+  - titles
+additionalProperties: false
+components:
+  schemas:
+    Title:
+      type: object
+      properties:
+        title:
+          type: string
+      required:
+        - title
+      additionalProperties: false
