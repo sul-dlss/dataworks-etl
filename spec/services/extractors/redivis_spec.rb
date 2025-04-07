@@ -4,6 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Extractors::Redivis do
   context 'when successful' do
+    subject(:dataset_source_set) { described_class.call(organization: 'StanfordPHS') }
+
     let(:client) { instance_double(Clients::Redivis, list: results) }
     let(:results) do
       [
@@ -26,7 +28,7 @@ RSpec.describe Extractors::Redivis do
     end
 
     it 'creates a datasource set' do
-      expect { described_class.call(organization: 'StanfordPHS') }
+      expect { dataset_source_set }
         .to change(DatasetSourceSet, :count).by(1)
         .and change(DatasetSource, :count).by(1)
       expect(Clients::Redivis).to have_received(:new).with(organization: 'StanfordPHS', api_token: String)
@@ -42,11 +44,10 @@ RSpec.describe Extractors::Redivis do
       expect(new_source.source).to eq(new_dataset_source)
       expect(new_source.source_md5).to be_a(String)
 
-      new_dataset_source_set = DatasetSourceSet.last
-      expect(new_dataset_source_set.provider).to eq('redivis')
-      expect(new_dataset_source_set.complete).to be true
-      expect(new_dataset_source_set.dataset_sources).to include(new_source)
-      expect(new_dataset_source_set.dataset_sources).to include(existing_dataset)
+      expect(dataset_source_set.provider).to eq('redivis')
+      expect(dataset_source_set.complete).to be true
+      expect(dataset_source_set.dataset_sources).to include(new_source)
+      expect(dataset_source_set.dataset_sources).to include(existing_dataset)
     end
   end
 end

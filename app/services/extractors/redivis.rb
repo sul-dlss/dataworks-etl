@@ -7,10 +7,12 @@ module Extractors
       new(...).call
     end
 
+    # @param organization [String] the organization to extract datasets for
     def initialize(organization:)
       @organization = organization
     end
 
+    # @return [DatasetSourceSet] the set of dataset sources created
     def call
       dataset_source_set = DatasetSourceSet.create!(provider: 'redivis')
 
@@ -21,6 +23,7 @@ module Extractors
         dataset_source_set.dataset_sources << dataset_source
       end
       dataset_source_set.update!(complete: true)
+      dataset_source_set
     end
 
     private
