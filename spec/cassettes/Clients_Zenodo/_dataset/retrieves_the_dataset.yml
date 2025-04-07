@@ -1,0 +1,239 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://zenodo.org/api/records/4999985
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - "<AUTHORIZATION>"
+      User-Agent:
+      - Faraday v2.12.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 03 Apr 2025 16:59:58 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"3"
+      Link:
+      - <https://zenodo.org/api/records/4999985> ; rel="linkset" ; type="application/linkset+json"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Content-Type, ETag, Link, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Ratelimit-Remaining:
+      - '999'
+      X-Ratelimit-Reset:
+      - '1743699658'
+      Retry-After:
+      - '59'
+      Permissions-Policy:
+      - interest-cohort=()
+      X-Frame-Options:
+      - sameorigin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Security-Policy:
+      - 'default-src ''self'' fonts.googleapis.com *.gstatic.com data: ''unsafe-inline''
+        ''unsafe-eval'' blob: zenodo-broker.web.cern.ch zenodo-broker-qa.web.cern.ch
+        maxcdn.bootstrapcdn.com cdnjs.cloudflare.com ajax.googleapis.com webanalytics.web.cern.ch'
+      Strict-Transport-Security:
+      - max-age=15768000
+      - max-age=31556926; includeSubDomains
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      X-Request-Id:
+      - f5514c8b21bc80f373e39f93b89d8ee9
+      Set-Cookie:
+      - 5569e5a730cade8ff2b54f1e815f3670=5fa84f79ef1f1cde17549dbf942807a4; path=/;
+        HttpOnly; Secure; SameSite=None
+      Cache-Control:
+      - private
+    body:
+      encoding: ASCII-8BIT
+      string: '{"created": "2021-06-20T15:46:44.956104+00:00", "modified": "2022-05-31T01:13:09.811588+00:00",
+        "id": 4999985, "conceptrecid": "4999984", "doi": "10.5061/dryad.st6h9", "doi_url":
+        "https://doi.org/10.5061/dryad.st6h9", "metadata": {"title": "Data from: Mutational
+        analysis of Rab3 function for controlling active zone protein composition
+        at the Drosophila neuromuscular junction", "doi": "10.5061/dryad.st6h9", "publication_date":
+        "2016-08-17", "description": "At synapses, the release of neurotransmitter
+        is regulated by molecular machinery that aggregates at specialized presynaptic
+        release sites termed active zones. The complement of active zone proteins
+        at each site is a determinant of release efficacy and can be remodeled to
+        alter synapse function. The small GTPase Rab3 was previously identified as
+        playing a novel role that controls the distribution of active zone proteins
+        to individual release sites at the Drosophila neuromuscular junction. Rab3
+        has been extensively studied for its role in the synaptic vesicle cycle; however,
+        the mechanism by which Rab3 controls active zone development remains unknown.
+        To explore this mechanism, we conducted a mutational analysis to determine
+        the molecular and structural requirements of Rab3 function at Drosophila synapses.
+        We find that GTP-binding is required for Rab3 to traffick to synapses and
+        distribute active zone components across release sites. Conversely, the hydrolytic
+        activity of Rab3 is unnecessary for this function. Through a structure-function
+        analysis we identify specific residues within the effector-binding switch
+        regions that are required for Rab3 function and determine that membrane attachment
+        is essential. Our findings suggest that Rab3 controls the distribution of
+        active zone components via a vesicle docking mechanism that is consistent
+        with standard Rab protein function.", "access_right": "open", "creators":
+        [{"name": "Chen, Shirui", "affiliation": "Amherst College"}, {"name": "Gendelman,
+        Hannah K.", "affiliation": "Amherst College"}, {"name": "Roche, John P.",
+        "affiliation": "Amherst College"}, {"name": "Alsharif, Peter", "affiliation":
+        "Amherst College"}, {"name": "Graf, Ethan R.", "affiliation": "Amherst College"}],
+        "related_identifiers": [{"identifier": "10.1371/journal.pone.0136938", "relation":
+        "isCitedBy", "scheme": "doi"}], "resource_type": {"title": "Dataset", "type":
+        "dataset"}, "license": {"id": "cc-zero"}, "communities": [{"id": "dryad"}],
+        "relations": {"version": [{"index": 0, "is_last": true, "parent": {"pid_type":
+        "recid", "pid_value": "4999984"}}]}, "notes": "<div class=\"o-metadata__file-usage-entry\">CDR
+        Region Mutation Brp Distribution Rescue<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">CDR Region Mutation Rab3 Intensity<div
+        class=\"o-metadata__file-description\">Zipped folder contains Multichannel
+        TIFFs. Explanation of files included as .txt file in Zipped Folder</div><div
+        class=\"o-metadata__file-name\"></div></div><div class=\"o-metadata__file-usage-entry\">deltaC
+        Brp Distribution Rescue<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">deltaC Rab3 Intensity<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">N134I and T35N Brp Distribution Rescue<div
+        class=\"o-metadata__file-description\">Zipped folder contains Multichannel
+        TIFFs. Explanation of files included as .txt file in Zipped Folder</div><div
+        class=\"o-metadata__file-name\"></div></div><div class=\"o-metadata__file-usage-entry\">N134I
+        and T35N Rab3 Intensity<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">N134I and T35N DN Phenotype<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">Q80L Brp Distribution Rescue<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">Q80L Rab3 Intensity<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">Q80L Overexpression in WT<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">Rab3-GAP Brp Area<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">Switch Region Mutation Brp Distribution
+        Rescue<div class=\"o-metadata__file-description\">Zipped folder contains Multichannel
+        TIFFs. Explanation of files included as .txt file in Zipped Folder</div><div
+        class=\"o-metadata__file-name\"></div></div><div class=\"o-metadata__file-usage-entry\">Switch
+        Region Mutation Rab3 Intensity<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">T53A Y83A and deltaC in WT<div class=\"o-metadata__file-description\">Zipped
+        folder contains Multichannel TIFFs. Explanation of files included as .txt
+        file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">Traces for mEJC Quantification<div
+        class=\"o-metadata__file-description\">Zipped folder contains .ABF Files.
+        Explanation of files included as .txt file in Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div
+        class=\"o-metadata__file-usage-entry\">Traces for EJC Quantification<div class=\"o-metadata__file-description\">Zipped
+        folder contains .ABF Files. Explanation of files included as .txt file in
+        Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div><div class=\"o-metadata__file-usage-entry\">Traces
+        for Facilitation Index Quantification<div class=\"o-metadata__file-description\">Zipped
+        folder contains .ABF Files. Explanation of files included as .txt file in
+        Zipped Folder</div><div class=\"o-metadata__file-name\"></div></div>"}, "title":
+        "Data from: Mutational analysis of Rab3 function for controlling active zone
+        protein composition at the Drosophila neuromuscular junction", "links": {"self":
+        "https://zenodo.org/api/records/4999985", "self_html": "https://zenodo.org/records/4999985",
+        "preview_html": "https://zenodo.org/records/4999985?preview=1", "doi": "https://doi.org/10.5061/dryad.st6h9",
+        "self_doi": "https://doi.org/10.5061/dryad.st6h9", "self_doi_html": "https://zenodo.org/doi/10.5061/dryad.st6h9",
+        "parent": "https://zenodo.org/api/records/4999984", "parent_html": "https://zenodo.org/records/4999984",
+        "self_iiif_manifest": "https://zenodo.org/api/iiif/record:4999985/manifest",
+        "self_iiif_sequence": "https://zenodo.org/api/iiif/record:4999985/sequence/default",
+        "files": "https://zenodo.org/api/records/4999985/files", "media_files": "https://zenodo.org/api/records/4999985/media-files",
+        "archive": "https://zenodo.org/api/records/4999985/files-archive", "archive_media":
+        "https://zenodo.org/api/records/4999985/media-files-archive", "latest": "https://zenodo.org/api/records/4999985/versions/latest",
+        "latest_html": "https://zenodo.org/records/4999985/latest", "versions": "https://zenodo.org/api/records/4999985/versions",
+        "draft": "https://zenodo.org/api/records/4999985/draft", "reserve_doi": "https://zenodo.org/api/records/4999985/draft/pids/doi",
+        "access_links": "https://zenodo.org/api/records/4999985/access/links", "access_grants":
+        "https://zenodo.org/api/records/4999985/access/grants", "access_users": "https://zenodo.org/api/records/4999985/access/users",
+        "access_request": "https://zenodo.org/api/records/4999985/access/request",
+        "access": "https://zenodo.org/api/records/4999985/access", "communities":
+        "https://zenodo.org/api/records/4999985/communities", "communities-suggestions":
+        "https://zenodo.org/api/records/4999985/communities-suggestions", "requests":
+        "https://zenodo.org/api/records/4999985/requests"}, "updated": "2022-05-31T01:13:09.811588+00:00",
+        "recid": "4999985", "revision": 3, "files": [{"id": "60bebac2-9fe4-45c0-bbe2-129475b45b78",
+        "key": "Traces for Facilitation Index Quantification.zip", "size": 210934,
+        "checksum": "md5:d122107be1636ac480f194081feb678d", "links": {"self": "https://zenodo.org/api/records/4999985/files/Traces
+        for Facilitation Index Quantification.zip/content"}}, {"id": "abfa8606-ffb4-4827-9c46-567ea8214e8b",
+        "key": "deltaC Rab3 Intensity.zip", "size": 89654239, "checksum": "md5:e27c2b6c30777146223f359dbd09fdc6",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/deltaC Rab3
+        Intensity.zip/content"}}, {"id": "ce34e235-4abd-4d37-b3d3-3f1109c7797e", "key":
+        "N134I and T35N Rab3 Intensity.zip", "size": 115948955, "checksum": "md5:63aab922f0748c1fad6fccfd04b794c8",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/N134I and
+        T35N Rab3 Intensity.zip/content"}}, {"id": "c75ba8f2-699e-4962-9c08-78c894c393ad",
+        "key": "N134I and T35N Brp Distribution Rescue.zip", "size": 157678169, "checksum":
+        "md5:05d7a851b0f7ad9c22d6572b3122440e", "links": {"self": "https://zenodo.org/api/records/4999985/files/N134I
+        and T35N Brp Distribution Rescue.zip/content"}}, {"id": "ee323f92-7313-4955-8b64-e54ab5ed03c9",
+        "key": "Traces for mEJC Quantification.zip", "size": 21246780, "checksum":
+        "md5:2393df2e9a19cfd7d1645ba0938fcf39", "links": {"self": "https://zenodo.org/api/records/4999985/files/Traces
+        for mEJC Quantification.zip/content"}}, {"id": "3649738f-887f-4f42-bbe3-62bfab02a01e",
+        "key": "Q80L Overexpression in WT.zip", "size": 94102734, "checksum": "md5:f56dbbd1a1a2be659a31da1fa19b5785",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/Q80L Overexpression
+        in WT.zip/content"}}, {"id": "5c5568f3-af27-432d-a134-6da773e43d2f", "key":
+        "Traces for EJC Quantification.zip", "size": 160755, "checksum": "md5:396e56ef2241b8abd35425e467727f2f",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/Traces for
+        EJC Quantification.zip/content"}}, {"id": "35cd0af3-7b10-41c1-bfae-b97f04f72f7f",
+        "key": "T53A Y83A and deltaC in WT.zip", "size": 12081395, "checksum": "md5:9c2fe1f78285bb22a4c7bec27da169b8",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/T53A Y83A
+        and deltaC in WT.zip/content"}}, {"id": "d9a2d8c2-820c-404d-b65c-8e2adf3c369b",
+        "key": "Switch Region Mutation Brp Distribution Rescue.zip", "size": 210000195,
+        "checksum": "md5:7bdee0b5e4f720498b8c92e4d87d2b1d", "links": {"self": "https://zenodo.org/api/records/4999985/files/Switch
+        Region Mutation Brp Distribution Rescue.zip/content"}}, {"id": "d60b5429-72a7-4a8d-9001-6a00fb60a70f",
+        "key": "CDR Region Mutation Brp Distribution Rescue.zip", "size": 140199403,
+        "checksum": "md5:a8d80bf2e7da1112b3d9db244be6fcf5", "links": {"self": "https://zenodo.org/api/records/4999985/files/CDR
+        Region Mutation Brp Distribution Rescue.zip/content"}}, {"id": "d50f10bb-e9fa-464b-9206-e78b1d3f265a",
+        "key": "Q80L Rab3 Intensity.zip", "size": 89632726, "checksum": "md5:cddc0e3de0f14a1e4af4420f1da45e2f",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/Q80L Rab3
+        Intensity.zip/content"}}, {"id": "995fcc59-f86c-4fe4-aa5c-42fb62f44c8f", "key":
+        "Switch Region Mutation Rab3 Intensity.zip", "size": 219414988, "checksum":
+        "md5:a5675290a011a7295add93834b8723f7", "links": {"self": "https://zenodo.org/api/records/4999985/files/Switch
+        Region Mutation Rab3 Intensity.zip/content"}}, {"id": "d72b0cfa-55be-4ed9-bcd9-f79acebb1fb0",
+        "key": "CDR Region Mutation Rab3 Intensity.zip", "size": 150234172, "checksum":
+        "md5:ca04843e18a20903a706ee25b540dce6", "links": {"self": "https://zenodo.org/api/records/4999985/files/CDR
+        Region Mutation Rab3 Intensity.zip/content"}}, {"id": "bb2ca419-02d6-4021-9809-855b0a02ed49",
+        "key": "deltaC Brp Distribution Rescue.zip", "size": 89953614, "checksum":
+        "md5:ca3665008ce3623e0c6c4a4c5c4e5672", "links": {"self": "https://zenodo.org/api/records/4999985/files/deltaC
+        Brp Distribution Rescue.zip/content"}}, {"id": "7f23b9b4-f202-4391-931a-cc1f1553baae",
+        "key": "N134I and T35N DN Phenotype.zip", "size": 155180075, "checksum": "md5:770e0b06e7248c55ff0e240794943d65",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/N134I and
+        T35N DN Phenotype.zip/content"}}, {"id": "84d0f068-ea8a-443e-bd77-7111d2fa7b20",
+        "key": "Rab3-GAP Brp Area.zip", "size": 59405998, "checksum": "md5:c71bec7c274f7683c4306933c10fafc3",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/Rab3-GAP Brp
+        Area.zip/content"}}, {"id": "fa0d2259-c68a-447b-95ab-be546da06bad", "key":
+        "Q80L Brp Distribution Rescue.zip", "size": 118893977, "checksum": "md5:d3f33bb7d70ca2465d367c5c301e7455",
+        "links": {"self": "https://zenodo.org/api/records/4999985/files/Q80L Brp Distribution
+        Rescue.zip/content"}}], "swh": {}, "owners": [{"id": "90070"}], "status":
+        "published", "stats": {"downloads": 28, "unique_downloads": 28, "views": 105,
+        "unique_views": 105, "version_downloads": 28, "version_unique_downloads":
+        28, "version_unique_views": 105, "version_views": 105}, "state": "done", "submitted":
+        true}'
+  recorded_at: Thu, 03 Apr 2025 16:59:58 GMT
+recorded_with: VCR 6.3.1

@@ -1,0 +1,2 @@
+# Wait between retrieving each dataset
+extract_sleep: 0.5
