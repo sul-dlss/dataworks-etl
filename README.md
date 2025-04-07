@@ -11,6 +11,14 @@ Set of Dataset Source records that were extracted from a provider by a single jo
 
 A Dataset Source Set is marked as complete if the job was successful (the metadata for all datasets was retrieved).
 
+## Configuration
+
+### Credentials
+Credentials are stored in the Rails credential store.
+
+### Schedule
+The job schedule is set in `config/recurring.yml`.
+
 ## Development
 
 ### Requirements
@@ -31,3 +39,6 @@ bin/dev
 
 ## Mission Control (jobs monitoring)
 Solid Queue jobs can be monitored with Mission Control at `/jobs`.
+
+## Solr
+In development, the dataworks core is available at http://localhost:8983/solr/#/dataworks/core-overview.

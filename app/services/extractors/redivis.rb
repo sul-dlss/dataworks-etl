@@ -12,18 +12,18 @@ module Extractors
       @organization = organization
     end
 
-    # @return [DatasetSourceSet] the set of dataset sources created
+    # @return [DatasetRecordSet] the set of dataset records created
     def call
-      dataset_source_set = DatasetSourceSet.create!(provider: 'redivis')
+      dataset_record_set = DatasetRecordSet.create!(provider: 'redivis')
 
       results = client.list
       results.each do |result|
         sleep Settings.extract_sleep
-        dataset_source = find_or_create_dataset_source(result:)
-        dataset_source_set.dataset_sources << dataset_source
+        dataset_record = find_or_create_dataset_record(result:)
+        dataset_record_set.dataset_records << dataset_record
       end
-      dataset_source_set.update!(complete: true)
-      dataset_source_set
+      dataset_record_set.update!(complete: true)
+      dataset_record_set
     end
 
     private
@@ -35,12 +35,12 @@ module Extractors
                                        organization:)
     end
 
-    def find_or_create_dataset_source(result:)
-      dataset_source = DatasetSource.find_by(provider: 'redivis', dataset_id: result.id)
-      return dataset_source if dataset_source
+    def find_or_create_dataset_record(result:)
+      dataset_record = DatasetRecord.find_by(provider: 'redivis', dataset_id: result.id)
+      return dataset_record if dataset_record
 
       source = client.dataset(id: result.id)
-      DatasetSource.create!(
+      DatasetRecord.create!(
         provider: 'redivis',
         dataset_id: result.id,
         modified_token: result.modified_token,

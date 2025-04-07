@@ -9,5 +9,12 @@ services:
       - 5432:5432
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
+  solr:
+    image: solr:9.6.1
+    command: solr-create -c dataworks
+    ports:
+      - 8983:8983
+
 volumes:
   postgres-data:
