@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CreateDatasetSource < ActiveRecord::Migration[8.0]
+class CreateDatasetRecord < ActiveRecord::Migration[8.0]
   def change
-    create_table :dataset_sources do |t|
+    create_table :dataset_records do |t|
       t.string :provider, null: false
       t.string :dataset_id, null: false
       t.string :modified_token

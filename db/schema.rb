@@ -10,28 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_07_121739) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_04_153639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "dataset_source_associations", primary_key: ["dataset_source_set_id", "dataset_source_id"], force: :cascade do |t|
-    t.bigint "dataset_source_set_id", null: false
-    t.bigint "dataset_source_id", null: false
+  create_table "dataset_record_associations", primary_key: ["dataset_record_set_id", "dataset_record_id"], force: :cascade do |t|
+    t.bigint "dataset_record_set_id", null: false
+    t.bigint "dataset_record_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["dataset_source_id"], name: "index_dataset_source_associations_on_dataset_source_id"
-    t.index ["dataset_source_set_id"], name: "index_dataset_source_associations_on_dataset_source_set_id"
+    t.index ["dataset_record_id"], name: "index_dataset_record_associations_on_dataset_record_id"
+    t.index ["dataset_record_set_id"], name: "index_dataset_record_associations_on_dataset_record_set_id"
   end
 
-  create_table "dataset_source_sets", force: :cascade do |t|
+  create_table "dataset_record_sets", force: :cascade do |t|
     t.string "provider", null: false
     t.boolean "complete", default: false, null: false
+    t.string "job_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "job_id"
   end
 
-  create_table "dataset_sources", force: :cascade do |t|
+  create_table "dataset_records", force: :cascade do |t|
     t.string "provider", null: false
     t.string "dataset_id", null: false
     t.string "modified_token"
@@ -40,11 +40,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_07_121739) do
     t.jsonb "source", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["doi"], name: "index_dataset_sources_on_doi"
-    t.index ["provider", "dataset_id", "modified_token"], name: "idx_on_provider_dataset_id_modified_token_fc6ab1ba4c"
-    t.index ["provider", "dataset_id", "source_md5"], name: "idx_on_provider_dataset_id_source_md5_c38c00e08d"
+    t.index ["doi"], name: "index_dataset_records_on_doi"
+    t.index ["provider", "dataset_id", "modified_token"], name: "idx_on_provider_dataset_id_modified_token_fa567d21be"
+    t.index ["provider", "dataset_id", "source_md5"], name: "idx_on_provider_dataset_id_source_md5_f8fc00ab0d"
   end
 
-  add_foreign_key "dataset_source_associations", "dataset_source_sets"
-  add_foreign_key "dataset_source_associations", "dataset_sources"
+  add_foreign_key "dataset_record_associations", "dataset_record_sets"
+  add_foreign_key "dataset_record_associations", "dataset_records"
 end

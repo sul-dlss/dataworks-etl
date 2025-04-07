@@ -1,0 +1,72 @@
+{
+  "id": "016c-aj7b81qhb",
+  "doi": "10.57761/m26s-1w59",
+  "uri": "/datasets/stanfordphs.prime_india:016c:v0_1",
+  "url": "https://redivis.com/datasets/016c-aj7b81qhb?v=0.1",
+  "kind": "dataset",
+  "name": "PRIME India",
+  "tags": [
+    {
+      "name": "india"
+    },
+    {
+      "name": "mental health"
+    }
+  ],
+  "links": [],
+  "owner": {
+    "ror": null,
+    "kind": "organization",
+    "name": "StanfordPHS",
+    "fullName": "Stanford Center for Population Health Sciences"
+  },
+  "geoBBox": null,
+  "version": {
+    "tag": "v0.1",
+    "uri": "/datasets/stanfordphs.prime_india:016c/versions/v0_1",
+    "url": "https://redivis.com/datasets/016c-aj7b81qhb?v=0.1",
+    "kind": "version",
+    "index": 0,
+    "label": null,
+    "isDeleted": false,
+    "datasetUri": "/datasets/stanfordphs.prime_india:016c:v0_1",
+    "isReleased": true
+  },
+  "numBytes": 0,
+  "createdAt": 1574457099929,
+  "updatedAt": 1582325197101,
+  "tableCount": 0,
+  "accessLevel": "data",
+  "description": "The Programme for Improving Mental Health Care (PRIME) is creating high quality research evidence on how best to implement and expand the coverage of mental health treatment programmes in low-resource settings. PRIME integrates mental health service delivery into primary health care system in India through a health systems strengthening approach in partnership with researchers, ministries of health and non-governmental organisations.",
+  "referenceId": "016c",
+  "temporalRange": null,
+  "totalNumBytes": 0,
+  "usageMarkdown": null,
+  "currentVersion": {
+    "tag": "v0.1",
+    "uri": "/datasets/stanfordphs.prime_india:016c/versions/v0_1",
+    "url": "https://redivis.com/datasets/016c-aj7b81qhb?v=0.1",
+    "kind": "version",
+    "index": 0,
+    "label": null,
+    "isDeleted": false,
+    "datasetUri": "/datasets/stanfordphs.prime_india:016c:v0_1",
+    "isReleased": true
+  },
+  "scopedReference": "prime_india:016c:v0_1",
+  "publicAccessLevel": "data",
+  "temporalPrecision": null,
+  "totalRawFileBytes": 0,
+  "qualifiedReference": "stanfordphs.prime_india:016c:v0_1",
+  "methodologyMarkdown": null,
+  "sampleConfiguration": null,
+  "totalActiveTabularBytes": 0,
+  "totalInactiveTabularBytes": 0,
+  "customDocumentationSections": [
+    {
+      "title": "Documentation",
+      "accessLevel": "overview",
+      "markdownContent": "Please contact[ Gillian Hanslo](<vikram_patel@hms.harvard.edu>) for an expression of interest form.\n\n\n\n\n\n**Methodology**\n\nThe research was conducted in the following stages:\n\n**Inception phase**\n\nDuring the inception phase (Year 1-2), PRIME developed integrated mental health care plans (MHCPs) comprising packages of mental health care for delivery in primary health care and maternal healthcare suited to each study country’s unique setting.\n\n**Implementation phase**\n\nDuring the implementation phase (Years 2-5), PRIME implemented these MHCPs in 5 country district sites and evaluated the feasibility, acceptability and impact of the packages of care in primary health care and maternal health care with four separate studies, including a community survey, facility survey, a cohort study and a case study.\n\n**Scale-up phase**\n\nIn the scale-up phase (Years 5-7), PRIME scaled up to 94 facilities across the five study countries. The scale-up phase was also evaluated using a case study.\n\n**Extension phase**\n\nDuring the extension phase (Years 7-8), PRIME is writing up and disseminating its findings, and partnering with other countries beyond the PRIME network. A main goal of PRIME during this final phase is to help make a significant ongoing contribution to a broader investment in mental health and mental healthcare.\n\nIntervention packages are refined for each country and this will include strengthening maternal mental health intervention delivery where required. A key challenge has been ensuring adequate quality of care, and PRIME teams are implementing robust Quality Improvement (QI) measures in all countries.\n\nPRIME teams are also actively working with partners in additional LMICs to assist in implementing PRIME’s approach in other countries. This assistance takes on various forms, including presenting workshops, taking part in meetings to share the tools and manuals PRIME has developed.\n\n**Impact summary**\n\nThe PRIME mental healthcare plan has been implemented in 3 facilities and their surrounding communities. By December 2014, 172 service providers working in the district had been trained in the provision of mental healthcare.\n\nIn India, no improvement was found in treatment coverage, a small improvement in facility detection and modest improvement in clinical outcomes for individuals with depression and AUD who received care.\n\n"
+    }
+  ]
+}
