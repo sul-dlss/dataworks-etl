@@ -13,9 +13,6 @@ A Dataset Source Set is marked as complete if the job was successful (the metada
 
 ## Configuration
 
-### Credentials
-Credentials are stored in the Rails credential store.
-
 ### Schedule
 The job schedule is set in `config/recurring.yml`.
 

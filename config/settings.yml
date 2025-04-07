@@ -3,3 +3,6 @@ extract_sleep: 0.5
 
 solr:
   url: http://localhost:8983/solr/dataworks
+
+redivis:
+  api_token: ~

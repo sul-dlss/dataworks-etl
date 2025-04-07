@@ -31,7 +31,7 @@ module Extractors
     attr_reader :organization
 
     def client
-      @client ||= Clients::Redivis.new(api_token: Rails.application.credentials.redivis_api_token,
+      @client ||= Clients::Redivis.new(api_token: Settings.redivis.api_token,
                                        organization:)
     end
 

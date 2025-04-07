@@ -30,7 +30,7 @@ RSpec.describe Extractors::Redivis do
       expect { dataset_record_set }
         .to change(DatasetRecordSet, :count).by(1)
         .and change(DatasetRecord, :count).by(1)
-      expect(Clients::Redivis).to have_received(:new).with(organization: 'StanfordPHS', api_token: String)
+      expect(Clients::Redivis).to have_received(:new).with(organization: 'StanfordPHS', api_token: 'mytoken')
       expect(client).to have_received(:list)
       expect(client).to have_received(:dataset).with(id: 'abc123')
       expect(client).not_to have_received(:dataset).with(id: 'bcd456')
