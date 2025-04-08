@@ -6,12 +6,13 @@ module Clients
     # @param affiliation [String] the ROR ID of the organization
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(affiliation:, per_page: 100)
+    def list(affiliation:, per_page: 100, page_sleep: Settings.dryad_extract_sleep)
       page = 1
       [].tap do |results|
         while page
           next_results, page = list_page(affiliation:, per_page:, page:)
           results.concat(next_results)
+          sleep page_sleep
         end
       end
     end
@@ -29,7 +30,18 @@ module Clients
         headers: {
           'Accept' => 'application/json'
         }
-      )
+      ) do |conn|
+        conn.request :retry, retry_options
+      end
+    end
+
+    def retry_options
+      {
+        max: 10,
+        interval: 5.0,
+        backoff_factor: 2,
+        retry_statuses: [429]
+      }
     end
 
     def list_page(affiliation:, per_page:, page:)

@@ -7,10 +7,11 @@ module Extractors
       new(...).call
     end
 
-    def initialize(client:, provider:, list_args: {})
+    def initialize(client:, provider:, list_args: {}, extract_sleep: Settings.extract_sleep)
       @client = client
       @provider = provider
       @list_args = list_args
+      @extract_sleep = extract_sleep
     end
 
     # @return [DatasetRecordSet] the set of dataset records created
@@ -28,7 +29,7 @@ module Extractors
 
     private
 
-    attr_reader :client, :provider, :list_args
+    attr_reader :client, :provider, :list_args, :extract_sleep
 
     def find_or_create_dataset_record(result:)
       DatasetRecord.find_by(provider:, dataset_id: result.id) || create_dataset_record(result:)
@@ -36,7 +37,7 @@ module Extractors
 
     def create_dataset_record(result:)
       source = client.dataset(id: result.id)
-      sleep Settings.extract_sleep
+      sleep extract_sleep
       DatasetRecord.create!(
         provider:,
         dataset_id: result.id,
