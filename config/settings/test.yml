@@ -2,3 +2,6 @@ extract_sleep: 0
 
 redivis:
   api_token: mytoken
+
+zenodo:
+  api_token: myzenodotoken
