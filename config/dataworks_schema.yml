@@ -18,24 +18,130 @@ properties:
     items:
       $ref: '#/components/schemas/Title'
     minItems: 1
+  publisher:
+    $ref: '#/components/schemas/Publisher'
+  publication_year:
+    type: string
+    pattern: '^[1-2][0-9]{3}$'
+  subjects:
+    type: array
+    items:
+      $ref: '#/components/schemas/Subject'
+  contributors:
+    type: array
+    items:
+      $ref: '#/components/schemas/Contributor'
+    minItems: 1
   descriptions:
     type: array
     items:
       $ref: '#/components/schemas/Description'
+    minItems: 1
   dates:
     type: array
     items:
       $ref: '#/components/schemas/Date'
+    minItems: 1
+  language:
+    type: string
+    pattern: '^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$'
+  types:
+    type: array
+    items:
+      $ref: '#/components/schemas/ResourceType'
+    minItems: 1
   version:
     type: string
 required:
-  # DOI is required in Datacite, but optional here.
+  # DOI, publisher is required in Datacite, but optional here.
   - titles
   - creators
+  - publication_year
+  - types
 additionalProperties: false
 components:
   schemas:
+    Contributor:
+      allOf:
+        - $ref: '#/components/schemas/PersonOrOrganization'
+        - type: object
+          properties:
+            contributor_type:
+              type: string
+              enum:
+                - ContactPerson
+                - DataCollector
+                - DataCurator
+                - DataManager
+                - Distributor
+                - Editor
+                - HostingInstitution
+                - Producer
+                - ProjectLeader
+                - ProjectManager
+                - ProjectMember
+                - RegistrationAgency
+                - RegistrationAuthority
+                - RelatedPerson
+                - Researcher
+                - ResearchGroup
+                - Sponsor
+                - Supervisor
+                - Translator
+                - WorkPackageLeader
+                - Other
+      unevaluatedProperties: false
     Creator:
+      allOf:
+        - $ref: '#/components/schemas/PersonOrOrganization'
+      unevaluatedProperties: false
+    Date:
+      type: object
+      properties:
+        date:
+          type: string
+          oneOf:
+            # Note that this does not account for date ranges allowed by Datacite.
+            - format: date-time
+            - format: date
+        date_type:
+          type: string
+          enum:
+            - Accepted
+            - Available
+            - Copyrighted
+            - Collected
+            - Coverage
+            - Created
+            - Issued
+            - Submitted
+            - Updated
+            - Valid
+            - Withdrawn
+            - Other
+      required:
+        - date
+        # date_type is required in Datacite, but optional here.
+      additionalProperties: false
+    Description:
+      type: object
+      properties:
+        description:
+          type: string
+        description_type:
+          type: string
+          enum:
+            - Abstract
+            - Methods
+            - SeriesInformation
+            - TableOfContents
+            - TechnicalInfo
+            - Other
+      required:
+        - description
+        # description_type is required in Datacite, but optional here.
+      additionalProperties: false
+    PersonOrOrganization:
       type: object
       properties:
         name:
@@ -108,52 +214,101 @@ components:
       required:
         - name
         # creator_type is required in Datacite, but optional here.
-      additionalProperties: false
-    Date:
+    Publisher:
       type: object
       properties:
-        date:
+        name:
           type: string
-          oneOf:
-            # Note that this does not account for date ranges allowed by Datacite.
-            - format: date-time
-            - format: date
-        date_type:
+        scheme_uri:
           type: string
           enum:
-            - Accepted
-            - Available
-            - Copyrighted
-            - Collected
-            - Coverage
-            - Created
-            - Issued
-            - Submitted
-            - Updated
-            - Valid
-            - Withdrawn
-            - Other
-      required:
-        - date
-        # date_type is required in Datacite, but optional here.
-      additionalProperties: false
-    Description:
+            # These are the examples scheme URIs from DataCite. Additional schemes may be added.
+            - https://ror.org/
+            - https://re3data.org/
+            - https://viaf.org/
+            - https://www.wikidata.org/wiki/
+        publisher_identifier:
+          type: string
+        publisher_identifier_scheme:
+          type: string
+          enum:
+            # These are the examples schemes from DataCite. Additional schemes may be added.
+            - ROR
+            - re3data
+            - VIAF
+            - Wikidata
+            - Crossref Funder ID
+            - ISNI
+            - OpenDOAR
+            - FAIRsharing
+            - ISSN
+      anyOf:
+        required:
+          - name
+        required:
+          - publisher_identifier
+      dependentRequired:
+        publisher_identifier:
+          - publisher_identifier_scheme
+    ResourceType:
       type: object
       properties:
-        description:
+        resource_type:
           type: string
-        description_type:
+        resource_type_general:
           type: string
           enum:
-            - Abstract
-            - Methods
-            - SeriesInformation
-            - TableOfContents
-            - TechnicalInfo
+            - Audiovisual
+            - Award
+            - Book
+            - BookChapter
+            - Collection
+            - ComputationalNotebook
+            - ConferencePaper
+            - ConferenceProceeding
+            - DataPaper
+            - Dataset
+            - Dissertation
+            - Event
+            - Image
+            - InteractiveResource
+            - Instrument
+            - Journal
+            - JournalArticle
+            - Model
+            - OutputManagementPlan
+            - PeerReview
+            - PhysicalObject
+            - Preprint
+            - Project
+            - Report
+            - Service
+            - Software
+            - Sound
+            - Standard
+            - StudyRegistration
+            - Text
+            - Workflow
             - Other
       required:
-        - description
-        # description_type is required in Datacite, but optional here.
+        - resource_type_general
+        - resource_type
+      additionalProperties: false
+    Subject:
+      type: object
+      properties:
+        subject:
+          type: string
+        subject_scheme:
+          type: string
+        scheme_uri:
+          type: string
+          format: uri
+        value_uri:
+          type: string
+          format: uri
+      required:
+        - subject
       additionalProperties: false
     Title:
       type: object
