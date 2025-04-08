@@ -46,6 +46,7 @@ gem 'thruster', require: false
 # Application gems
 gem 'config'
 gem 'faraday'
+gem 'json_schemer' # JSON schema validation
 gem 'overmind' # Process manager for running Procfile.dev
 gem 'rsolr'
 
