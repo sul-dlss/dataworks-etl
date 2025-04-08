@@ -6,21 +6,167 @@ description: >
   Unless otherwise specified, this schema is based on the DataCite Metadata Schema (https://schema.datacite.org/)
 type: object
 properties:
+  doi:
+    type: string
+  creators:
+    type: array
+    items:
+      $ref: '#/components/schemas/Creator'
+    minItems: 1
   titles:
     type: array
     items:
       $ref: '#/components/schemas/Title'
     minItems: 1
+  descriptions:
+    type: array
+    items:
+      $ref: '#/components/schemas/Description'
+  dates:
+    type: array
+    items:
+      $ref: '#/components/schemas/Date'
+  version:
+    type: string
 required:
+  # DOI is required in Datacite, but optional here.
   - titles
+  - creators
 additionalProperties: false
 components:
   schemas:
+    Creator:
+      type: object
+      properties:
+        name:
+          type: string
+        name_type:
+          type: string
+          enum:
+            - Personal
+            - Organizational
+        given_name:
+          type: string
+        family_name:
+          type: string
+        name_identifiers:
+          type: array
+          items:
+            type: object
+            properties:
+              scheme_uri:
+                type: string
+                enum:
+                  # These are the examples scheme URIs from DataCite. Additional schemes may be added.
+                  - https://orcid.org/
+                  - https://isni.org/
+                  - https://ror.org/
+              name_identifier:
+                type: string
+              name_identifier_scheme:
+                type: string
+                enum:
+                  # These are the examples schemes from DataCite. Additional schemes may be added.
+                  - ORCID
+                  - ISNI
+                  - ROR
+              required:
+                - name_identifier
+                - name_identifier_scheme
+          minItems: 1
+        # Yes, this is singular in the DataCite schema.
+        affiliation:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              scheme_uri:
+                type: string
+                enum:
+                  # These are the examples scheme URIs from DataCite. Additional schemes may be added.
+                  - https://isni.org/
+                  - https://ror.org/
+              affiliation_identifier:
+                type: string
+              affiliation_identifier_scheme:
+                type: string
+                enum:
+                  # These are the examples schemes from DataCite. Additional schemes may be added.
+                  - ISNI
+                  - ROR
+            anyOf:
+              required:
+                - name
+              required:
+                - affiliation_identifier
+            dependentRequired:
+              affiliation_identifier:
+                - affiliation_identifier_scheme
+          minItems: 1
+      required:
+        - name
+        # creator_type is required in Datacite, but optional here.
+      additionalProperties: false
+    Date:
+      type: object
+      properties:
+        date:
+          type: string
+          oneOf:
+            # Note that this does not account for date ranges allowed by Datacite.
+            - format: date-time
+            - format: date
+        date_type:
+          type: string
+          enum:
+            - Accepted
+            - Available
+            - Copyrighted
+            - Collected
+            - Coverage
+            - Created
+            - Issued
+            - Submitted
+            - Updated
+            - Valid
+            - Withdrawn
+            - Other
+      required:
+        - date
+        # date_type is required in Datacite, but optional here.
+      additionalProperties: false
+    Description:
+      type: object
+      properties:
+        description:
+          type: string
+        description_type:
+          type: string
+          enum:
+            - Abstract
+            - Methods
+            - SeriesInformation
+            - TableOfContents
+            - TechnicalInfo
+            - Other
+      required:
+        - description
+        # description_type is required in Datacite, but optional here.
+      additionalProperties: false
     Title:
       type: object
       properties:
         title:
           type: string
+        title_type:
+          type: string
+          enum:
+            - AlternativeTitle
+            - Subtitle
+            - TranslatedTitle
+            - Other
       required:
         - title
       additionalProperties: false
