@@ -7,7 +7,7 @@ RSpec.describe DataworksMappers::Redivis do
 
   let(:source) { JSON.parse(File.read('spec/fixtures/sources/redivis.json')) }
 
-  it 'maps to Redivis metadata' do
+  it 'maps to Dataworks metadata' do
     expect(metadata).to eq(
       {
         titles: [{ title: 'PRIME India' }],

@@ -13,3 +13,6 @@ production:
     class: RedivisEtlJob
     args: [ { organization: 'StanfordPHS' } ]
     schedule: every week
+  datacite_etl:
+    class: DataciteEtlJob
+    schedule: every week

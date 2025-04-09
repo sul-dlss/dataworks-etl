@@ -19,7 +19,6 @@ module Extractors
 
       results = client.list(**list_args)
       results.each do |result|
-        sleep Settings.extract_sleep
         dataset_record = find_or_create_dataset_record(result:)
         dataset_record_set.dataset_records << dataset_record
       end
@@ -32,10 +31,12 @@ module Extractors
     attr_reader :client, :provider, :list_args
 
     def find_or_create_dataset_record(result:)
-      dataset_record = DatasetRecord.find_by(provider:, dataset_id: result.id)
-      return dataset_record if dataset_record
+      DatasetRecord.find_by(provider:, dataset_id: result.id) || create_dataset_record(result:)
+    end
 
+    def create_dataset_record(result:)
       source = client.dataset(id: result.id)
+      sleep Settings.extract_sleep
       DatasetRecord.create!(
         provider:,
         dataset_id: result.id,
