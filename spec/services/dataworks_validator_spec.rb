@@ -36,8 +36,7 @@ RSpec.describe DataworksValidator do
             name: 'B. Researcher', name_type: 'Personal', given_name: 'B.', family_name: 'Researcher',
             name_identifiers: [
               {
-                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID',
-                scheme_uri: 'https://orcid.org/'
+                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID'
               }
             ],
             affiliation: [
@@ -66,7 +65,6 @@ RSpec.describe DataworksValidator do
           {
             subject: 'My subject 2',
             subject_scheme: 'Library of Congress Subject Headings (LCSH)',
-            scheme_uri: 'https://id.loc.gov/authorities/subjects.html',
             value_uri: 'https://id.loc.gov/authorities/subjects/sh85026447'
           }
         ],
@@ -76,8 +74,7 @@ RSpec.describe DataworksValidator do
             name: 'B. Contributor', name_type: 'Personal', given_name: 'B.', family_name: 'Contributor',
             name_identifiers: [
               {
-                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID',
-                scheme_uri: 'https://orcid.org/'
+                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID'
               }
             ],
             affiliation: [
