@@ -43,22 +43,71 @@ properties:
   language:
     type: string
     pattern: '^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$'
-  # Yes, this is plural in the DataCite schema.
-  types:
-    $ref: '#/components/schemas/ResourceType'
-  version:
-    type: string
   identifiers:
     type: array
     items:
       $ref: '#/components/schemas/Identifier'
     minItems: 1
+  related_identifiers:
+    type: array
+    items:
+      $ref: '#/components/schemas/RelatedIdentifier'
+    minItems: 1
+  sizes:
+    type: array
+    items:
+      type: string
+    minItems: 1
+  formats:
+    type: array
+    items:
+      type: string
+    minItems: 1
+  version:
+    type: string
+  rights_list:
+    type: array
+    items:
+      $ref: '#/components/schemas/Rights'
+    minItems: 1
+  funding_references:
+    type: array
+    items:
+      $ref: '#/components/schemas/FundingReference'
+    minItems: 1
+  url:
+    description: Landing page for the dataset
+    type: string
+    format: uri,
+  access:
+    type: string
+    enum:
+      - Public
+      - Restricted
+  variables:
+    description: A list of variables in the dataset
+    type: array
+    items:
+      type: string
+    minItems: 1
+  data_use_statement:
+    type: string
+  provider:
+    description: The provider of the dataset metadata
+    type: string
+    enum:
+      - DataCite
+      - Dryad
+      - Redivis
+      - Zenodo
 required:
   - titles
   - creators
   - publication_year
-  - types
   - identifiers
+  - url
+  - access
+  - provider
 additionalProperties: false
 components:
   schemas:
@@ -143,6 +192,34 @@ components:
         - description
         # description_type is required in Datacite, but optional here.
       additionalProperties: false
+    FundingReference:
+      type: object
+      properties:
+        funder_name:
+          type: string
+        funder_identifier:
+          type: string
+        funder_identifier_type:
+          type: string
+          enum:
+            - Crossref Funder ID
+            - GRID
+            - ISNI
+            - ROR
+            - Other
+        award_number:
+          type: string
+        award_uri:
+          type: string
+          format: uri
+        award_title:
+          type: string
+      required:
+        - funder_name
+      dependentRequired:
+        funder_identifier:
+          - funder_identifier_type
+      additionalProperties: false    
     PersonOrOrganization:
       type: object
       properties:
@@ -231,11 +308,76 @@ components:
       dependentRequired:
         publisher_identifier:
           - publisher_identifier_scheme
-    ResourceType:
+    RelatedIdentifier:
       type: object
       properties:
-        resource_type:
+        related_identifier:
           type: string
+        related_identifier_type:
+          type: string
+          enum:
+            - ARK
+            - arXiv
+            - bibcode
+            - CSTR
+            - DOI
+            - EAN13
+            - EISSN
+            - Handle
+            - IGSN
+            - ISBN
+            - ISSN
+            - ISTC
+            - LISSN
+            - LSID
+            - PMID
+            - PURL
+            - RRID
+            - UPC
+            - URL
+            - URN
+            - w3id
+        relation_type:
+          type: string
+          enum:
+            - IsCitedBy
+            - Cites
+            - IsSupplementTo
+            - IsSupplementedBy
+            - IsContinuedBy
+            - Continues
+            - IsDescribedBy
+            - Describes
+            - HasMetadata
+            - IsMetadataFor
+            - HasVersion
+            - IsVersionOf
+            - IsNewVersionOf
+            - IsPreviousVersionOf
+            - IsPartOf
+            - HasPart
+            - IsPublishedIn
+            - IsReferencedBy
+            - References
+            - IsDocumentedBy
+            - Documents
+            - IsCompiledBy
+            - Compiles
+            - IsVariantFormOf
+            - IsOriginalFormOf
+            - IsIdenticalTo
+            - IsReviewedBy
+            - Reviews
+            - IsDerivedFrom
+            - IsSourceOf
+            - IsRequiredBy
+            - Requires
+            - IsObsoletedBy
+            - Obsoletes
+            - IsCollectedBy
+            - Collects
+            - IsTranslationOf
+            - HasTranslation
         resource_type_general:
           type: string
           enum:
@@ -272,8 +414,23 @@ components:
             - Workflow
             - Other
       required:
-        - resource_type_general
-        - resource_type
+        - related_identifier
+        # related_identifier_type, relation_type is required in Datacite, but optional here.
+      additionalProperties: false
+    Rights:
+      type: object
+      properties:
+        rights:
+          type: string
+        rights_uri:
+          type: string
+          format: uri
+        rights_identifier:
+          type: string
+        rights_identifier_scheme:
+          type: string
+      required:
+        - rights
       additionalProperties: false
     Subject:
       type: object
