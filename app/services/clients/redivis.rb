@@ -4,9 +4,9 @@ module Clients
   # Client for interacting with the Redivis API
   class Redivis < Clients::Base
     def initialize(api_token:, organization:, conn: nil)
-      super(conn:)
       @api_token = api_token
       @organization = organization
+      super(conn:)
     end
 
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
