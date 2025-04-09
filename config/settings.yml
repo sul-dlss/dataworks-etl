@@ -6,3 +6,6 @@ solr:
 
 redivis:
   api_token: ~
+
+zenodo:
+  api_token: ~

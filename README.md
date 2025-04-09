@@ -13,9 +13,6 @@ A Dataset Source Set is marked as complete if the job was successful (the metada
 
 ## Configuration
 
-### Credentials
-Credentials are stored in the Rails credential store.
-
 ### Schedule
 The job schedule is set in `config/recurring.yml`.
 
@@ -26,6 +23,16 @@ The job schedule is set in `config/recurring.yml`.
 * docker & docker compose
 * tmux ([installation instructions](https://github.com/tmux/tmux#installation))
 * overmind ([installed automatically via bundler](https://github.com/DarthSim/overmind/tree/master/packaging/rubygems#installation-with-rails))
+
+### Credentials
+Create credentials and add to `config/settings/development.local.yml`:
+```
+redivis:
+  api_token: ~
+
+zenodo:
+  api_token: ~
+```
 
 ### Running locally
 

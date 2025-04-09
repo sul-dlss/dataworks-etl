@@ -3,10 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Clients::Zenodo, :vcr do
-  let(:client) { described_class.new(api_token:) }
-
-  # Set REDIVIS_API_TOKEN when recording new VCR cassettes.
-  let(:api_token) { ENV.fetch('ZENODO_API_TOKEN', 'fake_token') }
+  let(:client) { described_class.new(api_token: Settings.zenodo.api_token) }
 
   describe '.list' do
     let(:results) { client.list(affiliation: 'Amherst College', page_size: 25) }

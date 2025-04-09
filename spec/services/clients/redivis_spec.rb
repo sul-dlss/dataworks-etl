@@ -3,10 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Clients::Redivis, :vcr do
-  let(:client) { described_class.new(api_token:, organization: 'StanfordPHS') }
-
-  # Set REDIVIS_API_TOKEN when recording new VCR cassettes.
-  let(:api_token) { ENV.fetch('REDIVIS_API_TOKEN', 'fake_token') }
+  let(:client) { described_class.new(api_token: Settings.redivis.api_token, organization: 'StanfordPHS') }
 
   describe '.list' do
     let(:results) { client.list(max_results: 50) }
