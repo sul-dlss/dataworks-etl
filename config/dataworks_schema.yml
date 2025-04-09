@@ -83,6 +83,7 @@ components:
                 - RelatedPerson
                 - Researcher
                 - ResearchGroup
+                - RightsHolder
                 - Sponsor
                 - Supervisor
                 - Translator
