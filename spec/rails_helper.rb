@@ -43,6 +43,7 @@ WebMock.disable_net_connect!
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :webmock
+  # c.ignore_localhost = false # Use when proxying solr for recording
   c.filter_sensitive_data('<AUTHORIZATION>') { |interaction| interaction.request.headers['Authorization']&.first }
   c.configure_rspec_metadata!
 end

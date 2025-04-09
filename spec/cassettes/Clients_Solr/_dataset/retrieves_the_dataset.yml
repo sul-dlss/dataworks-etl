@@ -1,0 +1,128 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod/select?q=id:13669313&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Faraday v2.13.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 09 Apr 2025 20:18:26 GMT
+      Server:
+      - Apache/2.4.52 (Ubuntu)
+      Content-Security-Policy:
+      - default-src 'none'; base-uri 'none'; connect-src 'self'; form-action 'self';
+        font-src 'self'; frame-ancestors 'none'; img-src 'self'; media-src 'self';
+        style-src 'self' 'unsafe-inline'; script-src 'self'; worker-src 'self';
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Last-Modified:
+      - Wed, 09 Apr 2025 20:11:09 GMT
+      Etag:
+      - '"MTAxYmEyMDAwMDAwMDAwMFNvbHI=--gzip"'
+      Content-Type:
+      - application/json;charset=utf-8
+      Vary:
+      - Accept-Encoding,User-Agent
+      Content-Length:
+      - '7188'
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":81,
+            "params":{
+              "q":"id:13669313",
+              "wt":"json"}},
+          "response":{"numFound":1,"start":0,"maxScore":7.2564173,"numFoundExact":true,"docs":[
+              {
+                "id":"13669313",
+                "title_245a_display":"Census of Population and Housing, 1960 Public Use Sample [United States]",
+                "title_245c_display":"United States. Bureau of the Census",
+                "title_display":"Census of Population and Housing, 1960 Public Use Sample [United States] [electronic resource] One-In-One Thousand Sample",
+                "title_full_display":"Census of Population and Housing, 1960 Public Use Sample [United States] [electronic resource] One-In-One Thousand Sample United States. Bureau of the Census",
+                "pub_date":"1984",
+                "pub_year_ss":"1984",
+                "publication_year_isi":1984,
+                "imprint_display":["1992-02-16 - Ann Arbor, Mich. Inter-university Consortium for Political and Social Research [distributor] 1984"],
+                "url_fulltext":["http://doi.org/10.3886/ICPSR00054.v1"],
+                "url_restricted":["http://doi.org/10.3886/ICPSR00054.v1"],
+                "oclc":["747313539"],
+                "format_main_ssim":["Software/Multimedia"],
+                "summary_display":["This data collection (one-in-one thousand person national sample), which contains individual-level data from the 1960 Census of Population and Housing, provides information on household and personal characteristics. Data on household characteristics include the structure of the house, housing quality, the head of the household, roomers, boarders or lodgers, the number of rooms, the number of persons per room, rent, the year moved into unit, tenure, commercial usage, farmland, the availability of telephones, television, bathtub or shower, flush toilet, heating equipment, sewage disposal, and the source of water. Demographic information includes sex, race, age, place of birth, education, employment, income, family unit membership, age at first marriage, number of times married, and veteran status."],
+                "holdings_library_code_ssim":["SUL"],
+                "collection":["sirsi",
+                  "folio"],
+                "uuid_ssi":"90e82dad-7ade-5429-bd6c-95f972b56399",
+                "score":7.2564173,
+                "holdings_json_struct":[{"holdings":[{"id":"f0674d31-8ddc-578c-b004-26a68e38466b","hrid":"ah13669313_1","notes":[],"_version":1,"metadata":{"createdDate":"2023-08-21T20:29:06.545Z","updatedDate":"2023-08-21T20:29:06.545Z","createdByUserId":"58d0aaf6-dcda-4d5e-92da-012e6b7dd766","updatedByUserId":"58d0aaf6-dcda-4d5e-92da-012e6b7dd766"},"sourceId":"f32d531e-df79-46b3-8932-cdd35f7a2264","boundWith":null,"formerIds":[],"illPolicy":null,"instanceId":"90e82dad-7ade-5429-bd6c-95f972b56399","holdingsType":{"id":"996f93e2-5b5e-4cf2-9168-33ced1f95eed","name":"Electronic","source":"folio"},"callNumberType":null,"holdingsTypeId":"996f93e2-5b5e-4cf2-9168-33ced1f95eed","electronicAccess":[],"holdingsStatements":[],"statisticalCodeIds":[],"administrativeNotes":[],"effectiveLocationId":"b0a1a8c3-cc9a-487c-a2ed-308fc3a49a91","permanentLocationId":"b0a1a8c3-cc9a-487c-a2ed-308fc3a49a91","suppressFromDiscovery":false,"holdingsStatementsForIndexes":[],"holdingsStatementsForSupplements":[],"location":{"effectiveLocation":{"id":"b0a1a8c3-cc9a-487c-a2ed-308fc3a49a91","code":"SUL-ELECTRONIC","name":"online resource","campus":{"id":"c365047a-51f2-45ce-8601-e421ca3615c5","code":"SUL","name":"Stanford Libraries"},"details":{},"library":{"id":"c1a86906-ced0-46cb-8f5b-8cef542bdd00","code":"SUL","name":"SUL"},"isActive":true,"institution":{"id":"8d433cdd-4e8f-4dc1-aa24-8a4ddb7dc929","code":"SU","name":"Stanford University"}},"permanentLocation":{"id":"b0a1a8c3-cc9a-487c-a2ed-308fc3a49a91","code":"SUL-ELECTRONIC","name":"online resource","campus":{"id":"c365047a-51f2-45ce-8601-e421ca3615c5","code":"SUL","name":"Stanford Libraries"},"details":{},"library":{"id":"c1a86906-ced0-46cb-8f5b-8cef542bdd00","code":"SUL","name":"SUL"},"isActive":true,"institution":{"id":"8d433cdd-4e8f-4dc1-aa24-8a4ddb7dc929","code":"SU","name":"Stanford University"}}}}],"items":[]}],
+                "author_struct":[{"contributors":[{"link":"United States. Bureau of the Census","search":"United States. Bureau of the Census","pre_text":"","post_text":"","authorities":[],"rwo":[]},{"link":"Inter-university Consortium for Political and Social Research.","search":"Inter-university Consortium for Political and Social Research.","pre_text":"","post_text":"","authorities":[],"rwo":[]}]}],
+                "marc_links_struct":[{"version":"0.2","stanford_only":true,"stanford_law_only":false,"link_text":"ICPSR","link_title":"Available to Stanford-affiliated users only","additional_text":null,"material_type":null,"note":"Available to Stanford-affiliated users.","href":"http://doi.org/10.3886/ICPSR00054.v1","sort":null,"casalini":null,"fulltext":true,"finding_aid":false,"managed_purl":false,"file_id":null,"druid":null,"sfx":false}],
+                "summary_struct":[{"label":"Summary","fields":[{"field":["This data collection (one-in-one thousand person national sample), which contains individual-level data from the 1960 Census of Population and Housing, provides information on household and personal characteristics. Data on household characteristics include the structure of the house, housing quality, the head of the household, roomers, boarders or lodgers, the number of rooms, the number of persons per room, rent, the year moved into unit, tenure, commercial usage, farmland, the availability of telephones, television, bathtub or shower, flush toilet, heating equipment, sewage disposal, and the source of water. Demographic information includes sex, race, age, place of birth, education, employment, income, family unit membership, age at first marriage, number of times married, and veteran status."],"vernacular":null}],"unmatched_vernacular":[]}],
+                "toc_struct":[{"label":"Contents","fields":[["Dataset"]],"vernacular":null,"unmatched_vernacular":null}]}]
+          },
+          "facet_counts":{
+            "facet_queries":{},
+            "facet_fields":{
+              "access_facet":[
+                "Online",1],
+              "author_person_facet":[],
+              "author_other_facet":[
+                "Inter-university Consortium for Political and Social Research",1,
+                "United States. Bureau of the Census",1],
+              "building_facet":[],
+              "callnum_facet_hsim":[],
+              "stanford_work_facet_hsim":[],
+              "stanford_dept_sim":[],
+              "collection":[
+                "folio",1,
+                "sirsi",1],
+              "db_az_subject":[],
+              "era_facet":[],
+              "format_main_ssim":[
+                "Software/Multimedia",1],
+              "format_physical_ssim":[],
+              "fund_facet":[],
+              "genre_ssim":[],
+              "geographic_facet":[],
+              "language":[],
+              "location_facet":[],
+              "pub_date":[
+                "1984",1],
+              "pub_year_tisim":[
+                "1984",1],
+              "topic_facet":[
+                "Census data",1,
+                "Demographic characteristics",1,
+                "Employment",1,
+                "Ethnicity",1,
+                "Families",1,
+                "Household composition",1,
+                "Housing",1,
+                "Housing conditions",1,
+                "Occupations",1,
+                "Population",1]},
+            "facet_ranges":{},
+            "facet_intervals":{},
+            "facet_heatmaps":{}}}
+  recorded_at: Wed, 09 Apr 2025 20:18:26 GMT
+recorded_with: VCR 6.3.1

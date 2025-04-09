@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod/select?q=U.S.%20Customs%20and%20Border%20Protection.%20Air%20and%20Marine%20Operations,&rows=100&search_field=search_author&start=0&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Faraday v2.13.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Date:
+      - Wed, 09 Apr 2025 22:30:20 GMT
+      Server:
+      - Apache/2.4.52 (Ubuntu)
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Set-Cookie:
+      - _opensaml_req_ss%3Amem%3Aa05b7edb1885380fbbed5009e7b60d9612ad2c80e156a892c08edcb472a59196=_9076d913550f9a1c5b9b6a3f9dd5d631;
+        path=/; HttpOnly; SameSite=None
+      Expires:
+      - Wed, 01 Jan 1997 12:00:00 GMT
+      Cache-Control:
+      - private,no-store,no-cache,max-age=0
+      Location:
+      - https://login.stanford.edu/idp/profile/SAML2/Redirect/SSO?SAMLRequest=fZLLboMwEEV%2FBXkPJlBSYYVINFk0UtpEIe2im8rgIVgyNvWYPv6%2B5NE26SJr3znXczQT5K3qWN67Rm%2FgrQd03merNLLDQ0Z6q5nhKJFp3gIyV7Eif1iyKAhZZ40zlVHEyxHBOmn0zGjsW7AF2HdZwdNmmZHGuQ4ZpdgrH42y%2FjAnfB6g47o2VgQgelo0siyNAtcEiIbuOyK6XhVb4s2HT0nN9%2Fg%2FmDI7qS8RUnR0QNdSwWl%2BA0JaqBwtihXxFvOMvKbh7VikozhJwjrloyop03LM4zoVIhHjeDTEEHtY6D3aZSQKo8QPb%2Fww3UYRi0MWhS%2FEW582v5NaSL27rqk8hpDdb7dr%2F7jTM1g87DMEyHSyl80OxfZM%2F3Us%2F3FOpv8NX3rBX7UTelZ0bO3Y40BezNdGyerLy5UyHzML3EFGRoROjyOXFzL9Bg%3D%3D&RelayState=ss%3Amem%3Aa05b7edb1885380fbbed5009e7b60d9612ad2c80e156a892c08edcb472a59196
+      Content-Length:
+      - '813'
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://login.stanford.edu/idp/profile/SAML2/Redirect/SSO?SAMLRequest=fZLLboMwEEV%2FBXkPJlBSYYVINFk0UtpEIe2im8rgIVgyNvWYPv6%2B5NE26SJr3znXczQT5K3qWN67Rm%2FgrQd03merNLLDQ0Z6q5nhKJFp3gIyV7Eif1iyKAhZZ40zlVHEyxHBOmn0zGjsW7AF2HdZwdNmmZHGuQ4ZpdgrH42y%2FjAnfB6g47o2VgQgelo0siyNAtcEiIbuOyK6XhVb4s2HT0nN9%2Fg%2FmDI7qS8RUnR0QNdSwWl%2BA0JaqBwtihXxFvOMvKbh7VikozhJwjrloyop03LM4zoVIhHjeDTEEHtY6D3aZSQKo8QPb%2Fww3UYRi0MWhS%2FEW582v5NaSL27rqk8hpDdb7dr%2F7jTM1g87DMEyHSyl80OxfZM%2F3Us%2F3FOpv8NX3rBX7UTelZ0bO3Y40BezNdGyerLy5UyHzML3EFGRoROjyOXFzL9Bg%3D%3D&amp;RelayState=ss%3Amem%3Aa05b7edb1885380fbbed5009e7b60d9612ad2c80e156a892c08edcb472a59196">here</a>.</p>
+        </body></html>
+  recorded_at: Wed, 09 Apr 2025 22:30:20 GMT
+recorded_with: VCR 6.3.1
