@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class Clients
+module Clients
   # Client for interacting with the Redivis API
-  class Redivis
-    def initialize(api_token:, organization:)
+  class Redivis < Clients::Base
+    def initialize(api_token:, organization:, conn: nil)
+      super(conn:)
       @api_token = api_token
       @organization = organization
     end
@@ -20,15 +21,15 @@ class Clients
     end
 
     def dataset(id:)
-      Clients.get_json(conn: conn, path: "/api/v1/datasets/#{id}")
+      get_json(path: "/api/v1/datasets/#{id}")
     end
 
     private
 
     attr_reader :api_token, :organization
 
-    def conn
-      @conn ||= Faraday.new(
+    def new_conn
+      Faraday.new(
         url: 'https://redivis.com',
         headers: {
           'Accept' => 'application/json',
@@ -38,8 +39,8 @@ class Clients
     end
 
     def list_page(max_results:, page_token: nil)
-      response_json = Clients.get_json(conn: conn, path: "/api/v1/organizations/#{organization}/datasets",
-                                       params: { maxResults: max_results, pageToken: page_token })
+      response_json = get_json(path: "/api/v1/organizations/#{organization}/datasets",
+                               params: { maxResults: max_results, pageToken: page_token })
       results = response_json['results'].map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['qualifiedReference'],

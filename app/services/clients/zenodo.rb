@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class Clients
+module Clients
   # Client for interacting with the Zenodo API
-  class Zenodo
-    def initialize(api_token:)
+  class Zenodo < Clients::Base
+    def initialize(api_token:, conn: nil)
+      super(conn:)
       @api_token = api_token
     end
 
@@ -21,15 +22,15 @@ class Clients
     end
 
     def dataset(id:)
-      Clients.get_json(conn: conn, path: "/api/records/#{id}")
+      get_json(path: "/api/records/#{id}")
     end
 
     private
 
     attr_reader :api_token
 
-    def conn
-      @conn ||= Faraday.new(
+    def new_conn
+      Faraday.new(
         url: 'https://zenodo.org',
         headers: {
           'Accept' => 'application/json',
@@ -39,8 +40,8 @@ class Clients
     end
 
     def list_page(affiliation:, page_size:, page:)
-      response_json = Clients.get_json(conn: conn, path: '/api/records',
-                                       params: params(affiliation:, page_size:, page:))
+      response_json = get_json(path: '/api/records',
+                               params: params(affiliation:, page_size:, page:))
       results = response_json.dig('hits', 'hits').map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['id'].to_s,

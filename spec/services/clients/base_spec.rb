@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Clients, :vcr do
+RSpec.describe Clients::Base, :vcr do
   let(:conn) do
     Faraday.new(
       url: 'https://api.datacite.org',
@@ -15,7 +15,9 @@ RSpec.describe Clients, :vcr do
   let(:path) { '/dois/10.5061/dryad.rg148qj4' }
 
   describe '#get_json' do
-    let(:response) { described_class.get_json(conn: conn, path:) }
+    subject { described_class.new(conn: conn) }
+
+    let(:response) { subject.get_json(path:) }
 
     context 'when the request is successful' do
       it 'returns the parsed JSON response' do

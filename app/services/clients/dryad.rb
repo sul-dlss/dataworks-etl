@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class Clients
+module Clients
   # Client for interacting with the Dryad API
-  class Dryad
+  class Dryad < Clients::Base
     # @param affiliation [String] the ROR ID of the organization
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
@@ -18,13 +18,13 @@ class Clients
 
     # @param id [String] the DOI of the dataset
     def dataset(id:)
-      Clients.get_json(conn: conn, path: "/api/v2/datasets/#{CGI.escape(id)}")
+      get_json(path: "/api/v2/datasets/#{CGI.escape(id)}")
     end
 
     private
 
-    def conn
-      @conn ||= Faraday.new(
+    def new_conn
+      Faraday.new(
         url: 'https://datadryad.org',
         headers: {
           'Accept' => 'application/json'
@@ -33,8 +33,8 @@ class Clients
     end
 
     def list_page(affiliation:, per_page:, page:)
-      response_json = Clients.get_json(conn: conn, path: '/api/v2/search',
-                                       params: { affiliation:, per_page:, page: })
+      response_json = get_json(path: '/api/v2/search',
+                               params: { affiliation:, per_page:, page: })
 
       results = response_json.dig('_embedded', 'stash:datasets').map do |dataset_json|
         Clients::ListResult.new(

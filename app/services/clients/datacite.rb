@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class Clients
+module Clients
   # Client for interacting with the Datacite API
-  class Datacite
+  class Datacite < Clients::Base
     # @param affiliation [String] the affiliation to search for
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
@@ -17,13 +17,13 @@ class Clients
 
     # @param id [String] the DOI of the dataset
     def dataset(id:)
-      Clients.get_json(conn: conn, path: "/dois/#{id}")
+      get_json(path: "/dois/#{id}")
     end
 
     private
 
-    def conn
-      @conn ||= Faraday.new(
+    def new_conn
+      Faraday.new(
         url: 'https://api.datacite.org',
         headers: {
           'Accept' => 'application/json'
@@ -32,8 +32,8 @@ class Clients
     end
 
     def list_page(affiliation:, page_size:, cursor: 1)
-      response_json = Clients.get_json(conn: conn, path: '/dois',
-                                       params: params(affiliation:, page_size:, cursor:))
+      response_json = get_json(path: '/dois',
+                               params: params(affiliation:, page_size:, cursor:))
       results = response_json['data'].map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['id'],
