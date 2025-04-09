@@ -4,8 +4,8 @@ module DataworksMappers
   # Map from Redivis metadata to Dataworks metadata
   class Redivis < Base
     DATE_TYPES = [
-      { key: :temporalRange, type: 'Coverage', epoch: false },
-      { key: :createdAt, type: 'Created', epoch: true }
+      { key: :temporalRange, type: 'Coverage' },
+      { key: :createdAt, type: 'Created' }
     ].freeze
 
     DESCRIPTION_TYPES = [
@@ -27,8 +27,13 @@ module DataworksMappers
         identifiers:,
         url: source[:url],
         access:,
-        provider: 'Redivis'
-      }.merge(optional_params)
+        provider: 'Redivis',
+        descriptions:,
+        dates:,
+        subjects:,
+        sizes:,
+        version: source[:version][:tag]
+      }.compact_blank
     end
 
     private
@@ -53,16 +58,6 @@ module DataworksMappers
       source[:publicAccessLevel] == 'none' ? 'Restricted' : 'Public'
     end
 
-    def optional_params
-      {
-        descriptions:,
-        dates:,
-        subjects:,
-        sizes:,
-        version: source[:version][:tag]
-      }.compact_blank
-    end
-
     def descriptions
       [].tap do |descriptions|
         DESCRIPTION_TYPES.each do |description_type|
@@ -81,11 +76,8 @@ module DataworksMappers
         DATE_TYPES.each do |date_type|
           next unless source[date_type[:key]]
 
-          source_date = source[date_type[:key]]
-          source_date = Time.zone.at(source_date / 1000).strftime('%F') if date_type[:epoch]
-
           dates << {
-            date: source_date,
+            date: epoch_to_string(source[date_type[:key]]),
             date_type: date_type[:type]
           }
         end
@@ -95,13 +87,21 @@ module DataworksMappers
     def sizes
       return unless source[:totalNumBytes]
 
-      [source[:totalNumBytes].to_s]
+      ["#{source[:totalNumBytes]} bytes"]
     end
 
     def subjects
       return unless source[:tags]
 
       source[:tags].map { |tag| { subject: tag[:name] } }
+    end
+
+    # Redivis provides timestamps in milliseconds since epoch
+    # If the input is an array, the returned string value is formatted as the range date1/date2
+    def epoch_to_string(date)
+      return date.map { |d| epoch_to_string(d) }.join('/') if date.is_a?(Array)
+
+      Time.zone.at(date / 1000).strftime('%F')
     end
   end
 end

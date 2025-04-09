@@ -30,9 +30,12 @@ RSpec.describe DataworksMappers::Redivis do
                                       'partnership with researchers, ministries of health ' \
                                       'and non-governmental organisations.',
                          description_type: 'Abstract' }],
-        dates: [{ date: '2019-11-22', date_type: 'Created' }],
+        dates: [
+          { date: '1990-01-01/2022-12-31', date_type: 'Coverage' },
+          { date: '2019-11-22', date_type: 'Created' }
+        ],
         subjects: [{ subject: 'india' }, { subject: 'mental health' }],
-        sizes: ['0'],
+        sizes: ['0 bytes'],
         version: 'v0.1'
       }
     )

@@ -39,7 +39,7 @@
   "accessLevel": "data",
   "description": "The Programme for Improving Mental Health Care (PRIME) is creating high quality research evidence on how best to implement and expand the coverage of mental health treatment programmes in low-resource settings. PRIME integrates mental health service delivery into primary health care system in India through a health systems strengthening approach in partnership with researchers, ministries of health and non-governmental organisations.",
   "referenceId": "016c",
-  "temporalRange": null,
+  "temporalRange": [631152000000, 1672531199999],
   "totalNumBytes": 0,
   "usageMarkdown": null,
   "currentVersion": {
