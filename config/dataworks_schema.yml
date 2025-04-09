@@ -45,11 +45,9 @@ properties:
   language:
     type: string
     pattern: '^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$'
-  types:
-    type: array
-    items:
-      $ref: '#/components/schemas/ResourceType'
-    minItems: 1
+  # Yes, this is plural in the DataCite schema.
+  types:    
+    $ref: '#/components/schemas/ResourceType'
   version:
     type: string
 required:
@@ -85,6 +83,7 @@ components:
                 - RelatedPerson
                 - Researcher
                 - ResearchGroup
+                - RightsHolder
                 - Sponsor
                 - Supervisor
                 - Translator
@@ -100,10 +99,10 @@ components:
       properties:
         date:
           type: string
-          oneOf:
-            # Note that this does not account for date ranges allowed by Datacite.
+          anyOf:
             - format: date-time
             - format: date
+            - pattern: '^[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?/[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?$'            
         date_type:
           type: string
           enum:
@@ -160,13 +159,6 @@ components:
           items:
             type: object
             properties:
-              scheme_uri:
-                type: string
-                enum:
-                  # These are the examples scheme URIs from DataCite. Additional schemes may be added.
-                  - https://orcid.org/
-                  - https://isni.org/
-                  - https://ror.org/
               name_identifier:
                 type: string
               name_identifier_scheme:
@@ -188,12 +180,6 @@ components:
             properties:
               name:
                 type: string
-              scheme_uri:
-                type: string
-                enum:
-                  # These are the examples scheme URIs from DataCite. Additional schemes may be added.
-                  - https://isni.org/
-                  - https://ror.org/
               affiliation_identifier:
                 type: string
               affiliation_identifier_scheme:
@@ -219,14 +205,6 @@ components:
       properties:
         name:
           type: string
-        scheme_uri:
-          type: string
-          enum:
-            # These are the examples scheme URIs from DataCite. Additional schemes may be added.
-            - https://ror.org/
-            - https://re3data.org/
-            - https://viaf.org/
-            - https://www.wikidata.org/wiki/
         publisher_identifier:
           type: string
         publisher_identifier_scheme:
@@ -301,9 +279,6 @@ components:
           type: string
         subject_scheme:
           type: string
-        scheme_uri:
-          type: string
-          format: uri
         value_uri:
           type: string
           format: uri

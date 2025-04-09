@@ -13,7 +13,7 @@ RSpec.describe DataworksValidator do
         ],
         titles: [{ title: 'My title' }],
         publication_year: '2023',
-        types: [{ resource_type_general: 'Dataset', resource_type: 'Census' }]
+        types: { resource_type_general: 'Dataset', resource_type: 'Census' }
       }
     end
 
@@ -36,8 +36,7 @@ RSpec.describe DataworksValidator do
             name: 'B. Researcher', name_type: 'Personal', given_name: 'B.', family_name: 'Researcher',
             name_identifiers: [
               {
-                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID',
-                scheme_uri: 'https://orcid.org/'
+                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID'
               }
             ],
             affiliation: [
@@ -66,7 +65,6 @@ RSpec.describe DataworksValidator do
           {
             subject: 'My subject 2',
             subject_scheme: 'Library of Congress Subject Headings (LCSH)',
-            scheme_uri: 'https://id.loc.gov/authorities/subjects.html',
             value_uri: 'https://id.loc.gov/authorities/subjects/sh85026447'
           }
         ],
@@ -76,8 +74,7 @@ RSpec.describe DataworksValidator do
             name: 'B. Contributor', name_type: 'Personal', given_name: 'B.', family_name: 'Contributor',
             name_identifiers: [
               {
-                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID',
-                scheme_uri: 'https://orcid.org/'
+                name_identifier: 'https://orcid.org/0000-0001-2345-6789', name_identifier_scheme: 'ORCID'
               }
             ],
             affiliation: [
@@ -100,10 +97,12 @@ RSpec.describe DataworksValidator do
         dates: [
           { date: '2023-01-01' },
           { date: '2023-01-02T19:20:30+01:00' },
-          { date: '2023-01-03', date_type: 'Updated' }
+          { date: '2023-01-03', date_type: 'Updated' },
+          { date: '2022-01-01/2022-12-31' }
+
         ],
         language: 'en',
-        types: [{ resource_type_general: 'Dataset', resource_type: 'Census' }],
+        types: { resource_type_general: 'Dataset', resource_type: 'Census' },
         version: '1.0'
       }
     end
