@@ -13,8 +13,10 @@ RSpec.describe DataworksValidator do
         ],
         titles: [{ title: 'My title' }],
         publication_year: '2023',
-        types: { resource_type_general: 'Dataset', resource_type: 'Census' },
-        identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }]
+        identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+        url: 'https://example.com/my-dataset',
+        access: 'Public',
+        provider: 'DataCite'
       }
     end
 
@@ -102,12 +104,47 @@ RSpec.describe DataworksValidator do
 
         ],
         language: 'en',
-        types: { resource_type_general: 'Dataset', resource_type: 'Census' },
-        version: '1.0',
         identifiers: [
           { identifier: 'stanfordphs.prime_india:016c:v0_1', identifier_type: 'RedivisReference' },
           { identifier: '10.1234/5678', identifier_type: 'DOI' }
-        ]
+        ],
+        related_identifiers: [
+          { related_identifier: '10.1234/5678' },
+          {
+            related_identifier: '10.2345/6789',
+            relation_type: 'IsCitedBy',
+            resource_type_general: 'JournalArticle',
+            related_identifier_type: 'DOI'
+          }
+        ],
+        sizes: ['1.2 MB', '3 pages'],
+        formats: ['application/pdf', '.pdf'],
+        version: '1.0',
+        rights_list: [
+          { rights: 'My rights' },
+          {
+            rights: 'Creative Commons Attribution 4.0 International',
+            rights_uri: 'https://creativecommons.org/licenses/by/4.0/',
+            rights_identifier: 'CC-BY-4.0',
+            rights_identifier_scheme: 'SPDX'
+          }
+        ],
+        funding_references: [
+          { funder_name: 'My funder' },
+          {
+            funder_name: 'My other funder',
+            funder_identifier: 'https://ror.org/00f54p054',
+            funder_identifier_type: 'ROR',
+            award_number: '123456',
+            award_uri: 'https://doi.org/10.1234/5678',
+            award_title: 'My award title'
+          }
+        ],
+        url: 'https://example.com/my-dataset',
+        variables: ['variable 1', 'variable 2'],
+        data_use_statement: 'My data use statement',
+        access: 'Restricted',
+        provider: 'Zenodo'
       }
     end
 
@@ -139,7 +176,7 @@ RSpec.describe DataworksValidator do
           'array size at `/titles` is less than: 1',
           'string at `/publication_year` does not match pattern: ^[1-2][0-9]{3}$',
           'object property at `/another_field` is a disallowed additional property',
-          'object at root is missing required properties: creators, types, identifiers'
+          'object at root is missing required properties: creators, identifiers, url, access, provider'
         ]
       )
     end
