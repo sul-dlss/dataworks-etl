@@ -6,8 +6,6 @@ description: >
   Unless otherwise specified, this schema is based on the DataCite Metadata Schema (https://schema.datacite.org/)
 type: object
 properties:
-  doi:
-    type: string
   creators:
     type: array
     items:
@@ -46,16 +44,21 @@ properties:
     type: string
     pattern: '^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$'
   # Yes, this is plural in the DataCite schema.
-  types:    
+  types:
     $ref: '#/components/schemas/ResourceType'
   version:
     type: string
+  identifiers:
+    type: array
+    items:
+      $ref: '#/components/schemas/Identifier'
+    minItems: 1
 required:
-  # DOI, publisher is required in Datacite, but optional here.
   - titles
   - creators
   - publication_year
   - types
+  - identifiers
 additionalProperties: false
 components:
   schemas:
@@ -102,7 +105,7 @@ components:
           anyOf:
             - format: date-time
             - format: date
-            - pattern: '^[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?/[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?$'            
+            - pattern: '^[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?/[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?$'
         date_type:
           type: string
           enum:
@@ -299,4 +302,19 @@ components:
             - Other
       required:
         - title
+      additionalProperties: false
+    Identifier:
+      type: object
+      properties:
+        identifier:
+          type: string
+        identifier_type:
+          type: string
+          enum:
+            - DOI
+            - RedivisReference
+            - SearchWorksReference
+      required:
+        - identifier
+        - identifier_type
       additionalProperties: false

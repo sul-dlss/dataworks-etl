@@ -13,7 +13,8 @@ RSpec.describe DataworksValidator do
         ],
         titles: [{ title: 'My title' }],
         publication_year: '2023',
-        types: { resource_type_general: 'Dataset', resource_type: 'Census' }
+        types: { resource_type_general: 'Dataset', resource_type: 'Census' },
+        identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }]
       }
     end
 
@@ -29,7 +30,6 @@ RSpec.describe DataworksValidator do
   context 'when metadata is valid' do
     let(:metadata) do
       {
-        doi: '10.1234/5678',
         creators: [
           { name: 'A. Researcher' },
           {
@@ -103,7 +103,11 @@ RSpec.describe DataworksValidator do
         ],
         language: 'en',
         types: { resource_type_general: 'Dataset', resource_type: 'Census' },
-        version: '1.0'
+        version: '1.0',
+        identifiers: [
+          { identifier: 'stanfordphs.prime_india:016c:v0_1', identifier_type: 'RedivisReference' },
+          { identifier: '10.1234/5678', identifier_type: 'DOI' }
+        ]
       }
     end
 
@@ -135,7 +139,7 @@ RSpec.describe DataworksValidator do
           'array size at `/titles` is less than: 1',
           'string at `/publication_year` does not match pattern: ^[1-2][0-9]{3}$',
           'object property at `/another_field` is a disallowed additional property',
-          'object at root is missing required properties: creators, types'
+          'object at root is missing required properties: creators, types, identifiers'
         ]
       )
     end
