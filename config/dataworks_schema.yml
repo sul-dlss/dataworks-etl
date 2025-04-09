@@ -467,10 +467,10 @@ components:
           type: string
         identifier_type:
           type: string
-          enum:
-            - DOI
-            - RedivisReference
-            - SearchWorksReference
+          # Recommended values:
+          #   - DOI
+          #   - RedivisReference
+          #   - SearchWorksReference
       required:
         - identifier
         - identifier_type
