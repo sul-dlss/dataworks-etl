@@ -100,8 +100,11 @@ RSpec.describe DataworksValidator do
           { date: '2023-01-01' },
           { date: '2023-01-02T19:20:30+01:00' },
           { date: '2023-01-03', date_type: 'Updated' },
-          { date: '2022-01-01/2022-12-31' }
-
+          { date: '2022-01-01/2022-12-31' },
+          { date: '2022-11-25' },
+          { date: '1973' },
+          { date: '2008-06-08T00:00:00Z/2008-07-04T00:00:00Z' },
+          { date: '0600-01-01/1800-01-01' }
         ],
         language: 'en',
         identifiers: [
@@ -127,6 +130,9 @@ RSpec.describe DataworksValidator do
             rights_uri: 'https://creativecommons.org/licenses/by/4.0/',
             rights_identifier: 'CC-BY-4.0',
             rights_identifier_scheme: 'SPDX'
+          },
+          {
+            rights_uri: 'https://creativecommons.org/licenses/by/4.0/'
           }
         ],
         funding_references: [
