@@ -10,34 +10,57 @@ module DataworksMappers
 
     DESCRIPTION_TYPES = [
       { key: :description, type: 'Abstract' },
-      { key: :methodologyMarkdown, type: 'Methods' }
+      { key: :methodologyMarkdown, type: 'Methods' },
+      { key: :usageMarkdown, type: 'Other' }
+    ].freeze
+
+    IDENTIFIER_TYPES = [
+      { key: :doi, type: 'DOI' },
+      { key: :qualifiedReference, type: 'RedivisReference' }
     ].freeze
 
     def perform_map
       {
-        # source_id: source[:qualifiedReference],
         titles: [{ title: source[:name] }],
-        creators: [{ name: source[:owner][:fullName] }]
-        # resource_type: 'Dataset',
-        # identifier: source[:doi],
-        # identifier_type: 'DOI',
-        # landing_page: source[:url],
-        # access: source[:publicAccessLevel],
-        # size: source[:tableCount], # : source[:totalNumBytes],
-        # variables: tables.variables.name....
-        # tags: source[:tags].map { |tag| { tag: tag[:name] } }
+        creators: [{ name: source[:owner][:fullName] }],
+        publication_year:,
+        identifiers:,
+        url: source[:url],
+        access:,
+        provider: 'Redivis'
       }.merge(optional_params)
     end
 
     private
 
+    def publication_year
+      return unless source[:createdAt]
+
+      Time.zone.at(source[:createdAt] / 1000).year.to_s # Redivis timestamps are in milliseconds since epoch
+    end
+
+    def identifiers
+      [].tap do |identifiers|
+        IDENTIFIER_TYPES.each do |identifier_type|
+          next unless source[identifier_type[:key]]
+
+          identifiers << { identifier: source[identifier_type[:key]], identifier_type: identifier_type[:type] }
+        end
+      end
+    end
+
+    def access
+      source[:publicAccessLevel] == 'none' ? 'Restricted' : 'Public'
+    end
+
     def optional_params
       {
-        doi: source[:doi],
         descriptions:,
         dates:,
+        subjects:,
+        sizes:,
         version: source[:version][:tag]
-      }
+      }.compact_blank
     end
 
     def descriptions
@@ -67,6 +90,18 @@ module DataworksMappers
           }
         end
       end
+    end
+
+    def sizes
+      return unless source[:totalNumBytes]
+
+      [source[:totalNumBytes].to_s]
+    end
+
+    def subjects
+      return unless source[:tags]
+
+      source[:tags].map { |tag| { subject: tag[:name] } }
     end
   end
 end

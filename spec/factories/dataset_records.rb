@@ -12,7 +12,10 @@ FactoryBot.define do
         name: "My dataset #{n}",
         owner: { fullName: 'Test Owner' },
         version: { tag: "v0.#{n}" },
-        doi:
+        doi:,
+        createdAt: 1_574_457_099_929, # Milliseconds since epoch
+        url: "https://example.com/#{doi}",
+        description: 'This is an abstract for the example dataset.'
       }
     end
     created_at { Time.current }
