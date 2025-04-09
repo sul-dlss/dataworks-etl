@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod/select?q=id:does_not_exist&rows=100&start=0&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Faraday v2.13.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 09 Apr 2025 22:26:40 GMT
+      Server:
+      - Apache/2.4.52 (Ubuntu)
+      Content-Security-Policy:
+      - default-src 'none'; base-uri 'none'; connect-src 'self'; form-action 'self';
+        font-src 'self'; frame-ancestors 'none'; img-src 'self'; media-src 'self';
+        style-src 'self' 'unsafe-inline'; script-src 'self'; worker-src 'self';
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      Last-Modified:
+      - Wed, 09 Apr 2025 22:11:07 GMT
+      Etag:
+      - '"ZjMxYmEyMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json;charset=utf-8
+      Vary:
+      - Accept-Encoding,User-Agent
+      Content-Length:
+      - '954'
+      Via:
+      - 1.1 sul-solr-prod-a.stanford.edu:8983
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "responseHeader":{
+            "zkConnected":true,
+            "status":0,
+            "QTime":19,
+            "params":{
+              "q":"id:does_not_exist",
+              "start":"0",
+              "rows":"100",
+              "wt":"json"}},
+          "response":{"numFound":0,"start":0,"maxScore":0.0,"numFoundExact":true,"docs":[]
+          },
+          "facet_counts":{
+            "facet_queries":{},
+            "facet_fields":{
+              "access_facet":[],
+              "author_person_facet":[],
+              "author_other_facet":[],
+              "building_facet":[],
+              "callnum_facet_hsim":[],
+              "stanford_work_facet_hsim":[],
+              "stanford_dept_sim":[],
+              "collection":[],
+              "db_az_subject":[],
+              "era_facet":[],
+              "format_main_ssim":[],
+              "format_physical_ssim":[],
+              "fund_facet":[],
+              "genre_ssim":[],
+              "geographic_facet":[],
+              "language":[],
+              "location_facet":[],
+              "pub_date":[],
+              "pub_year_tisim":[],
+              "topic_facet":[]},
+            "facet_ranges":{},
+            "facet_intervals":{},
+            "facet_heatmaps":{}}}
+  recorded_at: Wed, 09 Apr 2025 22:26:40 GMT
+recorded_with: VCR 6.3.1
