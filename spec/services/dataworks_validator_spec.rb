@@ -100,7 +100,9 @@ RSpec.describe DataworksValidator do
         dates: [
           { date: '2023-01-01' },
           { date: '2023-01-02T19:20:30+01:00' },
-          { date: '2023-01-03', date_type: 'Updated' }
+          { date: '2023-01-03', date_type: 'Updated' },
+          { date: '2022-01-01/2022-12-31' }
+
         ],
         language: 'en',
         types: [{ resource_type_general: 'Dataset', resource_type: 'Census' }],

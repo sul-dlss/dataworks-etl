@@ -100,10 +100,10 @@ components:
       properties:
         date:
           type: string
-          oneOf:
-            # Note that this does not account for date ranges allowed by Datacite.
+          anyOf:
             - format: date-time
             - format: date
+            - pattern: '^[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?/[1-2][0-9]{3}(-[0-1][1-9](-[0-3][1-9])?)?$'            
         date_type:
           type: string
           enum:
