@@ -13,7 +13,7 @@ RSpec.describe DataworksValidator do
         ],
         titles: [{ title: 'My title' }],
         publication_year: '2023',
-        types: [{ resource_type_general: 'Dataset', resource_type: 'Census' }]
+        types: { resource_type_general: 'Dataset', resource_type: 'Census' }
       }
     end
 
@@ -105,7 +105,7 @@ RSpec.describe DataworksValidator do
 
         ],
         language: 'en',
-        types: [{ resource_type_general: 'Dataset', resource_type: 'Census' }],
+        types: { resource_type_general: 'Dataset', resource_type: 'Census' },
         version: '1.0'
       }
     end

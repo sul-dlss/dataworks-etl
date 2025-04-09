@@ -45,11 +45,9 @@ properties:
   language:
     type: string
     pattern: '^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$'
-  types:
-    type: array
-    items:
-      $ref: '#/components/schemas/ResourceType'
-    minItems: 1
+  # Yes, this is plural in the DataCite schema.
+  types:    
+    $ref: '#/components/schemas/ResourceType'
   version:
     type: string
 required:
