@@ -17,7 +17,7 @@ module Clients
 
     # @param id [String] the DOI of the dataset
     def dataset(id:)
-      get_json(path: "/dois/#{id}")
+      get_json(path: "/dois/#{id}", params: { affiliation: true, publisher: true })
     end
 
     private

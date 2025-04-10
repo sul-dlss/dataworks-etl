@@ -28,6 +28,8 @@ class TransformerLoader
     @datacite_mapper ||= case dataset_record_set.provider
                          when 'redivis'
                            DataworksMappers::Redivis
+                         when 'datacite'
+                           DataworksMappers::Datacite
                          else
                            raise "Unsupported provider: #{dataset_record_set.provider}"
                          end
