@@ -37,7 +37,8 @@ module Clients
       results = response_json['data'].map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['id'],
-          modified_token: dataset_json.dig('attributes', 'updated')
+          modified_token: dataset_json.dig('attributes', 'updated'),
+          source: nil
         )
       end
       cursor = cursor(link: response_json.dig('links', 'next'))

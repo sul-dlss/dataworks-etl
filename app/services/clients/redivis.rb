@@ -44,7 +44,8 @@ module Clients
       results = response_json['results'].map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['qualifiedReference'],
-          modified_token: dataset_json['updatedAt'].to_s
+          modified_token: dataset_json['updatedAt'].to_s,
+          source: nil
         )
       end
       [results, response_json['nextPageToken']]

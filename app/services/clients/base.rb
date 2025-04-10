@@ -6,7 +6,7 @@ module Clients
   class Error < StandardError; end
 
   # Collection of results returned from Client#list
-  ListResult = Struct.new('ListResult', :id, :modified_token, keyword_init: true)
+  ListResult = Struct.new('ListResult', :id, :modified_token, :source, keyword_init: true)
 
   # Base class for harvesting clients
   class Base

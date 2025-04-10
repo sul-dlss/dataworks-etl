@@ -51,7 +51,8 @@ module Clients
       results = response_json.dig('_embedded', 'stash:datasets').map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['identifier'],
-          modified_token: dataset_json['versionNumber'].to_s
+          modified_token: dataset_json['versionNumber'].to_s,
+          source: nil
         )
       end
       next_page = response_json.dig('_links', 'next', 'href').present? ? page + 1 : nil
