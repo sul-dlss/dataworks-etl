@@ -3,7 +3,7 @@ plugins:
   - rubocop-rails
   - rubocop-factory_bot
   - rubocop-rspec_rails
-  
+
 AllCops:
   TargetRubyVersion: 3.4
   DisplayCopNames: true
@@ -19,16 +19,22 @@ AllCops:
     - 'config/environments/*.rb'
     - 'db/**/*'
     - 'vendor/**/*'
-  
+
 Layout/LineLength:
   Max: 120
+
+Metrics/AbcSize:
+  Max: 18
+
+Metrics/MethodLength:
+  Max: 15
 
 RSpec/ExampleLength:
   Enabled: false
 
 RSpec/MultipleExpectations:
   Enabled: false
-  
+
 Style/Documentation:
   Exclude:
     - '**/application*'

@@ -7,7 +7,17 @@ FactoryBot.define do
     modified_token { '1.2.3' }
     sequence(:doi) { |n| "doi:10.0000/redivis.abc#{n}" }
     source_md5 { Digest::MD5.hexdigest(source.to_json) }
-    sequence(:source) { |n| { name: "My dataset #{n}" } }
+    sequence(:source) do |n|
+      {
+        name: "My dataset #{n}",
+        owner: { fullName: 'Test Owner' },
+        version: { tag: "v0.#{n}" },
+        doi:,
+        createdAt: 1_574_457_099_929, # Milliseconds since epoch
+        url: "https://example.com/#{doi}",
+        description: 'This is an abstract for the example dataset.'
+      }
+    end
     created_at { Time.current }
     updated_at { Time.current }
   end
