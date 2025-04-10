@@ -207,6 +207,7 @@ components:
           type: string
           enum:
             - Crossref Funder ID
+            - DOI
             - GRID
             - ISNI
             - ROR
@@ -327,6 +328,7 @@ components:
             - bibcode
             - CSTR
             - DOI
+            - EAN8
             - EAN13
             - EISSN
             - Handle
@@ -480,6 +482,7 @@ components:
           #   - DOI
           #   - RedivisReference
           #   - SearchWorksReference
+          #   - ZenodoId
       required:
         - identifier
         - identifier_type

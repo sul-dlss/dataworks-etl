@@ -16,3 +16,6 @@ production:
   datacite_etl:
     class: DataciteEtlJob
     schedule: every week
+  zenodo_etl:
+    class: ZenodoEtlJob
+    schedule: every week    
