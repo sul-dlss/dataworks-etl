@@ -14,7 +14,7 @@ module DataworksMappers
       'url' => 'URL'
     }.freeze
 
-    def perform_map # rubocop:disable Metrics/MethodLength
+    def perform_map
       {
         identifiers:,
         titles: [{ title: metadata[:title] }],

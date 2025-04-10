@@ -1,0 +1,75 @@
+{
+  "_links": {
+    "self": {
+      "href": "/api/v2/datasets/doi%3A10.5061%2Fdryad.bvq83bk8p"
+    },
+    "stash:versions": {
+      "href": "/api/v2/datasets/doi%3A10.5061%2Fdryad.bvq83bk8p/versions"
+    },
+    "stash:version": {
+      "href": "/api/v2/versions/166361"
+    },
+    "stash:download": {
+      "href": "/api/v2/datasets/doi%3A10.5061%2Fdryad.bvq83bk8p/download"
+    },
+    "curies": [
+      {
+        "name": "stash",
+        "href": "https://github.com/datadryad/dryad-app/blob/main/documentation/apis/link_relations.md#{rel}",
+        "templated": "true"
+      }
+    ]
+  },
+  "identifier": "doi:10.5061/dryad.bvq83bk8p",
+  "id": 68084,
+  "storageSize": 77298,
+  "relatedPublicationISSN": "2169-9003",
+  "title": "10Be concentrations constraining surface age and valley growth rate in a seepage-derived drainage network in the Apalachicola River basin, Florida",
+  "authors": [
+    {
+      "firstName": "Emma",
+      "lastName": "Harrison",
+      "email": "ejharris@ucsd.edu",
+      "affiliation": "Stanford University",
+      "affiliationROR": "https://ror.org/00f54p054",
+      "orcid": "0000-0003-1308-7523"
+    },
+    {
+      "firstName": "Brandon",
+      "lastName": "McElroy",
+      "email": "bmcelroy@uwyo.edu",
+      "affiliation": "University of Wyoming",
+      "affiliationROR": "https://ror.org/01485tq96"
+    },
+    {
+      "firstName": "Jane",
+      "lastName": "Willenbring",
+      "email": "willenbring@stanford.edu",
+      "affiliation": "Stanford University",
+      "affiliationROR": "https://ror.org/00f54p054"
+    }
+  ],
+  "abstract": "TEST ABSTRACT",
+  "funders": [
+    {
+      "organization": "National Science Foundation",
+      "identifierType": "ror",
+      "identifier": "https://ror.org/021nxhr62",
+      "awardNumber": "1848637"
+    }
+  ],
+  "keywords": [
+    "Geomorphology and cosmogenic radionuclides"
+  ],
+  "methods": "TEST METHODS",
+  "usageNotes": "TEST USAGE NOTES",
+  "versionNumber": 3,
+  "versionStatus": "submitted",
+  "curationStatus": "Published",
+  "versionChanges": "metadata_changed",
+  "publicationDate": "2022-03-02",
+  "lastModificationDate": "2022-03-02",
+  "visibility": "public",
+  "sharingLink": "http://datadryad.org/dataset/doi:10.5061/dryad.bvq83bk8p",
+  "license": "https://spdx.org/licenses/CC0-1.0.html"
+}

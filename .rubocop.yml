@@ -24,10 +24,10 @@ Layout/LineLength:
   Max: 120
 
 Metrics/AbcSize:
-  Max: 18
+  Max: 19
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 17
 
 RSpec/ExampleLength:
   Enabled: false
