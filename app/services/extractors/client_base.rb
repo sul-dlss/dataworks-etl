@@ -36,7 +36,8 @@ module Extractors
     end
 
     def create_dataset_record(result:)
-      source = client.dataset(id: result.id)
+      # If we already have the source use it, otherwise fetch it by ID
+      source = result.source || client.dataset(id: result.id)
       sleep extract_sleep
       DatasetRecord.create!(
         provider:,

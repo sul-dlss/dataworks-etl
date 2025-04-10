@@ -45,7 +45,8 @@ module Clients
       results = response_json.dig('hits', 'hits').map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['id'].to_s,
-          modified_token: dataset_json['revision'].to_s
+          modified_token: dataset_json['revision'].to_s,
+          source: nil
         )
       end
       next_page = response_json.dig('links', 'next').present? ? page + 1 : nil
