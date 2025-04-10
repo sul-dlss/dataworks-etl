@@ -18,6 +18,11 @@ module DataworksMappers
       { key: :identifier, type: 'DOI' }
     ].freeze
 
+    FUNDER_IDENTIFIER_TYPES = {
+      'ror' => 'ROR',
+      'crossref_funder_id' => 'Crossref Funder ID'
+    }.freeze
+
     def perform_map
       {
         titles: [{ title: source[:title] }],
@@ -64,11 +69,14 @@ module DataworksMappers
     def affiliation_for(author)
       return unless author[:affiliation]
 
-      [{
-        name: author[:affiliation],
-        affiliation_identifier: author[:affiliationROR],
-        affiliation_identifier_scheme: 'ROR'
-      }]
+      [
+        { name: author[:affiliation] }.tap do |attrs|
+          next unless author[:affiliationROR]
+
+          attrs[:affiliation_identifier] = author[:affiliationROR]
+          attrs[:affiliation_identifier_scheme] = 'ROR'
+        end
+      ]
     end
 
     def dates
@@ -97,15 +105,18 @@ module DataworksMappers
       end
     end
 
-    def funding_references
+    def funding_references # rubocop:disable Metrics/AbcSize
       Array(source[:funders]).map do |funder|
-        {
-          funder_name: funder[:organization],
-          funder_identifier: funder[:identifier],
-          funder_identifier_type: funder[:identifierType].upcase,
-          award_number: funder[:awardNumber]
-        }.compact
-      end
+        next if funder[:organization].blank?
+
+        { funder_name: funder[:organization], award_number: funder[:awardNumber] }.compact_blank.tap do |attrs|
+          next if funder[:identifier].blank?
+
+          attrs[:funder_identifier] = funder[:identifier]
+          attrs[:funder_identifier_type] = FUNDER_IDENTIFIER_TYPES.fetch(funder[:identifierType],
+                                                                         funder[:identifierType])
+        end
+      end.compact
     end
 
     def identifiers
