@@ -2,7 +2,7 @@
 
 module Extractors
   # Extractor for datasets in Searchworks's Solr index
-  class Searchworks < ClientBase
+  class Searchworks < Base
     def initialize(list_args:, client: Clients::Solr.new, provider: 'searchworks')
       super
       @list_args[:params].merge!(default_solr_params)

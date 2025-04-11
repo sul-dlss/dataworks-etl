@@ -2,7 +2,7 @@
 
 module Extractors
   # Service for extracting datasets from Dryad
-  class Dryad < ClientBase
+  class Dryad < Base
     def initialize(affiliation: 'https://ror.org/00f54p054')
       super(
         client: Clients::Dryad.new, provider: 'dryad',

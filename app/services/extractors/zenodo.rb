@@ -2,7 +2,7 @@
 
 module Extractors
   # Service for extracting datasets from Zenodo
-  class Zenodo < ClientBase
+  class Zenodo < Base
     def initialize
       super(client: Clients::Zenodo.new(api_token: Settings.zenodo.api_token),
             provider: 'zenodo', list_args: { affiliation: 'Stanford University' })
