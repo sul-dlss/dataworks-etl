@@ -30,6 +30,10 @@ class TransformerLoader
                            DataworksMappers::Redivis
                          when 'datacite'
                            DataworksMappers::Datacite
+                         when 'dryad'
+                           DataworksMappers::Dryad
+                         when 'zenodo'
+                           DataworksMappers::Zenodo
                          else
                            raise "Unsupported provider: #{dataset_record_set.provider}"
                          end
