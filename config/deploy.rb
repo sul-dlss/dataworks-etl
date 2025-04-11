@@ -40,6 +40,9 @@ append :linked_dirs, 'log', 'config/settings', 'tmp/pids', 'tmp/cache', 'tmp/soc
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 
+# honeybadger_env otherwise defaults to rails_env
+set :honeybadger_env, fetch(:stage)
+
 # Set Rails env to production in all Cap environments
 set :rails_env, 'production'
 
