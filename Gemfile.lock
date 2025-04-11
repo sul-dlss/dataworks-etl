@@ -238,6 +238,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.7-x86_64-linux-musl)
       racc (~> 1.4)
+    okcomputer (1.19.0)
     ostruct (0.6.1)
     overmind (2.5.1)
     overmind (2.5.1-aarch64-linux)
@@ -462,6 +463,7 @@ DEPENDENCIES
   jbuilder
   json_schemer
   mission_control-jobs
+  okcomputer
   overmind
   pg (~> 1.1)
   propshaft
