@@ -13,6 +13,9 @@ A Dataset Source Set is marked as complete if the job was successful (the metada
 
 ## Configuration
 
+### Extra (hardcoded) datasets
+Extra datasets for a provider can be added to `config/datasets/<provider>.yml`.
+
 ### Schedule
 The job schedule is set in `config/recurring.yml`.
 

@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Extractors::Datacite do
   context 'when successful' do
-    subject(:dataset_record_set) { described_class.call }
+    subject(:dataset_record_set) { described_class.call(extra_dataset_ids: ['10.17632/7pxgdp7cn6']) }
 
-    let(:client) { instance_double(Clients::Datacite, list: results, dataset: new_dataset_record_source) }
+    let(:client) { instance_double(Clients::Datacite, list: results) }
     let(:results) do
       [
         Clients::ListResult.new(id: '10.17632/8pxgdp7cn7', modified_token: 'v1'),
@@ -23,14 +23,29 @@ RSpec.describe Extractors::Datacite do
       }.deep_stringify_keys
     end
 
+    let(:extra_dataset_record_source) do
+      {
+        data: {
+          id: '10.17632/7pxgdp7cn6',
+          type: 'dois',
+          attributes: {
+            doi: '10.17632/7pxgdp7cn6',
+            version: '1'
+          }
+        }
+      }.deep_stringify_keys
+    end
+
     before do
       allow(Clients::Datacite).to receive(:new).and_return(client)
+      allow(client).to receive(:dataset).with(id: '10.17632/8pxgdp7cn7').and_return(new_dataset_record_source)
+      allow(client).to receive(:dataset).with(id: '10.17632/7pxgdp7cn6').and_return(extra_dataset_record_source)
     end
 
     it 'creates a dataset record set' do
       expect { dataset_record_set }
         .to change(DatasetRecordSet, :count).by(1)
-        .and change(DatasetRecord, :count).by(1)
+        .and change(DatasetRecord, :count).by(2)
       expect(Clients::Datacite).to have_received(:new)
       expect(client).to have_received(:list).with(affiliation: 'Stanford University')
       expect(client).to have_received(:dataset).with(id: '10.17632/8pxgdp7cn7')

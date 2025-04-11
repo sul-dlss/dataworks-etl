@@ -7,18 +7,18 @@ module Extractors
       new(...).call
     end
 
-    def initialize(client:, provider:, list_args: {}, extract_sleep: Settings.extract_sleep)
+    def initialize(client:, provider:, list_args: {}, extract_sleep: Settings.extract_sleep, extra_dataset_ids: [])
       @client = client
       @provider = provider
       @list_args = list_args
       @extract_sleep = extract_sleep
+      @extra_dataset_ids = extra_dataset_ids
     end
 
     # @return [DatasetRecordSet] the set of dataset records created
     def call
       dataset_record_set = DatasetRecordSet.create!(provider:)
 
-      results = client.list(**list_args)
       results.each do |result|
         dataset_record = find_or_create_dataset_record(result:)
         dataset_record_set.dataset_records << dataset_record
@@ -29,7 +29,24 @@ module Extractors
 
     private
 
-    attr_reader :client, :provider, :list_args, :extract_sleep
+    attr_reader :client, :provider, :list_args, :extract_sleep, :extra_dataset_ids
+
+    def results
+      (extra_dataset_results + client.list(**list_args)).uniq(&:id)
+    end
+
+    def extra_dataset_results
+      extra_dataset_ids.map do |id|
+        source = client.dataset(id:)
+        source_to_result(source:)
+      end
+    end
+
+    # @param source [Hash] the source from the client
+    # @return [Client::ListResult] the ListResult generated from the source
+    def source_to_result(source:)
+      raise NotImplementedError
+    end
 
     def find_or_create_dataset_record(result:)
       DatasetRecord.find_by(provider:, dataset_id: result.id) || create_dataset_record(result:)
