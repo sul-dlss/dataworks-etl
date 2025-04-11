@@ -35,15 +35,6 @@ module Clients
       end
     end
 
-    def retry_options
-      {
-        max: 10,
-        interval: 5.0,
-        backoff_factor: 2,
-        retry_statuses: [429]
-      }
-    end
-
     def list_page(affiliation:, per_page:, page:)
       response_json = get_json(path: '/api/v2/search',
                                params: { affiliation:, per_page:, page: })

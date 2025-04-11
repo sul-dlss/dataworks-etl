@@ -28,7 +28,9 @@ module Clients
         headers: {
           'Accept' => 'application/json'
         }
-      )
+      ) do |conn|
+        conn.request :retry, retry_options
+      end
     end
 
     def list_page(affiliation:, page_size:, cursor: 1)

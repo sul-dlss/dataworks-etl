@@ -33,5 +33,14 @@ module Clients
     def new_conn
       raise NotImplementedError
     end
+
+    def retry_options
+      {
+        max: 10,
+        interval: 5.0,
+        backoff_factor: 2,
+        retry_statuses: [429, 502]
+      }
+    end
   end
 end

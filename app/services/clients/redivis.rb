@@ -35,7 +35,9 @@ module Clients
           'Accept' => 'application/json',
           'Authorization' => "Bearer #{api_token}"
         }
-      )
+      ) do |conn|
+        conn.request :retry, retry_options
+      end
     end
 
     def list_page(max_results:, page_token: nil)
