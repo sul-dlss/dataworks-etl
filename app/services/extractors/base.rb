@@ -2,7 +2,7 @@
 
 module Extractors
   # Base class for extractors that use a client with list and dataset methods
-  class ClientBase
+  class Base
     def self.call(...)
       new(...).call
     end
@@ -37,8 +37,7 @@ module Extractors
 
     def create_dataset_record(result:)
       # If we already have the source use it, otherwise fetch it by ID
-      source = result.source || client.dataset(id: result.id)
-      sleep extract_sleep
+      source = result.source || retrieve_source(id: result.id)
       DatasetRecord.create!(
         provider:,
         dataset_id: result.id,
@@ -46,6 +45,11 @@ module Extractors
         doi: doi_from(source:),
         source:
       )
+    end
+
+    def retrieve_source(id:)
+      sleep extract_sleep
+      client.dataset(id:)
     end
 
     # @param source [Hash] the source metadata for the dataset

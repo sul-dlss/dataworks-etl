@@ -2,7 +2,7 @@
 
 module Extractors
   # Service for extracting datasets from Datacite
-  class Datacite < ClientBase
+  class Datacite < Base
     def initialize(affiliation: 'Stanford University')
       super(client: Clients::Datacite.new, provider: 'datacite', list_args: { affiliation: })
     end
