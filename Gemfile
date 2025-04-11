@@ -49,6 +49,7 @@ gem 'faraday'
 gem 'faraday-retry'
 gem 'honeybadger'
 gem 'json_schemer' # JSON schema validation
+gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
 gem 'rsolr'
 
