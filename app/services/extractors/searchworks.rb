@@ -3,7 +3,8 @@
 module Extractors
   # Extractor for datasets in Searchworks's Solr index
   class Searchworks < Base
-    def initialize(list_args:, client: Clients::Solr.new, provider: 'searchworks')
+    def initialize(list_args:, client: Clients::Solr.new, provider: 'searchworks',
+                   extra_dataset_ids: YAML.load_file('config/datasets/searchworks.yml'))
       super
       @list_args[:params].merge!(default_solr_params)
     end
@@ -12,7 +13,7 @@ module Extractors
 
     # Client returns solr docs; we need to map them to ListResults
     def find_or_create_dataset_record(result:)
-      super(result: doc_to_result(result))
+      super(result: source_to_result(source: result))
     end
 
     # Solr doesn't return marc_json_struct by default, so we ask for it in order
@@ -25,11 +26,13 @@ module Extractors
     end
 
     # Map a Solr document into a ListResult
-    def doc_to_result(doc)
+    def source_to_result(source:)
+      return source if source.is_a?(Clients::ListResult)
+
       Clients::ListResult.new(
-        id: doc['id'],
-        modified_token: doc['last_updated'],
-        source: JSON.parse(doc['marc_json_struct'])
+        id: source['id'],
+        modified_token: source['last_updated'],
+        source: JSON.parse(source['marc_json_struct'])
       )
     end
 

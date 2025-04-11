@@ -8,7 +8,8 @@ module Clients
       @solr = RSolr.connect @conn, url: @conn.url_prefix.to_s
     end
 
-    # Enumerable of datasets matching a solr query
+    # Enumerable of solr documents matching a solr query
+    # Note that since the format of solr documents can vary this does NOT return a ListResult.
     # @param params [Hash] solr query params
     # @param page_size [Integer] number of results per page
     # @yield [Hash] dataset
