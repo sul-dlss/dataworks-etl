@@ -2,6 +2,8 @@
 
 # Job to ETL dataset metadata from DataCite
 class DataciteEtlJob < EtlJob
+  include Checkinable
+
   def perform
     dataset_record_set = Extractors::Datacite.call
     dataset_record_set.update!(job_id: @job_id) if @job_id
