@@ -34,6 +34,8 @@ class TransformerLoader
                            DataworksMappers::Dryad
                          when 'zenodo'
                            DataworksMappers::Zenodo
+                         when 'local'
+                           DataworksMappers::Local
                          else
                            raise "Unsupported provider: #{dataset_record_set.provider}"
                          end

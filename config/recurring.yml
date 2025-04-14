@@ -18,4 +18,7 @@ production:
     schedule: every week
   zenodo_etl:
     class: ZenodoEtlJob
-    schedule: every week    
+    schedule: every week
+  local_etl:
+    class: LocalEtlJob
+    schedule: every week

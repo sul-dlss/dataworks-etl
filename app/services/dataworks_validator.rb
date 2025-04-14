@@ -2,12 +2,19 @@
 
 # Validator for the Dataworks flavor of DataCite metadata
 class DataworksValidator
+  class ValidationError < StandardError; end
+
   def initialize(metadata:)
     @metadata = metadata
   end
 
   def valid?
     errors.empty?
+  end
+
+  # raise ValidationError if the metadata is not valid
+  def valid!
+    raise ValidationError, errors.join(', ') unless valid?
   end
 
   def errors
