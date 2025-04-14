@@ -39,21 +39,26 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Build the docker-compose stack
+        run: docker compose up -d
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-
+      - name: Install dependencies
+        run: bundle install
+      - name: Setup db
+        run: bin/rails db:test:prepare
       - name: Run tests
         run: bundle exec rspec
-
       - name: Upload coverage reports to Codecov
-          uses: codecov/codecov-action@v5
-          with:
-            token: ${{ secrets.CODECOV_TOKEN }}
-            slug: sul-dlss/dataworks-etl
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: sul-dlss/dataworks-etl

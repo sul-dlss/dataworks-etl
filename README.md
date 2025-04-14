@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/sul-dlss/dataworks-etl/graph/badge.svg?token=GRM1JU56U1)](https://codecov.io/gh/sul-dlss/dataworks-etl)
+
 # dataworks-etl
 ETL application for Dataworks
 
