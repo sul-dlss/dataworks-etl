@@ -15,8 +15,11 @@ A Dataset Source Set is marked as complete if the job was successful (the metada
 
 ## Configuration
 
-### Extra (hardcoded) datasets
+### Extra (hardcoded) datasets for providers
 Extra datasets for a provider can be added to `config/datasets/<provider>.yml`.
+
+### Local dataset metadata
+Local metadata can be added to `config/local_datasets/<id>.yml`. The metadata must conform to the Dataworks schema.
 
 ### Schedule
 The job schedule is set in `config/recurring.yml`.
