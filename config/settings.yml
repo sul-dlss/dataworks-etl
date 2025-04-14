@@ -11,3 +11,8 @@ redivis:
 
 zenodo:
   api_token: ~
+
+honeybadger:
+  datacite_etl_job_checkin: ~
+  zenodo_etl_job_checkin: ~
+  redivis_etl_job_stanfordphs_checkin: ~

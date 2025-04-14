@@ -2,6 +2,8 @@
 
 # Job to ETL dataset metadata from Zenodo
 class ZenodoEtlJob < EtlJob
+  include Checkinable
+
   def perform
     dataset_record_set = Extractors::Zenodo.call
     dataset_record_set.update!(job_id: @job_id) if @job_id

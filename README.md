@@ -19,6 +19,9 @@ Extra datasets for a provider can be added to `config/datasets/<provider>.yml`.
 ### Schedule
 The job schedule is set in `config/recurring.yml`.
 
+### Honeybadger checkins
+Jobs in deployed environments use Honeybadger checkins to verify that they are running. These are environments specific and therefore should be set in `shared_configs`.
+
 ## Development
 
 ### Requirements
