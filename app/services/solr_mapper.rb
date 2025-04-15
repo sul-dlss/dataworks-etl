@@ -22,8 +22,9 @@ class SolrMapper
       provider_ssi: metadata['provider'],
       creators_struct_ss: metadata['creators'].to_json,
       descriptions_tsim: retrieve_descriptions(metadata['descriptions']),
+      doi_ssi: retrieve_dois(metadata['identifiers']),
+      provider_identifier_ssim: map_provider_identifiers(metadata['identifiers'], metadata['provider'])
     }.merge(map_titles(metadata['titles']))
-      .merge(map_identifiers(metadata['identifiers'], metadata['provider']))
   end
 
   private
@@ -73,11 +74,6 @@ class SolrMapper
     mapped_titles
   end
 
-  def map_identifiers(identifiers_metadata, provider)
-    { provider_identifier_ssim: map_provider_identifiers(identifiers_metadata, provider) }
-      .merge(map_dois(identifiers_metadata))
-  end
-
   def map_provider_identifiers(identifiers_metadata, provider)
     matching_provider_ids(identifiers_metadata, provider).pluck('identifier')
   end
@@ -90,11 +86,8 @@ class SolrMapper
     "#{provider}Reference"
   end
 
-  def map_dois(identifiers_metadata)
-    dois = identifiers_metadata.select { |id_info| id_info['identifier_type'] == 'DOI' }.pluck('identifier')
-    return {} if dois.empty?
-
-    { doi_ssi: dois }
+  def retrieve_dois(identifiers_metadata)
+    identifiers_metadata.select { |id_info| id_info['identifier_type'] == 'DOI' }.pluck('identifier')
   end
 
   def retrieve_descriptions(descriptions_metadata)
