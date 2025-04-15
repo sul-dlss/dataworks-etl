@@ -22,7 +22,7 @@ class SolrMapper
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
       creators_struct_ss: metadata['creators'].to_json,
-      descriptions_tsim: retrieve_descriptions(metadata['descriptions']),
+      descriptions_tsim: retrieve_descriptions(metadata['descriptions'] || []),
       doi_ssi: retrieve_dois(metadata['identifiers']),
       provider_identifier_ssim: map_provider_identifiers(metadata['identifiers'], metadata['provider'])
     }.merge(map_titles(metadata['titles']))
@@ -85,6 +85,8 @@ class SolrMapper
   end
 
   def provider_ref(provider)
+    return 'DOI' if provider == 'DataCite'
+
     "#{provider}Reference"
   end
 
