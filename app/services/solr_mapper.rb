@@ -14,6 +14,7 @@ class SolrMapper
   end
 
   # @return [Hash] the Solr document
+  # rubocop:disable Metrics/AbcSize
   def call
     {
       id: dataset_record_id,
@@ -26,6 +27,7 @@ class SolrMapper
       provider_identifier_ssim: map_provider_identifiers(metadata['identifiers'], metadata['provider'])
     }.merge(map_titles(metadata['titles']))
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 
