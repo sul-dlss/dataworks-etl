@@ -20,9 +20,10 @@ class SolrMapper
       dataset_record_set_id_ss: dataset_record_set_id,
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
-      provider_identifier_ssim: metadata['identifiers'].pluck('identifier'),
-      creators_struct_ss: metadata['creators'].to_json
+      creators_struct_ss: metadata['creators'].to_json,
+      descriptions_tsim: retrieve_descriptions(metadata['descriptions']),
     }.merge(map_titles(metadata['titles']))
+      .merge(map_identifiers(metadata['identifiers'], metadata['provider']))
   end
 
   private
@@ -70,5 +71,36 @@ class SolrMapper
     mapped_titles[:translate_title_tsim] = translated_titles unless translated_titles.empty?
     mapped_titles[:other_title_tsim] = other_titles unless other_titles.empty?
     mapped_titles
+  end
+
+  def map_identifiers(identifiers_metadata, provider)
+    { provider_identifier_ssim: map_provider_identifiers(identifiers_metadata, provider) }
+      .merge(map_dois(identifiers_metadata))
+  end
+
+  def map_provider_identifiers(identifiers_metadata, provider)
+    matching_provider_ids(identifiers_metadata, provider).pluck('identifier')
+  end
+
+  def matching_provider_ids(identifiers_metadata, provider)
+    identifiers_metadata.select { |id_info| id_info['identifier_type'] == provider_ref(provider) }
+  end
+
+  def provider_ref(provider)
+    "#{provider}Reference"
+  end
+
+  def map_dois(identifiers_metadata)
+    dois = identifiers_metadata.select { |id_info| id_info['identifier_type'] == 'DOI' }.pluck('identifier')
+    return {} if dois.empty?
+
+    { doi_ssi: dois }
+  end
+
+  def retrieve_descriptions(descriptions_metadata)
+    descriptions_metadata.select do |description_info|
+      !description_info.key?('description_type') ||
+        (description_info.key?('description_type') && description_info['description_type'] == 'Abstract')
+    end.pluck('description')
   end
 end

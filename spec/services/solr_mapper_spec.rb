@@ -129,7 +129,7 @@ RSpec.describe SolrMapper do
       variables: ['variable 1', 'variable 2'],
       data_use_statement: 'My data use statement',
       access: 'Restricted',
-      provider: 'Zenodo'
+      provider: 'Redivis'
     }
   end
 
@@ -146,8 +146,10 @@ RSpec.describe SolrMapper do
           translate_title_tsim: ['My translated title'],
           other_title_tsim: ['My other title'],
           access_ssi: 'Restricted',
-          provider_ssi: 'Zenodo',
-          provider_identifier_ssim: ['stanfordphs.prime_india:016c:v0_1', '10.1234/5678'],
+          provider_ssi: 'Redivis',
+          provider_identifier_ssim: ['stanfordphs.prime_india:016c:v0_1'],
+          doi_ssi: ['10.1234/5678'],
+          descriptions_tsim: ['My description', 'My abstract'],
           creators_struct_ss: '[{"name":"A. Researcher"},{"name":"B. Researcher","name_type":"Personal","given_name":"B.","family_name":"Researcher","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}]},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}]}]'
         }
       )
