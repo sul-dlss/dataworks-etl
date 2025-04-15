@@ -22,3 +22,6 @@ production:
   local_etl:
     class: LocalEtlJob
     schedule: every week
+  dryad_etl:
+    class: DryadEtlJob
+    schedule: every week
