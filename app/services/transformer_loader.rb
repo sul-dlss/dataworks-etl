@@ -25,6 +25,7 @@ class TransformerLoader
 
   attr_reader :dataset_record_set, :fail_fast
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def mapper
     @mapper ||= case dataset_record_set.provider
                 when 'redivis'
@@ -33,6 +34,8 @@ class TransformerLoader
                   DataworksMappers::Datacite
                 when 'dryad'
                   DataworksMappers::Dryad
+                when 'searchworks'
+                  DataworksMappers::Searchworks
                 when 'zenodo'
                   DataworksMappers::Zenodo
                 when 'local'
@@ -41,6 +44,7 @@ class TransformerLoader
                   raise "Unsupported provider: #{dataset_record_set.provider}"
                 end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def solr
     @solr ||= SolrService.new

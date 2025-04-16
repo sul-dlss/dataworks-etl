@@ -101,6 +101,7 @@ properties:
       - Local
       - Redivis
       - Zenodo
+      - SearchWorks
 required:
   - titles
   - publication_year
