@@ -23,7 +23,7 @@ class SolrMapper
       provider_ssi: metadata['provider'],
       creators_struct_ss: metadata['creators'].to_json,
       descriptions_tsim: retrieve_descriptions(metadata['descriptions'] || []),
-      doi_ssi: retrieve_dois(metadata['identifiers']),
+      doi_ssi: retrieve_doi(metadata['identifiers']) || '',
       provider_identifier_ssim: map_provider_identifiers(metadata['identifiers'], metadata['provider'])
     }.merge(map_titles(metadata['titles']))
   end
@@ -35,7 +35,7 @@ class SolrMapper
 
   # Given titles from metadata, return field value based on title type
   def title_fields(title_type, titles)
-    titles.select { |title_obj| title_obj.key?('title_type') && title_obj['title_type'] == title_type }.pluck('title')
+    titles.select { |title_obj| title_obj['title_type'] == title_type }.pluck('title')
   end
 
   def map_titles(titles_metadata)
@@ -45,35 +45,25 @@ class SolrMapper
     translated_titles =  title_fields('TranslatedTitle', titles_metadata)
     other_titles = title_fields('Other', titles_metadata)
 
-    titles = assign_titles(titles, subtitles, alternative_titles, translated_titles, other_titles)
+    # The schema requires that a title of any type be present
+    # The Solr mapping requires a dedicated title field, so this ensures
+    # the main title field is populated
+    titles = titles.presence || subtitles.presence || alternative_titles.presence ||
+             translated_titles.presence || other_titles.presence
 
     map_typed_title_fields(titles, subtitles, alternative_titles, translated_titles, other_titles)
   end
 
-  def assign_titles(titles, subtitles, alternative_titles, translated_titles, other_titles)
-    # One of the title elements is required, but we will use one of the other titles when present
-    return titles unless titles.empty?
-
-    if !alternative_titles.empty?
-      alternative_titles
-    elsif !subtitles.empty?
-      subtitles
-    elsif !other_titles.empty?
-      other_titles
-    else
-      translated_titles
-    end
-  end
-
   def map_typed_title_fields(titles, subtitles, alternative_titles, translated_titles, other_titles)
-    mapped_titles = {
-      title_tsim: titles
-    }
-    mapped_titles[:subtitle_tsim] = subtitles unless subtitles.empty?
-    mapped_titles[:alternative_title_tsim] = alternative_titles unless alternative_titles.empty?
-    mapped_titles[:translate_title_tsim] = translated_titles unless translated_titles.empty?
-    mapped_titles[:other_title_tsim] = other_titles unless other_titles.empty?
-    mapped_titles
+    # If one of these fields is an empty array, Solr is setup to not add that field
+    # so we don't have to check if any of the title arrays or empty or not
+    {}.tap do |mapped_titles|
+      mapped_titles[:title_tsim] = titles
+      mapped_titles[:subtitle_tsim] = subtitles
+      mapped_titles[:alternative_title_tsim] = alternative_titles
+      mapped_titles[:translate_title_tsim] = translated_titles
+      mapped_titles[:other_title_tsim] = other_titles
+    end
   end
 
   def map_provider_identifiers(identifiers_metadata, provider)
@@ -85,12 +75,17 @@ class SolrMapper
   end
 
   def provider_ref(provider)
-    return 'DOI' if provider == 'DataCite'
-
-    "#{provider}Reference"
+    case provider
+    when 'DataCite'
+      'DOI'
+    when 'Zenodo'
+      'ZenodoId'
+    else
+      "#{provider}Reference"
+    end
   end
 
-  def retrieve_dois(identifiers_metadata)
+  def retrieve_doi(identifiers_metadata)
     identifiers_metadata.select { |id_info| id_info['identifier_type'] == 'DOI' }.pluck('identifier')[0]
   end
 

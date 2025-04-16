@@ -1,0 +1,8 @@
+{
+  "access": "Public", 
+  "titles": [{ "title": "My title" }],
+  "creators": [{ "name": "A. Researcher" }],
+  "provider": "Zenodo",
+  "identifiers": [{ "identifier": "10.1234/5678", "identifier_type": "ZenodoId" }] 
+}
+
