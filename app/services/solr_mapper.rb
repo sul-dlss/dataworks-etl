@@ -91,7 +91,7 @@ class SolrMapper
   end
 
   def retrieve_dois(identifiers_metadata)
-    identifiers_metadata.select { |id_info| id_info['identifier_type'] == 'DOI' }.pluck('identifier')
+    identifiers_metadata.select { |id_info| id_info['identifier_type'] == 'DOI' }.pluck('identifier')[0]
   end
 
   def retrieve_descriptions(descriptions_metadata)
