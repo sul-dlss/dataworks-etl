@@ -91,8 +91,8 @@ class SolrMapper
 
   def retrieve_descriptions(descriptions_metadata)
     descriptions_metadata.select do |description_info|
-      !description_info.key?('description_type') ||
-        (description_info.key?('description_type') && description_info['description_type'] == 'Abstract')
+      description_type = description_info['description_type']
+      description_type.blank? || description_type == 'Abstract'
     end.pluck('description')
   end
 end

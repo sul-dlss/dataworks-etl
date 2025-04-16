@@ -1,0 +1,37 @@
+{
+  "access": "Public",
+  "titles": [
+    {
+      "title": "My title"
+    }
+  ],
+  "creators": [
+    {
+      "name": "A. Researcher"
+    }
+  ],
+  "provider": "Zenodo",
+  "descriptions": [
+    {
+      "description": "My description"
+    },
+    {
+      "description": "My abstract",
+      "description_type": "Abstract"
+    },
+    {
+      "description": "My methods",
+      "description_type": "Methods"
+    },
+    {
+      "description": "Other",
+      "description_type": "Other"
+    }
+  ],
+  "identifiers": [
+    {
+      "identifier": "10.1234/5678",
+      "identifier_type": "ZenodoId"
+    }
+  ]
+}
