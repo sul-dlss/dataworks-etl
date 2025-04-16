@@ -9,9 +9,18 @@
 #     priority: 2
 #     schedule: at 5am every day
 production:
+  # Don't forget to create HB checkins for ETL jobs.
   redivis_stanfordphs_etl:
     class: RedivisEtlJob
     args: [ { organization: 'StanfordPHS' } ]
+    schedule: every week
+  redivis_sul_etl:
+    class: RedivisEtlJob
+    args: [ { organization: 'SUL' } ]
+    schedule: every week
+  redivis_sdss_etl:
+    class: RedivisEtlJob
+    args: [ { organization: 'SDSS' } ]
     schedule: every week
   datacite_etl:
     class: DataciteEtlJob
