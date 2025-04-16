@@ -16,5 +16,7 @@ honeybadger:
   datacite_etl_job_checkin: ~
   zenodo_etl_job_checkin: ~
   redivis_etl_job_stanfordphs_checkin: ~
+  redivis_etl_job_sul_checkin: ~
+  redivis_etl_job_sdss_checkin: ~
   local_etl_job_checkin: ~
   dryad_etl_job_checkin: ~
