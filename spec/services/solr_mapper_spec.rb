@@ -121,8 +121,6 @@ RSpec.describe SolrMapper do
     end
 
     it 'maps correctly for description text that is longer than allowable Solr field length' do
-      puts metadata['descriptions'][0]['description'].length
-
       expect(solr_mapper.call).to eq(solr_mapped)
     end
   end
