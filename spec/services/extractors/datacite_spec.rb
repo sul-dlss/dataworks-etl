@@ -4,7 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Extractors::Datacite do
   context 'when successful' do
-    subject(:dataset_record_set) { described_class.call(extra_dataset_ids: ['10.17632/7pxgdp7cn6']) }
+    subject(:dataset_record_set) do
+      described_class.call(affiliation: 'Stanford University', extra_dataset_ids: ['10.17632/7pxgdp7cn6'])
+    end
 
     let(:client) { instance_double(Clients::Datacite, list: results) }
     let(:results) do
@@ -47,7 +49,7 @@ RSpec.describe Extractors::Datacite do
         .to change(DatasetRecordSet, :count).by(1)
         .and change(DatasetRecord, :count).by(2)
       expect(Clients::Datacite).to have_received(:new)
-      expect(client).to have_received(:list).with(affiliation: 'Stanford University')
+      expect(client).to have_received(:list).with(affiliation: 'Stanford University', client_id: nil)
       expect(client).to have_received(:dataset).with(id: '10.17632/8pxgdp7cn7')
       expect(client).not_to have_received(:dataset).with(id: '10.17632/9pxgdp7cn9')
 

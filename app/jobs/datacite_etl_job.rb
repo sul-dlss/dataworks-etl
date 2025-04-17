@@ -4,8 +4,8 @@
 class DataciteEtlJob < EtlJob
   include Checkinable
 
-  def perform
-    dataset_record_set = Extractors::Datacite.call
+  def perform(affiliation: nil, client_id: nil)
+    dataset_record_set = Extractors::Datacite.call(affiliation:, client_id:)
     dataset_record_set.update!(job_id: @job_id) if @job_id
 
     Rails.logger.info "DataciteEtlJob complete: DatasetRecordSet #{dataset_record_set.id} - " \

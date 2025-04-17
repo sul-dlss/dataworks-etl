@@ -3,17 +3,27 @@
 module Clients
   # Client for interacting with the Datacite API
   class Datacite < Clients::Base
-    # @param affiliation [String] the affiliation to search for
+    # @param affiliation [String] the affiliation to search for (optional)
+    # @param page_size [Integer] the number of results to return per page (optional, default: 1000)
+    # @param client_id [String] the client ID to use for the request (optional)
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(affiliation:, page_size: 1000, client_id: nil)
-      results, cursor = list_page(affiliation:, page_size:, client_id:)
+    def list(affiliation: nil, page_size: 1000, client_id: nil)
+      raise Clients::Error, 'client_id cannot be used with affiliation' if affiliation && client_id
+      raise Clients::Error, 'affiliation or client_id required' unless affiliation || client_id
+
+      @affiliation = affiliation
+      @client_id = client_id
+
+      results, cursor = list_page(page_size:)
       while cursor
-        next_results, cursor = list_page(affiliation:, page_size:, cursor:, client_id:)
+        next_results, cursor = list_page(page_size:, cursor:)
         results.concat(next_results)
       end
       results
     end
+
+    attr_reader :affiliation, :client_id
 
     # @param id [String] the DOI of the dataset
     def dataset(id:)
@@ -33,9 +43,9 @@ module Clients
       end
     end
 
-    def list_page(affiliation:, page_size:, client_id:, cursor: 1)
+    def list_page(page_size:, cursor: 1)
       response_json = get_json(path: '/dois',
-                               params: params(affiliation:, page_size:, cursor:, client_id:))
+                               params: params(page_size:, cursor:))
       results = response_json['data'].map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['id'],
@@ -47,7 +57,7 @@ module Clients
       [results, cursor]
     end
 
-    def params(affiliation:, page_size:, cursor:, client_id: nil)
+    def params(page_size:, cursor:)
       {
         'page[size]': page_size,
         'page[cursor]': cursor,
