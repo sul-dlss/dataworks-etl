@@ -5,21 +5,118 @@ require 'rails_helper'
 RSpec.describe SolrMapper do
   subject(:solr_mapper) { described_class.new(metadata:, dataset_record_id: 123, dataset_record_set_id: 456) }
 
-  let(:metadata) do
-    {
-      titles: [{ title: 'PRIME India' }]
-    }
+  context 'with full metadata record' do
+    let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/full_metadata_mapped.json')) }
+
+    # rubocop:disable Layout/LineLength
+    describe '#call' do
+      it 'maps to Solr metadata' do
+        expect(solr_mapper.call).to eq(
+          {
+            id: 123,
+            dataset_record_set_id_ss: 456,
+            title_tsim: ['My title'],
+            subtitle_tsim: ['My subtitle'],
+            alternative_title_tsim: ['My alt title'],
+            translate_title_tsim: ['My translated title'],
+            other_title_tsim: ['My other title'],
+            access_ssi: 'Restricted',
+            provider_ssi: 'Redivis',
+            provider_identifier_ssi: 'stanfordphs.prime_india:016c:v0_1',
+            doi_ssi: '10.1234/5678',
+            descriptions_tsim: ['My description', 'My abstract'],
+            creators_struct_ss: '[{"name":"A. Researcher"},{"name":"B. Researcher","name_type":"Personal","given_name":"B.","family_name":"Researcher","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}]},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}]}]'
+          }
+        )
+      end
+    end
+    # rubocop:enable Layout/LineLength
   end
 
-  describe '#call' do
-    it 'maps to Solr metadata' do
-      expect(solr_mapper.call).to eq(
+  describe '#provider_identifier_field' do
+    context 'with DataCite as provider' do
+      let(:metadata) do
         {
-          id: 123,
-          dataset_record_set_id: 456,
-          title: 'PRIME India'
+          provider: 'DataCite',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }]
         }
-      )
+      end
+
+      it 'retrieves DOI for DataCite' do
+        expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
+      end
+    end
+
+    context 'with Zenodo as provider' do
+      let(:metadata) do
+        {
+          provider: 'Zenodo',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'ZenodoId' }]
+        }
+      end
+
+      it 'retrieves the Zenodo identifier' do
+        expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
+      end
+    end
+  end
+
+  describe '#descriptions_field' do
+    context 'with descriptions of multiple types' do
+      let(:metadata) do
+        {
+          descriptions: [
+            {
+              description: 'My description'
+            },
+            {
+              description: 'My abstract',
+              description_type: 'Abstract'
+            },
+            {
+              description: 'My methods',
+              description_type: 'Methods'
+            },
+            {
+              description: 'Other',
+              description_type: 'Other'
+            }
+          ]
+        }
+      end
+
+      it 'retrieves descriptions of type abstract or without a type' do
+        expect(solr_mapper.descriptions_field).to eq(['My description', 'My abstract'])
+      end
+    end
+
+    context 'with description with length greater than accepted by Solr' do
+      let(:metadata) do
+        {
+          descriptions: [
+            {
+              description: SecureRandom.alphanumeric(40_000)
+            }
+          ]
+        }
+      end
+
+      it 'truncates the description string length correctly' do
+        expect(solr_mapper.descriptions_field[0].length).to eq(32_766)
+      end
+    end
+  end
+
+  describe '#doi_field' do
+    let(:metadata) do
+      {
+        identifiers: [{ identifier: 'redivis:id', identifier_type: 'Redivis' },
+                      { identifier: '10.1234/5678', identifier_type: 'DOI' }]
+      }
+    end
+
+    it 'retrieves the DOI field' do
+      expect(solr_mapper.doi_field).to eq('10.1234/5678')
     end
   end
 end

@@ -162,6 +162,26 @@ RSpec.describe DataworksValidator do
     it 'returns no errors' do
       expect(validator.errors).to be_empty
     end
+
+    context 'when only a title element with specific type is found' do
+      let(:metadata) do
+        {
+          creators: [
+            { name: 'A. Researcher' }
+          ],
+          titles: [{ title: 'My title', title_type: 'Subtitle' }],
+          publication_year: '2023',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+          url: 'https://example.com/my-dataset',
+          access: 'Public',
+          provider: 'DataCite'
+        }
+      end
+
+      it 'returns true for valid?' do
+        expect(validator.valid?).to be true
+      end
+    end
   end
 
   context 'when metadata is invalid' do
