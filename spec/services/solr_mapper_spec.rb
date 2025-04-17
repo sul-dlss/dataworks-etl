@@ -75,7 +75,7 @@ RSpec.describe SolrMapper do
     end
   end
 
-  context 'with multiple description types' do
+  context 'with different description types' do
     let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/multiple_descriptions_mapped.json')) }
     let(:solr_mapped) do
       {
@@ -96,6 +96,33 @@ RSpec.describe SolrMapper do
     end
 
     it 'maps correctly for multiple descriptions of different types' do
+      expect(solr_mapper.call).to eq(solr_mapped)
+    end
+  end
+
+  context 'with very long description text' do
+    let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/longtext_mapped.json')) }
+    let(:solr_mapped) do
+      {
+        id: 123,
+        dataset_record_set_id_ss: 456,
+        access_ssi: 'Public',
+        provider_ssi: 'Zenodo',
+        title_tsim: ['My title'],
+        subtitle_tsim: [],
+        alternative_title_tsim: [],
+        translate_title_tsim: [],
+        other_title_tsim: [],
+        descriptions_tsim: [metadata['descriptions'][0]['description'].truncate(32_766)],
+        creators_struct_ss: '[{"name":"A. Researcher"}]',
+        provider_identifier_ssim: ['10.1234/5678'],
+        doi_ssi: ''
+      }
+    end
+
+    it 'maps correctly for description text that is longer than allowable Solr field length' do
+      puts metadata['descriptions'][0]['description'].length
+
       expect(solr_mapper.call).to eq(solr_mapped)
     end
   end

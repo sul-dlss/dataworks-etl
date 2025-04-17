@@ -89,10 +89,10 @@ class SolrMapper
     identifiers_metadata.select { |id_info| id_info['identifier_type'] == 'DOI' }.pluck('identifier')[0]
   end
 
+  # By default, Solr will throw errors for text fields that are longer than 32,766 characters
   def retrieve_descriptions(descriptions_metadata)
-    descriptions_metadata.select do |description_info|
-      description_type = description_info['description_type']
-      description_type.blank? || description_type == 'Abstract'
-    end.pluck('description')
+    descriptions_metadata.filter_map do |d|
+      d['description'].truncate(32_766) if d['description_type'].blank? || d['description_type'] == 'Abstract'
+    end
   end
 end
