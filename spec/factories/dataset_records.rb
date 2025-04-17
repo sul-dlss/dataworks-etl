@@ -15,7 +15,8 @@ FactoryBot.define do
         doi:,
         createdAt: 1_574_457_099_929, # Milliseconds since epoch
         url: "https://example.com/#{doi}",
-        description: 'This is an abstract for the example dataset.'
+        description: 'This is an abstract for the example dataset.',
+        qualifiedReference: 'stanfordphs.prime_india:016c:v0_1'
       }
     end
     created_at { Time.current }
