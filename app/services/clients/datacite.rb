@@ -6,10 +6,10 @@ module Clients
     # @param affiliation [String] the affiliation to search for
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(affiliation:, page_size: 1000)
-      results, cursor = list_page(affiliation:, page_size:)
+    def list(affiliation:, page_size: 1000, client_id: nil)
+      results, cursor = list_page(affiliation:, page_size:, client_id:)
       while cursor
-        next_results, cursor = list_page(affiliation:, page_size:, cursor:)
+        next_results, cursor = list_page(affiliation:, page_size:, cursor:, client_id:)
         results.concat(next_results)
       end
       results
@@ -33,9 +33,9 @@ module Clients
       end
     end
 
-    def list_page(affiliation:, page_size:, cursor: 1)
+    def list_page(affiliation:, page_size:, client_id:, cursor: 1)
       response_json = get_json(path: '/dois',
-                               params: params(affiliation:, page_size:, cursor:))
+                               params: params(affiliation:, page_size:, cursor:, client_id:))
       results = response_json['data'].map do |dataset_json|
         Clients::ListResult.new(
           id: dataset_json['id'],
@@ -47,13 +47,18 @@ module Clients
       [results, cursor]
     end
 
-    def params(affiliation:, page_size:, cursor:)
+    def params(affiliation:, page_size:, cursor:, client_id: nil)
       {
         'page[size]': page_size,
         'page[cursor]': cursor,
-        'resource-type-id': 'dataset',
-        query: "creators.affiliation.name:\"#{affiliation}\""
-      }
+        'resource-type-id': 'dataset'
+      }.tap do |params|
+        if client_id
+          params['client-id'] = client_id
+        else
+          params['query'] = "creators.affiliation.name:\"#{affiliation}\""
+        end
+      end
     end
 
     def cursor(link:)
