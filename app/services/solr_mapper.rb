@@ -53,16 +53,12 @@ class SolrMapper
 
   # Retrieve the identifier used by the provider themselves
   def provider_identifier_field
-    metadata['identifiers'].filter_map do |id_info|
-      id_info['identifier'] if id_info['identifier_type'] == provider_ref(metadata['provider'])
-    end.first
+    metadata['identifiers'].find { |i| i['identifier_type'] == provider_ref(metadata['provider']) } ['identifier']
   end
 
   # Not every dataset will have a DOI provided
   def doi_field
-    metadata['identifiers'].filter_map do |id_info|
-      id_info['identifier'] if id_info['identifier_type'] == 'DOI'
-    end.first || ''
+    metadata['identifiers'].find { |i| i['identifier_type'] == 'DOI' }['identifier'] || ''
   end
 
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
