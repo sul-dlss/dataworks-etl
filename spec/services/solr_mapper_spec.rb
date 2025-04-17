@@ -22,7 +22,7 @@ RSpec.describe SolrMapper do
             other_title_tsim: ['My other title'],
             access_ssi: 'Restricted',
             provider_ssi: 'Redivis',
-            provider_identifier_ssim: ['stanfordphs.prime_india:016c:v0_1'],
+            provider_identifier_ssi: 'stanfordphs.prime_india:016c:v0_1',
             doi_ssi: '10.1234/5678',
             descriptions_tsim: ['My description', 'My abstract'],
             creators_struct_ss: '[{"name":"A. Researcher"},{"name":"B. Researcher","name_type":"Personal","given_name":"B.","family_name":"Researcher","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}]},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}]}]'
@@ -33,95 +33,90 @@ RSpec.describe SolrMapper do
     # rubocop:enable Layout/LineLength
   end
 
-  context 'with provider reference fields that us different formats' do
-    let(:solr_mapped) do
-      {
-        id: 123,
-        dataset_record_set_id_ss: 456,
-        access_ssi: 'Public',
-        provider_ssi: provider,
-        title_tsim: ['My title'],
-        subtitle_tsim: [],
-        alternative_title_tsim: [],
-        translate_title_tsim: [],
-        other_title_tsim: [],
-        descriptions_tsim: [],
-        creators_struct_ss: '[{"name":"A. Researcher"}]',
-        provider_identifier_ssim: provider_identifiers,
-        doi_ssi: doi
-      }
-    end
-
+  describe '#provider_identifier_field' do
     context 'with DataCite as provider' do
-      let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/datacite_mapped.json')) }
-      let(:provider) { 'DataCite' }
-      let(:provider_identifiers) { ['10.1234/5678'] }
-      let(:doi) { '10.1234/5678' }
+      let(:metadata) do
+        {
+          provider: 'DataCite',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }]
+        }
+      end
 
-      it 'maps correctly for DataCite' do
-        expect(solr_mapper.call).to eq(solr_mapped)
+      it 'retrieves DOI for DataCite' do
+        expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
       end
     end
 
     context 'with Zenodo as provider' do
-      let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/zenodo_mapped.json')) }
-      let(:provider) { 'Zenodo' }
-      let(:provider_identifiers) { ['10.1234/5678'] }
-      let(:doi) { '' }
+      let(:metadata) do
+        {
+          provider: 'Zenodo',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'ZenodoId' }]
+        }
+      end
 
-      it 'maps correctly for DataCite' do
-        expect(solr_mapper.call).to eq(solr_mapped)
+      it 'retrieves the Zenodo identifier' do
+        expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
       end
     end
   end
 
-  context 'with different description types' do
-    let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/multiple_descriptions_mapped.json')) }
-    let(:solr_mapped) do
-      {
-        id: 123,
-        dataset_record_set_id_ss: 456,
-        access_ssi: 'Public',
-        provider_ssi: 'Zenodo',
-        title_tsim: ['My title'],
-        subtitle_tsim: [],
-        alternative_title_tsim: [],
-        translate_title_tsim: [],
-        other_title_tsim: [],
-        descriptions_tsim: ['My description', 'My abstract'],
-        creators_struct_ss: '[{"name":"A. Researcher"}]',
-        provider_identifier_ssim: ['10.1234/5678'],
-        doi_ssi: ''
-      }
+  describe '#descriptions_field' do
+    context 'with descriptions of multiple types' do
+      let(:metadata) do
+        {
+          descriptions: [
+            {
+              description: 'My description'
+            },
+            {
+              description: 'My abstract',
+              description_type: 'Abstract'
+            },
+            {
+              description: 'My methods',
+              description_type: 'Methods'
+            },
+            {
+              description: 'Other',
+              description_type: 'Other'
+            }
+          ]
+        }
+      end
+
+      it 'retrieves descriptions of type abstract or without a type' do
+        expect(solr_mapper.descriptions_field).to eq(['My description', 'My abstract'])
+      end
     end
 
-    it 'maps correctly for multiple descriptions of different types' do
-      expect(solr_mapper.call).to eq(solr_mapped)
+    context 'with description with length greater than accepted by Solr' do
+      let(:metadata) do
+        {
+          descriptions: [
+            {
+              description: SecureRandom.alphanumeric(40_000)
+            }
+          ]
+        }
+      end
+
+      it 'truncates the description string length correctly' do
+        expect(solr_mapper.descriptions_field[0].length).to eq(32_766)
+      end
     end
   end
 
-  context 'with very long description text' do
-    let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/longtext_mapped.json')) }
-    let(:solr_mapped) do
+  describe '#doi_field' do
+    let(:metadata) do
       {
-        id: 123,
-        dataset_record_set_id_ss: 456,
-        access_ssi: 'Public',
-        provider_ssi: 'Zenodo',
-        title_tsim: ['My title'],
-        subtitle_tsim: [],
-        alternative_title_tsim: [],
-        translate_title_tsim: [],
-        other_title_tsim: [],
-        descriptions_tsim: [metadata['descriptions'][0]['description'].truncate(32_766)],
-        creators_struct_ss: '[{"name":"A. Researcher"}]',
-        provider_identifier_ssim: ['10.1234/5678'],
-        doi_ssi: ''
+        identifiers: [{ identifier: 'redivis:id', identifier_type: 'Redivis' },
+                      { identifier: '10.1234/5678', identifier_type: 'DOI' }]
       }
     end
 
-    it 'maps correctly for description text that is longer than allowable Solr field length' do
-      expect(solr_mapper.call).to eq(solr_mapped)
+    it 'retrieves the DOI field' do
+      expect(solr_mapper.doi_field).to eq('10.1234/5678')
     end
   end
 end
