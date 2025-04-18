@@ -5,6 +5,7 @@ class DataciteEtlJob < EtlJob
   include Checkinable
 
   def perform(affiliation: nil, client_id: nil)
+    @organization = affiliation || client_id
     dataset_record_set = Extractors::Datacite.call(affiliation:, client_id:)
     dataset_record_set.update!(job_id: @job_id) if @job_id
 
@@ -13,5 +14,17 @@ class DataciteEtlJob < EtlJob
                       "#{dataset_record_set.dataset_records.count} datasets"
 
     TransformerLoader.call(dataset_record_set:)
+  end
+
+  def checkin_key
+    "#{self.class.name.underscore}_#{organization}_checkin"
+  end
+
+  private
+
+  def organization
+    return unless @organization
+
+    @organization.gsub(/[.\s]/, '_').downcase
   end
 end

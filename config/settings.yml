@@ -13,7 +13,8 @@ zenodo:
   api_token: ~
 
 honeybadger:
-  datacite_etl_job_checkin: ~
+  datacite_etl_job_stanford_university_checkin: ~
+  datacite_etl_job_sul_openneuro_checkin: ~
   zenodo_etl_job_checkin: ~
   redivis_etl_job_stanfordphs_checkin: ~
   redivis_etl_job_sul_checkin: ~
