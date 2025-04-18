@@ -26,9 +26,9 @@ RSpec.describe SolrMapper do
             doi_ssi: '10.1234/5678',
             descriptions_tsim: ['My description', 'My abstract'],
             creators_struct_ss: '[{"name":"A. Researcher"},{"name":"B. Researcher","name_type":"Personal","given_name":"B.","family_name":"Researcher","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}]},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}]}]',
-            creators_tsim: ['A. Researcher', 'B. Researcher', 'A. Organization', 'B. Organization'],
+            creators_ssim: ['A. Researcher', 'B. Researcher', 'A. Organization', 'B. Organization'],
             creators_ids_sim: ['https://orcid.org/0000-0001-2345-6789', 'https://ror.org/00f54p054'],
-            funders_tsim: ['My funder', 'My other funder'],
+            funders_ssim: ['My funder', 'My other funder'],
             funders_ids_sim: ['https://ror.org/00f54p054'],
             url_ss: 'https://example.com/my-dataset'
           }
@@ -65,7 +65,7 @@ RSpec.describe SolrMapper do
             provider_identifier_ssi: '10.1234/5678',
             doi_ssi: '10.1234/5678',
             creators_struct_ss: '[{"name":"A. Researcher"}]',
-            creators_tsim: ['A. Researcher'],
+            creators_ssim: ['A. Researcher'],
             url_ss: 'https://example.com/my-dataset'
           }
         )
