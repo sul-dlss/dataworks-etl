@@ -14,6 +14,7 @@ class SolrMapper
   end
 
   # @return [Hash] the Solr document
+  # rubocop:disable Metrics/AbcSize
   def call
     {
       id: dataset_record_id,
@@ -31,6 +32,7 @@ class SolrMapper
       url_ss: metadata['url']
     }.merge(title_fields).compact_blank
   end
+  # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/AbcSize
   def title_fields
