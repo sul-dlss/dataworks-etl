@@ -14,6 +14,7 @@ class SolrMapper
   end
 
   # @return [Hash] the Solr document
+  # rubocop:disable Metrics/AbcSize
   def call
     {
       id: dataset_record_id,
@@ -23,9 +24,15 @@ class SolrMapper
       creators_struct_ss: metadata['creators'].to_json,
       descriptions_tsim: descriptions_field,
       doi_ssi: doi_field,
-      provider_identifier_ssi: provider_identifier_field
+      provider_identifier_ssi: provider_identifier_field,
+      creators_tsim: metadata['creators'].pluck('name'),
+      creators_ids_sim: creators_ids_field,
+      funders_tsim: funders_field,
+      funders_ids_sim: funders_ids_field,
+      url_ss: metadata['url']
     }.merge(title_fields).compact_blank
   end
+  # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/AbcSize
   def title_fields
@@ -68,6 +75,20 @@ class SolrMapper
     end || []
   end
 
+  def creators_ids_field
+    metadata['creators'].map do |c|
+      c['name_identifiers']&.pluck('name_identifier')
+    end.flatten.compact
+  end
+
+  def funders_field
+    metadata['funding_references']&.pluck('funder_name')&.compact || []
+  end
+
+  def funders_ids_field
+    metadata['funding_references']&.pluck('funder_identifier')&.compact || []
+  end
+
   private
 
   attr_reader :metadata, :dataset_record_id, :dataset_record_set_id
@@ -80,7 +101,7 @@ class SolrMapper
   # Get the identifier type associated with a particular provider
   def provider_ref(provider)
     case provider
-    when 'DataCite'
+    when 'DataCite', 'Dryad'
       'DOI'
     when 'Zenodo'
       'ZenodoId'
