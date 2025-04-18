@@ -101,7 +101,7 @@ class SolrMapper
   # Get the identifier type associated with a particular provider
   def provider_ref(provider)
     case provider
-    when 'DataCite'
+    when 'DataCite', 'Dryad'
       'DOI'
     when 'Zenodo'
       'ZenodoId'

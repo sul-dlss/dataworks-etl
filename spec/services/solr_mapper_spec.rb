@@ -52,6 +52,19 @@ RSpec.describe SolrMapper do
       end
     end
 
+    context 'with Dryad as provider' do
+      let(:metadata) do
+        {
+          provider: 'Dryad',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }]
+        }
+      end
+
+      it 'retrieves DOI for Dryad' do
+        expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
+      end
+    end
+
     context 'with Zenodo as provider' do
       let(:metadata) do
         {
