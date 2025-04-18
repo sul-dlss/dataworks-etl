@@ -38,6 +38,41 @@ RSpec.describe SolrMapper do
     # rubocop:enable Layout/LineLength
   end
 
+  context 'with minimal metadata record' do
+    let(:metadata) do
+      {
+        creators: [
+          { name: 'A. Researcher' }
+        ],
+        titles: [{ title: 'My title' }],
+        publication_year: '2023',
+        identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+        url: 'https://example.com/my-dataset',
+        access: 'Public',
+        provider: 'DataCite'
+      }
+    end
+
+    describe '#call' do
+      it 'maps to Solr metadata' do
+        expect(solr_mapper.call).to eq(
+          {
+            id: 123,
+            dataset_record_set_id_ss: 456,
+            title_tsim: ['My title'],
+            access_ssi: 'Public',
+            provider_ssi: 'DataCite',
+            provider_identifier_ssi: '10.1234/5678',
+            doi_ssi: '10.1234/5678',
+            creators_struct_ss: '[{"name":"A. Researcher"}]',
+            creators_tsim: ['A. Researcher'],
+            url_ss: 'https://example.com/my-dataset'
+          }
+        )
+      end
+    end
+  end
+
   describe '#provider_identifier_field' do
     context 'with DataCite as provider' do
       let(:metadata) do
