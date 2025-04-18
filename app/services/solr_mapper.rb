@@ -25,9 +25,9 @@ class SolrMapper
       descriptions_tsim: descriptions_field,
       doi_ssi: doi_field,
       provider_identifier_ssi: provider_identifier_field,
-      creators_tsim: metadata['creators'].pluck('name'),
+      creators_ssim: metadata['creators'].pluck('name'),
       creators_ids_sim: creators_ids_field,
-      funders_tsim: funders_field,
+      funders_ssim: funders_field,
       funders_ids_sim: funders_ids_field,
       url_ss: metadata['url']
     }.merge(title_fields).compact_blank
