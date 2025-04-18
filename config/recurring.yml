@@ -24,6 +24,11 @@ production:
     schedule: every week
   datacite_etl:
     class: DataciteEtlJob
+    args: [ { affiliation: 'Stanford University' } ]
+    schedule: every week
+  open_neuro_etl:
+    class: DataciteEtlJob
+    args: [ { client_id: 'sul.openneuro' } ]
     schedule: every week
   zenodo_etl:
     class: ZenodoEtlJob
