@@ -44,7 +44,7 @@ module DataworksMappers
     def doi_url
       return unless urls&.any?
 
-      urls.find { |u| u.start_with?(%r{https?://doi.org}) }
+      urls.find { |u| u.include? 'doi.org' }
     end
 
     def urls
