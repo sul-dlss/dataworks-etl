@@ -30,7 +30,8 @@ class SolrMapper
       contributors_ids_ssim: person_or_organization_ids_field('contributors'),
       funders_ssim: funders_field,
       funders_ids_sim: funders_ids_field,
-      url_ss: metadata['url']
+      url_ss: metadata['url'],
+      related_ids_sim: related_identifiers_field
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize
@@ -120,5 +121,9 @@ class SolrMapper
        related_identifiers].filter_map do |field|
       [:"#{field}_struct_ss", metadata[field]&.to_json]
     end.to_h
+  end
+
+  def related_identifiers_field
+    metadata['related_identifiers']&.pluck('related_identifier')
   end
 end
