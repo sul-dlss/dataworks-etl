@@ -46,6 +46,8 @@ class TransformerLoader
   end
 
   def solr_doc_for(dataset_record:)
+    Honeybadger.context(dataset_record_id: dataset_record.id, provider: dataset_record.provider,
+                        dataset_id: dataset_record.dataset_id)
     metadata = datacite_mapper.call(source: dataset_record.source)
     SolrMapper.call(
       metadata:,
