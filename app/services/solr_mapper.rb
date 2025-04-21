@@ -21,7 +21,6 @@ class SolrMapper
       dataset_record_set_id_ss: dataset_record_set_id,
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
-      creators_struct_ss: (metadata['creators'].to_json if metadata['creators'].present?),
       descriptions_tsim: descriptions_field,
       doi_ssi: doi_field,
       provider_identifier_ssi: provider_identifier_field,
@@ -32,7 +31,7 @@ class SolrMapper
       funders_ssim: funders_field,
       funders_ids_sim: funders_ids_field,
       url_ss: metadata['url']
-    }.merge(title_fields).compact_blank
+    }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize
 
@@ -114,5 +113,12 @@ class SolrMapper
 
   def person_or_organization_names_field(field)
     metadata[field]&.pluck('name')
+  end
+
+  def struct_fields
+    %w[creators contributors dates rights_list funding_references
+       related_identifiers].filter_map do |field|
+      [:"#{field}_struct_ss", metadata[field]&.to_json]
+    end.to_h
   end
 end
