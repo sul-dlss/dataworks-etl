@@ -14,7 +14,7 @@ module Clients
     # @param page_size [Integer] number of results per page
     # @yield [Hash] dataset
     # @return [integer] total number of results
-    def list(params:, page_size: 100, &)
+    def list(params:, page_size: 1000, &)
       return to_enum(:list, params:, page_size:) unless block_given?
 
       # Get the first page and be done if there aren't any more
