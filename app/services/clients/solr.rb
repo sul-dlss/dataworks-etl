@@ -41,7 +41,7 @@ module Clients
 
     def new_conn
       Faraday.new(
-        url: 'https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod',
+        url: Settings.searchworks.solr_url,
         headers: {
           'Accept' => 'application/json'
         }
