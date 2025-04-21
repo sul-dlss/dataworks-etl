@@ -39,13 +39,12 @@ module Clients
 
     private
 
+    # FlatParamsEncoder is required to send params like 'fl' multiple times; it
+    # is not the default in Faraday but is the default in RSolr
     def new_conn
-      Faraday.new(
-        url: Settings.searchworks.solr_url,
-        headers: {
-          'Accept' => 'application/json'
-        }
-      )
+      Faraday.new(url: Settings.searchworks.solr_url) do |f|
+        f.options.params_encoder = Faraday::FlatParamsEncoder
+      end
     end
 
     def list_page(params:, page_size:, page:)
