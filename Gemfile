@@ -81,4 +81,4 @@ group :deployment do
   gem 'dlss-capistrano', require: false
 end
 
-gem "marc", "~> 1.3"
+gem 'marc', '~> 1.3'
