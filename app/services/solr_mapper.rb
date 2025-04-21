@@ -25,8 +25,10 @@ class SolrMapper
       descriptions_tsim: descriptions_field,
       doi_ssi: doi_field,
       provider_identifier_ssi: provider_identifier_field,
-      creators_ssim: metadata['creators']&.pluck('name'),
-      creators_ids_sim: creators_ids_field,
+      creators_ssim: person_or_organization_names_field('creators'),
+      creators_ids_sim: person_or_organization_ids_field('creators'),
+      contributors_tsim: person_or_organization_names_field('contributors'),
+      contributors_ids_ssim: person_or_organization_ids_field('contributors'),
       funders_ssim: funders_field,
       funders_ids_sim: funders_ids_field,
       url_ss: metadata['url']
@@ -75,8 +77,8 @@ class SolrMapper
     end || []
   end
 
-  def creators_ids_field
-    Array(metadata['creators']).map do |creator|
+  def person_or_organization_ids_field(field)
+    Array(metadata[field]).map do |creator|
       creator['name_identifiers']&.pluck('name_identifier')
     end.flatten.compact
   end
@@ -108,5 +110,9 @@ class SolrMapper
     else
       "#{provider}Reference"
     end
+  end
+
+  def person_or_organization_names_field(field)
+    metadata[field]&.pluck('name')
   end
 end

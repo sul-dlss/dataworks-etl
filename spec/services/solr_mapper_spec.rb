@@ -28,6 +28,8 @@ RSpec.describe SolrMapper do
             creators_struct_ss: '[{"name":"A. Researcher"},{"name":"B. Researcher","name_type":"Personal","given_name":"B.","family_name":"Researcher","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}]},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}]}]',
             creators_ssim: ['A. Researcher', 'B. Researcher', 'A. Organization', 'B. Organization'],
             creators_ids_sim: ['https://orcid.org/0000-0001-2345-6789', 'https://ror.org/00f54p054'],
+            contributors_ids_ssim: ['https://orcid.org/0000-0001-2345-6789', 'https://ror.org/00f54p054'],
+            contributors_tsim: ['A. Contributor', 'B. Contributor', 'A. Organization', 'B. Organization'],
             funders_ssim: ['My funder', 'My other funder'],
             funders_ids_sim: ['https://ror.org/00f54p054'],
             url_ss: 'https://example.com/my-dataset'
@@ -168,7 +170,7 @@ RSpec.describe SolrMapper do
     end
   end
 
-  describe '#creators_ids_field' do
+  describe '#person_or_organization_ids_field' do
     let(:metadata) do
       {
         creators: [
@@ -194,7 +196,7 @@ RSpec.describe SolrMapper do
     end
 
     it 'retrieves name identifiers as list' do
-      expect(solr_mapper.creators_ids_field).to eq(%w[ABC CDE FGH])
+      expect(solr_mapper.person_or_organization_ids_field('creators')).to eq(%w[ABC CDE FGH])
     end
   end
 
