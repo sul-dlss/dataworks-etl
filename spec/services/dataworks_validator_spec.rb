@@ -8,9 +8,6 @@ RSpec.describe DataworksValidator do
   context 'when required metadata is valid' do
     let(:metadata) do
       {
-        creators: [
-          { name: 'A. Researcher' }
-        ],
         titles: [{ title: 'My title' }],
         publication_year: '2023',
         identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
@@ -203,7 +200,7 @@ RSpec.describe DataworksValidator do
           'array size at `/titles` is less than: 1',
           'string at `/publication_year` does not match pattern: ^[1-2][0-9]{3}$',
           'object property at `/another_field` is a disallowed additional property',
-          'object at root is missing required properties: creators, identifiers, url, access, provider'
+          'object at root is missing required properties: identifiers, url, access, provider'
         ]
       )
     end

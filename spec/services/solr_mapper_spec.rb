@@ -41,9 +41,6 @@ RSpec.describe SolrMapper do
   context 'with minimal metadata record' do
     let(:metadata) do
       {
-        creators: [
-          { name: 'A. Researcher' }
-        ],
         titles: [{ title: 'My title' }],
         publication_year: '2023',
         identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
@@ -64,8 +61,6 @@ RSpec.describe SolrMapper do
             provider_ssi: 'DataCite',
             provider_identifier_ssi: '10.1234/5678',
             doi_ssi: '10.1234/5678',
-            creators_struct_ss: '[{"name":"A. Researcher"}]',
-            creators_ssim: ['A. Researcher'],
             url_ss: 'https://example.com/my-dataset'
           }
         )

@@ -103,7 +103,6 @@ properties:
       - Zenodo
 required:
   - titles
-  - creators
   - publication_year
   - identifiers
   - url
