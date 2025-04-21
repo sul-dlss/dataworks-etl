@@ -21,11 +21,11 @@ class SolrMapper
       dataset_record_set_id_ss: dataset_record_set_id,
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
-      creators_struct_ss: metadata['creators'].to_json,
+      creators_struct_ss: (metadata['creators'].to_json if metadata['creators'].present?),
       descriptions_tsim: descriptions_field,
       doi_ssi: doi_field,
       provider_identifier_ssi: provider_identifier_field,
-      creators_ssim: metadata['creators'].pluck('name'),
+      creators_ssim: metadata['creators']&.pluck('name'),
       creators_ids_sim: creators_ids_field,
       funders_ssim: funders_field,
       funders_ids_sim: funders_ids_field,
@@ -76,8 +76,8 @@ class SolrMapper
   end
 
   def creators_ids_field
-    metadata['creators'].map do |c|
-      c['name_identifiers']&.pluck('name_identifier')
+    Array(metadata['creators']).map do |creator|
+      creator['name_identifiers']&.pluck('name_identifier')
     end.flatten.compact
   end
 
