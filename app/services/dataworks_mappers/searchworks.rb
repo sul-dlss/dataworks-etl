@@ -2,6 +2,7 @@
 
 module DataworksMappers
   # Map fields from SearchWorks solr docs to Dataworks metadata
+  # rubocop:disable Metrics/ClassLength
   class Searchworks < Base
     def doi_identifier
       return unless doi_url
@@ -47,7 +48,7 @@ module DataworksMappers
     end
 
     def urls
-      public? ? source['url_fulltext'] : source['url_restricted']
+      restricted? ? source['url_restricted'] : source['url_fulltext']
     end
 
     def url
@@ -70,10 +71,7 @@ module DataworksMappers
 
     def subjects
       source['topic_facet']&.map do |subject|
-        {
-          subject: subject,
-          subject_scheme: 'Library of Congress Subject Headings (LCSH)'
-        }
+        { subject: subject }
       end
     end
 
@@ -112,10 +110,7 @@ module DataworksMappers
     end
 
     def creators
-      # TODO: remove this when schema is updated to not require creators
-      (creator_people + creator_organizations).presence || [
-        { name: 'Inter-university Consortium for Political and Social Research.', name_type: 'Organizational' }
-      ]
+      creator_people + creator_organizations
     end
 
     def contributing_people
@@ -139,7 +134,7 @@ module DataworksMappers
     end
 
     def access
-      public? ? 'Public' : 'Restricted'
+      restricted? ? 'Restricted' : 'Public'
     end
 
     # These dates are guaranteed to be 4-digit integers, unlike pub_date.
@@ -147,8 +142,8 @@ module DataworksMappers
       source['pub_year_tisim'].first.to_s
     end
 
-    def public?
-      !marc_links_struct['stanford_only']
+    def restricted?
+      source['url_restricted'].present?
     end
 
     def marc_record
@@ -156,9 +151,6 @@ module DataworksMappers
 
       @marc_record ||= MARC::Record.new_from_hash(JSON.parse(source['marc_json_struct'][0]))
     end
-
-    def marc_links_struct
-      @marc_links_struct ||= JSON.parse(source.dig('marc_links_struct', 0) || '{}')
-    end
   end
+  # rubocop:enable Metrics/ClassLength
 end

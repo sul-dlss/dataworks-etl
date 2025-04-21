@@ -40,7 +40,6 @@ module Extractors
           summary_display
           topic_facet
           author_struct
-          marc_links_struct
           marc_json_struct
         ].join(',')
       }

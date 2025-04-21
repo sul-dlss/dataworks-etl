@@ -12,29 +12,35 @@ RSpec.describe DataworksMappers::Searchworks do
       # rubocop:disable Layout/LineLength
       expect(metadata).to include(
         identifiers: [
-          { identifier: '13650826', identifier_type: 'searchworks_reference' },
-          { identifier: '10.3886/ICPSR37293.v1', identifier_type: 'DOI' }
-        ],
-        creators: [
-          {
-            name: 'Wing, Heather',
-            name_type: 'Personal',
-            affiliation: [
-              {
-                name: 'Columbus County Schools LEA NC'
-              }
-            ]
-          }
+          { identifier: '13650500', identifier_type: 'searchworks_reference' },
+          { identifier: '10.3886/ICPSR36853.v2', identifier_type: 'DOI' }
         ],
         contributors: [
           {
-            name: 'Wing, Heather',
+            name: 'Prysby, Charles',
             name_type: 'Personal',
             affiliation: [
               {
-                name: 'Columbus County Schools LEA NC'
+                name: 'University of North Carolina-Greensboro'
               }
             ]
+          },
+          {
+            name: 'Scavo, Carmine',
+            name_type: 'Personal',
+            affiliation: [
+              {
+                name: 'East Carolina University-Greenville, North Carolina'
+              }
+            ]
+          },
+          {
+            name: 'American Political Science Association',
+            name_type: 'Organizational'
+          },
+          {
+            name: 'Inter-university Consortium for Political and Social Research',
+            name_type: 'Organizational'
           },
           {
             name: 'Inter-university Consortium for Political and Social Research.',
@@ -43,24 +49,35 @@ RSpec.describe DataworksMappers::Searchworks do
         ],
         titles: [
           {
-            title: 'A Group Randomized Trial of Restorative Justice Programming to Address the School to Prison Pipeline, Reduce Aggression and Violence, and Enhance School Safety in Middle and High School Students, North Carolina, 2014-2018 [electronic resource]'
+            title: 'SETUPS [electronic resource] Voting Behavior: The 2016 Election'
           }
         ],
-        publication_year: '2020',
+        publication_year: '2017',
         access: 'Restricted',
         descriptions: [
           {
-            description: "The project's overarching goals are to improve the knowledge and understanding of school safety and violence, and to enhance school safety programs through rigorous social and behavioral science research. This research project will meet these goals by implementing and evaluating a restorative justice school safety initiative that: 1) reduces bullying perpetration and victimization, aggression, and violence, 2) enhances school safety and mental health in middle and high school students, and 3) reduces the school to prison pipeline by diverting first offenders from the juvenile justice system into Teen Courts. In meeting this objective, we will implement and evaluate an innovative school safety initiative that includes a comprehensive school-based needs assessments using the School Success Profile-Plus (SSP+) student reporting system. In addition, Teen Courts will be implemented in schools to emphasize restorative justice, keep first time offenders out of the juvenile justice system, and reduce the school to prison pipeline. We will evaluate the efficacy of this restorative justice initiative for promoting school safety and reducing violence, by conducting a rigorous experimental trial of 24 middle- and high-schools that are randomly selected to either conduct SSP+ assessments and receive school-based Teen Courts (n=12) or to conduct SSP+ assessments without Teen Court programming (n=12).",
+            description: 'Voting Behavior http://www.icpsr.umich.edu/web/pages/instructors/setups2016/ in the 2016 Election is an instructional module designed to offer students the opportunity to analyze a dataset drawn from the http://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/36824?q=ANES+ 2016 American National Election (ANES) 2016 Time Series Study [ICPSR 36824]. This instructional module is part of the SETUPS (Supplementary Empirical Teaching Units in Political Science) series and differs from previous modules in that it is completely online, including the data analysis system components.',
             description_type: 'Abstract'
           }
         ],
         subjects: [
-          { subject: 'Bullying', subject_scheme: 'Library of Congress Subject Headings (LCSH)' },
-          { subject: 'Restorative justice', subject_scheme: 'Library of Congress Subject Headings (LCSH)' },
-          { subject: 'School safety and security', subject_scheme: 'Library of Congress Subject Headings (LCSH)' },
-          { subject: 'Teen Court program', subject_scheme: 'Library of Congress Subject Headings (LCSH)' }
+          { subject: 'Clinton, Hillary' },
+          { subject: 'Economic activity' },
+          { subject: 'Foreign policy' },
+          { subject: 'Free trade' },
+          { subject: 'Government' },
+          { subject: 'Government spending' },
+          { subject: 'Health insurance' },
+          { subject: 'Immigration policy' },
+          { subject: 'National elections' },
+          { subject: 'News media' },
+          { subject: 'Political attitudes' },
+          { subject: 'Political participation' },
+          { subject: 'Trump, Donald' },
+          { subject: 'Voter attitudes' },
+          { subject: 'Voting behavior' }
         ],
-        url: 'http://doi.org/10.3886/ICPSR37293.v1',
+        url: 'http://doi.org/10.3886/ICPSR36853.v2',
         provider: 'SearchWorks'
       )
       # rubocop:enable Layout/LineLength
