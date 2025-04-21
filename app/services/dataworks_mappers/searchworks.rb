@@ -2,7 +2,6 @@
 
 module DataworksMappers
   # Map fields from SearchWorks solr docs to Dataworks metadata
-  # rubocop:disable Metrics/ClassLength
   class Searchworks < Base
     def doi_identifier
       return unless doi_url
@@ -75,9 +74,51 @@ module DataworksMappers
       end
     end
 
-    # Convert a MARC author or contributor to DataCite structured data
-    def marc_to_contributor(field, name_type:)
+    def creators
+      [].tap do |creators|
+        marc_record.fields.each_by_tag(%w[100 110]) do |field|
+          creators << marc_contributor_struct(field)
+        end
+      end
+    end
+
+    def contributors
+      [].tap do |contributors|
+        marc_record.fields.each_by_tag(%w[700 710]) do |field|
+          contributors << marc_contributor_struct(field)
+        end
+      end
+    end
+
+    def access
+      restricted? ? 'Restricted' : 'Public'
+    end
+
+    def publication_year
+      source['pub_year_tisim'].first.to_s
+    end
+
+    def restricted?
+      source['url_restricted'].present?
+    end
+
+    def marc_record
+      return unless source['marc_json_struct']&.any?
+
+      @marc_record ||= MARC::Record.new_from_hash(JSON.parse(source['marc_json_struct'][0]))
+    end
+
+    # Convert a MARC creator or contributor to DataCite structured data
+    def marc_contributor_struct(field)
       return unless field['a']
+
+      name_type = if %w[100 700].include? field.tag
+                    'Personal'
+                  elsif %w[110 710].include? field.tag
+                    'Organizational'
+                  else
+                    raise DataworksMappers::MappingError "Can't map MARC field #{field.tag} to contributor"
+                  end
 
       contributor = {
         name: field['a'],
@@ -92,65 +133,5 @@ module DataworksMappers
 
       contributor
     end
-
-    def creator_people
-      [].tap do |creators|
-        marc_record.fields.each_by_tag(['100']) do |field|
-          creators << marc_to_contributor(field, name_type: 'Personal')
-        end
-      end
-    end
-
-    def creator_organizations
-      [].tap do |creators|
-        marc_record.fields.each_by_tag(['110']) do |field|
-          creators << marc_to_contributor(field, name_type: 'Organizational')
-        end
-      end
-    end
-
-    def creators
-      creator_people + creator_organizations
-    end
-
-    def contributing_people
-      [].tap do |contributors|
-        marc_record.fields.each_by_tag(['700']) do |field|
-          contributors << marc_to_contributor(field, name_type: 'Personal')
-        end
-      end
-    end
-
-    def contributing_organizations
-      [].tap do |contributors|
-        marc_record.fields.each_by_tag(['710']) do |field|
-          contributors << marc_to_contributor(field, name_type: 'Organizational')
-        end
-      end
-    end
-
-    def contributors
-      contributing_people + contributing_organizations
-    end
-
-    def access
-      restricted? ? 'Restricted' : 'Public'
-    end
-
-    # These dates are guaranteed to be 4-digit integers, unlike pub_date.
-    def publication_year
-      source['pub_year_tisim'].first.to_s
-    end
-
-    def restricted?
-      source['url_restricted'].present?
-    end
-
-    def marc_record
-      return unless source['marc_json_struct']&.any?
-
-      @marc_record ||= MARC::Record.new_from_hash(JSON.parse(source['marc_json_struct'][0]))
-    end
   end
-  # rubocop:enable Metrics/ClassLength
 end
