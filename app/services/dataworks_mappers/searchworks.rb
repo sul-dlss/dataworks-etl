@@ -75,6 +75,8 @@ module DataworksMappers
     end
 
     def creators
+      return unless marc_record
+
       [].tap do |creators|
         marc_record.fields.each_by_tag(%w[100 110]) do |field|
           creators << marc_contributor_struct(field)
@@ -83,6 +85,8 @@ module DataworksMappers
     end
 
     def contributors
+      return unless marc_record
+
       [].tap do |contributors|
         marc_record.fields.each_by_tag(%w[700 710]) do |field|
           contributors << marc_contributor_struct(field)
@@ -95,7 +99,7 @@ module DataworksMappers
     end
 
     def publication_year
-      source['pub_year_tisim'].first.to_s
+      source['pub_year_tisim']&.first&.to_s
     end
 
     def restricted?
