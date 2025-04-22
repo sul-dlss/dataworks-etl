@@ -42,4 +42,28 @@ RSpec.describe TransformerLoader do
       expect { described_class.call(dataset_record_set:) }.to raise_error('Unsupported provider: edivis')
     end
   end
+
+  context 'when there is an error in mapping' do
+    before do
+      allow(DataworksMappers::Redivis).to receive(:call).and_raise(DataworksMappers::MappingError)
+    end
+
+    it 'raises an error' do
+      expect { described_class.call(dataset_record_set:) }.to raise_error(DataworksMappers::MappingError)
+      expect(SolrMapper).not_to have_received(:call)
+    end
+  end
+
+  context 'when there is an error in mapping and fail_fast is false' do
+    before do
+      allow(DataworksMappers::Redivis).to receive(:call).and_raise(DataworksMappers::MappingError)
+      allow(Honeybadger).to receive(:notify)
+    end
+
+    it 'does not raise an error' do
+      described_class.call(dataset_record_set:, fail_fast: false)
+      expect(SolrMapper).not_to have_received(:call)
+      expect(Honeybadger).to have_received(:notify).exactly(3).times
+    end
+  end
 end

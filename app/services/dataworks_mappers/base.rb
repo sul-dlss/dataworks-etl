@@ -13,6 +13,7 @@ module DataworksMappers
     end
 
     # @return [Hash] the Dataworks metadata
+    # @raise [MappingError] if the mapping fails
     def call
       perform_map.tap do |metadata|
         validate!(metadata:)
