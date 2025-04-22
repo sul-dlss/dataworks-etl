@@ -48,9 +48,8 @@ RSpec.describe DataworksMappers::Searchworks do
           }
         ],
         titles: [
-          {
-            title: 'SETUPS [electronic resource] Voting Behavior: The 2016 Election'
-          }
+          { title: 'SETUPS' },
+          { title: 'Voting Behavior: The 2016 Election', title_type: 'Subtitle' }
         ],
         publication_year: '2017',
         access: 'Restricted',

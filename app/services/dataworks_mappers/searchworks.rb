@@ -2,6 +2,7 @@
 
 module DataworksMappers
   # Map fields from SearchWorks solr docs to Dataworks metadata
+  # rubocop:disable Metrics/ClassLength
   class Searchworks < Base
     def doi_identifier
       return unless doi_url
@@ -62,10 +63,19 @@ module DataworksMappers
       ]
     end
 
+    # For items with MARC, SearchWorks often joins the 245$b (subtitle) and
+    # 245$h (medium) into title_display. We don't want this because everything
+    # will have "[electronic resource]" in the title, so if MARC is available,
+    # we separate out the titles ourselves.
     def titles
-      [
-        { title: source['title_display'] }
-      ]
+      return [{ title: source['title_display'] }] if marc_record.blank?
+
+      titles = [{ title: marc_record['245']['a'] }]
+
+      return titles unless marc_record['245']['b']
+
+      titles << { title: marc_record['245']['b'], title_type: 'Subtitle' }
+      titles
     end
 
     def subjects
@@ -138,4 +148,5 @@ module DataworksMappers
       contributor
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end
