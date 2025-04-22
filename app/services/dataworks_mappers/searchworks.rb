@@ -122,7 +122,9 @@ module DataworksMappers
       @marc_record ||= MARC::Record.new_from_hash(JSON.parse(source['marc_json_struct'][0]))
     end
 
-    # Convert a MARC creator or contributor to DataCite structured data
+    # Convert a MARC creator or contributor to DataCite structured data.
+    # SearchWorks often collapses 100/700$u (affiliation) into the person's
+    # name in author_struct, so where MARC is available we split it out here.
     def marc_contributor_struct(field)
       return unless field['a']
 
