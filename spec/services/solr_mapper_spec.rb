@@ -37,7 +37,8 @@ RSpec.describe SolrMapper do
             dates_struct_ss: '[{"date":"2023-01-01"},{"date":"2023-01-02T19:20:30+01:00"},{"date":"2023-01-03","date_type":"Updated"},{"date":"2022-01-01/2022-12-31"},{"date":"2022-11-25"},{"date":"1973"},{"date":"2008-06-08T00:00:00Z/2008-07-04T00:00:00Z"},{"date":"2006-12-20T00:00:00.000Z/2023-10-06T23:59:59.999Z"},{"date":"0600-01-01/1800-01-01"}]',
             funding_references_struct_ss: '[{"funder_name":"My funder"},{"funder_name":"My other funder","funder_identifier":"https://ror.org/00f54p054","funder_identifier_type":"ROR","award_number":"123456","award_uri":"https://doi.org/10.1234/5678","award_title":"My award title"}]',
             related_identifiers_struct_ss: '[{"related_identifier":"10.1234/5678"},{"related_identifier":"10.2345/6789","relation_type":"IsCitedBy","resource_type_general":"JournalArticle","related_identifier_type":"DOI"}]',
-            rights_list_struct_ss: '[{"rights":"My rights"},{"rights":"Creative Commons Attribution 4.0 International","rights_uri":"https://creativecommons.org/licenses/by/4.0/","rights_identifier":"CC-BY-4.0","rights_identifier_scheme":"SPDX"},{"rights_uri":"https://creativecommons.org/licenses/by/4.0/"}]'
+            rights_list_struct_ss: '[{"rights":"My rights"},{"rights":"Creative Commons Attribution 4.0 International","rights_uri":"https://creativecommons.org/licenses/by/4.0/","rights_identifier":"CC-BY-4.0","rights_identifier_scheme":"SPDX"},{"rights_uri":"https://creativecommons.org/licenses/by/4.0/"}]',
+            related_ids_sim: ['10.1234/5678', '10.2345/6789']
           }
         )
       end
