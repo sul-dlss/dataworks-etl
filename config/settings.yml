@@ -12,6 +12,9 @@ redivis:
 zenodo:
   api_token: ~
 
+searchworks:
+  solr_url: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod
+
 honeybadger:
   datacite_etl_job_stanford_university_checkin: ~
   datacite_etl_job_sul_openneuro_checkin: ~

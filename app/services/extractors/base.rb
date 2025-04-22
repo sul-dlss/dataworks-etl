@@ -36,6 +36,8 @@ module Extractors
     end
 
     def extra_dataset_results
+      return [] if extra_dataset_ids.blank?
+
       extra_dataset_ids.map do |id|
         source = client.dataset(id:)
         source_to_result(source:)

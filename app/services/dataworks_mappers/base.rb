@@ -32,7 +32,7 @@ module DataworksMappers
       validator = DataworksValidator.new(metadata:)
       return if validator.valid?
 
-      raise MappingError, "Mapping failed: #{validator.errors.join(', ')}"
+      raise MappingError, "Mapping failed: #{validator.errors.join(', ')}, source: #{metadata.inspect}"
     end
   end
 end

@@ -11,17 +11,37 @@ module Extractors
 
     private
 
+    def results
+      Enumerator::Chain.new(
+        extra_dataset_results,
+        client.list(**list_args).map { |source| source_to_result(source:) }
+      ).uniq(&:id)
+    end
+
     # Client returns solr docs; we need to map them to ListResults
     def find_or_create_dataset_record(result:)
       super(result: source_to_result(source: result))
     end
 
-    # Solr doesn't return marc_json_struct by default, so we ask for it in order
-    # to transform it in the mapper. We also need to ask for last_updated to
-    # use as our modified_token.
+    # Explicitly request the fields we use (and only those)
     def default_solr_params
       {
-        fl: 'id,last_updated,marc_json_struct'
+        # More things we could use, if needed:
+        # * Extra URLs are sometimes in 'url_suppl'
+        # * The MODS XML, if present, is in 'modsxml'
+        # * The bare druid is in 'druid'
+        fl: %w[
+          id
+          last_updated
+          title_display
+          pub_year_tisim
+          url_fulltext
+          url_restricted
+          summary_display
+          topic_facet
+          author_struct
+          marc_json_struct
+        ].join(',')
       }
     end
 
@@ -32,16 +52,13 @@ module Extractors
       Clients::ListResult.new(
         id: source['id'],
         modified_token: source['last_updated'],
-        source: JSON.parse(source['marc_json_struct'])
+        source:
       )
     end
 
-    # Use the first 856$u we find as the DOI
+    # Delegate DOI extraction to the mapper since it's not trivial to extract
     def doi_from(source:)
-      source['fields'].filter_map { |f| f['856'] if f.key? '856' }
-                      .flat_map { |f| f['subfields'] }
-                      .filter { |f| f.key? 'u' }
-                      .pick('u')
+      DataworksMappers::Searchworks.new(source:).doi_identifier&.[](:identifier)
     end
   end
 end

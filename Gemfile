@@ -80,3 +80,5 @@ group :deployment do
   gem 'capistrano-rails', require: false
   gem 'dlss-capistrano', require: false
 end
+
+gem 'marc', '~> 1.3'

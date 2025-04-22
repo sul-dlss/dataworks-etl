@@ -14,7 +14,7 @@ module Clients
     # @param page_size [Integer] number of results per page
     # @yield [Hash] dataset
     # @return [integer] total number of results
-    def list(params:, page_size: 100, &)
+    def list(params:, page_size: 1000, &)
       return to_enum(:list, params:, page_size:) unless block_given?
 
       # Get the first page and be done if there aren't any more
@@ -33,19 +33,18 @@ module Clients
     # Fetch a single dataset by solr id
     # @param id [String] solr id (in Searchworks, folio hrid or druid)
     # @return [Hash] dataset
-    def dataset(id:)
-      @solr.get('select', params: { q: "id:#{id}" }).dig('response', 'docs', 0)
+    def dataset(id:, params: {})
+      @solr.get('select', params: params.merge(q: "id:#{id}")).dig('response', 'docs', 0)
     end
 
     private
 
+    # FlatParamsEncoder is required to send params like 'fl' multiple times; it
+    # is not the default in Faraday but is the default in RSolr
     def new_conn
-      Faraday.new(
-        url: 'https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod',
-        headers: {
-          'Accept' => 'application/json'
-        }
-      )
+      Faraday.new(url: Settings.searchworks.solr_url) do |f|
+        f.options.params_encoder = Faraday::FlatParamsEncoder
+      end
     end
 
     def list_page(params:, page_size:, page:)

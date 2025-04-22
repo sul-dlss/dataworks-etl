@@ -67,7 +67,9 @@ class SolrMapper
 
   # Not every dataset will have a DOI provided
   def doi_field
-    metadata['identifiers'].find { |i| i['identifier_type'] == 'DOI' }['identifier'] || ''
+    return '' unless (identifier = metadata['identifiers'].find { |i| i['identifier_type'] == 'DOI' })
+
+    identifier['identifier']
   end
 
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
