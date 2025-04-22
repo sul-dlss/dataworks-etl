@@ -33,8 +33,8 @@ module Clients
     # Fetch a single dataset by solr id
     # @param id [String] solr id (in Searchworks, folio hrid or druid)
     # @return [Hash] dataset
-    def dataset(id:)
-      @solr.get('select', params: { q: "id:#{id}" }).dig('response', 'docs', 0)
+    def dataset(id:, params: {})
+      @solr.get('select', params: params.merge(q: "id:#{id}")).dig('response', 'docs', 0)
     end
 
     private
