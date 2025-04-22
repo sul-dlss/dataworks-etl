@@ -12,7 +12,7 @@ RSpec.describe DataworksMappers::Searchworks do
       # rubocop:disable Layout/LineLength
       expect(metadata).to include(
         identifiers: [
-          { identifier: '13650500', identifier_type: 'searchworks_reference' },
+          { identifier: '13650500', identifier_type: 'SearchWorksReference' },
           { identifier: '10.3886/ICPSR36853.v2', identifier_type: 'DOI' }
         ],
         contributors: [

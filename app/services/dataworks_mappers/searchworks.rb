@@ -37,7 +37,7 @@ module DataworksMappers
     end
 
     def searchworks_identifier
-      { identifier: source['id'], identifier_type: 'searchworks_reference' }
+      { identifier: source['id'], identifier_type: 'SearchWorksReference' }
     end
 
     def doi_url
