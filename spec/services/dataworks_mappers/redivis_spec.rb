@@ -40,4 +40,15 @@ RSpec.describe DataworksMappers::Redivis do
       }
     )
   end
+
+  context 'when publicAccessLevel is data' do
+    before do
+      source['publicAccessLevel'] = 'data'
+    end
+
+    it 'returns Public access' do
+      source['publicAccessLevel'] = 'data'
+      expect(metadata[:access]).to eq('Public')
+    end
+  end
 end

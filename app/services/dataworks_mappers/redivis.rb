@@ -55,7 +55,7 @@ module DataworksMappers
     end
 
     def access
-      source[:publicAccessLevel] == 'none' ? 'Restricted' : 'Public'
+      source[:publicAccessLevel] == 'data' ? 'Public' : 'Restricted'
     end
 
     def descriptions
