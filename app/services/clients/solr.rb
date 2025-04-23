@@ -3,9 +3,9 @@
 module Clients
   # Client for harvesting from a Solr index (e.g. Searchworks)
   class Solr < Clients::Base
-    def initialize(conn: nil)
+    def initialize(url: Settings.searchworks.solr_url, conn: nil)
       super
-      @solr = RSolr.connect @conn, url: @conn.url_prefix.to_s
+      @solr = RSolr.connect @conn, url:
     end
 
     # Enumerable of solr documents matching a solr query
@@ -40,11 +40,13 @@ module Clients
     private
 
     # FlatParamsEncoder is required to send params like 'fl' multiple times; it
-    # is not the default in Faraday but is the default in RSolr
+    # is not the default in Faraday but is the default in RSolr. RSolr also
+    # wants to parse JSON on its own so we can't use Faraday's JSON middleware.
     def new_conn
-      Faraday.new(url: Settings.searchworks.solr_url) do |f|
-        f.options.params_encoder = Faraday::FlatParamsEncoder
-      end
+      base_conn = super
+      base_conn.options.params_encoder = Faraday::FlatParamsEncoder
+      base_conn.builder.delete Faraday::Response::Json
+      base_conn
     end
 
     def list_page(params:, page_size:, page:)

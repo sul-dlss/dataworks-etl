@@ -3,19 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe Clients::Base, :vcr do
-  let(:conn) do
-    Faraday.new(
-      url: 'https://api.datacite.org',
-      headers: {
-        'Accept' => 'application/json'
-      }
-    )
-  end
-
+  let(:url) { 'https://api.datacite.org' }
   let(:path) { '/dois/10.5061/dryad.rg148qj4' }
 
   describe '#get_json' do
-    subject { described_class.new(conn: conn) }
+    subject { described_class.new(url:) }
 
     let(:response) { subject.get_json(path:) }
 
@@ -34,9 +26,12 @@ RSpec.describe Clients::Base, :vcr do
     end
 
     context 'when the JSON is invalid' do
+      subject { described_class.new(conn: conn) }
+
+      let(:conn) { instance_double(Faraday::Connection) }
+
       before do
-        allow(conn).to receive(:get)
-          .and_return(instance_double(Faraday::Response, body: 'invalid json', success?: true))
+        allow(conn).to receive(:get).and_raise(JSON::ParserError.new('Invalid JSON'))
       end
 
       it 'raises an error' do
@@ -45,6 +40,10 @@ RSpec.describe Clients::Base, :vcr do
     end
 
     context 'when there is a connection error' do
+      subject { described_class.new(conn: conn) }
+
+      let(:conn) { instance_double(Faraday::Connection) }
+
       before do
         allow(conn).to receive(:get).and_raise(Faraday::Error.new('Connection error'))
       end
