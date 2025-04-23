@@ -31,6 +31,13 @@ redivis:
 searchworks:
   solr_url: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod
 
+purl_fetcher:
+  url: https://purl-fetcher.stanford.edu
+
+dor_services:
+  url: https://dor-services-prod-lb.stanford.edu
+  token: ~
+
 honeybadger:
   datacite_etl_job_stanford_university_checkin: ~
   datacite_etl_job_sul_openneuro_checkin: ~

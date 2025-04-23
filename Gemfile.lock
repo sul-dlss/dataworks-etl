@@ -77,6 +77,7 @@ GEM
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.3)
+    attr_extras (7.1.0)
     base64 (0.2.0)
     bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-arm64-darwin)
@@ -109,6 +110,20 @@ GEM
       capistrano (~> 3.1)
       capistrano-bundler (>= 1.1, < 3)
     capistrano-shared_configs (0.2.2)
+    cocina-models (0.101.1)
+      activesupport
+      deprecation
+      dry-struct (~> 1.0)
+      dry-types (~> 1.1)
+      edtf
+      equivalent-xml
+      i18n
+      jsonpath
+      nokogiri
+      openapi_parser (~> 1.0)
+      super_diff
+      thor
+      zeitwerk (~> 2.1)
     concurrent-ruby (1.3.5)
     config (5.5.2)
       deep_merge (~> 1.2, >= 1.2.1)
@@ -125,6 +140,8 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     deep_merge (1.2.2)
+    deprecation (1.1.0)
+      activesupport
     diff-lcs (1.6.1)
     dlss-capistrano (5.3.0)
       bcrypt_pbkdf
@@ -134,8 +151,41 @@ GEM
       capistrano-shared_configs
       ed25519
     docile (1.4.1)
+    dor-services-client (15.6.1)
+      activesupport (>= 7.0.0)
+      cocina-models (~> 0.101.1)
+      deprecation
+      faraday (~> 2.0)
+      faraday-retry
+      zeitwerk (~> 2.1)
     drb (2.2.1)
+    dry-core (1.1.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
+    dry-inflector (1.2.0)
+    dry-logic (1.6.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-struct (1.8.0)
+      dry-core (~> 1.1)
+      dry-types (~> 1.8, >= 1.8.2)
+      ice_nine (~> 0.11)
+      zeitwerk (~> 2.6)
+    dry-types (1.8.2)
+      bigdecimal (~> 3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
     ed25519 (1.3.0)
+    edtf (3.2.0)
+      activesupport (>= 3.0, < 9.0)
+    equivalent-xml (0.6.0)
+      nokogiri (>= 1.4.3)
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
@@ -164,6 +214,7 @@ GEM
       ostruct
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
+    ice_nine (0.11.2)
     importmap-rails (2.1.0)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -182,6 +233,8 @@ GEM
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       simpleidn (~> 0.2)
+    jsonpath (1.1.5)
+      multi_json
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -210,6 +263,7 @@ GEM
       stimulus-rails
       turbo-rails
     msgpack (1.8.0)
+    multi_json (1.15.0)
     net-http (0.6.0)
       uri
     net-imap (0.5.6)
@@ -244,6 +298,8 @@ GEM
     nokogiri (1.18.7-x86_64-linux-musl)
       racc (~> 1.4)
     okcomputer (1.19.0)
+    openapi_parser (1.0.0)
+    optimist (3.2.1)
     ostruct (0.6.1)
     overmind (2.5.1)
     overmind (2.5.1-aarch64-linux)
@@ -254,6 +310,8 @@ GEM
     parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
+    patience_diff (1.2.0)
+      optimist (~> 3.0)
     pg (1.5.9)
     pp (0.6.2)
       prettyprint
@@ -270,6 +328,9 @@ GEM
     public_suffix (6.0.1)
     puma (6.6.0)
       nio4r (~> 2.0)
+    purl_fetcher-client (3.1.0)
+      activesupport
+      faraday (~> 2.1)
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.13)
@@ -406,6 +467,10 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.7)
+    super_diff (0.15.0)
+      attr_extras (>= 6.2.4)
+      diff-lcs
+      patience_diff
     thor (1.3.2)
     thruster (0.1.13)
     thruster (0.1.13-aarch64-linux)
@@ -456,10 +521,12 @@ DEPENDENCIES
   bootsnap
   capistrano-passenger
   capistrano-rails
+  cocina-models (~> 0.101.1)
   config
   cssbundling-rails
   debug
   dlss-capistrano
+  dor-services-client (~> 15.6)
   factory_bot_rails
   faraday
   faraday-retry
@@ -474,6 +541,7 @@ DEPENDENCIES
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
+  purl_fetcher-client (~> 3.1)
   rails (~> 8.0.2)
   rsolr
   rspec
