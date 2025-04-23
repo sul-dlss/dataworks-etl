@@ -66,4 +66,30 @@ RSpec.describe TransformerLoader do
       expect(Honeybadger).to have_received(:notify).exactly(3).times
     end
   end
+
+  context 'when there is an error in mapping but dataset is ignored' do
+    before do
+      allow(DataworksMappers::Redivis).to receive(:call)
+        .with(source: dataset_record.source).and_raise(DataworksMappers::MappingError)
+      allow(Settings.redivis).to receive(:ignore).and_return([dataset_record.dataset_id])
+    end
+
+    it 'ignores the error' do
+      described_class.call(dataset_record_set:)
+      expect(solr_service).to have_received(:add).exactly(2).times
+    end
+  end
+
+  context 'when there is an ignored dataset that does not raise' do
+    before do
+      allow(Settings.redivis).to receive(:ignore).and_return([dataset_record.dataset_id])
+      allow(Honeybadger).to receive(:notify)
+    end
+
+    it 'notifies Honeybadger' do
+      described_class.call(dataset_record_set:)
+      expect(solr_service).to have_received(:add).exactly(3).times
+      expect(Honeybadger).to have_received(:notify).with(/is ignored but mapping succeeded/)
+    end
+  end
 end

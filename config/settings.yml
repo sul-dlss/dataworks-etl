@@ -8,9 +8,25 @@ solr:
 
 redivis:
   api_token: ~
+  ignore:
+    - ~
 
-zenodo:
-  api_token: ~
+# zenodo:
+#   api_token: ~
+#   ignore:
+#     - ~
+
+# datacite:
+#   ignore:
+#     - ~
+
+# dryad:
+#   ignore:
+#     - ~
+
+# searchworks:
+#   ignore:
+#     - ~
 
 searchworks:
   solr_url: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod

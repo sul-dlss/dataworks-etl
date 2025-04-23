@@ -50,20 +50,36 @@ class TransformerLoader
     @solr ||= SolrService.new
   end
 
-  def solr_doc_for(dataset_record:)
+  def solr_doc_for(dataset_record:) # rubocop:disable Metrics/AbcSize
     Honeybadger.context(dataset_record_id: dataset_record.id, provider: dataset_record.provider,
                         dataset_id: dataset_record.dataset_id)
     metadata = mapper.call(source: dataset_record.source)
-    SolrMapper.call(
-      metadata:,
-      dataset_record_id: dataset_record.id,
-      dataset_record_set_id: dataset_record_set.id
-    )
+    check_mapping_success(dataset_record:)
+
+    SolrMapper.call(metadata:, dataset_record_id: dataset_record.id, dataset_record_set_id: dataset_record_set.id)
   rescue DataworksMappers::MappingError => e
+    return if ignore?(dataset_record:)
+
     raise if fail_fast
 
     Rails.logger.error "Mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
     Honeybadger.notify(e)
     nil
+  end
+
+  def ignore?(dataset_record:)
+    ignore_dataset_ids.include?(dataset_record.dataset_id)
+  end
+
+  def ignore_dataset_ids
+    @ignore_dataset_ids ||= Settings[dataset_record_set.provider]&.ignore || []
+  end
+
+  def check_mapping_success(dataset_record:)
+    return unless ignore?(dataset_record:)
+
+    msg = "Dataset #{dataset_record.dataset_id} (#{dataset_record.provider}) is ignored but mapping succeeded"
+    Rails.logger.info(msg)
+    Honeybadger.notify(msg)
   end
 end
