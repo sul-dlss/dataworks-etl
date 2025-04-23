@@ -16,9 +16,30 @@ redivis:
 #   ignore:
 #     - ~
 
-# datacite:
-#   ignore:
-#     - ~
+datacite:
+  ignore:
+    - 10.18112/openneuro.ds002732.v1.0.0
+    - 10.18112/openneuro.ds002850.v1.0.0
+    - 10.18112/openneuro.ds002851.v1.0.0
+    - 10.18112/openneuro.ds002852.v1.0.0
+    - 10.18112/openneuro.ds002856.v1.0.0
+    - 10.18112/openneuro.ds002855.v1.0.0
+    - 10.18112/openneuro.ds002858.v1.0.0
+    - 10.18112/openneuro.ds002862.v1.0.0
+    - 10.18112/openneuro.ds002862.v1.0.1
+    - 10.18112/openneuro.ds003122.v1.0.0
+    - 10.18112/openneuro.ds003126.v1.0.0
+    - 10.18112/openneuro.ds003871.v1.0.0
+    - 10.18112/openneuro.ds003871.v1.0.1
+    - 10.18112/openneuro.ds003871.v1.0.2
+    - 10.18112/openneuro.ds004092.v1.0.0
+    - 10.18112/openneuro.ds004092.v1.0.1
+    - 10.18112/openneuro.ds004363.v1.0.0
+    - 10.18112/openneuro.ds004364.v1.0.0
+    - 10.18112/openneuro.ds004367.v1.0.0
+    - 10.18112/openneuro.ds004367.v1.0.1
+    - 10.18112/openneuro.ds004367.v1.0.2
+    - 10.18112/openneuro.ds004373.v1.0.0
 
 # dryad:
 #   ignore:
