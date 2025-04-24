@@ -3,9 +3,8 @@
 module Clients
   # Client for interacting with the Zenodo API
   class Zenodo < Clients::Base
-    def initialize(api_token:, conn: nil)
-      super(conn:)
-      @api_token = api_token
+    def initialize(api_token:, url: 'https://zenodo.org', conn: nil)
+      super(url: url, api_token: api_token, conn: conn)
     end
 
     # @param affiliation [String] name of the organization
@@ -26,20 +25,6 @@ module Clients
     end
 
     private
-
-    attr_reader :api_token
-
-    def new_conn
-      Faraday.new(
-        url: 'https://zenodo.org',
-        headers: {
-          'Accept' => 'application/json',
-          'Authorization' => "Bearer #{api_token}"
-        }
-      ) do |conn|
-        conn.request :retry, retry_options
-      end
-    end
 
     def list_page(affiliation:, page_size:, page:)
       response_json = get_json(path: '/api/records',

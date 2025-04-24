@@ -3,6 +3,10 @@
 module Clients
   # Client for interacting with the Datacite API
   class Datacite < Clients::Base
+    def initialize(url: 'https://api.datacite.org', conn: nil)
+      super
+    end
+
     # @param affiliation [String] the affiliation to search for (optional)
     # @param page_size [Integer] the number of results to return per page (optional, default: 1000)
     # @param client_id [String] the client ID to use for the request (optional)
@@ -31,17 +35,6 @@ module Clients
     end
 
     private
-
-    def new_conn
-      Faraday.new(
-        url: 'https://api.datacite.org',
-        headers: {
-          'Accept' => 'application/json'
-        }
-      ) do |conn|
-        conn.request :retry, retry_options
-      end
-    end
 
     def list_page(page_size:, cursor: 1)
       response_json = get_json(path: '/dois',

@@ -3,10 +3,9 @@
 module Clients
   # Client for interacting with the Redivis API
   class Redivis < Clients::Base
-    def initialize(api_token:, organization:, conn: nil)
-      @api_token = api_token
+    def initialize(api_token:, organization:, url: 'https://redivis.com', conn: nil)
       @organization = organization
-      super(conn:)
+      super(url: url, api_token: api_token, conn: conn)
     end
 
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
@@ -26,19 +25,7 @@ module Clients
 
     private
 
-    attr_reader :api_token, :organization
-
-    def new_conn
-      Faraday.new(
-        url: 'https://redivis.com',
-        headers: {
-          'Accept' => 'application/json',
-          'Authorization' => "Bearer #{api_token}"
-        }
-      ) do |conn|
-        conn.request :retry, retry_options
-      end
-    end
+    attr_reader :organization
 
     def list_page(max_results:, page_token: nil)
       response_json = get_json(path: "/api/v1/organizations/#{organization}/datasets",

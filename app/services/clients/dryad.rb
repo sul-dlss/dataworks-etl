@@ -3,6 +3,10 @@
 module Clients
   # Client for interacting with the Dryad API
   class Dryad < Clients::Base
+    def initialize(url: 'https://datadryad.org', conn: nil)
+      super
+    end
+
     # @param affiliation [String] the ROR ID of the organization
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
@@ -23,17 +27,6 @@ module Clients
     end
 
     private
-
-    def new_conn
-      Faraday.new(
-        url: 'https://datadryad.org',
-        headers: {
-          'Accept' => 'application/json'
-        }
-      ) do |conn|
-        conn.request :retry, retry_options
-      end
-    end
 
     def list_page(affiliation:, per_page:, page:)
       response_json = get_json(path: '/api/v2/search',

@@ -7,18 +7,16 @@ module Clients
 
   # Base class for harvesting clients
   class Base
-    attr_reader :conn
+    attr_reader :url, :conn
 
-    def initialize(conn: nil)
+    def initialize(url: nil, api_token: nil, conn: nil)
+      @url = url
+      @api_token = api_token
       @conn = conn || new_conn
     end
 
     def get_json(path:, params: {})
-      response = conn.get(path, params.compact)
-
-      raise Clients::Error, "Error: #{response.status}" unless response.success?
-
-      JSON.parse(response.body)
+      conn.get(path, params.compact).body
     rescue Faraday::Error => e
       raise Error, "Connection err: #{e.message}"
     rescue JSON::ParserError => e
@@ -27,8 +25,16 @@ module Clients
 
     private
 
+    attr_reader :api_token
+
     def new_conn
-      raise NotImplementedError
+      Faraday.new({ url: }.compact) do |f|
+        f.request :json
+        f.request :retry, **retry_options
+        f.request :authorization, :Bearer, api_token if api_token
+        f.response :json
+        f.response :raise_error
+      end
     end
 
     def retry_options

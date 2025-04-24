@@ -15,6 +15,16 @@ RSpec.describe Clients::Solr, :vcr do
   # 5. edit the cassette and change the URL to the production Solr URL
   # 6. disconnect from your ssh tunnel; revert spec/rails_helper.rb changes
 
+  describe 'connection' do
+    it 'does not use the Faraday json middleware' do
+      expect(client.conn.builder.handlers).not_to include(Faraday::Response::Json)
+    end
+
+    it 'uses the FlatParamsEncoder' do
+      expect(client.conn.options.params_encoder).to eq(Faraday::FlatParamsEncoder)
+    end
+  end
+
   describe '.list' do
     subject(:results) { client.list(params:, page_size:).to_a }
 
