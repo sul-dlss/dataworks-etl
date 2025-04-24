@@ -40,3 +40,4 @@ honeybadger:
   redivis_etl_job_sdss_checkin: ~
   local_etl_job_checkin: ~
   dryad_etl_job_checkin: ~
+  searchworks_etl_job_icpsr_checkin: ~
