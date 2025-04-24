@@ -51,6 +51,9 @@ RSpec.describe DataworksMappers::Searchworks do
           { title: 'SETUPS' },
           { title: 'Voting Behavior: The 2016 Election', title_type: 'Subtitle' }
         ],
+        publisher: {
+          name: 'Inter-university Consortium for Political and Social Research [distributor]'
+        },
         publication_year: '2017',
         access: 'Restricted',
         descriptions: [

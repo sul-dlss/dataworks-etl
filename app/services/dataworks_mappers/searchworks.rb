@@ -17,6 +17,7 @@ module DataworksMappers
         identifiers:,
         creators:,
         titles:,
+        publisher:,
         publication_year:,
         subjects:,
         contributors:,
@@ -82,6 +83,12 @@ module DataworksMappers
       source['topic_facet']&.map do |subject|
         { subject: subject }
       end
+    end
+
+    def publisher
+      return unless marc_record
+
+      { name: marc_record['260']['b'] } if marc_record['260']['b'].present?
     end
 
     def creators
