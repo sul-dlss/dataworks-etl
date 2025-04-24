@@ -68,16 +68,17 @@ module DataworksMappers
     # 245$h (medium) into title_display. We don't want this because everything
     # will have "[electronic resource]" in the title, so if MARC is available,
     # we separate out the titles ourselves.
+    # rubocop:disable Metrics/AbcSize
     def titles
       return [{ title: source['title_display'] }] if marc_record.blank?
 
-      titles = [{ title: marc_record['245']['a'] }]
+      titles = [{ title: marc_record['245']['a'] }] # main title
+      titles << { title: marc_record['245']['b'], title_type: 'Subtitle' } if marc_record['245']['b'].present?
+      titles << { title: marc_record['246']['a'], title_type: 'AlternativeTitle' } if marc_record['246'].present?
 
-      return titles unless marc_record['245']['b']
-
-      titles << { title: marc_record['245']['b'], title_type: 'Subtitle' }
       titles
     end
+    # rubocop:enable Metrics/AbcSize
 
     def subjects
       source['topic_facet']&.map do |subject|
@@ -86,9 +87,9 @@ module DataworksMappers
     end
 
     def publisher
-      return unless marc_record
+      return unless marc_record && marc_record['260'] && marc_record['260']['b']
 
-      { name: marc_record['260']['b'] } if marc_record['260']['b'].present?
+      { name: marc_record['260']['b'] }
     end
 
     def creators
