@@ -30,7 +30,8 @@ module DataworksMappers
         provider: 'SearchWorks',
         descriptions:,
         url:,
-        access:
+        access:,
+        funding_references:
       }.compact_blank
     end
 
@@ -108,6 +109,21 @@ module DataworksMappers
       [].tap do |contributors|
         marc_record.fields.each_by_tag(%w[700 710]) do |field|
           contributors << marc_contributor_struct(field)
+        end
+      end
+    end
+
+    def funding_references
+      return unless marc_record
+
+      [].tap do |references|
+        marc_record.fields.each_by_tag(%w[536]) do |field|
+          next unless field['a']
+
+          references << {
+            funder_name: field['a'],
+            grant_number: field['c']
+          }.compact_blank
         end
       end
     end
