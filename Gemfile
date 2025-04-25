@@ -44,13 +44,17 @@ gem 'thruster', require: false
 # gem "image_processing", "~> 1.2"
 
 # Application gems
+gem 'cocina-models', '~> 0.101.1' # For SDR datasets
 gem 'config'
+gem 'dor-services-client', '~> 15.6' # For SDR datasets
 gem 'faraday'
 gem 'faraday-retry'
 gem 'honeybadger'
 gem 'json_schemer' # JSON schema validation
+gem 'marc', '~> 1.3' # For SearchWorks MARC records
 gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
+gem 'purl_fetcher-client', '~> 3.1' # For SDR datasets
 gem 'rsolr'
 
 group :development, :test do
@@ -80,5 +84,3 @@ group :deployment do
   gem 'capistrano-rails', require: false
   gem 'dlss-capistrano', require: false
 end
-
-gem 'marc', '~> 1.3'
