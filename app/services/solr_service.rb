@@ -6,6 +6,10 @@ class SolrService
     solr.add(solr_doc)
   end
 
+  def delete(id:)
+    solr.delete_by_id(id)
+  end
+
   delegate :commit, to: :solr
 
   private

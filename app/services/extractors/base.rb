@@ -17,7 +17,7 @@ module Extractors
 
     # @return [DatasetRecordSet] the set of dataset records created
     def call
-      dataset_record_set = DatasetRecordSet.create!(provider:)
+      dataset_record_set = DatasetRecordSet.create!(provider:, extractor: self.class.name, list_args: list_args.to_json)
 
       results.each do |result|
         dataset_record = find_or_create_dataset_record(result:)
