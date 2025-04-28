@@ -7,7 +7,7 @@ RSpec.describe TransformerLoader do
 
   let(:dataset_record) { dataset_record_set.dataset_records.first }
 
-  let(:solr_service) { instance_double(SolrService, add: true, commit: true) }
+  let(:solr_service) { instance_double(SolrService, add: true, commit: true, delete: true) }
 
   before do
     allow(SolrService).to receive(:new).and_return(solr_service)
@@ -90,6 +90,23 @@ RSpec.describe TransformerLoader do
       described_class.call(dataset_record_set:)
       expect(solr_service).to have_received(:add).exactly(3).times
       expect(Honeybadger).to have_received(:notify).with(/is ignored but mapping succeeded/)
+    end
+  end
+
+  context 'when there are datasets to be deleted' do
+    let(:previous_dataset_record_set) { create(:dataset_record_set) }
+
+    let(:outdated_dataset_record) { create(:dataset_record) }
+
+    before do
+      previous_dataset_record_set.dataset_records << outdated_dataset_record
+      previous_dataset_record_set.dataset_records << dataset_record
+    end
+
+    it 'deletes them from solr' do
+      described_class.call(dataset_record_set:)
+      expect(solr_service).to have_received(:delete).once
+      expect(solr_service).to have_received(:delete).with(id: outdated_dataset_record.id)
     end
   end
 end

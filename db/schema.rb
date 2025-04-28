@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_04_153639) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_25_162621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_04_153639) do
     t.string "job_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "extractor"
+    t.string "list_args"
+    t.index ["extractor", "list_args"], name: "index_dataset_record_sets_on_extractor_and_list_args"
   end
 
   create_table "dataset_records", force: :cascade do |t|

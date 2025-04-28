@@ -5,6 +5,8 @@ FactoryBot.define do
     provider { 'redivis' }
     created_at { Time.current }
     updated_at { Time.current }
+    extractor { 'Extractors::Redivis' }
+    list_args { '{"organization":"StanfordPHS"}' }
 
     trait :with_dataset_records do
       transient do

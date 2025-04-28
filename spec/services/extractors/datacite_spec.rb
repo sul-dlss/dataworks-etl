@@ -61,6 +61,8 @@ RSpec.describe Extractors::Datacite do
       expect(new_dataset_record.source_md5).to be_a(String)
 
       expect(dataset_record_set.provider).to eq('datacite')
+      expect(dataset_record_set.extractor).to eq('Extractors::Datacite')
+      expect(dataset_record_set.list_args).to eq('{"affiliation":"Stanford University","client_id":null}')
       expect(dataset_record_set.complete).to be true
       expect(dataset_record_set.dataset_records).to include(new_dataset_record)
       expect(dataset_record_set.dataset_records).to include(existing_dataset_record)

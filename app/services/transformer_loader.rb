@@ -14,11 +14,8 @@ class TransformerLoader
   def call
     raise 'DatasetRecordSet is not complete' unless dataset_record_set.complete
 
-    dataset_record_set.dataset_records.each do |dataset_record|
-      solr_doc = solr_doc_for(dataset_record:)
-      solr.add(solr_doc:) if solr_doc
-    end
-    solr.commit
+    add_solr_docs
+    delete_solr_docs
   end
 
   private
@@ -81,5 +78,32 @@ class TransformerLoader
     msg = "Dataset #{dataset_record.dataset_id} (#{dataset_record.provider}) is ignored but mapping succeeded"
     Rails.logger.info(msg)
     Honeybadger.notify(msg)
+  end
+
+  def add_solr_docs
+    dataset_record_set.dataset_records.each do |dataset_record|
+      solr_doc = solr_doc_for(dataset_record:)
+      solr.add(solr_doc:) if solr_doc
+    end
+    solr.commit
+  end
+
+  def delete_solr_docs
+    outdated_dataset_record_ids = previous_dataset_record_ids - dataset_record_set.dataset_records.ids
+    return if outdated_dataset_record_ids.blank?
+
+    outdated_dataset_record_ids.each { |id| solr.delete(id:) }
+    solr.commit
+  end
+
+  def previous_dataset_record_ids
+    @previous_dataset_record_ids ||= begin
+      dataset_record_sets = DatasetRecordSet.where(extractor: dataset_record_set.extractor,
+                                                   list_args: dataset_record_set.list_args)
+                                            .where.not(id: dataset_record_set.id)
+      DatasetRecord.joins(:dataset_record_associations)
+                   .where(dataset_record_associations: { dataset_record_set: dataset_record_sets })
+                   .distinct.ids
+    end
   end
 end
