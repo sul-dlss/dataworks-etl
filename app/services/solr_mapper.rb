@@ -69,7 +69,8 @@ class SolrMapper
   def doi_field
     return '' unless (identifier = metadata['identifiers'].find { |i| i['identifier_type'] == 'DOI' })
 
-    identifier['identifier']
+    # To standardize the DOI field string between sources, we want to remove any 'doi:' prefix
+    identifier['identifier'].delete_prefix('doi:')
   end
 
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
