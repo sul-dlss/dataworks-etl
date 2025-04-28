@@ -164,15 +164,29 @@ RSpec.describe SolrMapper do
   end
 
   describe '#doi_field' do
-    let(:metadata) do
-      {
-        identifiers: [{ identifier: 'redivis:id', identifier_type: 'Redivis' },
-                      { identifier: '10.1234/5678', identifier_type: 'DOI' }]
-      }
+    context 'with no doi prefix in source DOI value' do
+      let(:metadata) do
+        {
+          identifiers: [{ identifier: 'redivis:id', identifier_type: 'Redivis' },
+                        { identifier: '10.1234/5678', identifier_type: 'DOI' }]
+        }
+      end
+
+      it 'retrieves the DOI field' do
+        expect(solr_mapper.doi_field).to eq('10.1234/5678')
+      end
     end
 
-    it 'retrieves the DOI field' do
-      expect(solr_mapper.doi_field).to eq('10.1234/5678')
+    context 'with doi prefix in source DOI value' do
+      let(:metadata) do
+        {
+          identifiers: [{ identifier: 'doi:10.1234/5678', identifier_type: 'DOI' }]
+        }
+      end
+
+      it 'retrieves the DOI field' do
+        expect(solr_mapper.doi_field).to eq('10.1234/5678')
+      end
     end
   end
 
