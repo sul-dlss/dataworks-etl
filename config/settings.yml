@@ -16,6 +16,7 @@ redivis:
 #   ignore:
 #     - ~
 
+# DataCite has OpenNeuro datasets that do not have title elements and thus cannot validate against our schema
 datacite:
   ignore:
     - 10.18112/openneuro.ds003871.v1.0.2
