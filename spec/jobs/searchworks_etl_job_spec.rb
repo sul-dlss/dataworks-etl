@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe IcpsrEtlJob do
+RSpec.describe SearchworksEtlJob do
   let(:job) { described_class }
 
   let(:dataset_record_set) { create(:dataset_record_set) }
@@ -13,10 +13,10 @@ RSpec.describe IcpsrEtlJob do
   end
 
   it 'performs transform and load' do
-    described_class.perform_now
+    described_class.perform_now(solr_params: { q: 'test', rows: 10 }, query_label: 'My Test Query')
 
     expect(dataset_record_set.reload.job_id).not_to be_nil
-    expect(Extractors::Searchworks).to have_received(:call).with(list_args: { params: described_class.solr_params })
+    expect(Extractors::Searchworks).to have_received(:call).with(list_args: { params: { q: 'test', rows: 10 } })
     expect(TransformerLoader).to have_received(:call).with(dataset_record_set:)
   end
 end

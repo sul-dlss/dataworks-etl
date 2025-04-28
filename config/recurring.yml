@@ -12,23 +12,23 @@ production:
   # Don't forget to create HB checkins for ETL jobs.
   redivis_stanfordphs_etl:
     class: RedivisEtlJob
-    args: [ { organization: 'StanfordPHS' } ]
+    args: [{ organization: "StanfordPHS" }]
     schedule: every week
   redivis_sul_etl:
     class: RedivisEtlJob
-    args: [ { organization: 'SUL' } ]
+    args: [{ organization: "SUL" }]
     schedule: every week
   redivis_sdss_etl:
     class: RedivisEtlJob
-    args: [ { organization: 'SDSS' } ]
+    args: [{ organization: "SDSS" }]
     schedule: every week
   datacite_etl:
     class: DataciteEtlJob
-    args: [ { affiliation: 'Stanford University' } ]
+    args: [{ affiliation: "Stanford University" }]
     schedule: every week
   open_neuro_etl:
     class: DataciteEtlJob
-    args: [ { client_id: 'sul.openneuro' } ]
+    args: [{ client_id: "sul.openneuro" }]
     schedule: every week
   zenodo_etl:
     class: ZenodoEtlJob
@@ -38,4 +38,19 @@ production:
     schedule: every week
   dryad_etl:
     class: DryadEtlJob
+    schedule: every week
+  icpsr_etl:
+    class: SearchworksEtlJob
+    args:
+      [
+        {
+          query_label: "ICPSR",
+          solr_params:
+            {
+              q: "Inter-university Consortium for Political and Social Research.",
+              search_field: "search_author",
+              fq: ["access_facet:Online", "format_main_ssim:Dataset"],
+            },
+        },
+      ]
     schedule: every week
