@@ -42,7 +42,7 @@ module Clients
     # FlatParamsEncoder is required to send params like 'fl' multiple times; it
     # is not the default in Faraday but is the default in RSolr. RSolr also
     # wants to parse JSON on its own so we can't use Faraday's JSON middleware.
-    def new_conn
+    def new_conn(url:, api_token: nil)
       base_conn = super
       base_conn.options.params_encoder = Faraday::FlatParamsEncoder
       base_conn.builder.delete Faraday::Response::Json

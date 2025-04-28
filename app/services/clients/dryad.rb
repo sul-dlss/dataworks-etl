@@ -4,7 +4,23 @@ module Clients
   # Client for interacting with the Dryad API
   class Dryad < Clients::Base
     def initialize(url: 'https://datadryad.org', conn: nil)
-      super
+      # conn = new_conn
+
+      super(url:, api_token: fetch_api_token(url:), conn:)
+    end
+
+    def fetch_api_token(url:)
+      oauth_conn = Faraday.new(url:)
+      response = oauth_conn.post('/oauth/token',
+                                 { client_id: Settings.dryad.client_id, client_secret: Settings.dryad.client_secret,
+                                   grant_type: 'client_credentials' })
+      raise Clients::Error, "Failed to get access token: #{response.body}" unless response.success?
+
+      response.body['access_token']
+    rescue Faraday::Error => e
+      raise Error, "Connection err: #{e.message}"
+    rescue JSON::ParserError => e
+      raise Error, "JSON parsing error: #{e.message}"
     end
 
     # @param affiliation [String] the ROR ID of the organization
