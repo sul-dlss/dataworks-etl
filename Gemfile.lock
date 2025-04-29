@@ -128,7 +128,7 @@ GEM
     config (5.5.2)
       deep_merge (~> 1.2, >= 1.2.1)
       ostruct
-    connection_pool (2.5.2)
+    connection_pool (2.5.3)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -151,7 +151,7 @@ GEM
       capistrano-shared_configs
       ed25519
     docile (1.4.1)
-    dor-services-client (15.6.1)
+    dor-services-client (15.7.0)
       activesupport (>= 7.0.0)
       cocina-models (~> 0.101.1)
       deprecation
@@ -526,7 +526,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   dlss-capistrano
-  dor-services-client (~> 15.6)
+  dor-services-client (~> 15.7)
   factory_bot_rails
   faraday
   faraday-retry
