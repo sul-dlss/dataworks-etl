@@ -86,7 +86,7 @@ class SolrMapper
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
   def descriptions_field
     metadata['descriptions']&.filter_map do |d|
-      d['description'].truncate(32_766) if d['description_type'].blank? || d['description_type'] == 'Abstract'
+      d['description'].truncate(32_000) if d['description_type'].blank? || d['description_type'] == 'Abstract'
     end || []
   end
 
@@ -106,7 +106,7 @@ class SolrMapper
 
   def descriptions_by_type_field(description_types)
     metadata['descriptions']&.filter_map do |d|
-      d['description'].truncate(32_766) if description_types.include?(d['description_type'])
+      d['description'].truncate(32_000) if description_types.include?(d['description_type'])
     end || []
   end
 

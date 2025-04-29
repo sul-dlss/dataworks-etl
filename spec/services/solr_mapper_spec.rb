@@ -189,13 +189,21 @@ RSpec.describe SolrMapper do
           descriptions: [
             {
               description: SecureRandom.alphanumeric(40_000)
+            },
+            {
+              description: SecureRandom.alphanumeric(40_000),
+              description_type: 'Methods'
             }
           ]
         }
       end
 
-      it 'truncates the description string length correctly' do
-        expect(solr_mapper.descriptions_field[0].length).to eq(32_766)
+      it 'truncates the description string length correctly for abstracts' do
+        expect(solr_mapper.descriptions_field[0].length).to eq(32_000)
+      end
+
+      it 'truncates the description string length correctly for methods' do
+        expect(solr_mapper.descriptions_by_type_field(['Methods'])[0].length).to eq(32_000)
       end
     end
   end
