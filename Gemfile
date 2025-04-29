@@ -46,7 +46,7 @@ gem 'thruster', require: false
 # Application gems
 gem 'cocina-models', '~> 0.101.1' # For SDR datasets
 gem 'config'
-gem 'dor-services-client', '~> 15.6' # For SDR datasets
+gem 'dor-services-client', '~> 15.7' # For SDR datasets
 gem 'faraday'
 gem 'faraday-retry'
 gem 'honeybadger'
