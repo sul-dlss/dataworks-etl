@@ -7,8 +7,10 @@ class SolrMapper
   end
 
   # @param metadata [Hash] the Dataworks metadata
-  def initialize(metadata:, dataset_record_id:, dataset_record_set_id:)
+  # @param doi [String] the DOI, if present, stored in the dataset record
+  def initialize(metadata:, doi:, dataset_record_id:, dataset_record_set_id:)
     @metadata = metadata.with_indifferent_access
+    @doi = doi
     @dataset_record_id = dataset_record_id
     @dataset_record_set_id = dataset_record_set_id
   end
@@ -22,7 +24,7 @@ class SolrMapper
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
       descriptions_tsim: descriptions_field,
-      doi_ssi: doi_field,
+      doi_ssi: doi,
       provider_identifier_ssi: provider_identifier_field,
       creators_ssim: person_or_organization_names_field('creators'),
       creators_ids_sim: person_or_organization_ids_field('creators'),
@@ -65,13 +67,6 @@ class SolrMapper
     metadata['identifiers'].find { |i| i['identifier_type'] == provider_ref(metadata['provider']) } ['identifier']
   end
 
-  # Not every dataset will have a DOI provided
-  def doi_field
-    return '' unless (identifier = metadata['identifiers'].find { |i| i['identifier_type'] == 'DOI' })
-
-    identifier['identifier']
-  end
-
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
   def descriptions_field
     metadata['descriptions']&.filter_map do |d|
@@ -95,7 +90,7 @@ class SolrMapper
 
   private
 
-  attr_reader :metadata, :dataset_record_id, :dataset_record_set_id
+  attr_reader :metadata, :doi, :dataset_record_id, :dataset_record_set_id
 
   # Given titles from metadata, return field value based on title type
   def title_values(title_type, titles)

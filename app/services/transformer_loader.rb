@@ -53,7 +53,8 @@ class TransformerLoader
     metadata = mapper.call(source: dataset_record.source)
     check_mapping_success(dataset_record:)
 
-    SolrMapper.call(metadata:, dataset_record_id: dataset_record.id, dataset_record_set_id: dataset_record_set.id)
+    SolrMapper.call(metadata:, doi: dataset_record.doi, dataset_record_id: dataset_record.id,
+                    dataset_record_set_id: dataset_record_set.id)
   rescue DataworksMappers::MappingError => e
     return if ignore?(dataset_record:)
 
