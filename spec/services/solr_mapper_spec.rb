@@ -31,16 +31,28 @@ RSpec.describe SolrMapper do
             creators_ssim: ['A. Researcher', 'B. Researcher', 'A. Organization', 'B. Organization'],
             creators_ids_sim: ['https://orcid.org/0000-0001-2345-6789', 'https://ror.org/00f54p054'],
             contributors_ids_ssim: ['https://orcid.org/0000-0001-2345-6789', 'https://ror.org/00f54p054'],
-            contributors_tsim: ['A. Contributor', 'B. Contributor', 'A. Organization', 'B. Organization'],
+            contributors_ssim: ['A. Contributor', 'B. Contributor', 'A. Organization', 'B. Organization'],
             funders_ssim: ['My funder', 'My other funder'],
             funders_ids_sim: ['https://ror.org/00f54p054'],
             url_ss: 'https://example.com/my-dataset',
             contributors_struct_ss: '[{"name":"A. Contributor"},{"name":"B. Contributor","name_type":"Personal","given_name":"B.","family_name":"Contributor","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}],"contributor_type":"DataCollector"},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}],"contributor_type":"RegistrationAgency"}]',
-            dates_struct_ss: '[{"date":"2023-01-01"},{"date":"2023-01-02T19:20:30+01:00"},{"date":"2023-01-03","date_type":"Updated"},{"date":"2022-01-01/2022-12-31"},{"date":"2022-11-25"},{"date":"1973"},{"date":"2008-06-08T00:00:00Z/2008-07-04T00:00:00Z"},{"date":"2006-12-20T00:00:00.000Z/2023-10-06T23:59:59.999Z"},{"date":"0600-01-01/1800-01-01"}]',
+            dates_struct_ss: '[{"date":"2023-01-01"},{"date":"2023-01-02T19:20:30+01:00"},{"date":"2023-01-03","date_type":"Updated"},{"date":"2022-01-01/2022-12-31"},{"date":"2022-11-25","date_type":"Coverage"},{"date":"1973"},{"date":"2008-06-08T00:00:00Z/2008-07-04T00:00:00Z"},{"date":"2006-12-20T00:00:00.000Z/2023-10-06T23:59:59.999Z"},{"date":"0600-01-01/1800-01-01"}]',
             funding_references_struct_ss: '[{"funder_name":"My funder"},{"funder_name":"My other funder","funder_identifier":"https://ror.org/00f54p054","funder_identifier_type":"ROR","award_number":"123456","award_uri":"https://doi.org/10.1234/5678","award_title":"My award title"}]',
             related_identifiers_struct_ss: '[{"related_identifier":"10.1234/5678"},{"related_identifier":"10.2345/6789","relation_type":"IsCitedBy","resource_type_general":"JournalArticle","related_identifier_type":"DOI"}]',
             rights_list_struct_ss: '[{"rights":"My rights"},{"rights":"Creative Commons Attribution 4.0 International","rights_uri":"https://creativecommons.org/licenses/by/4.0/","rights_identifier":"CC-BY-4.0","rights_identifier_scheme":"SPDX"},{"rights_uri":"https://creativecommons.org/licenses/by/4.0/"}]',
-            related_ids_sim: ['10.1234/5678', '10.2345/6789']
+            related_ids_sim: ['10.1234/5678', '10.2345/6789'],
+            publisher_ssi: 'My publisher',
+            publisher_id_sim: 'https://ror.org/00f54p054',
+            publication_year_isi: 2023,
+            subjects_ssim: ['My subject', 'My subject 2'],
+            language_ssi: 'en',
+            sizes_ssm: ['1.2 MB', '3 pages'],
+            formats_ssim: ['application/pdf', '.pdf'],
+            version_ss: '1.0',
+            rights_uris_sim: ['https://creativecommons.org/licenses/by/4.0/'],
+            affiliation_names_sim: ['My institution', 'B. Parent Organization'],
+            variables_tsim: ['variable 1', 'variable 2'],
+            temporal_isim: [2022]
           }
         )
       end
@@ -71,7 +83,8 @@ RSpec.describe SolrMapper do
             provider_ssi: 'DataCite',
             provider_identifier_ssi: '10.1234/5678',
             doi_ssi: '10.1234/5678',
-            url_ss: 'https://example.com/my-dataset'
+            url_ss: 'https://example.com/my-dataset',
+            publication_year_isi: 2023
           }
         )
       end
@@ -138,6 +151,18 @@ RSpec.describe SolrMapper do
             {
               description: 'Other',
               description_type: 'Other'
+            },
+            {
+              description: 'Series information',
+              description_type: 'SeriesInformation'
+            },
+            {
+              description: 'Table of contents',
+              description_type: 'TableOfContents'
+            },
+            {
+              description: 'Technical info',
+              description_type: 'TechnicalInfo'
             }
           ]
         }
@@ -145,6 +170,16 @@ RSpec.describe SolrMapper do
 
       it 'retrieves descriptions of type abstract or without a type' do
         expect(solr_mapper.descriptions_field).to eq(['My description', 'My abstract'])
+      end
+
+      it 'retrieves descriptions of type Methods' do
+        expect(solr_mapper.descriptions_by_type_field(['Methods'])).to eq(['My methods'])
+      end
+
+      it 'retrieves descriptions of other types' do
+        expect(solr_mapper.descriptions_by_type_field(%w[Other SeriesInformation TableOfContents
+                                                         TechnicalInfo])).to eq(['Other', 'Series information',
+                                                                                 'Table of contents', 'Technical info'])
       end
     end
 
@@ -206,6 +241,44 @@ RSpec.describe SolrMapper do
 
     it 'returns no funder ids when funding references is empty' do
       expect(solr_mapper.funders_ids_field).to eq([])
+    end
+  end
+
+  describe '#parse_dates' do
+    let(:metadata) do
+      {}
+    end
+
+    context 'with YYYY format' do
+      let(:date) { '2024' }
+
+      it 'returns the year correctly with YYYY format' do
+        expect(solr_mapper.parse_date(date)).to eq([2024])
+      end
+    end
+
+    context 'with YYYY-MM-DD format' do
+      let(:date) { '2024-02-02' }
+
+      it 'returns the year correctly with YYYY format' do
+        expect(solr_mapper.parse_date(date)).to eq([2024])
+      end
+    end
+
+    context 'with YYYY- MM-DDThh:mm:ssTZD format' do
+      let(:date) { '2023-01-02T19:20:30+01:00' }
+
+      it 'returns the year correctly with YYYY format' do
+        expect(solr_mapper.parse_date(date)).to eq([2023])
+      end
+    end
+
+    context 'with date range format' do
+      let(:date) { '2023-01-02T19:20:30+01:00/2025-01-01' }
+
+      it 'returns the sequence of years correctly representing the range' do
+        expect(solr_mapper.parse_date(date)).to eq([2023, 2024, 2025])
+      end
     end
   end
 end
