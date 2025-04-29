@@ -44,7 +44,7 @@ module Extractors
       end
     end
 
-    # @param source [Hash] the source from the client
+    # @param source [Hash|Cocina::Models::DROWithMetadata] the source from the client
     # @return [Client::ListResult] the ListResult generated from the source
     def source_to_result(source:)
       raise NotImplementedError
