@@ -116,9 +116,7 @@ class SolrMapper
 
   # Names of organizations affiliated with both contributors and creators of a dataset
   def affilation_names_field
-    metadata['creators']&.map do |creator|
-      creator['affiliation']&.pluck('name')
-    end&.flatten&.compact
+    affiliation_names_for_role('creators').concat(affiliation_names_for_role('contributors')).uniq
   end
 
   # Extract the year from the date for temporal coverage
@@ -206,6 +204,13 @@ class SolrMapper
 
     # Date.parse will work with both 'YYYY-MM-DD' and 'YYYY- MM-DDThh:mm:ssTZD'
     Date.parse(date_value).year
+  end
+
+  # Retrieve affiliation name array given either creator or contributor field
+  def affiliation_names_for_role(role)
+    metadata[role]&.map do |role_entity|
+      role_entity['affiliation']&.pluck('name')
+    end&.flatten&.compact || []
   end
 end
 # rubocop:enable Metrics/ClassLength
