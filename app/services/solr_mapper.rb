@@ -7,7 +7,7 @@ class SolrMapper
   end
 
   # @param metadata [Hash] the Dataworks metadata
-  # @param doi [String] the DOI, if present, stored in the dataset recordß
+  # @param doi [String] the DOI, if present, stored in the dataset record
   def initialize(metadata:, doi:, dataset_record_id:, dataset_record_set_id:)
     @metadata = metadata.with_indifferent_access
     @doi = doi
