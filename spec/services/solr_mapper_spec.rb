@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe SolrMapper do
-  subject(:solr_mapper) { described_class.new(metadata:, dataset_record_id: 123, dataset_record_set_id: 456) }
+  subject(:solr_mapper) do
+    described_class.new(metadata:, doi: '10.1234/5678', dataset_record_id: 123, dataset_record_set_id: 456)
+  end
 
   context 'with full metadata record' do
     let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/full_metadata_mapped.json')) }
@@ -159,33 +161,6 @@ RSpec.describe SolrMapper do
 
       it 'truncates the description string length correctly' do
         expect(solr_mapper.descriptions_field[0].length).to eq(32_766)
-      end
-    end
-  end
-
-  describe '#doi_field' do
-    context 'with no doi prefix in source DOI value' do
-      let(:metadata) do
-        {
-          identifiers: [{ identifier: 'redivis:id', identifier_type: 'Redivis' },
-                        { identifier: '10.1234/5678', identifier_type: 'DOI' }]
-        }
-      end
-
-      it 'retrieves the DOI field' do
-        expect(solr_mapper.doi_field).to eq('10.1234/5678')
-      end
-    end
-
-    context 'with doi prefix in source DOI value' do
-      let(:metadata) do
-        {
-          identifiers: [{ identifier: 'doi:10.1234/5678', identifier_type: 'DOI' }]
-        }
-      end
-
-      it 'retrieves the DOI field' do
-        expect(solr_mapper.doi_field).to eq('10.1234/5678')
       end
     end
   end

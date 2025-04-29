@@ -21,7 +21,7 @@ RSpec.describe TransformerLoader do
     expect(DataworksMappers::Redivis).to have_received(:call).with(source: dataset_record.source).once
     expect(SolrMapper).to have_received(:call).exactly(3).times
     expect(SolrMapper).to have_received(:call)
-      .with(metadata: Hash, dataset_record_id: dataset_record.id,
+      .with(metadata: Hash, doi: dataset_record.doi, dataset_record_id: dataset_record.id,
             dataset_record_set_id: dataset_record_set.id).once
     expect(solr_service).to have_received(:add).exactly(3).times
     expect(solr_service).to have_received(:commit).once
