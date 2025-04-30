@@ -199,11 +199,11 @@ RSpec.describe SolrMapper do
       end
 
       it 'truncates the description string length correctly for abstracts' do
-        expect(solr_mapper.descriptions_field[0].length).to eq(32_000)
+        expect(solr_mapper.descriptions_field[0].length).to eq(SolrMapper::TEXT_LIMIT)
       end
 
       it 'truncates the description string length correctly for methods' do
-        expect(solr_mapper.descriptions_by_type_field(['Methods'])[0].length).to eq(32_000)
+        expect(solr_mapper.descriptions_by_type_field(['Methods'])[0].length).to eq(SolrMapper::TEXT_LIMIT)
       end
     end
   end

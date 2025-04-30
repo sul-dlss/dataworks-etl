@@ -3,6 +3,10 @@
 # Map from Dataworks metadata to Solr metadata
 # rubocop:disable Metrics/ClassLength
 class SolrMapper
+  # Solr field of type text allows up to 32_766 characters
+  # but encoding can expand the length, so we are enforcing
+  # a smaller length
+  TEXT_LIMIT = 32_000
   def self.call(...)
     new(...).call
   end
@@ -86,7 +90,7 @@ class SolrMapper
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
   def descriptions_field
     metadata['descriptions']&.filter_map do |d|
-      d['description'].truncate(32_000) if d['description_type'].blank? || d['description_type'] == 'Abstract'
+      d['description'].truncate(TEXT_LIMIT) if d['description_type'].blank? || d['description_type'] == 'Abstract'
     end || []
   end
 
@@ -105,9 +109,9 @@ class SolrMapper
   end
 
   def descriptions_by_type_field(description_types)
-    metadata['descriptions']&.filter_map do |d|
-      d['description'].truncate(32_000) if description_types.include?(d['description_type'])
-    end || []
+    Array(metadata['descriptions']).filter_map do |d|
+      d['description'].truncate(TEXT_LIMIT) if description_types.include?(d['description_type'])
+    end
   end
 
   def rights_uris_field
@@ -208,9 +212,9 @@ class SolrMapper
 
   # Retrieve affiliation name array given either creator or contributor field
   def affiliation_names_for_role(role)
-    metadata[role]&.map do |role_entity|
+    Array(metadata[role]).flat_map do |role_entity|
       role_entity['affiliation']&.pluck('name')
-    end&.flatten&.compact || []
+    end&.compact
   end
 end
 # rubocop:enable Metrics/ClassLength
