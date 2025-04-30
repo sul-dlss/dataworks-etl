@@ -110,7 +110,9 @@ class SolrMapper
 
   def descriptions_by_type_field(description_types)
     Array(metadata['descriptions']).filter_map do |d|
-      d['description'].truncate(TEXT_LIMIT) if description_types.include?(d['description_type'])
+      next unless description_types.include?(d['description_type'])
+
+      d['description'].truncate(TEXT_LIMIT)
     end
   end
 
