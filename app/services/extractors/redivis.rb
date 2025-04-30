@@ -5,8 +5,10 @@ module Extractors
   class Redivis < Base
     # @param organization [String] the organization to extract datasets for
     def initialize(organization:)
-      super(client: Clients::Redivis.new(api_token: Settings.redivis.api_token, organization:),
-            provider: 'redivis')
+      super(client: Clients::Redivis.new(api_token: Settings.redivis.api_token),
+            provider: 'redivis',
+            list_args: { organization: },
+            )
     end
 
     private

@@ -3,17 +3,16 @@
 module Clients
   # Client for interacting with the Redivis API
   class Redivis < Clients::Base
-    def initialize(api_token:, organization:, url: 'https://redivis.com', conn: nil)
-      @organization = organization
+    def initialize(api_token:, url: 'https://redivis.com', conn: nil)
       super(url: url, api_token: api_token, conn: conn)
     end
 
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(max_results: 100)
-      results, page_token = list_page(max_results: max_results)
+    def list(organization:, max_results: 100)
+      results, page_token = list_page(organization:, max_results: max_results)
       while page_token
-        next_results, page_token = list_page(max_results: max_results, page_token: page_token)
+        next_results, page_token = list_page(organization:, max_results: max_results, page_token: page_token)
         results.concat(next_results)
       end
       results
@@ -25,9 +24,7 @@ module Clients
 
     private
 
-    attr_reader :organization
-
-    def list_page(max_results:, page_token: nil)
+    def list_page(organization:, max_results:, page_token: nil)
       response_json = get_json(path: "/api/v1/organizations/#{organization}/datasets",
                                params: { maxResults: max_results, pageToken: page_token })
       results = response_json['results'].map do |dataset_json|
