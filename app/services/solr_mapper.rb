@@ -30,7 +30,7 @@ class SolrMapper
       creators_ssim: person_or_organization_names_field('creators'),
       creators_ids_sim: person_or_organization_ids_field('creators'),
       contributors_ssim: person_or_organization_names_field('contributors'),
-      contributors_ids_ssim: person_or_organization_ids_field('contributors'),
+      contributors_ids_sim: person_or_organization_ids_field('contributors'),
       funders_ssim: funders_field,
       funders_ids_sim: funders_ids_field,
       url_ss: metadata['url'],
