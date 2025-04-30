@@ -1,0 +1,327 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openalex.org/works?cursor=*&filter=institutions.id:I67328108,type:dataset&per-page=200
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1746040574&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=%2BQV6WWjiIo4ROTKdIzKV6LLCH8PcH%2Buv%2Ba9i%2BNWe8Yk%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1746040574&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=%2BQV6WWjiIo4ROTKdIzKV6LLCH8PcH%2Buv%2Ba9i%2BNWe8Yk%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - keep-alive
+      Server:
+      - gunicorn
+      Date:
+      - Wed, 30 Apr 2025 19:16:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '45918'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Authorization,
+        Cache-Control
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Api-Pool:
+      - common
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: ASCII-8BIT
+      string: '{"meta":{"count":5,"db_response_time_ms":35,"page":null,"per_page":200,"next_cursor":"Ils1Ni4wLCAwLCAnaHR0cHM6Ly9vcGVuYWxleC5vcmcvVzQzOTg5NTcwMDEnXSI=","groups_count":null},"results":[{"id":"https://openalex.org/W4398293344","doi":"https://doi.org/10.7910/dvn/dzzy7g/hzcqzp","title":"Replication
+        Data for: The Aggregate Dynamics of Lower Court Responses to the US Supreme
+        Court MKS_ReplicationCode_JLC.do","display_name":"Replication Data for: The
+        Aggregate Dynamics of Lower Court Responses to the US Supreme Court MKS_ReplicationCode_JLC.do","publication_year":2019,"publication_date":"2019-01-01","ids":{"openalex":"https://openalex.org/W4398293344","doi":"https://doi.org/10.7910/dvn/dzzy7g/hzcqzp"},"language":"en","primary_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/HZCQZP","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"type":"dataset","type_crossref":"dataset","indexed_in":["datacite"],"open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/HZCQZP","any_repository_has_fulltext":true},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5049347304","display_name":"Ali
+        S. Masood","orcid":"https://orcid.org/0000-0003-1564-4477"},"institutions":[{"id":"https://openalex.org/I67328108","display_name":"California
+        State University, Fresno","ror":"https://ror.org/03enmdz06","country_code":"US","type":"funder","lineage":["https://openalex.org/I67328108"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Ali
+        Masood","raw_affiliation_strings":["(California State University, Fresno)"],"affiliations":[{"raw_affiliation_string":"(California
+        State University, Fresno)","institution_ids":["https://openalex.org/I67328108"]}]},{"author_position":"middle","author":{"id":"https://openalex.org/A5032839401","display_name":"Benjamin
+        J. Kassow","orcid":"https://orcid.org/0000-0001-8769-0259"},"institutions":[{"id":"https://openalex.org/I24571045","display_name":"University
+        of North Dakota","ror":"https://ror.org/04a5szx83","country_code":"US","type":"funder","lineage":["https://openalex.org/I24571045"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Benjamin
+        J. Kassow","raw_affiliation_strings":["(University of North Dakota)"],"affiliations":[{"raw_affiliation_string":"(University
+        of North Dakota)","institution_ids":["https://openalex.org/I24571045"]}]},{"author_position":"last","author":{"id":"https://openalex.org/A5041542206","display_name":"Donald
+        R. Songer","orcid":null},"institutions":[{"id":"https://openalex.org/I155781252","display_name":"University
+        of South Carolina","ror":"https://ror.org/02b6qw903","country_code":"US","type":"funder","lineage":["https://openalex.org/I155781252"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Donald
+        R. Songer","raw_affiliation_strings":["(University of South Carolina)"],"affiliations":[{"raw_affiliation_string":"(University
+        of South Carolina)","institution_ids":["https://openalex.org/I155781252"]}]}],"institution_assertions":[],"countries_distinct_count":1,"institutions_distinct_count":3,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"fwci":null,"has_fulltext":false,"cited_by_count":0,"citation_normalized_percentile":{"value":0.0,"is_in_top_1_percent":false,"is_in_top_10_percent":false},"cited_by_percentile_year":{"min":0,"max":61},"biblio":{"volume":null,"issue":null,"first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"primary_topic":{"id":"https://openalex.org/T11762","display_name":"Law,
+        Economics, and Judicial Systems","score":0.9859,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},"topics":[{"id":"https://openalex.org/T11762","display_name":"Law,
+        Economics, and Judicial Systems","score":0.9859,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},{"id":"https://openalex.org/T13138","display_name":"Legal and
+        Constitutional Studies","score":0.9637,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},{"id":"https://openalex.org/T10802","display_name":"Judicial and
+        Constitutional Studies","score":0.9491,"subfield":{"id":"https://openalex.org/subfields/3308","display_name":"Law"},"field":{"id":"https://openalex.org/fields/33","display_name":"Social
+        Sciences"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}}],"keywords":[{"id":"https://openalex.org/keywords/replication","display_name":"Replication","score":0.703838},{"id":"https://openalex.org/keywords/dynamics","display_name":"Dynamics","score":0.50075436}],"concepts":[{"id":"https://openalex.org/C2778272461","wikidata":"https://www.wikidata.org/wiki/Q190752","display_name":"Supreme
+        court","level":2,"score":0.72926},{"id":"https://openalex.org/C12590798","wikidata":"https://www.wikidata.org/wiki/Q3933199","display_name":"Replication
+        (statistics)","level":2,"score":0.703838},{"id":"https://openalex.org/C145912823","wikidata":"https://www.wikidata.org/wiki/Q113558","display_name":"Dynamics
+        (music)","level":2,"score":0.50075436},{"id":"https://openalex.org/C199539241","wikidata":"https://www.wikidata.org/wiki/Q7748","display_name":"Law","level":1,"score":0.4648202},{"id":"https://openalex.org/C17744445","wikidata":"https://www.wikidata.org/wiki/Q36442","display_name":"Political
+        science","level":0,"score":0.38504356},{"id":"https://openalex.org/C33923547","wikidata":"https://www.wikidata.org/wiki/Q395","display_name":"Mathematics","level":0,"score":0.1522918},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.14872217},{"id":"https://openalex.org/C105795698","wikidata":"https://www.wikidata.org/wiki/Q12483","display_name":"Statistics","level":1,"score":0.09185359},{"id":"https://openalex.org/C19417346","wikidata":"https://www.wikidata.org/wiki/Q7922","display_name":"Pedagogy","level":1,"score":0.0}],"mesh":[],"locations_count":2,"locations":[{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/HZCQZP","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},{"is_oa":false,"landing_page_url":"https://api.datacite.org/dois/10.7910/dvn/dzzy7g/hzcqzp","pdf_url":null,"source":{"id":"https://openalex.org/S4393179698","display_name":"DataCite
+        API","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I4210145204","host_organization_name":"DataCite","host_organization_lineage":["https://openalex.org/I4210145204"],"host_organization_lineage_names":["DataCite"],"type":"metadata"},"license":null,"license_id":null,"version":null}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/HZCQZP","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"sustainable_development_goals":[],"grants":[],"datasets":[],"versions":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W4391375266","https://openalex.org/W4378229060","https://openalex.org/W4300793527","https://openalex.org/W3123993492","https://openalex.org/W2748952813","https://openalex.org/W2611247913","https://openalex.org/W2557583602","https://openalex.org/W2043365553","https://openalex.org/W1980452762","https://openalex.org/W1560432242"],"abstract_inverted_index":{":unav":[0]},"abstract_inverted_index_v3":null,"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4398293344","counts_by_year":[],"updated_date":"2025-02-02T15:51:45.052029","created_date":"2024-05-24"},{"id":"https://openalex.org/W4398591158","doi":"https://doi.org/10.7910/dvn/dzzy7g/umzm9n","title":"MKS_ReplicationData_JLC.tab","display_name":"MKS_ReplicationData_JLC.tab","publication_year":2019,"publication_date":"2019-01-01","ids":{"openalex":"https://openalex.org/W4398591158","doi":"https://doi.org/10.7910/dvn/dzzy7g/umzm9n"},"language":"en","primary_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/UMZM9N","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"type":"dataset","type_crossref":"dataset","indexed_in":["datacite"],"open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/UMZM9N","any_repository_has_fulltext":true},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5049347304","display_name":"Ali
+        S. Masood","orcid":"https://orcid.org/0000-0003-1564-4477"},"institutions":[{"id":"https://openalex.org/I67328108","display_name":"California
+        State University, Fresno","ror":"https://ror.org/03enmdz06","country_code":"US","type":"funder","lineage":["https://openalex.org/I67328108"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Ali
+        Masood","raw_affiliation_strings":["(California State University, Fresno)"],"affiliations":[{"raw_affiliation_string":"(California
+        State University, Fresno)","institution_ids":["https://openalex.org/I67328108"]}]},{"author_position":"middle","author":{"id":"https://openalex.org/A5032839401","display_name":"Benjamin
+        J. Kassow","orcid":"https://orcid.org/0000-0001-8769-0259"},"institutions":[{"id":"https://openalex.org/I24571045","display_name":"University
+        of North Dakota","ror":"https://ror.org/04a5szx83","country_code":"US","type":"funder","lineage":["https://openalex.org/I24571045"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Benjamin
+        J. Kassow","raw_affiliation_strings":["(University of North Dakota)"],"affiliations":[{"raw_affiliation_string":"(University
+        of North Dakota)","institution_ids":["https://openalex.org/I24571045"]}]},{"author_position":"last","author":{"id":"https://openalex.org/A5041542206","display_name":"Donald
+        R. Songer","orcid":null},"institutions":[{"id":"https://openalex.org/I155781252","display_name":"University
+        of South Carolina","ror":"https://ror.org/02b6qw903","country_code":"US","type":"funder","lineage":["https://openalex.org/I155781252"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Donald
+        R. Songer","raw_affiliation_strings":["(University of South Carolina)"],"affiliations":[{"raw_affiliation_string":"(University
+        of South Carolina)","institution_ids":["https://openalex.org/I155781252"]}]}],"institution_assertions":[],"countries_distinct_count":1,"institutions_distinct_count":3,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"fwci":null,"has_fulltext":false,"cited_by_count":0,"citation_normalized_percentile":{"value":0.0,"is_in_top_1_percent":false,"is_in_top_10_percent":false},"cited_by_percentile_year":{"min":0,"max":61},"biblio":{"volume":null,"issue":null,"first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"primary_topic":{"id":"https://openalex.org/T12039","display_name":"Electron
+        and X-Ray Spectroscopy Techniques","score":0.1453,"subfield":{"id":"https://openalex.org/subfields/2508","display_name":"Surfaces,
+        Coatings and Films"},"field":{"id":"https://openalex.org/fields/25","display_name":"Materials
+        Science"},"domain":{"id":"https://openalex.org/domains/3","display_name":"Physical
+        Sciences"}},"topics":[{"id":"https://openalex.org/T12039","display_name":"Electron
+        and X-Ray Spectroscopy Techniques","score":0.1453,"subfield":{"id":"https://openalex.org/subfields/2508","display_name":"Surfaces,
+        Coatings and Films"},"field":{"id":"https://openalex.org/fields/25","display_name":"Materials
+        Science"},"domain":{"id":"https://openalex.org/domains/3","display_name":"Physical
+        Sciences"}}],"keywords":[],"concepts":[{"id":"https://openalex.org/C39432304","wikidata":"https://www.wikidata.org/wiki/Q188847","display_name":"Environmental
+        science","level":0,"score":0.27770767}],"mesh":[],"locations_count":2,"locations":[{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/UMZM9N","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},{"is_oa":false,"landing_page_url":"https://api.datacite.org/dois/10.7910/dvn/dzzy7g/umzm9n","pdf_url":null,"source":{"id":"https://openalex.org/S4393179698","display_name":"DataCite
+        API","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I4210145204","host_organization_name":"DataCite","host_organization_lineage":["https://openalex.org/I4210145204"],"host_organization_lineage_names":["DataCite"],"type":"metadata"},"license":null,"license_id":null,"version":null}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/file.xhtml?persistentId=doi:10.7910/DVN/DZZY7G/UMZM9N","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"sustainable_development_goals":[],"grants":[],"datasets":[],"versions":[],"referenced_works_count":0,"referenced_works":[],"related_works":[],"abstract_inverted_index":{":unav":[0]},"abstract_inverted_index_v3":null,"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4398591158","counts_by_year":[],"updated_date":"2025-02-02T17:09:55.588690","created_date":"2024-05-24"},{"id":"https://openalex.org/W4398728403","doi":"https://doi.org/10.7910/dvn/dzzy7g","title":"Replication
+        Data for: The Aggregate Dynamics of Lower Court Responses to the U.S. Supreme
+        Court","display_name":"Replication Data for: The Aggregate Dynamics of Lower
+        Court Responses to the U.S. Supreme Court","publication_year":2019,"publication_date":"2019-01-01","ids":{"openalex":"https://openalex.org/W4398728403","doi":"https://doi.org/10.7910/dvn/dzzy7g"},"language":"en","primary_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/DZZY7G","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"type":"dataset","type_crossref":"dataset","indexed_in":["datacite"],"open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/DZZY7G","any_repository_has_fulltext":true},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5049347304","display_name":"Ali
+        S. Masood","orcid":"https://orcid.org/0000-0003-1564-4477"},"institutions":[{"id":"https://openalex.org/I67328108","display_name":"California
+        State University, Fresno","ror":"https://ror.org/03enmdz06","country_code":"US","type":"funder","lineage":["https://openalex.org/I67328108"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Ali
+        Masood","raw_affiliation_strings":["(California State University, Fresno)"],"affiliations":[{"raw_affiliation_string":"(California
+        State University, Fresno)","institution_ids":["https://openalex.org/I67328108"]}]},{"author_position":"middle","author":{"id":"https://openalex.org/A5032839401","display_name":"Benjamin
+        J. Kassow","orcid":"https://orcid.org/0000-0001-8769-0259"},"institutions":[{"id":"https://openalex.org/I24571045","display_name":"University
+        of North Dakota","ror":"https://ror.org/04a5szx83","country_code":"US","type":"funder","lineage":["https://openalex.org/I24571045"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Benjamin
+        J. Kassow","raw_affiliation_strings":["(University of North Dakota)"],"affiliations":[{"raw_affiliation_string":"(University
+        of North Dakota)","institution_ids":["https://openalex.org/I24571045"]}]},{"author_position":"last","author":{"id":"https://openalex.org/A5041542206","display_name":"Donald
+        R. Songer","orcid":null},"institutions":[{"id":"https://openalex.org/I155781252","display_name":"University
+        of South Carolina","ror":"https://ror.org/02b6qw903","country_code":"US","type":"funder","lineage":["https://openalex.org/I155781252"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Donald
+        R. Songer","raw_affiliation_strings":["(University of South Carolina)"],"affiliations":[{"raw_affiliation_string":"(University
+        of South Carolina)","institution_ids":["https://openalex.org/I155781252"]}]}],"institution_assertions":[],"countries_distinct_count":1,"institutions_distinct_count":3,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"fwci":null,"has_fulltext":false,"cited_by_count":0,"citation_normalized_percentile":{"value":0.0,"is_in_top_1_percent":false,"is_in_top_10_percent":false},"cited_by_percentile_year":{"min":0,"max":61},"biblio":{"volume":null,"issue":null,"first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"primary_topic":{"id":"https://openalex.org/T11762","display_name":"Law,
+        Economics, and Judicial Systems","score":0.9881,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},"topics":[{"id":"https://openalex.org/T11762","display_name":"Law,
+        Economics, and Judicial Systems","score":0.9881,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},{"id":"https://openalex.org/T10802","display_name":"Judicial and
+        Constitutional Studies","score":0.9785,"subfield":{"id":"https://openalex.org/subfields/3308","display_name":"Law"},"field":{"id":"https://openalex.org/fields/33","display_name":"Social
+        Sciences"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},{"id":"https://openalex.org/T13138","display_name":"Legal and
+        Constitutional Studies","score":0.9766,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}}],"keywords":[{"id":"https://openalex.org/keywords/replication","display_name":"Replication","score":0.74510574},{"id":"https://openalex.org/keywords/dynamics","display_name":"Dynamics","score":0.48250723}],"concepts":[{"id":"https://openalex.org/C2778272461","wikidata":"https://www.wikidata.org/wiki/Q190752","display_name":"Supreme
+        court","level":2,"score":0.80331683},{"id":"https://openalex.org/C12590798","wikidata":"https://www.wikidata.org/wiki/Q3933199","display_name":"Replication
+        (statistics)","level":2,"score":0.74510574},{"id":"https://openalex.org/C145912823","wikidata":"https://www.wikidata.org/wiki/Q113558","display_name":"Dynamics
+        (music)","level":2,"score":0.48250723},{"id":"https://openalex.org/C199539241","wikidata":"https://www.wikidata.org/wiki/Q7748","display_name":"Law","level":1,"score":0.47335956},{"id":"https://openalex.org/C17744445","wikidata":"https://www.wikidata.org/wiki/Q36442","display_name":"Political
+        science","level":0,"score":0.4255374},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.25432518},{"id":"https://openalex.org/C33923547","wikidata":"https://www.wikidata.org/wiki/Q395","display_name":"Mathematics","level":0,"score":0.21332741},{"id":"https://openalex.org/C105795698","wikidata":"https://www.wikidata.org/wiki/Q12483","display_name":"Statistics","level":1,"score":0.17217675},{"id":"https://openalex.org/C19417346","wikidata":"https://www.wikidata.org/wiki/Q7922","display_name":"Pedagogy","level":1,"score":0.0}],"mesh":[],"locations_count":2,"locations":[{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/DZZY7G","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},{"is_oa":false,"landing_page_url":"https://api.datacite.org/dois/10.7910/dvn/dzzy7g","pdf_url":null,"source":{"id":"https://openalex.org/S4393179698","display_name":"DataCite
+        API","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I4210145204","host_organization_name":"DataCite","host_organization_lineage":["https://openalex.org/I4210145204"],"host_organization_lineage_names":["DataCite"],"type":"metadata"},"license":null,"license_id":null,"version":null}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/DZZY7G","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"sustainable_development_goals":[],"grants":[],"datasets":[],"versions":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W4391375266","https://openalex.org/W4378229060","https://openalex.org/W4300793527","https://openalex.org/W3123993492","https://openalex.org/W2748952813","https://openalex.org/W2611247913","https://openalex.org/W2557583602","https://openalex.org/W2043365553","https://openalex.org/W1980452762","https://openalex.org/W1560432242"],"abstract_inverted_index":{"We":[0,83],"offer":[1],"a":[2,35,41],"theory":[3],"in":[4],"which":[5,69],"the":[6,18,24,59,66,70,76,79,85],"U.S.":[7,80],"Supreme":[8,42,81],"Court":[9,43],"drives":[10],"aggregate":[11],"responses":[12],"to":[13,23,38],"its":[14,21],"decisions":[15,63],"by":[16,49],"signaling":[17],"utility":[19],"of":[20,61,78,87],"precedents":[22,77],"lower":[25,31,71],"courts.":[26],"Specifically,":[27],"we":[28],"theorize":[29],"that":[30,58],"court":[32],"judges":[33],"have":[34],"greater":[36],"propensity":[37],"rely":[39],"on":[40],"precedent":[44],"when":[45],"it":[46],"is":[47],"reinforced":[48],"one":[50],"or":[51],"more":[52],"summary":[53,62],"decisions.":[54],"Our":[55],"results":[56],"demonstrate":[57],"presence":[60],"significantly":[64],"increases":[65],"frequency":[67],"with":[68],"courts":[72],"cite":[73],"and":[74,96],"follow":[75],"Court.":[82],"corroborate":[84],"causality":[86],"these":[88],"linkages":[89],"through":[90],"qualitative":[91],"analyses,":[92],"distance":[93],"matching":[94],"methods,":[95],"simultaneous":[97],"sensitivity":[98],"analysis.":[99]},"abstract_inverted_index_v3":null,"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4398728403","counts_by_year":[],"updated_date":"2025-02-02T17:57:32.061763","created_date":"2024-05-24"},{"id":"https://openalex.org/W4399003529","doi":"https://doi.org/10.7910/dvn/zxwnwy","title":"Replication
+        Data for: The Aggregate Dynamics of Lower Court Responses to the U.S. Supreme
+        Court","display_name":"Replication Data for: The Aggregate Dynamics of Lower
+        Court Responses to the U.S. Supreme Court","publication_year":2020,"publication_date":"2020-01-01","ids":{"openalex":"https://openalex.org/W4399003529","doi":"https://doi.org/10.7910/dvn/zxwnwy"},"language":"en","primary_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/ZXWNWY","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"type":"dataset","type_crossref":"dataset","indexed_in":["datacite"],"open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/ZXWNWY","any_repository_has_fulltext":true},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5049347304","display_name":"Ali
+        S. Masood","orcid":"https://orcid.org/0000-0003-1564-4477"},"institutions":[{"id":"https://openalex.org/I67328108","display_name":"California
+        State University, Fresno","ror":"https://ror.org/03enmdz06","country_code":"US","type":"funder","lineage":["https://openalex.org/I67328108"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Ali
+        S. Masood","raw_affiliation_strings":["(Fresno State University)"],"affiliations":[{"raw_affiliation_string":"(Fresno
+        State University)","institution_ids":["https://openalex.org/I67328108"]}]},{"author_position":"middle","author":{"id":"https://openalex.org/A5032839401","display_name":"Benjamin
+        J. Kassow","orcid":"https://orcid.org/0000-0001-8769-0259"},"institutions":[{"id":"https://openalex.org/I24571045","display_name":"University
+        of North Dakota","ror":"https://ror.org/04a5szx83","country_code":"US","type":"funder","lineage":["https://openalex.org/I24571045"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Benjamin
+        J. Kassow","raw_affiliation_strings":["(University of North Dakota)"],"affiliations":[{"raw_affiliation_string":"(University
+        of North Dakota)","institution_ids":["https://openalex.org/I24571045"]}]},{"author_position":"last","author":{"id":"https://openalex.org/A5041542206","display_name":"Donald
+        R. Songer","orcid":null},"institutions":[{"id":"https://openalex.org/I155781252","display_name":"University
+        of South Carolina","ror":"https://ror.org/02b6qw903","country_code":"US","type":"funder","lineage":["https://openalex.org/I155781252"]}],"countries":["US"],"is_corresponding":false,"raw_author_name":"Donald
+        R. Songer","raw_affiliation_strings":["(University of South Carolina)"],"affiliations":[{"raw_affiliation_string":"(University
+        of South Carolina)","institution_ids":["https://openalex.org/I155781252"]}]}],"institution_assertions":[],"countries_distinct_count":1,"institutions_distinct_count":3,"corresponding_author_ids":[],"corresponding_institution_ids":[],"apc_list":null,"apc_paid":null,"fwci":null,"has_fulltext":false,"cited_by_count":0,"citation_normalized_percentile":{"value":0.0,"is_in_top_1_percent":false,"is_in_top_10_percent":false},"cited_by_percentile_year":{"min":0,"max":60},"biblio":{"volume":null,"issue":null,"first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"primary_topic":{"id":"https://openalex.org/T11762","display_name":"Law,
+        Economics, and Judicial Systems","score":0.9881,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},"topics":[{"id":"https://openalex.org/T11762","display_name":"Law,
+        Economics, and Judicial Systems","score":0.9881,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},{"id":"https://openalex.org/T10802","display_name":"Judicial and
+        Constitutional Studies","score":0.9785,"subfield":{"id":"https://openalex.org/subfields/3308","display_name":"Law"},"field":{"id":"https://openalex.org/fields/33","display_name":"Social
+        Sciences"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},{"id":"https://openalex.org/T13138","display_name":"Legal and
+        Constitutional Studies","score":0.9766,"subfield":{"id":"https://openalex.org/subfields/2002","display_name":"Economics
+        and Econometrics"},"field":{"id":"https://openalex.org/fields/20","display_name":"Economics,
+        Econometrics and Finance"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}}],"keywords":[{"id":"https://openalex.org/keywords/replication","display_name":"Replication","score":0.75825584},{"id":"https://openalex.org/keywords/dynamics","display_name":"Dynamics","score":0.52133197}],"concepts":[{"id":"https://openalex.org/C2778272461","wikidata":"https://www.wikidata.org/wiki/Q190752","display_name":"Supreme
+        court","level":2,"score":0.7820586},{"id":"https://openalex.org/C12590798","wikidata":"https://www.wikidata.org/wiki/Q3933199","display_name":"Replication
+        (statistics)","level":2,"score":0.75825584},{"id":"https://openalex.org/C145912823","wikidata":"https://www.wikidata.org/wiki/Q113558","display_name":"Dynamics
+        (music)","level":2,"score":0.52133197},{"id":"https://openalex.org/C4679612","wikidata":"https://www.wikidata.org/wiki/Q866298","display_name":"Aggregate
+        (composite)","level":2,"score":0.4145741},{"id":"https://openalex.org/C17744445","wikidata":"https://www.wikidata.org/wiki/Q36442","display_name":"Political
+        science","level":0,"score":0.3809204},{"id":"https://openalex.org/C199539241","wikidata":"https://www.wikidata.org/wiki/Q7748","display_name":"Law","level":1,"score":0.36757773},{"id":"https://openalex.org/C15744967","wikidata":"https://www.wikidata.org/wiki/Q9418","display_name":"Psychology","level":0,"score":0.22906446},{"id":"https://openalex.org/C33923547","wikidata":"https://www.wikidata.org/wiki/Q395","display_name":"Mathematics","level":0,"score":0.21734807},{"id":"https://openalex.org/C105795698","wikidata":"https://www.wikidata.org/wiki/Q12483","display_name":"Statistics","level":1,"score":0.2158278},{"id":"https://openalex.org/C19417346","wikidata":"https://www.wikidata.org/wiki/Q7922","display_name":"Pedagogy","level":1,"score":0.0},{"id":"https://openalex.org/C192562407","wikidata":"https://www.wikidata.org/wiki/Q228736","display_name":"Materials
+        science","level":0,"score":0.0},{"id":"https://openalex.org/C159985019","wikidata":"https://www.wikidata.org/wiki/Q181790","display_name":"Composite
+        material","level":1,"score":0.0}],"mesh":[],"locations_count":2,"locations":[{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/ZXWNWY","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},{"is_oa":false,"landing_page_url":"https://api.datacite.org/dois/10.7910/dvn/zxwnwy","pdf_url":null,"source":{"id":"https://openalex.org/S4393179698","display_name":"DataCite
+        API","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I4210145204","host_organization_name":"DataCite","host_organization_lineage":["https://openalex.org/I4210145204"],"host_organization_lineage_names":["DataCite"],"type":"metadata"},"license":null,"license_id":null,"version":null}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/ZXWNWY","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"sustainable_development_goals":[],"grants":[],"datasets":[],"versions":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W4378229060","https://openalex.org/W4300793527","https://openalex.org/W3185906281","https://openalex.org/W3123993492","https://openalex.org/W2738671883","https://openalex.org/W2611247913","https://openalex.org/W2557583602","https://openalex.org/W2043365553","https://openalex.org/W1980452762","https://openalex.org/W1560432242"],"abstract_inverted_index":{"We":[0,82],"offer":[1],"a":[2,35,41],"framework":[3],"in":[4],"which":[5,69],"the":[6,18,24,59,66,70,75,78,84],"U.S.":[7,79],"Supreme":[8,42,80],"Court":[9,43],"drives":[10],"aggregate":[11],"responses":[12],"to":[13,23,38],"its":[14,21],"decisions":[15,63],"by":[16,49],"signaling":[17],"utility":[19],"of":[20,61,77,86],"precedents":[22,76],"lower":[25,31,71],"courts.":[26],"Specifically,":[27],"we":[28],"theorize":[29],"that":[30,58],"court":[32],"judges":[33],"have":[34],"greater":[36],"propensity":[37],"rely":[39,73],"on":[40,74],"precedent":[44],"when":[45],"it":[46],"is":[47],"reinforced":[48],"one":[50],"or":[51],"more":[52],"summary":[53,62],"decisions.":[54],"Our":[55],"results":[56],"demonstrate":[57],"presence":[60],"significantly":[64],"increases":[65],"frequency":[67],"with":[68],"courts":[72],"Court.":[81],"corroborate":[83],"causality":[85],"these":[87],"linkages":[88],"through":[89],"qualitative":[90],"analyses,":[91],"distance":[92],"matching":[93],"methods,":[94],"and":[95],"simultaneous":[96],"sensitivity":[97],"analysis.":[98]},"abstract_inverted_index_v3":null,"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4399003529","counts_by_year":[],"updated_date":"2025-02-03T15:39:56.278311","created_date":"2024-05-26"},{"id":"https://openalex.org/W4398957001","doi":"https://doi.org/10.7910/dvn/rcfnny","title":"Institutional
+        Trading around Repurchase Announcements: An Uphill Battle","display_name":"Institutional
+        Trading around Repurchase Announcements: An Uphill Battle","publication_year":2021,"publication_date":"2021-01-01","ids":{"openalex":"https://openalex.org/W4398957001","doi":"https://doi.org/10.7910/dvn/rcfnny"},"language":"en","primary_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/RCFNNY","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"type":"dataset","type_crossref":"dataset","indexed_in":["datacite"],"open_access":{"is_oa":true,"oa_status":"gold","oa_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/RCFNNY","any_repository_has_fulltext":true},"authorships":[{"author_position":"first","author":{"id":"https://openalex.org/A5024059840","display_name":"Vinh
+        Huy Nguyen","orcid":"https://orcid.org/0000-0002-0201-302X"},"institutions":[{"id":"https://openalex.org/I67328108","display_name":"California
+        State University, Fresno","ror":"https://ror.org/03enmdz06","country_code":"US","type":"funder","lineage":["https://openalex.org/I67328108"]}],"countries":["US"],"is_corresponding":true,"raw_author_name":"Vinh
+        Huy Nguyen","raw_affiliation_strings":["(California State University, Fresno)"],"affiliations":[{"raw_affiliation_string":"(California
+        State University, Fresno)","institution_ids":["https://openalex.org/I67328108"]}]}],"institution_assertions":[],"countries_distinct_count":1,"institutions_distinct_count":1,"corresponding_author_ids":["https://openalex.org/A5024059840"],"corresponding_institution_ids":["https://openalex.org/I67328108"],"apc_list":null,"apc_paid":null,"fwci":null,"has_fulltext":false,"cited_by_count":0,"citation_normalized_percentile":{"value":0.0,"is_in_top_1_percent":false,"is_in_top_10_percent":false},"cited_by_percentile_year":{"min":0,"max":56},"biblio":{"volume":null,"issue":null,"first_page":null,"last_page":null},"is_retracted":false,"is_paratext":false,"primary_topic":{"id":"https://openalex.org/T14373","display_name":"Securities
+        Regulation and Market Practices","score":0.7203,"subfield":{"id":"https://openalex.org/subfields/1406","display_name":"Marketing"},"field":{"id":"https://openalex.org/fields/14","display_name":"Business,
+        Management and Accounting"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}},"topics":[{"id":"https://openalex.org/T14373","display_name":"Securities
+        Regulation and Market Practices","score":0.7203,"subfield":{"id":"https://openalex.org/subfields/1406","display_name":"Marketing"},"field":{"id":"https://openalex.org/fields/14","display_name":"Business,
+        Management and Accounting"},"domain":{"id":"https://openalex.org/domains/2","display_name":"Social
+        Sciences"}}],"keywords":[],"concepts":[{"id":"https://openalex.org/C2778627824","wikidata":"https://www.wikidata.org/wiki/Q178561","display_name":"Battle","level":2,"score":0.92085576},{"id":"https://openalex.org/C144133560","wikidata":"https://www.wikidata.org/wiki/Q4830453","display_name":"Business","level":0,"score":0.59381515},{"id":"https://openalex.org/C95457728","wikidata":"https://www.wikidata.org/wiki/Q309","display_name":"History","level":0,"score":0.26498574},{"id":"https://openalex.org/C166957645","wikidata":"https://www.wikidata.org/wiki/Q23498","display_name":"Archaeology","level":1,"score":0.15030631}],"mesh":[],"locations_count":2,"locations":[{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/RCFNNY","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},{"is_oa":false,"landing_page_url":"https://api.datacite.org/dois/10.7910/dvn/rcfnny","pdf_url":null,"source":{"id":"https://openalex.org/S4393179698","display_name":"DataCite
+        API","issn_l":null,"issn":null,"is_oa":true,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I4210145204","host_organization_name":"DataCite","host_organization_lineage":["https://openalex.org/I4210145204"],"host_organization_lineage_names":["DataCite"],"type":"metadata"},"license":null,"license_id":null,"version":null}],"best_oa_location":{"is_oa":true,"landing_page_url":"https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/RCFNNY","pdf_url":null,"source":{"id":"https://openalex.org/S4377196806","display_name":"Harvard
+        Dataverse","issn_l":null,"issn":null,"is_oa":false,"is_in_doaj":false,"is_indexed_in_scopus":false,"is_core":false,"host_organization":"https://openalex.org/I136199984","host_organization_name":"Harvard
+        University","host_organization_lineage":["https://openalex.org/I136199984"],"host_organization_lineage_names":["Harvard
+        University"],"type":"repository"},"license":"other-oa","license_id":"https://openalex.org/licenses/other-oa","version":null,"is_accepted":false,"is_published":false},"sustainable_development_goals":[],"grants":[],"datasets":[],"versions":[],"referenced_works_count":0,"referenced_works":[],"related_works":["https://openalex.org/W4391375266","https://openalex.org/W3030212771","https://openalex.org/W2999081595","https://openalex.org/W2994023542","https://openalex.org/W2350977361","https://openalex.org/W2348097125","https://openalex.org/W2120337598","https://openalex.org/W2003237632","https://openalex.org/W2000391299","https://openalex.org/W1558737772"],"abstract_inverted_index":{"Data":[0],"for":[1],"institutional":[2],"performance":[3],"around":[4],"share":[5],"repurchase":[6],"announcements":[7]},"abstract_inverted_index_v3":null,"cited_by_api_url":"https://api.openalex.org/works?filter=cites:W4398957001","counts_by_year":[],"updated_date":"2025-03-25T15:59:13.562159","created_date":"2024-05-25"}],"group_by":[]}
+
+        '
+  recorded_at: Wed, 30 Apr 2025 19:16:14 GMT
+- request:
+    method: get
+    uri: https://api.openalex.org/works?cursor=Ils1Ni4wLCAwLCAnaHR0cHM6Ly9vcGVuYWxleC5vcmcvVzQzOTg5NTcwMDEnXSI=&filter=institutions.id:I67328108,type:dataset&per-page=200
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1746040574&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=%2BQV6WWjiIo4ROTKdIzKV6LLCH8PcH%2Buv%2Ba9i%2BNWe8Yk%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1746040574&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=%2BQV6WWjiIo4ROTKdIzKV6LLCH8PcH%2Buv%2Ba9i%2BNWe8Yk%3D
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Connection:
+      - keep-alive
+      Server:
+      - gunicorn
+      Date:
+      - Wed, 30 Apr 2025 19:16:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '139'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE, PATCH
+      Access-Control-Allow-Headers:
+      - Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Authorization,
+        Cache-Control
+      Access-Control-Expose-Headers:
+      - Authorization, Cache-Control
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Api-Pool:
+      - common
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Security-Policy:
+      - default-src 'self'; object-src 'none'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"count":5,"db_response_time_ms":28,"page":null,"per_page":200,"next_cursor":null,"groups_count":null},"results":[],"group_by":[]}
+
+        '
+  recorded_at: Wed, 30 Apr 2025 19:16:14 GMT
+recorded_with: VCR 6.3.1
