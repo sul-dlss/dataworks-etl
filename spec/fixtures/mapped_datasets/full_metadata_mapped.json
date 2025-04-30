@@ -95,7 +95,7 @@
       ],
       "affiliation": [
         {
-          "name": "My institution",
+          "name": "My contributor institution",
           "affiliation_identifier": "https://ror.org/00f54p054",
           "affiliation_identifier_scheme": "ROR"
         }
@@ -145,7 +145,8 @@
       "date": "2022-01-01/2022-12-31"
     },
     {
-      "date": "2022-11-25"
+      "date": "2022-11-25",
+      "date_type": "Coverage"
     },
     {
       "date": "1973"
