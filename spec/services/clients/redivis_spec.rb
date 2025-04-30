@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Clients::Redivis, :vcr do
-  let(:client) { described_class.new(api_token: Settings.redivis.api_token, organization: 'StanfordPHS') }
+  let(:client) { described_class.new(api_token: Settings.redivis.api_token) }
 
   describe '.list' do
-    let(:results) { client.list(max_results: 50) }
+    let(:results) { client.list(organization: 'StanfordPHS', max_results: 50) }
 
     it 'retrieves the list of datasets' do
       expect(results.size).to eq(95)
