@@ -89,9 +89,9 @@ class SolrMapper
 
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
   def descriptions_field
-    metadata['descriptions']&.filter_map do |d|
+    Array(metadata['descriptions']).filter_map do |d|
       d['description'].truncate(TEXT_LIMIT) if d['description_type'].blank? || d['description_type'] == 'Abstract'
-    end || []
+    end
   end
 
   def person_or_organization_ids_field(field)
@@ -128,9 +128,11 @@ class SolrMapper
   # Extract the year from the date for temporal coverage
   # If the date is a range, store a sequence of years from beginning to end
   def temporal_field
-    metadata['dates']&.filter_map do |date|
-      parse_date(date['date']) if date['date_type'] == 'Coverage'
-    end&.flatten
+    Array(metadata['dates']).filter_map do |date|
+      next unless date['date_type'] == 'Coverage'
+
+      parse_date(date['date'])
+    end.flatten
   end
 
   # Return an array of dates based on the parsing of the date string
