@@ -35,7 +35,7 @@
   "numBytes": 0,
   "createdAt": 1574457099929,
   "updatedAt": 1582325197101,
-  "tableCount": 0,
+  "tableCount": 56,
   "accessLevel": "data",
   "description": "The Programme for Improving Mental Health Care (PRIME) is creating high quality research evidence on how best to implement and expand the coverage of mental health treatment programmes in low-resource settings. PRIME integrates mental health service delivery into primary health care system in India through a health systems strengthening approach in partnership with researchers, ministries of health and non-governmental organisations.",
   "referenceId": "016c",
@@ -67,6 +67,75 @@
       "title": "Documentation",
       "accessLevel": "overview",
       "markdownContent": "Please contact[ Gillian Hanslo](<vikram_patel@hms.harvard.edu>) for an expression of interest form.\n\n\n\n\n\n**Methodology**\n\nThe research was conducted in the following stages:\n\n**Inception phase**\n\nDuring the inception phase (Year 1-2), PRIME developed integrated mental health care plans (MHCPs) comprising packages of mental health care for delivery in primary health care and maternal healthcare suited to each study country’s unique setting.\n\n**Implementation phase**\n\nDuring the implementation phase (Years 2-5), PRIME implemented these MHCPs in 5 country district sites and evaluated the feasibility, acceptability and impact of the packages of care in primary health care and maternal health care with four separate studies, including a community survey, facility survey, a cohort study and a case study.\n\n**Scale-up phase**\n\nIn the scale-up phase (Years 5-7), PRIME scaled up to 94 facilities across the five study countries. The scale-up phase was also evaluated using a case study.\n\n**Extension phase**\n\nDuring the extension phase (Years 7-8), PRIME is writing up and disseminating its findings, and partnering with other countries beyond the PRIME network. A main goal of PRIME during this final phase is to help make a significant ongoing contribution to a broader investment in mental health and mental healthcare.\n\nIntervention packages are refined for each country and this will include strengthening maternal mental health intervention delivery where required. A key challenge has been ensuring adequate quality of care, and PRIME teams are implementing robust Quality Improvement (QI) measures in all countries.\n\nPRIME teams are also actively working with partners in additional LMICs to assist in implementing PRIME’s approach in other countries. This assistance takes on various forms, including presenting workshops, taking part in meetings to share the tools and manuals PRIME has developed.\n\n**Impact summary**\n\nThe PRIME mental healthcare plan has been implemented in 3 facilities and their surrounding communities. By December 2014, 172 service providers working in the district had been trained in the provision of mental healthcare.\n\nIn India, no improvement was found in treatment coverage, a small improvement in facility detection and modest improvement in clinical outcomes for individuals with depression and AUD who received care.\n\n"
+    }
+  ],
+  "tables": [
+    {
+      "kind": "table",
+      "id": "4rvd-3bfkbkvbf",
+      "qualifiedReference": "sul.usa_structures:d3cy:v1_0.nj_structures:4rvd",
+      "scopedReference": "nj_structures:4rvd",
+      "referenceId": "4rvd",
+      "uri": "/tables/sul.usa_structures:d3cy:v1_0.nj_structures:4rvd",
+      "url": "https://redivis.com/datasets/d3cy-a7gxn1165/tables/4rvd-3bfkbkvbf?v=1.0",
+      "name": "NJ_Structures",
+      "isSample": false,
+      "hash": "5124f459097a23549171ff96d345b25e",
+      "isFileIndex": false,
+      "createdAt": 1731611188186,
+      "updatedAt": 1731611188186,
+      "description": null,
+      "numRows": 2581846,
+      "numBytes": 1548877429,
+      "variableCount": 29,
+      "uploadMergeStrategy": "append",
+      "variables": [
+        {
+          "kind": "variable",
+          "uri": "/tables/sul.usa_structures:d3cy:v1_0.nj_structures:4rvd/variables/geometry",
+          "url": "https://redivis.com/datasets/d3cy-a7gxn1165/tables/4rvd-3bfkbkvbf?v=1.0&variable=geometry",
+          "name": "geometry",
+          "type": "geography",
+          "isFileId": false,
+          "index": 28,
+          "label": null,
+          "description": null,
+          "valueLabels": null,
+          "statistics": {
+            "status": "completed",
+            "count": 2581846,
+            "numDistinct": 2581846,
+            "geoBBox": {
+              "westLongitude": -75.55544925500003,
+              "eastLongitude": -73.90589474999999,
+              "northLatitude": 41.35591978300012,
+              "southLatitude": 38.92970214299997
+            }
+          }
+        },
+        {
+          "kind": "variable",
+          "uri": "/tables/sul.usa_structures:d3cy:v1_0.nj_structures:4rvd/variables/build_id",
+          "url": "https://redivis.com/datasets/d3cy-a7gxn1165/tables/4rvd-3bfkbkvbf?v=1.0&variable=BUILD_ID",
+          "name": "BUILD_ID",
+          "type": "integer",
+          "isFileId": false,
+          "index": 0,
+          "label": "Building ID",
+          "description": "Unique ID for each feature",
+          "valueLabels": null,
+          "statistics": {
+            "status": "completed",
+            "count": 2581846,
+            "numDistinct": 2581846,
+            "min": 1,
+            "max": 7884584,
+            "mean": 3505756.6331729293,
+            "approxMedian": 2026184,
+            "stdDev": 2969076.27461616
+          }
+        }
+      ]
     }
   ]
 }
