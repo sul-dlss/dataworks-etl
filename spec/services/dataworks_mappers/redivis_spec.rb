@@ -36,7 +36,8 @@ RSpec.describe DataworksMappers::Redivis do
         ],
         subjects: [{ subject: 'india' }, { subject: 'mental health' }],
         sizes: ['0 bytes'],
-        version: 'v0.1'
+        version: 'v0.1',
+        variables: %w[geometry BUILD_ID]
       }
     )
   end

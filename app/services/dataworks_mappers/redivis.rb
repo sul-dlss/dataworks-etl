@@ -32,7 +32,8 @@ module DataworksMappers
         dates:,
         subjects:,
         sizes:,
-        version: source[:version][:tag]
+        version: source[:version][:tag],
+        variables:
       }.compact_blank
     end
 
@@ -102,6 +103,14 @@ module DataworksMappers
       return date.map { |d| epoch_to_string(d) }.join('/') if date.is_a?(Array)
 
       Time.zone.at(date / 1000).strftime('%F')
+    end
+
+    def variables
+      Array(source[:tables]).flat_map do |table|
+        Array(table[:variables]).map do |variable|
+          variable[:name]
+        end
+      end.uniq
     end
   end
 end
