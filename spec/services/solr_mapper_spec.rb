@@ -252,16 +252,21 @@ RSpec.describe SolrMapper do
     end
   end
 
-  describe '#parse_dates' do
+  context 'with temporal coverage dates' do
     let(:metadata) do
-      {}
+      {
+        dates: [
+          date:,
+          date_type: 'Coverage'
+        ]
+      }
     end
 
     context 'with YYYY format' do
       let(:date) { '2024' }
 
       it 'returns the year correctly with YYYY format' do
-        expect(solr_mapper.parse_date(date)).to eq([2024])
+        expect(solr_mapper.temporal_field).to eq([2024])
       end
     end
 
@@ -269,7 +274,7 @@ RSpec.describe SolrMapper do
       let(:date) { '2024-02-02' }
 
       it 'returns the year correctly with YYYY format' do
-        expect(solr_mapper.parse_date(date)).to eq([2024])
+        expect(solr_mapper.temporal_field).to eq([2024])
       end
     end
 
@@ -277,7 +282,7 @@ RSpec.describe SolrMapper do
       let(:date) { '2023-01-02T19:20:30+01:00' }
 
       it 'returns the year correctly with YYYY format' do
-        expect(solr_mapper.parse_date(date)).to eq([2023])
+        expect(solr_mapper.temporal_field).to eq([2023])
       end
     end
 
@@ -285,7 +290,7 @@ RSpec.describe SolrMapper do
       let(:date) { '2023-01-02T19:20:30+01:00/2025-01-01' }
 
       it 'returns the sequence of years correctly representing the range' do
-        expect(solr_mapper.parse_date(date)).to eq([2023, 2024, 2025])
+        expect(solr_mapper.temporal_field).to eq([2023, 2024, 2025])
       end
     end
   end
