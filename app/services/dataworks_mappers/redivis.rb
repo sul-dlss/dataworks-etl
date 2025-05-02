@@ -108,7 +108,7 @@ module DataworksMappers
     def variables
       Array(source[:tables]).flat_map do |table|
         Array(table[:variables]).map do |variable|
-          variable[:name]
+          variable[:label].presence || variable[:name]
         end
       end.uniq
     end
