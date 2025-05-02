@@ -109,20 +109,8 @@ class SolrMapper
   # If the date is a range, store a sequence of years from beginning to end
   def temporal_field
     Array(metadata['dates']).filter_map do |date|
-      next unless date['date_type'] == 'Coverage'
-
-      parse_date(date['date'])
+      ParseDate.parse_range(date['date']) if date['date_type'] == 'Coverage'
     end.flatten
-  end
-
-  # Return an array of dates based on the parsing of the date string
-  def parse_date(date_value)
-    # If this is a range, get the years from beginning to end of the range
-    if date_value.include?('/')
-      date_range_years(date_value)
-    else
-      [date_year(date_value)]
-    end
   end
 
   private
@@ -166,27 +154,6 @@ class SolrMapper
 
   def subjects_field
     metadata['subjects']&.pluck('subject')
-  end
-
-  # A range should be specified as [date]/[date] where date can be in
-  # multiple formats. See dataworks_schema.yml for details.
-  def date_range_years(date_value)
-    return [] unless date_value.split('/').length == 2
-
-    years = date_value.split('/').map do |date_section|
-      date_year(date_section)
-    end
-    # Create range of years including the beginning and end years provided
-    Array(years[0]..years[1])
-  end
-
-  # Retrieve just the year from a particular date string
-  def date_year(date_value)
-    # An allowable schema date format is just the year e.g. '2024'
-    return date_value.to_i if date_value.length == 4
-
-    # Date.parse will work with both 'YYYY-MM-DD' and 'YYYY- MM-DDThh:mm:ssTZD'
-    Date.parse(date_value).year
   end
 
   # Retrieve affiliation name array given either creator or contributor field
