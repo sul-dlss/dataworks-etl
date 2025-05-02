@@ -17,7 +17,7 @@ RSpec.describe SolrMapper do
           {
             id: 123,
             dataset_record_set_id_ss: 456,
-            title_tsim: ['My title'],
+            title_tsim: ['My title V1.0'],
             subtitle_tsim: ['My subtitle'],
             alternative_title_tsim: ['My alt title'],
             translate_title_tsim: ['My translated title'],
