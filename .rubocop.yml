@@ -303,7 +303,8 @@ Style/SwapValues: # new in 1.1
   Enabled: true
 Style/YAMLFileRead: # new in 1.53
   Enabled: true
-
+RSpec/IncludeExamples: # new in 3.6
+  Enabled: true
 Rails/ActionControllerFlashBeforeRender: # new in 2.16
   Enabled: true
 Rails/ActionControllerTestCase: # new in 2.14
@@ -424,7 +425,6 @@ Rails/WhereNotWithMultipleConditions: # new in 2.17
   Enabled: true
 Rails/WhereRange: # new in 2.25
   Enabled: true
-
 FactoryBot/AssociationStyle: # new in 2.23
   Enabled: true
 FactoryBot/ConsistentParenthesesStyle: # new in 2.14
