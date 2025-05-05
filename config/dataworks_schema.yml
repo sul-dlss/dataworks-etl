@@ -53,6 +53,11 @@ properties:
     items:
       $ref: '#/components/schemas/RelatedIdentifier'
     minItems: 1
+  related_items:
+    type: array
+    items:
+      $ref: '#/components/schemas/RelatedItem'
+    minItems: 1
   sizes:
     type: array
     items:
@@ -175,6 +180,8 @@ components:
             - Valid
             - Withdrawn
             - Other
+        # Free text; we use it to store any notes about the date, including if
+        # it doesn't conform to one of the above types
         date_information:
           type: string
       required:
@@ -318,6 +325,70 @@ components:
       dependentRequired:
         publisher_identifier:
           - publisher_identifier_scheme
+    RelationType:
+      type: string
+      enum:
+        - IsCitedBy
+        - Cites
+        - IsSupplementTo
+        - IsSupplementedBy
+        - IsContinuedBy
+        - Continues
+        - IsDescribedBy
+        - Describes
+        - HasMetadata
+        - IsMetadataFor
+        - HasVersion
+        - IsVersionOf
+        - IsNewVersionOf
+        - IsPreviousVersionOf
+        - IsPartOf
+        - HasPart
+        - IsPublishedIn
+        - IsReferencedBy
+        - References
+        - IsDocumentedBy
+        - Documents
+        - IsCompiledBy
+        - Compiles
+        - IsVariantFormOf
+        - IsOriginalFormOf
+        - IsIdenticalTo
+        - IsReviewedBy
+        - Reviews
+        - IsDerivedFrom
+        - IsSourceOf
+        - IsRequiredBy
+        - Requires
+        - IsObsoletedBy
+        - Obsoletes
+        - IsCollectedBy
+        - Collects
+        - IsTranslationOf
+        - HasTranslation
+    RelatedItem:
+      type: object
+      properties:
+        titles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Title'
+          minItems: 1
+        relation_type:
+          $ref: '#/components/schemas/RelationType'
+        # We only use this for things with a URL and no other identifier
+        related_item_identifier:
+          type: object
+          properties:
+            related_item_identifier:
+              type: string
+            related_item_identifier_type:
+              type: string
+              enum:
+                - URL
+      required:
+        - related_item_identifier
+      additionalProperties: false  # DataCite allows many more fields we don't use
     RelatedIdentifier:
       type: object
       properties:
@@ -349,46 +420,7 @@ components:
             - URN
             - w3id
         relation_type:
-          type: string
-          enum:
-            - IsCitedBy
-            - Cites
-            - IsSupplementTo
-            - IsSupplementedBy
-            - IsContinuedBy
-            - Continues
-            - IsDescribedBy
-            - Describes
-            - HasMetadata
-            - IsMetadataFor
-            - HasVersion
-            - IsVersionOf
-            - IsNewVersionOf
-            - IsPreviousVersionOf
-            - IsPartOf
-            - HasPart
-            - IsPublishedIn
-            - IsReferencedBy
-            - References
-            - IsDocumentedBy
-            - Documents
-            - IsCompiledBy
-            - Compiles
-            - IsVariantFormOf
-            - IsOriginalFormOf
-            - IsIdenticalTo
-            - IsReviewedBy
-            - Reviews
-            - IsDerivedFrom
-            - IsSourceOf
-            - IsRequiredBy
-            - Requires
-            - IsObsoletedBy
-            - Obsoletes
-            - IsCollectedBy
-            - Collects
-            - IsTranslationOf
-            - HasTranslation
+          $ref: '#/components/schemas/RelationType'
         resource_type_general:
           type: string
           enum:
