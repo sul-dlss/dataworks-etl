@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/sul-dlss/parse_date
-  revision: a0bf56fc9651e6f8574400795fd67f899a98a254
+  revision: 3d242ed3ea4c5bfacb468825e3bf43787e117b65
   specs:
     parse_date (0.4.4)
       zeitwerk (~> 2.1)
