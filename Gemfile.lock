@@ -534,6 +534,7 @@ DEPENDENCIES
   debug
   dlss-capistrano
   dor-services-client (~> 15.7)
+  edtf
   factory_bot_rails
   faraday
   faraday-retry
