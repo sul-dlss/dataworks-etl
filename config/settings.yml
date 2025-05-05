@@ -66,13 +66,14 @@ dor_services:
   token: ~
 
 honeybadger:
-  datacite_etl_job_stanford_university_checkin: ~
-  datacite_etl_job_sul_checkin: ~
-  datacite_etl_job_sul_openneuro_checkin: ~
-  zenodo_etl_job_checkin: ~
-  redivis_etl_job_stanfordphs_checkin: ~
-  redivis_etl_job_sul_checkin: ~
-  redivis_etl_job_sdss_checkin: ~
-  local_etl_job_checkin: ~
-  dryad_etl_job_checkin: ~
-  searchworks_etl_job_icpsr_checkin: ~
+  datacite_extract_job_stanford_university_checkin: ~
+  datacite_extract_job_sul_openneuro_checkin: ~
+  datacite_extract_job_sul_checkin: ~
+  zenodo_extract_job_checkin: ~
+  redivis_extract_job_stanfordphs_checkin: ~
+  redivis_extract_job_sul_checkin: ~
+  redivis_extract_job_sdss_checkin: ~
+  local_extract_job_checkin: ~
+  dryad_extract_job_checkin: ~
+  searchworks_extract_job_icpsr_checkin: ~
+  transform_load_job_checkin: ~

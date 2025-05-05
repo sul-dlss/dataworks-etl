@@ -13,19 +13,21 @@ class SolrMapper
 
   # @param metadata [Hash] the Dataworks metadata
   # @param doi [String] the DOI, if present, stored in the dataset record
-  def initialize(metadata:, doi:, dataset_record_id:, dataset_record_set_id:)
+  # @param id [String] the ID of the dataset
+  # @param load_id [String] the ID of the load
+  def initialize(metadata:, doi:, id:, load_id:)
     @metadata = metadata.with_indifferent_access
     @doi = doi
-    @dataset_record_id = dataset_record_id
-    @dataset_record_set_id = dataset_record_set_id
+    @id = id
+    @load_id = load_id
   end
 
   # @return [Hash] the Solr document
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def call
     {
-      id: dataset_record_id,
-      dataset_record_set_id_ss: dataset_record_set_id,
+      id:,
+      load_id_ssi: load_id,
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
       descriptions_tsim: descriptions_field,
@@ -121,7 +123,7 @@ class SolrMapper
 
   private
 
-  attr_reader :metadata, :doi, :dataset_record_id, :dataset_record_set_id
+  attr_reader :metadata, :doi, :id, :load_id
 
   # Get the identifier type associated with a particular provider
   def provider_ref(provider)
