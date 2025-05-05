@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/sul-dlss/parse_date
-  revision: a0bf56fc9651e6f8574400795fd67f899a98a254
-  specs:
-    parse_date (0.4.4)
-      zeitwerk (~> 2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -534,6 +527,7 @@ DEPENDENCIES
   debug
   dlss-capistrano
   dor-services-client (~> 15.7)
+  edtf
   factory_bot_rails
   faraday
   faraday-retry
@@ -545,7 +539,6 @@ DEPENDENCIES
   mission_control-jobs
   okcomputer
   overmind
-  parse_date!
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)

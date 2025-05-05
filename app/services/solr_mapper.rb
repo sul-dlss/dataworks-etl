@@ -109,7 +109,13 @@ class SolrMapper
   # If the date is a range, store a sequence of years from beginning to end
   def temporal_field
     Array(metadata['dates']).filter_map do |date|
-      ParseDate.parse_range(date['date']) if date['date_type'] == 'Coverage'
+      next unless date['date_type'] == 'Coverage'
+
+      if date['date'].include?('/')
+        DateParsing.parse_date_range(date['date'])
+      else
+        Date.edtf(date['date'])&.year
+      end
     end.flatten
   end
 

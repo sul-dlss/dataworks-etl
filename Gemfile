@@ -47,6 +47,7 @@ gem 'thruster', require: false
 gem 'cocina-models', '~> 0.103.1' # For SDR datasets
 gem 'config'
 gem 'dor-services-client', '~> 15.7' # For SDR datasets
+gem 'edtf'
 gem 'faraday'
 gem 'faraday-retry'
 gem 'honeybadger'
@@ -54,8 +55,6 @@ gem 'json_schemer' # JSON schema validation
 gem 'marc', '~> 1.3' # For SearchWorks MARC records
 gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
-# Getting from GIT temporarily until ownership of the gem is updated so that an update can be released
-gem 'parse_date', git: 'https://github.com/sul-dlss/parse_date'
 gem 'purl_fetcher-client', '~> 3.1' # For SDR datasets
 gem 'rsolr'
 
