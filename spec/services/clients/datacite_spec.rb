@@ -7,8 +7,7 @@ RSpec.describe Clients::Datacite, :vcr do
 
   describe '.list' do
     context 'when passing an affiliation' do
-      let(:results) { client.list(affiliation:, page_size: 100) }
-      let(:affiliation) { 'Amherst College' }
+      let(:results) { client.list(affiliation: 'Amherst College', page_size: 100) }
 
       it 'retrieves the list of datasets' do
         expect(results.size).to eq(137)
@@ -19,8 +18,7 @@ RSpec.describe Clients::Datacite, :vcr do
     end
 
     context 'when passing a client_id' do
-      let(:results) { client.list(client_id:, page_size: 100) }
-      let(:client_id) { 'sul.openneuro' }
+      let(:results) { client.list(client_id: 'sul.openneuro', page_size: 100) }
 
       it 'retrieves the list of datasets' do
         expect(results.size).to eq(4385)
@@ -30,19 +28,20 @@ RSpec.describe Clients::Datacite, :vcr do
       end
     end
 
-    context 'when passing both affiliation and client_id' do
-      let(:affiliation) { 'Amherst College' }
-      let(:client_id) { 'sul.openneuro' }
+    context 'when passing a provider_id' do
+      let(:results) { client.list(provider_id: 'sul') }
 
-      it 'raises an error' do
-        expect { client.list(affiliation:, client_id:) }.to raise_error(Clients::Error,
-                                                                        'client_id cannot be used with affiliation')
+      it 'retrieves the list of datasets' do
+        expect(results.size).to eq(5804)
+        result = results.first
+        expect(result.id).to eq('10.18112/p2159b')
+        expect(result.modified_token).to eq('2020-08-19T21:04:58Z')
       end
     end
 
-    context 'when passing neither affiliation nor client_id' do
+    context 'when passing no query parameters' do
       it 'raises an error' do
-        expect { client.list }.to raise_error(Clients::Error, 'affiliation or client_id required')
+        expect { client.list }.to raise_error(ArgumentError)
       end
     end
   end

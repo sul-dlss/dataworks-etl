@@ -3,11 +3,12 @@
 module Extractors
   # Service for extracting datasets from Datacite
   class Datacite < Base
-    def initialize(affiliation: nil, client_id: nil, extra_dataset_ids: YAML.load_file('config/datasets/datacite.yml'))
+    def initialize(affiliation: nil, client_id: nil, provider_id: nil,
+                   extra_dataset_ids: YAML.load_file('config/datasets/datacite.yml'))
       super(
         client: Clients::Datacite.new,
         provider: 'datacite',
-        list_args: { affiliation:, client_id: },
+        list_args: { affiliation:, client_id:, provider_id: },
         extra_dataset_ids: extra_dataset_ids
         )
     end
