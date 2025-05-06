@@ -8,16 +8,21 @@ module Clients
     end
 
     # @param affiliation [String] the affiliation to search for (optional)
-    # @param page_size [Integer] the number of results to return per page (optional, default: 1000)
     # @param client_id [String] the client ID to use for the request (optional)
+    # @param provider_id [String] the provider ID to use for the request (optional)
+    # @param page_size [Integer] the number of results to return per page (optional, default: 1000)
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(affiliation: nil, page_size: 1000, client_id: nil)
-      raise Clients::Error, 'client_id cannot be used with affiliation' if affiliation && client_id
-      raise Clients::Error, 'affiliation or client_id required' unless affiliation || client_id
-
-      @affiliation = affiliation
-      @client_id = client_id
+    def list(affiliation: nil, client_id: nil, provider_id: nil, page_size: 1000)
+      @query = if client_id
+                 ClientIdQuery.new(client_id:)
+               elsif affiliation
+                 AffiliationQuery.new(affiliation:)
+               elsif provider_id
+                 ProviderIdQuery.new(provider_id:)
+               else
+                 raise ArgumentError, 'at least one query parameter is required'
+               end
 
       results, cursor = list_page(page_size:)
       while cursor
@@ -27,7 +32,7 @@ module Clients
       results
     end
 
-    attr_reader :affiliation, :client_id
+    attr_reader :query
 
     # @param id [String] the DOI of the dataset
     def dataset(id:)
@@ -55,13 +60,7 @@ module Clients
         'page[size]': page_size,
         'page[cursor]': cursor,
         'resource-type-id': 'dataset'
-      }.tap do |params|
-        if client_id
-          params['client-id'] = client_id
-        else
-          params['query'] = "creators.affiliation.name:\"#{affiliation}\""
-        end
-      end
+      }.merge(query.to_params)
     end
 
     def cursor(link:)
@@ -70,6 +69,39 @@ module Clients
       uri = URI.parse(link)
       params = CGI.unescape(uri.query).split('&').to_h { |param| param.split('=') }
       params['page[cursor]']
+    end
+
+    # Query by client ID
+    class ClientIdQuery
+      def initialize(client_id:)
+        @client_id = client_id
+      end
+
+      def to_params
+        { 'client-id': @client_id }
+      end
+    end
+
+    # Query by affiliation
+    class AffiliationQuery
+      def initialize(affiliation:)
+        @affiliation = affiliation
+      end
+
+      def to_params
+        { query: "creators.affiliation.name:\"#{@affiliation}\"" }
+      end
+    end
+
+    # Query by provider ID
+    class ProviderIdQuery
+      def initialize(provider_id:)
+        @provider_id = provider_id
+      end
+
+      def to_params
+        { 'provider-id': @provider_id }
+      end
     end
   end
 end

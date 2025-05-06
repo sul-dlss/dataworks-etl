@@ -22,10 +22,14 @@ production:
     class: RedivisEtlJob
     args: [{ organization: "SDSS" }]
     schedule: every week
-  datacite_etl:
+  datacite_affiliation_etl:
     class: DataciteEtlJob
     args: [{ affiliation: "Stanford University" }]
     schedule: every week
+  datacite_provider_etl:
+    class: DataciteEtlJob
+    args: [{ provider_id: "sul" }]
+    schedule: every week    
   open_neuro_etl:
     class: DataciteEtlJob
     args: [{ client_id: "sul.openneuro" }]
