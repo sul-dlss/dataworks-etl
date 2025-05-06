@@ -26,7 +26,7 @@ production:
     schedule: every tuesday
   datacite_affiliation_etl:
     class: DataciteExtractJob
-    args: [{ affiliation: "Stanford University" }]
+    args: [{ affiliation: "Stanford University", affiliation_id: "https://ror.org/00f54p054" }]
     schedule: every sunday
   open_neuro_etl:
     class: DataciteExtractJob
@@ -35,7 +35,7 @@ production:
   datacite_provider_etl:
     class: DataciteExtractJob
     args: [{ provider_id: "sul" }]
-    schedule: every tuesday  
+    schedule: every tuesday
   zenodo_etl:
     class: ZenodoExtractJob
     schedule: every sunday

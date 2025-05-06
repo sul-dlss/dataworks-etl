@@ -8,16 +8,17 @@ module Clients
     end
 
     # @param affiliation [String] the affiliation to search for (optional)
+    # @param affiliation_id [String] the affiliation ID (ROR) to search for (optional)
     # @param client_id [String] the client ID to use for the request (optional)
     # @param provider_id [String] the provider ID to use for the request (optional)
     # @param page_size [Integer] the number of results to return per page (optional, default: 1000)
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(affiliation: nil, client_id: nil, provider_id: nil, page_size: 1000)
+    def list(affiliation: nil, affiliation_id: nil, client_id: nil, provider_id: nil, page_size: 1000)
       @query = if client_id
                  ClientIdQuery.new(client_id:)
-               elsif affiliation
-                 AffiliationQuery.new(affiliation:)
+               elsif affiliation && affiliation_id
+                 AffiliationQuery.new(affiliation:, affiliation_id:)
                elsif provider_id
                  ProviderIdQuery.new(provider_id:)
                else
@@ -84,12 +85,21 @@ module Clients
 
     # Query by affiliation
     class AffiliationQuery
-      def initialize(affiliation:)
+      def initialize(affiliation:, affiliation_id:)
         @affiliation = affiliation
+        @affiliation_id = affiliation_id
       end
 
       def to_params
-        { query: "creators.affiliation.name:\"#{@affiliation}\"" }
+        { 'fields[dois]': 'id,updated',
+          query: "(creators.nameIdentifiers.nameIdentifier:\"#{@affiliation_id}\" OR " \
+                 "contributors.nameIdentifiers.nameIdentifier:\"#{@affiliation_id}\" OR " \
+                 "creators.name:\"#{@affiliation}\" OR " \
+                 "contributors.name:\"#{@affiliation}\" OR " \
+                 "creators.affiliation.name:\"#{@affiliation}\" OR " \
+                 "contributors.affiliation.name:\"#{@affiliation}\" OR " \
+                 "contributors.affiliation.affiliationIdentifier:\"#{@affiliation_id}\" OR " \
+                 "creators.affiliation.affiliationIdentifier:\"#{@affiliation_id}\")" }
       end
     end
 
