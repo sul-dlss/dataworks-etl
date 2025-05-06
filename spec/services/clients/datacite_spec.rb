@@ -6,14 +6,22 @@ RSpec.describe Clients::Datacite, :vcr do
   let(:client) { described_class.new }
 
   describe '.list' do
-    context 'when passing an affiliation' do
-      let(:results) { client.list(affiliation: 'Amherst College', page_size: 100) }
+    context 'when passing an affiliation and affiliation_id' do
+      let(:results) { client.list(affiliation: 'Amherst College', affiliation_id: 'https://ror.org/028vqfs63', page_size: 100) }
 
       it 'retrieves the list of datasets' do
-        expect(results.size).to eq(137)
+        expect(results.size).to eq(196)
         result = results.first
         expect(result.id).to eq('10.5061/dryad.rg148qj4')
         expect(result.modified_token).to eq('2025-03-01T02:19:51Z')
+      end
+    end
+
+    context 'when passing an affiliation without affiliation_id' do
+      let(:results) { client.list(affiliation: 'Amherst College', page_size: 100) }
+
+      it 'raises an error' do
+        expect { client.list }.to raise_error(ArgumentError)
       end
     end
 
@@ -21,7 +29,7 @@ RSpec.describe Clients::Datacite, :vcr do
       let(:results) { client.list(client_id: 'sul.openneuro', page_size: 100) }
 
       it 'retrieves the list of datasets' do
-        expect(results.size).to eq(4385)
+        expect(results.size).to eq(4418)
         result = results.first
         expect(result.id).to eq('10.18112/p2159b')
         expect(result.modified_token).to eq('2020-08-19T21:04:58Z')
@@ -32,7 +40,7 @@ RSpec.describe Clients::Datacite, :vcr do
       let(:results) { client.list(provider_id: 'sul') }
 
       it 'retrieves the list of datasets' do
-        expect(results.size).to eq(5804)
+        expect(results.size).to eq(5805)
         result = results.first
         expect(result.id).to eq('10.18112/p2159b')
         expect(result.modified_token).to eq('2020-08-19T21:04:58Z')

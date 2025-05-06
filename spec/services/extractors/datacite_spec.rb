@@ -5,7 +5,9 @@ require 'rails_helper'
 RSpec.describe Extractors::Datacite do
   context 'when successful' do
     subject(:dataset_record_set) do
-      described_class.call(affiliation: 'Stanford University', extra_dataset_ids: ['10.17632/7pxgdp7cn6'])
+      described_class.call(affiliation: 'Stanford University',
+                           affiliation_id: 'https://ror.org/00f54p054',
+                           extra_dataset_ids: ['10.17632/7pxgdp7cn6'])
     end
 
     let(:client) { instance_double(Clients::Datacite, list: results) }
@@ -49,7 +51,10 @@ RSpec.describe Extractors::Datacite do
         .to change(DatasetRecordSet, :count).by(1)
         .and change(DatasetRecord, :count).by(2)
       expect(Clients::Datacite).to have_received(:new)
-      expect(client).to have_received(:list).with(affiliation: 'Stanford University', client_id: nil, provider_id: nil)
+      expect(client).to have_received(:list).with(affiliation: 'Stanford University',
+                                                  affiliation_id: 'https://ror.org/00f54p054',
+                                                  client_id: nil,
+                                                  provider_id: nil)
       expect(client).to have_received(:dataset).with(id: '10.17632/8pxgdp7cn7')
       expect(client).not_to have_received(:dataset).with(id: '10.17632/9pxgdp7cn9')
 
@@ -62,7 +67,7 @@ RSpec.describe Extractors::Datacite do
 
       expect(dataset_record_set.provider).to eq('datacite')
       expect(dataset_record_set.extractor).to eq('Extractors::Datacite')
-      expect(dataset_record_set.list_args).to eq('{"affiliation":"Stanford University","client_id":null,"provider_id":null}') # rubocop:disable Layout/LineLength
+      expect(dataset_record_set.list_args).to eq('{"affiliation":"Stanford University","affiliation_id":"https://ror.org/00f54p054","client_id":null,"provider_id":null}') # rubocop:disable Layout/LineLength
       expect(dataset_record_set.complete).to be true
       expect(dataset_record_set.dataset_records).to include(new_dataset_record)
       expect(dataset_record_set.dataset_records).to include(existing_dataset_record)

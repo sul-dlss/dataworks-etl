@@ -4,9 +4,9 @@
 class DataciteExtractJob < ExtractJob
   include Checkinable
 
-  def perform(affiliation: nil, client_id: nil)
+  def perform(affiliation: nil, affiliation_id: nil, client_id: nil)
     @organization = affiliation || client_id
-    dataset_record_set = Extractors::Datacite.call(affiliation:, client_id:)
+    dataset_record_set = Extractors::Datacite.call(affiliation:, affiliation_id:, client_id:)
     dataset_record_set.update!(job_id: @job_id) if @job_id
 
     Rails.logger.info "DataciteExtractJob complete: DatasetRecordSet #{dataset_record_set.id} - " \
