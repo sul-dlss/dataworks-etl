@@ -91,7 +91,7 @@ module Clients
       end
 
       def to_params
-        { 'fields[dois]': 'id,updated',
+        { 'fields[dois]': 'id,updated,version',
           query: "(creators.nameIdentifiers.nameIdentifier:\"#{@affiliation_id}\" OR " \
                  "contributors.nameIdentifiers.nameIdentifier:\"#{@affiliation_id}\" OR " \
                  "creators.name:\"#{@affiliation}\" OR " \
