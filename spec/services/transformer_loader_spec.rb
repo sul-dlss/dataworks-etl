@@ -3,110 +3,68 @@
 require 'rails_helper'
 
 RSpec.describe TransformerLoader do
-  let(:dataset_record_set) { create(:dataset_record_set, :with_dataset_records, complete: true) }
+  let(:redivis_dataset_record_set) do
+    create(:dataset_record_set, :with_dataset_records, complete: true, dataset_records_count: 2)
+  end
 
-  let(:dataset_record) { dataset_record_set.dataset_records.first }
+  let(:datacite_dataset_record_set) do
+    create(:dataset_record_set, :with_dataset_records, complete: true, dataset_records_count: 2, provider: 'datacite',
+                                                       extractor: 'Extractors::Datacite')
+  end
 
-  let(:solr_service) { instance_double(SolrService, add: true, commit: true, delete: true) }
+  let(:solr_service) { instance_double(SolrService, commit: true, delete_by_query: true) }
 
   before do
     allow(SolrService).to receive(:new).and_return(solr_service)
-    allow(DataworksMappers::Redivis).to receive(:call).and_call_original
-    allow(SolrMapper).to receive(:call).and_call_original
+    allow(DatasetTransformerLoader).to receive(:call)
+
+    # Incomplete dataset record set
+    create(:dataset_record_set, :with_dataset_records, complete: false)
+    # Older dataset record set
+    create(:dataset_record_set, :with_dataset_records, complete: true, created_at: 1.month.ago)
+
+    # Same dataset for different providers
+    datacite_dataset_record_set.dataset_records.first.update!(doi: redivis_dataset_record_set.dataset_records.first.doi)
   end
 
   it 'transforms and loads' do
-    described_class.call(dataset_record_set:)
-    expect(DataworksMappers::Redivis).to have_received(:call).exactly(3).times
-    expect(DataworksMappers::Redivis).to have_received(:call).with(source: dataset_record.source).once
-    expect(SolrMapper).to have_received(:call).exactly(3).times
-    expect(SolrMapper).to have_received(:call)
-      .with(metadata: Hash, doi: dataset_record.doi, dataset_record_id: dataset_record.id,
-            dataset_record_set_id: dataset_record_set.id).once
-    expect(solr_service).to have_received(:add).exactly(3).times
+    described_class.call(load_id: 'load123')
+
+    expect(DatasetTransformerLoader).to have_received(:call).exactly(3).times
+    expect(DatasetTransformerLoader).to have_received(:call).with(
+      dataset_records: [redivis_dataset_record_set.dataset_records.first,
+                        datacite_dataset_record_set.dataset_records.first],
+      solr: solr_service, load_id: String
+    ).once
+    expect(DatasetTransformerLoader).to have_received(:call).with(
+      dataset_records: [redivis_dataset_record_set.dataset_records.last],
+      solr: solr_service, load_id: String
+    ).once
+    expect(DatasetTransformerLoader).to have_received(:call).with(
+      dataset_records: [datacite_dataset_record_set.dataset_records.last],
+      solr: solr_service, load_id: String
+    ).once
     expect(solr_service).to have_received(:commit).once
-  end
-
-  context 'when the dataset record set is not complete' do
-    let(:dataset_record_set) { create(:dataset_record_set, complete: false) }
-
-    it 'raises an error' do
-      expect { described_class.call(dataset_record_set:) }.to raise_error('DatasetRecordSet is not complete')
-    end
-  end
-
-  context 'when unknown provider' do
-    let(:dataset_record_set) { create(:dataset_record_set, :with_dataset_records, complete: true, provider: 'edivis') }
-
-    it 'raises an error' do
-      expect { described_class.call(dataset_record_set:) }.to raise_error('Unsupported provider: edivis')
-    end
+    expect(solr_service).to have_received(:delete_by_query).with(query: '-load_id_ssi:"load123"').once
   end
 
   context 'when there is an error in mapping' do
     before do
-      allow(DataworksMappers::Redivis).to receive(:call).and_raise(DataworksMappers::MappingError)
+      allow(DatasetTransformerLoader).to receive(:call).and_raise(DataworksMappers::MappingError)
     end
 
     it 'raises an error' do
-      expect { described_class.call(dataset_record_set:) }.to raise_error(DataworksMappers::MappingError)
-      expect(SolrMapper).not_to have_received(:call)
+      expect { described_class.call }.to raise_error(DataworksMappers::MappingError)
     end
   end
 
   context 'when there is an error in mapping and fail_fast is false' do
     before do
       allow(DataworksMappers::Redivis).to receive(:call).and_raise(DataworksMappers::MappingError)
-      allow(Honeybadger).to receive(:notify)
     end
 
     it 'does not raise an error' do
-      described_class.call(dataset_record_set:, fail_fast: false)
-      expect(SolrMapper).not_to have_received(:call)
-      expect(Honeybadger).to have_received(:notify).exactly(3).times
-    end
-  end
-
-  context 'when there is an error in mapping but dataset is ignored' do
-    before do
-      allow(DataworksMappers::Redivis).to receive(:call)
-        .with(source: dataset_record.source).and_raise(DataworksMappers::MappingError)
-      allow(Settings.redivis).to receive(:ignore).and_return([dataset_record.dataset_id])
-    end
-
-    it 'ignores the error' do
-      described_class.call(dataset_record_set:)
-      expect(solr_service).to have_received(:add).exactly(2).times
-    end
-  end
-
-  context 'when there is an ignored dataset that does not raise' do
-    before do
-      allow(Settings.redivis).to receive(:ignore).and_return([dataset_record.dataset_id])
-      allow(Honeybadger).to receive(:notify)
-    end
-
-    it 'notifies Honeybadger' do
-      described_class.call(dataset_record_set:)
-      expect(solr_service).to have_received(:add).exactly(3).times
-      expect(Honeybadger).to have_received(:notify).with(/is ignored but mapping succeeded/)
-    end
-  end
-
-  context 'when there are datasets to be deleted' do
-    let(:previous_dataset_record_set) { create(:dataset_record_set) }
-
-    let(:outdated_dataset_record) { create(:dataset_record) }
-
-    before do
-      previous_dataset_record_set.dataset_records << outdated_dataset_record
-      previous_dataset_record_set.dataset_records << dataset_record
-    end
-
-    it 'deletes them from solr' do
-      described_class.call(dataset_record_set:)
-      expect(solr_service).to have_received(:delete).once
-      expect(solr_service).to have_received(:delete).with(id: outdated_dataset_record.id)
+      expect { described_class.call(fail_fast: false) }.not_to raise_error
     end
   end
 end

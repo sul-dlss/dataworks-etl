@@ -10,6 +10,10 @@ class SolrService
     solr.delete_by_id(id)
   end
 
+  def delete_by_query(query:)
+    solr.delete_by_query(query)
+  end
+
   delegate :commit, to: :solr
 
   private

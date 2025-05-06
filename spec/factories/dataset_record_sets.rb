@@ -13,7 +13,7 @@ FactoryBot.define do
         dataset_records_count { 3 }
       end
 
-      dataset_records { create_list(:dataset_record, dataset_records_count) }
+      dataset_records { create_list(:dataset_record, dataset_records_count, provider:) }
     end
   end
 end

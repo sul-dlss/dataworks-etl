@@ -9,42 +9,44 @@
 #     priority: 2
 #     schedule: at 5am every day
 production:
-  # Don't forget to create HB checkins for ETL jobs.
+  # Note that this schedule avoids hitting the same provider concurrently by putting jobs on different days.
+  # Also, this places the transfor and load job after the extract jobs (though there isn't absolutely required).
+  # Don't forget to create HB checkins for jobs.
   redivis_stanfordphs_etl:
-    class: RedivisEtlJob
+    class: RedivisExtractJob
     args: [{ organization: "StanfordPHS" }]
-    schedule: every week
+    schedule: every sunday
   redivis_sul_etl:
-    class: RedivisEtlJob
+    class: RedivisExtractJob
     args: [{ organization: "SUL" }]
-    schedule: every week
+    schedule: every monday
   redivis_sdss_etl:
-    class: RedivisEtlJob
+    class: RedivisExtractJob
     args: [{ organization: "SDSS" }]
-    schedule: every week
+    schedule: every tuesday
   datacite_affiliation_etl:
-    class: DataciteEtlJob
+    class: DataciteExtractJob
     args: [{ affiliation: "Stanford University" }]
-    schedule: every week
-  datacite_provider_etl:
-    class: DataciteEtlJob
-    args: [{ provider_id: "sul" }]
-    schedule: every week    
+    schedule: every sunday
   open_neuro_etl:
-    class: DataciteEtlJob
+    class: DataciteExtractJob
     args: [{ client_id: "sul.openneuro" }]
-    schedule: every week
+    schedule: every monday
+  datacite_provider_etl:
+    class: DataciteExtractJob
+    args: [{ provider_id: "sul" }]
+    schedule: every tuesday  
   zenodo_etl:
-    class: ZenodoEtlJob
-    schedule: every week
+    class: ZenodoExtractJob
+    schedule: every sunday
   local_etl:
-    class: LocalEtlJob
-    schedule: every week
+    class: LocalExtractJob
+    schedule: every sunday
   dryad_etl:
-    class: DryadEtlJob
-    schedule: every week
+    class: DryadExtractJob
+    schedule: every sunday
   icpsr_etl:
-    class: SearchworksEtlJob
+    class: SearchworksExtractJob
     args:
       [
         {
@@ -57,4 +59,7 @@ production:
             },
         },
       ]
-    schedule: every week
+    schedule: every sunday
+  tl:
+    class: TransformLoadJob
+    schedule: every thursday

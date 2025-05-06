@@ -1,110 +1,56 @@
 # frozen_string_literal: true
 
-# Performs transformation from source metadata to Solr documents and loading into Solr
+# Performs a transform and load of the most recent completed dataset record sets for each extractor / list arguments.
 class TransformerLoader
   def self.call(...)
     new(...).call
   end
 
-  def initialize(dataset_record_set:, fail_fast: true)
-    @dataset_record_set = dataset_record_set
+  # @param fail_fast [Boolean] If true, raise an error on the first failure. If false, continue processing.
+  def initialize(fail_fast: true, load_id: SecureRandom.uuid)
     @fail_fast = fail_fast
+    @load_id = load_id
   end
 
   def call
-    raise 'DatasetRecordSet is not complete' unless dataset_record_set.complete
-
-    add_solr_docs
-    delete_solr_docs
+    add_records
+    delete_records
   end
 
   private
 
-  attr_reader :dataset_record_set, :fail_fast
+  attr_reader :fail_fast, :load_id
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  def mapper
-    @mapper ||= case dataset_record_set.provider
-                when 'redivis'
-                  DataworksMappers::Redivis
-                when 'datacite'
-                  DataworksMappers::Datacite
-                when 'dryad'
-                  DataworksMappers::Dryad
-                when 'searchworks'
-                  DataworksMappers::Searchworks
-                when 'zenodo'
-                  DataworksMappers::Zenodo
-                when 'local'
-                  DataworksMappers::Local
-                else
-                  raise "Unsupported provider: #{dataset_record_set.provider}"
-                end
+  def dataset_record_sets
+    DatasetRecordSet.select(:extractor, :list_args).group(:extractor, :list_args).pluck(:extractor, :list_args)
+                    .filter_map do |extractor, list_args|
+      DatasetRecordSet.latest_completed(extractor:, list_args:)
+    end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
+
+  def grouped_dataset_records
+    dataset_records = DatasetRecord.joins(:dataset_record_associations)
+                                   .where(dataset_record_associations: { dataset_record_set: dataset_record_sets })
+                                   .select(:id, :provider, :dataset_id, :doi)
+
+    dataset_records.group_by(&:external_dataset_id)
+  end
 
   def solr
     @solr ||= SolrService.new
   end
 
-  def solr_doc_for(dataset_record:) # rubocop:disable Metrics/AbcSize
-    Honeybadger.context(dataset_record_id: dataset_record.id, provider: dataset_record.provider,
-                        dataset_id: dataset_record.dataset_id)
-    metadata = mapper.call(source: dataset_record.source)
-    check_mapping_success(dataset_record:)
-
-    SolrMapper.call(metadata:, doi: dataset_record.doi, dataset_record_id: dataset_record.id,
-                    dataset_record_set_id: dataset_record_set.id)
-  rescue DataworksMappers::MappingError => e
-    return if ignore?(dataset_record:)
-
-    raise if fail_fast
-
-    Rails.logger.error "Mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
-    Honeybadger.notify(e)
-    nil
-  end
-
-  def ignore?(dataset_record:)
-    ignore_dataset_ids.include?(dataset_record.dataset_id)
-  end
-
-  def ignore_dataset_ids
-    @ignore_dataset_ids ||= Settings[dataset_record_set.provider]&.ignore || []
-  end
-
-  def check_mapping_success(dataset_record:)
-    return unless ignore?(dataset_record:)
-
-    msg = "Dataset #{dataset_record.dataset_id} (#{dataset_record.provider}) is ignored but mapping succeeded"
-    Rails.logger.info(msg)
-    Honeybadger.notify(msg)
-  end
-
-  def add_solr_docs
-    dataset_record_set.dataset_records.each do |dataset_record|
-      solr_doc = solr_doc_for(dataset_record:)
-      solr.add(solr_doc:) if solr_doc
+  def add_records
+    grouped_dataset_records.each_value do |dataset_records|
+      DatasetTransformerLoader.call(dataset_records:, solr:, load_id:)
+    rescue DataworksMappers::MappingError
+      raise if fail_fast
     end
+  ensure
     solr.commit
   end
 
-  def delete_solr_docs
-    outdated_dataset_record_ids = previous_dataset_record_ids - dataset_record_set.dataset_records.ids
-    return if outdated_dataset_record_ids.blank?
-
-    outdated_dataset_record_ids.each { |id| solr.delete(id:) }
-    solr.commit
-  end
-
-  def previous_dataset_record_ids
-    @previous_dataset_record_ids ||= begin
-      dataset_record_sets = DatasetRecordSet.where(extractor: dataset_record_set.extractor,
-                                                   list_args: dataset_record_set.list_args)
-                                            .where.not(id: dataset_record_set.id)
-      DatasetRecord.joins(:dataset_record_associations)
-                   .where(dataset_record_associations: { dataset_record_set: dataset_record_sets })
-                   .distinct.ids
-    end
+  def delete_records
+    solr.delete_by_query(query: "-load_id_ssi:\"#{load_id}\"")
   end
 end

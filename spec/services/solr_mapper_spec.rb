@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe SolrMapper do
   subject(:solr_mapper) do
-    described_class.new(metadata:, doi: '10.1234/5678', dataset_record_id: 123, dataset_record_set_id: 456)
+    described_class.new(metadata:, doi: '10.1234/5678', id: 'revidis-123', load_id: 'abc123')
   end
 
   context 'with full metadata record' do
@@ -15,8 +15,8 @@ RSpec.describe SolrMapper do
       it 'maps to Solr metadata' do
         expect(solr_mapper.call).to eq(
           {
-            id: 123,
-            dataset_record_set_id_ss: 456,
+            id: 'revidis-123',
+            load_id_ssi: 'abc123',
             title_tsim: ['My title V1.0'],
             subtitle_tsim: ['My subtitle'],
             alternative_title_tsim: ['My alt title'],
@@ -76,8 +76,8 @@ RSpec.describe SolrMapper do
       it 'maps to Solr metadata' do
         expect(solr_mapper.call).to eq(
           {
-            id: 123,
-            dataset_record_set_id_ss: 456,
+            id: 'revidis-123',
+            load_id_ssi: 'abc123',
             title_tsim: ['My title'],
             access_ssi: 'Public',
             provider_ssi: 'DataCite',
