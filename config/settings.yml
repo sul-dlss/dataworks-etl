@@ -76,4 +76,5 @@ honeybadger:
   local_extract_job_checkin: ~
   dryad_extract_job_checkin: ~
   searchworks_extract_job_icpsr_checkin: ~
+  sdr_extract_job_checkin: ~
   transform_load_job_checkin: ~
