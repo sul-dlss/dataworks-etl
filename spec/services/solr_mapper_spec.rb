@@ -4,8 +4,10 @@ require 'rails_helper'
 
 RSpec.describe SolrMapper do
   subject(:solr_mapper) do
-    described_class.new(metadata:, doi: '10.1234/5678', id: 'revidis-123', load_id: 'abc123')
+    described_class.new(metadata:, doi: '10.1234/5678', id: id, load_id: 'abc123')
   end
+
+  let(:id) { 'revidis-123' }
 
   context 'with full metadata record' do
     let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/full_metadata_mapped.json')) }
@@ -292,6 +294,15 @@ RSpec.describe SolrMapper do
       it 'returns the sequence of years correctly representing the range' do
         expect(solr_mapper.temporal_field).to eq([2023, 2024, 2025])
       end
+    end
+  end
+
+  describe '#transform_id' do
+    let(:metadata) { {} }
+    let(:id) { '10.1234/5678' }
+
+    it 'replaces characters correctly' do
+      expect(solr_mapper.transform_id).to eq('10_1234_5678')
     end
   end
 end
