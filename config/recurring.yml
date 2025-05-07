@@ -45,6 +45,9 @@ production:
   dryad_etl:
     class: DryadExtractJob
     schedule: every sunday
+  sdr_etl:
+    class: SdrExtractJob
+    schedule: every wednesday
   icpsr_etl:
     class: SearchworksExtractJob
     args:
