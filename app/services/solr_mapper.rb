@@ -26,7 +26,7 @@ class SolrMapper
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def call
     {
-      id:,
+      id: transform_id,
       load_id_ssi: load_id,
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
@@ -119,6 +119,11 @@ class SolrMapper
         Date.edtf(date['date'])&.year
       end
     end.flatten
+  end
+
+  # Replace slashes and periods with underscores for Solr id to support Blacklight catalog display
+  def transform_id
+    id.gsub(%r{[\.,/]}, '_')
   end
 
   private
