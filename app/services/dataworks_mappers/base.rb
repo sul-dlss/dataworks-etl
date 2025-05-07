@@ -7,9 +7,9 @@ module DataworksMappers
       new(...).call
     end
 
-    # @param source [Hash] the source metadata
+    # @param source [Hash|Cocina::Models::DROWithMetadata] the source metadata
     def initialize(source:)
-      @source = source.with_indifferent_access
+      @source = source.is_a?(Hash) ? source.with_indifferent_access : source
     end
 
     # @return [Hash] the Dataworks metadata
