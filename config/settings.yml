@@ -46,6 +46,8 @@ datacite:
     - 10.18112/openneuro.ds002856.v1.0.0
     - 10.18112/openneuro.ds002850.v1.0.0
     - 10.18112/openneuro.ds002732.v1.0.0
+    # Hyphens in the dates that are not regular hyphens and throw off parsing
+    - 10.7267/n98g8hmr
 
 # dryad:
 #   ignore:
