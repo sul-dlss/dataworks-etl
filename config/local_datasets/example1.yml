@@ -21,7 +21,7 @@ creators:
   affiliation:
   - name: B. Parent Organization
 titles:
-- title: My title
+- title: My title new
 - title: My subtitle
   title_type: Subtitle
 publisher:
@@ -75,7 +75,7 @@ dates:
 language: en
 identifiers:
 - identifier: stanfordphs.prime_india:016c:v0_1
-  identifier_type: RedivisReference
+  identifier_type: LocalReference
 - identifier: 10.1234/5678
   identifier_type: DOI
 related_identifiers:
@@ -90,7 +90,7 @@ sizes:
 formats:
 - application/pdf
 - ".pdf"
-version: '1.0'
+version: '1.1'
 rights_list:
 - rights: My rights
 - rights: Creative Commons Attribution 4.0 International
