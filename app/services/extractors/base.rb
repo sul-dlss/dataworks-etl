@@ -51,7 +51,8 @@ module Extractors
     end
 
     def find_or_create_dataset_record(result:)
-      DatasetRecord.find_by(provider:, dataset_id: result.id) || create_dataset_record(result:)
+      DatasetRecord.find_by(provider:, dataset_id: result.id, modified_token: result.modified_token) ||
+        create_dataset_record(result:)
     end
 
     def create_dataset_record(result:)

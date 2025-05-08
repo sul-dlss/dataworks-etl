@@ -13,7 +13,7 @@ RSpec.describe Extractors::Redivis do
         Clients::ListResult.new(id: 'bcd456', modified_token: 'v2')
       ]
     end
-    let!(:existing_dataset_record) { create(:dataset_record, dataset_id: 'bcd456') }
+    let!(:existing_dataset_record) { create(:dataset_record, dataset_id: 'bcd456', modified_token: 'v2') }
     let(:new_dataset_record_source) do
       {
         id: 'abc123',
@@ -24,6 +24,9 @@ RSpec.describe Extractors::Redivis do
 
     before do
       allow(Clients::Redivis).to receive(:new).and_return(client)
+
+      # Record which has the same dataset_id but different modified_token
+      create(:dataset_record, dataset_id: 'abc123', modified_token: 'v0')
     end
 
     it 'creates a dataset record set' do
@@ -35,9 +38,8 @@ RSpec.describe Extractors::Redivis do
       expect(client).to have_received(:dataset).with(id: 'abc123')
       expect(client).not_to have_received(:dataset).with(id: 'bcd456')
 
-      new_dataset_record = DatasetRecord.find_by!(dataset_id: 'abc123')
+      new_dataset_record = DatasetRecord.find_by!(dataset_id: 'abc123', modified_token: 'v1')
       expect(new_dataset_record.provider).to eq('redivis')
-      expect(new_dataset_record.modified_token).to eq('v1')
       expect(new_dataset_record.doi).to eq('doi:10.0000/redivis.bcd456')
       expect(new_dataset_record.source).to eq(new_dataset_record_source)
       expect(new_dataset_record.source_md5).to be_a(String)
