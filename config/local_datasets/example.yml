@@ -75,7 +75,7 @@ dates:
 language: en
 identifiers:
 - identifier: stanfordphs.prime_india:016c:v0_1
-  identifier_type: RedivisReference
+  identifier_type: LocalReference
 - identifier: 10.1234/5678
   identifier_type: DOI
 related_identifiers:
