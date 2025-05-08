@@ -17,7 +17,9 @@ RSpec.describe Extractors::Datacite do
         Clients::ListResult.new(id: '10.17632/9pxgdp7cn9', modified_token: 'v2')
       ]
     end
-    let!(:existing_dataset_record) { create(:dataset_record, dataset_id: '10.17632/9pxgdp7cn9', provider: 'datacite') }
+    let!(:existing_dataset_record) do
+      create(:dataset_record, dataset_id: '10.17632/9pxgdp7cn9', provider: 'datacite', modified_token: 'v2')
+    end
     let(:new_dataset_record_source) do
       {
         data: {

@@ -15,7 +15,7 @@ RSpec.describe Extractors::Dryad do
     end
 
     let!(:existing_dataset_record) do
-      create(:dataset_record, dataset_id: 'doi:10.5061/dryad.hi18931zp8', provider: 'dryad')
+      create(:dataset_record, dataset_id: 'doi:10.5061/dryad.hi18931zp8', provider: 'dryad', modified_token: '2')
     end
 
     let(:new_dataset_record_source) do

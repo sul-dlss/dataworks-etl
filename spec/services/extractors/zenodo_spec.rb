@@ -14,7 +14,9 @@ RSpec.describe Extractors::Zenodo do
       ]
     end
 
-    let!(:existing_dataset_record) { create(:dataset_record, dataset_id: '4999986', provider: 'zenodo') }
+    let!(:existing_dataset_record) do
+      create(:dataset_record, dataset_id: '4999986', provider: 'zenodo', modified_token: '2')
+    end
 
     let(:new_dataset_record_source) do
       {
