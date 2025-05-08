@@ -49,7 +49,9 @@ datacite:
     # Hyphens in the dates that are not regular hyphens and throw off parsing
     - 10.7267/n98g8hmr
 
-# dryad:
+dryad:
+  client_id: ~
+  client_secret: ~
 #   ignore:
 #     - ~
 
