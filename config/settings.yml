@@ -50,6 +50,8 @@ datacite:
     - 10.7267/n98g8hmr
     # Name identifier scheme uses https://orcid.org instead of ORCID
     - 10.4121/uuid:28636fe0-1bf3-41d7-83db-84528b7debfa
+    # Date format YYYY-M-D instead of YYYY-MM-DD
+    - 10.17603/ds2-cbff-4878
 
 # dryad:
 #   ignore:
