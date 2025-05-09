@@ -62,6 +62,8 @@ datacite:
     # Date format YYYY-M-D instead of YYYY-MM-DD
     - 10.17603/ds2-cbff-4878
     - 10.17603/ds2-bwat-jk23
+    # Incorrect date format, perhaps hyphen included as well
+    - 10.17603/ds2-xfhz-fz88
 
 # dryad:
 #   ignore:
