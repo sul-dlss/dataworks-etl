@@ -40,7 +40,7 @@ class DatasetTransformerLoader
   def solr_doc_for(dataset_record:) # rubocop:disable Metrics/AbcSize
     Honeybadger.context(dataset_record_id: dataset_record.id, provider: dataset_record.provider,
                         dataset_id: dataset_record.dataset_id)
-    metadata = mapper_for(dataset_record:).call(source: dataset_record.source)
+    metadata = mapper_for(dataset_record:).call(source: source_for(dataset_record:))
     check_mapping_success(dataset_record:)
 
     SolrMapper.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:)
@@ -50,6 +50,13 @@ class DatasetTransformerLoader
     Rails.logger.error "Mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
     Honeybadger.notify(e)
     raise
+  end
+
+  def source_for(dataset_record:)
+    return dataset_record.source unless dataset_record.provider == 'sdr'
+
+    # For SDR, we need to convert the source to a cocina
+    Cocina::Models::DROWithMetadata.new(dataset_record.source)
   end
 
   def ignore?(dataset_record:)
