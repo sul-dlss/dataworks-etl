@@ -12,6 +12,10 @@ module DataworksMappers
     CREATOR_ROLES = ['author', 'authoring entity', 'primary investigator'].freeze
     PUBLISHER_ROLES = %w[publisher].freeze
 
+    def initialize(source:)
+      super(source: source.is_a?(Hash) ? Cocina::Models::DROWithMetadata.new(source) : source)
+    end
+
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     def perform_map
       {
