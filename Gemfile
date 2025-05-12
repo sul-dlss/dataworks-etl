@@ -51,6 +51,7 @@ gem 'edtf'
 gem 'faraday'
 gem 'faraday-retry'
 gem 'honeybadger'
+gem 'iso-639', '~> 0.3.8' # For SearchWorks language mapping
 gem 'json_schemer' # JSON schema validation
 gem 'marc', '~> 1.3' # For SearchWorks MARC records
 gem 'okcomputer'

@@ -14,24 +14,21 @@ module DataworksMappers
 
     def perform_map
       {
-        identifiers:,
         creators:,
         titles:,
         publisher:,
         publication_year:,
         subjects:,
         contributors:,
-        # dates:,
-        # language:,
-        # version:,
-        # related_identifiers:,
-        # sizes:,
-        # formats:,
-        provider: 'SearchWorks',
         descriptions:,
+        dates:,
+        language:,
+        version:,
+        identifiers:,
+        funding_references:,
         url:,
         access:,
-        funding_references:
+        provider: 'SearchWorks'
       }.compact_blank
     end
 
@@ -81,18 +78,24 @@ module DataworksMappers
     end
     # rubocop:enable Metrics/AbcSize
 
+    # Other fields like topic_display include additional topics specific to the
+    # item; we want the more common/generic subject headings only
     def subjects
       source['topic_facet']&.map do |subject|
-        { subject: subject }
+        { subject: }
       end
     end
 
+    # SearchWorks has fields for publication country and date, but the actual
+    # publisher name is concatenated with the place of publication and sometimes
+    # other info as well. We need to go to the MARC to get it cleanly.
     def publisher
-      return unless marc_record && marc_record['260'] && marc_record['260']['b']
+      return unless (name = marc_record&.[]('260')&.[]('b'))
 
-      { name: marc_record['260']['b'] }
+      { name: }
     end
 
+    # Structured data is only available via the MARC
     def creators
       return unless marc_record
 
@@ -103,6 +106,7 @@ module DataworksMappers
       end
     end
 
+    # Structured data is only available via the MARC
     def contributors
       return unless marc_record
 
@@ -113,6 +117,7 @@ module DataworksMappers
       end
     end
 
+    # Structured data is only available via the MARC
     def funding_references
       return unless marc_record
 
@@ -122,7 +127,7 @@ module DataworksMappers
 
           references << {
             funder_name: field['a'],
-            grant_number: field['c']
+            award_number: field['c']
           }.compact_blank
         end
       end
@@ -138,6 +143,38 @@ module DataworksMappers
 
     def restricted?
       source['url_restricted'].present?
+    end
+
+    # These date fields in SearchWorks can come from both MARC and MODS/SDR
+    # metadata, although only pub year is common.
+    def dates
+      all_dates = source['pub_year_tisim']&.map do |date|
+        { date: date.to_s, date_type: 'Issued' }
+      end
+
+      if (created_date = source['production_year_isi'].presence)
+        all_dates << { date: created_date.to_s, date_type: 'Created' }
+      end
+
+      if (copyright_date = source['copyright_year_isi'].presence)
+        all_dates << { date: copyright_date.to_s, date_type: 'Copyrighted' }
+      end
+
+      all_dates
+    end
+
+    # SearchWorks has an array of names like ["English", "Spanish"]; we want the
+    # two-letter ISO-639 code and can only pick one, so we take the first.
+    def language
+      source['language']&.map do |lang|
+        ISO_639.find_by_english_name(lang)&.alpha2 # rubocop:disable Rails/DynamicFindBy
+      end&.compact&.first
+    end
+
+    # This is only available via the MARC. SDR items with user versions will
+    # get indexed using the SDR extractor pathway instead.
+    def version
+      marc_record&.[]('251')&.[]('a')
     end
 
     def marc_record

@@ -35,6 +35,9 @@ module Extractors
           last_updated
           title_display
           pub_year_tisim
+          production_year_isi
+          copyright_year_isi
+          language
           url_fulltext
           url_restricted
           summary_display
