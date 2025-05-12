@@ -48,6 +48,26 @@ datacite:
     - 10.18112/openneuro.ds002732.v1.0.0
     # Hyphens in the dates that are not regular hyphens and throw off parsing
     - 10.7267/n98g8hmr
+    # Name identifier scheme uses https://orcid.org instead of ORCID
+    - 10.4121/uuid:28636fe0-1bf3-41d7-83db-84528b7debfa
+    - 10.4121/uuid:3f499e5e-065d-46ac-8a81-1f8976ac6542
+    - 10.4121/uuid:9e8b2c47-b8e4-4be9-aba3-36eccbf71a26
+    - 10.4121/ba6e70f8-affa-4c60-82f0-24bff9052676.v2
+    - 10.4121/ba6e70f8-affa-4c60-82f0-24bff9052676
+    - 10.4121/ba6e70f8-affa-4c60-82f0-24bff9052676.v1
+    - 10.4121/13138502
+    - 10.4121/13138502.v1
+    - 10.4121/13487643
+    - 10.4121/13487643.v1
+    # Date format YYYY-M-D instead of YYYY-MM-DD
+    - 10.17603/ds2-cbff-4878
+    - 10.17603/ds2-bwat-jk23
+    - 10.17603/ds2-h0kd-5677
+    # Incorrect date format, perhaps hyphen included as well
+    - 10.17603/ds2-xfhz-fz88
+    # Subject value uri does not match uri perhaps because of ? in the URL
+    - 10.7288/v4/magic/19822
+    - 10.7288/v4/magic/19922
 
 # dryad:
 #   ignore:
