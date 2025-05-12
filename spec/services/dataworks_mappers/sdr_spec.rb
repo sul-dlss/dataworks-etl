@@ -338,4 +338,12 @@ RSpec.describe DataworksMappers::Sdr do
   it 'maps the formats' do
     expect(metadata[:formats]).to eq(['application/x-gzip'])
   end
+
+  context 'when the source is a hash' do
+    let(:source) { cocina_json }
+
+    it 'maps to a solr document' do
+      expect(metadata).to be_a(Hash)
+    end
+  end
 end
