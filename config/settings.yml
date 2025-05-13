@@ -100,3 +100,8 @@ honeybadger:
   searchworks_extract_job_icpsr_checkin: ~
   sdr_extract_job_checkin: ~
   transform_load_job_checkin: ~
+
+courses:
+  # These are made up courses for demonstration purposes.
+  10_25549_examiner-c44-40760: ['CS246']
+  10_18112_p2159b: ['CS246', 'CS247']

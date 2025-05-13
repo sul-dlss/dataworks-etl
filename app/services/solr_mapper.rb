@@ -55,7 +55,8 @@ class SolrMapper
       rights_uris_sim: rights_uris_field,
       affiliation_names_sim: affilation_names_field,
       variables_tsim: metadata['variables'],
-      temporal_isim: temporal_field
+      temporal_isim: temporal_field,
+      courses_sim: courses
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -176,6 +177,10 @@ class SolrMapper
     Array(metadata[role]).flat_map do |role_entity|
       role_entity['affiliation']&.pluck('name')
     end&.compact
+  end
+
+  def courses
+    Settings.courses[transform_id] || []
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -6,3 +6,7 @@ redivis:
 
 zenodo:
   api_token: myzenodotoken
+
+courses:
+  # These are made up courses for demonstration purposes.
+  redivis-123: ['CS246']
