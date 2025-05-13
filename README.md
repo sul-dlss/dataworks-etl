@@ -60,3 +60,8 @@ Solid Queue jobs can be monitored with Mission Control at `/jobs`.
 
 ## Solr
 In development, the dataworks core is available at http://localhost:8983/solr/#/dataworks/core-overview.
+
+## Testing transforms
+```
+bin/rake "development:transform_dryrun[<provider, e.g., redivis>]"
+```
