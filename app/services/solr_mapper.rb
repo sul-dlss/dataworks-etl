@@ -137,6 +137,8 @@ class SolrMapper
       'DOI'
     when 'Zenodo'
       'ZenodoId'
+    when 'SDR'
+      'DRUID'
     else
       "#{provider}Reference"
     end
