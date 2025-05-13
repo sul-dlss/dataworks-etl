@@ -132,6 +132,19 @@ RSpec.describe SolrMapper do
         expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
       end
     end
+
+    context 'with SDR as provider' do
+      let(:metadata) do
+        {
+          provider: 'SDR',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DRUID' }]
+        }
+      end
+
+      it 'retrieves the SDR DRUID' do
+        expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
+      end
+    end
   end
 
   describe '#descriptions_field' do
