@@ -51,6 +51,9 @@ RSpec.describe DataworksMappers::Searchworks do
           { title: 'SETUPS' },
           { title: 'Voting Behavior: The 2016 Election', title_type: 'Subtitle' }
         ],
+        publisher: {
+          name: 'Inter-university Consortium for Political and Social Research [distributor]'
+        },
         publication_year: '2017',
         access: 'Restricted',
         descriptions: [
@@ -77,9 +80,28 @@ RSpec.describe DataworksMappers::Searchworks do
           { subject: 'Voting behavior' }
         ],
         url: 'http://doi.org/10.3886/ICPSR36853.v2',
-        provider: 'SearchWorks'
+        provider: 'SearchWorks',
+        language: 'en'
       )
       # rubocop:enable Layout/LineLength
+    end
+
+    context 'when there are creation and copyright dates' do
+      before do
+        source['production_year_isi'] = 2014
+        source['copyright_year_isi'] = 2015
+      end
+
+      it 'maps to Dataworks metadata' do
+        expect(metadata).to include(
+          publication_year: '2017',
+          dates: [
+            { date: '2017', date_type: 'Issued' },
+            { date: '2014', date_type: 'Created' },
+            { date: '2015', date_type: 'Copyrighted' }
+          ]
+        )
+      end
     end
   end
 end

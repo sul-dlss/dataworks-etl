@@ -14,22 +14,21 @@ module DataworksMappers
 
     def perform_map
       {
-        identifiers:,
         creators:,
         titles:,
+        publisher:,
         publication_year:,
         subjects:,
         contributors:,
-        # dates:,
-        # language:,
-        # version:,
-        # related_identifiers:,
-        # sizes:,
-        # formats:,
-        provider: 'SearchWorks',
         descriptions:,
+        dates:,
+        language:,
+        version:,
+        identifiers:,
+        funding_references:,
         url:,
-        access:
+        access:,
+        provider: 'SearchWorks'
       }.compact_blank
     end
 
@@ -67,23 +66,36 @@ module DataworksMappers
     # 245$h (medium) into title_display. We don't want this because everything
     # will have "[electronic resource]" in the title, so if MARC is available,
     # we separate out the titles ourselves.
+    # rubocop:disable Metrics/AbcSize
     def titles
       return [{ title: source['title_display'] }] if marc_record.blank?
 
-      titles = [{ title: marc_record['245']['a'] }]
+      titles = [{ title: marc_record['245']['a'] }] # main title
+      titles << { title: marc_record['245']['b'], title_type: 'Subtitle' } if marc_record['245']['b'].present?
+      titles << { title: marc_record['246']['a'], title_type: 'AlternativeTitle' } if marc_record['246'].present?
 
-      return titles unless marc_record['245']['b']
-
-      titles << { title: marc_record['245']['b'], title_type: 'Subtitle' }
       titles
     end
+    # rubocop:enable Metrics/AbcSize
 
+    # Other fields like topic_display include additional topics specific to the
+    # item; we want the more common/generic subject headings only
     def subjects
       source['topic_facet']&.map do |subject|
-        { subject: subject }
+        { subject: }
       end
     end
 
+    # SearchWorks has fields for publication country and date, but the actual
+    # publisher name is concatenated with the place of publication and sometimes
+    # other info as well. We need to go to the MARC to get it cleanly.
+    def publisher
+      return unless (name = marc_record&.[]('260')&.[]('b'))
+
+      { name: }
+    end
+
+    # Structured data is only available via the MARC
     def creators
       return unless marc_record
 
@@ -94,12 +106,29 @@ module DataworksMappers
       end
     end
 
+    # Structured data is only available via the MARC
     def contributors
       return unless marc_record
 
       [].tap do |contributors|
         marc_record.fields.each_by_tag(%w[700 710]) do |field|
           contributors << marc_contributor_struct(field)
+        end
+      end
+    end
+
+    # Structured data is only available via the MARC
+    def funding_references
+      return unless marc_record
+
+      [].tap do |references|
+        marc_record.fields.each_by_tag(%w[536]) do |field|
+          next unless field['a']
+
+          references << {
+            funder_name: field['a'],
+            award_number: field['c']
+          }.compact_blank
         end
       end
     end
@@ -114,6 +143,38 @@ module DataworksMappers
 
     def restricted?
       source['url_restricted'].present?
+    end
+
+    # These date fields in SearchWorks can come from both MARC and MODS/SDR
+    # metadata, although only pub year is common.
+    def dates
+      all_dates = source['pub_year_tisim']&.map do |date|
+        { date: date.to_s, date_type: 'Issued' }
+      end
+
+      if (created_date = source['production_year_isi'].presence)
+        all_dates << { date: created_date.to_s, date_type: 'Created' }
+      end
+
+      if (copyright_date = source['copyright_year_isi'].presence)
+        all_dates << { date: copyright_date.to_s, date_type: 'Copyrighted' }
+      end
+
+      all_dates
+    end
+
+    # SearchWorks has an array of names like ["English", "Spanish"]; we want the
+    # two-letter ISO-639 code and can only pick one, so we take the first.
+    def language
+      source['language']&.map do |lang|
+        ISO_639.find_by_english_name(lang)&.alpha2 # rubocop:disable Rails/DynamicFindBy
+      end&.compact&.first
+    end
+
+    # This is only available via the MARC. SDR items with user versions will
+    # get indexed using the SDR extractor pathway instead.
+    def version
+      marc_record&.[]('251')&.[]('a')
     end
 
     def marc_record

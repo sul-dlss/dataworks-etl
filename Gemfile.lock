@@ -135,6 +135,7 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
+    csv (3.3.4)
     date (3.4.1)
     debug (1.10.0)
       irb (~> 1.10)
@@ -224,6 +225,8 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    iso-639 (0.3.8)
+      csv
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -533,6 +536,7 @@ DEPENDENCIES
   faraday-retry
   honeybadger
   importmap-rails
+  iso-639 (~> 0.3.8)
   jbuilder
   json_schemer
   marc (~> 1.3)
