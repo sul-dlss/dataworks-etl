@@ -4,13 +4,22 @@ require 'rails_helper'
 
 RSpec.describe SolrMapper do
   subject(:solr_mapper) do
-    described_class.new(metadata:, doi: '10.1234/5678', id: id, load_id: 'abc123')
+    described_class.new(metadata:, doi: '10.1234/5678', id: id, load_id: 'abc123', provider_identifiers_map:)
   end
 
   let(:id) { 'redivis-123' }
 
+  let(:provider_identifiers_map) { {} }
+
   context 'with full metadata record' do
     let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/full_metadata_mapped.json')) }
+
+    let(:provider_identifiers_map) do
+      {
+        'DataCite' => '10.1234/5678',
+        'Redivis' => 'redivis-123'
+      }
+    end
 
     # rubocop:disable Layout/LineLength
     describe '#call' do
@@ -55,7 +64,8 @@ RSpec.describe SolrMapper do
             affiliation_names_sim: ['My institution', 'B. Parent Organization', 'My contributor institution'],
             variables_tsim: ['variable 1', 'variable 2'],
             temporal_isim: [2022],
-            courses_sim: ['CS246']
+            courses_sim: ['CS246'],
+            provider_identifier_map_struct_ss: '{"DataCite":"10.1234/5678","Redivis":"redivis-123"}'
           }
         )
       end

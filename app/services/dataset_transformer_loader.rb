@@ -43,7 +43,8 @@ class DatasetTransformerLoader
     metadata = mapper_for(dataset_record:).call(source: dataset_record.source)
     check_mapping_success(dataset_record:)
 
-    SolrMapper.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:)
+    SolrMapper.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
+                    provider_identifiers_map:)
   rescue DataworksMappers::MappingError => e
     return if ignore?(dataset_record:)
 
@@ -66,5 +67,11 @@ class DatasetTransformerLoader
     msg = "Dataset #{dataset_record.dataset_id} (#{dataset_record.provider}) is ignored but mapping succeeded"
     Rails.logger.info(msg)
     Honeybadger.notify(msg)
+  end
+
+  def provider_identifiers_map
+    dataset_records.to_h do |dataset_record|
+      [dataset_record.provider, dataset_record.dataset_id]
+    end
   end
 end
