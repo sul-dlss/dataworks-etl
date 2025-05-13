@@ -137,12 +137,12 @@ RSpec.describe SolrMapper do
       let(:metadata) do
         {
           provider: 'SDR',
-          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DRUID' }]
+          identifiers: [{ identifier: 'druid:123ab456', identifier_type: 'DRUID' }]
         }
       end
 
       it 'retrieves the SDR DRUID' do
-        expect(solr_mapper.provider_identifier_field).to eq('10.1234/5678')
+        expect(solr_mapper.provider_identifier_field).to eq('druid:123ab456')
       end
     end
   end
