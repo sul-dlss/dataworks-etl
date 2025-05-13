@@ -7,7 +7,7 @@ RSpec.describe SolrMapper do
     described_class.new(metadata:, doi: '10.1234/5678', id: id, load_id: 'abc123')
   end
 
-  let(:id) { 'revidis-123' }
+  let(:id) { 'redivis-123' }
 
   context 'with full metadata record' do
     let(:metadata) { JSON.parse(File.read('spec/fixtures/mapped_datasets/full_metadata_mapped.json')) }
@@ -17,7 +17,7 @@ RSpec.describe SolrMapper do
       it 'maps to Solr metadata' do
         expect(solr_mapper.call).to eq(
           {
-            id: 'revidis-123',
+            id: 'redivis-123',
             load_id_ssi: 'abc123',
             title_tsim: ['My title V1.0'],
             subtitle_tsim: ['My subtitle'],
@@ -54,7 +54,8 @@ RSpec.describe SolrMapper do
             rights_uris_sim: ['https://creativecommons.org/licenses/by/4.0/'],
             affiliation_names_sim: ['My institution', 'B. Parent Organization', 'My contributor institution'],
             variables_tsim: ['variable 1', 'variable 2'],
-            temporal_isim: [2022]
+            temporal_isim: [2022],
+            courses_sim: ['CS246']
           }
         )
       end
@@ -78,7 +79,7 @@ RSpec.describe SolrMapper do
       it 'maps to Solr metadata' do
         expect(solr_mapper.call).to eq(
           {
-            id: 'revidis-123',
+            id: 'redivis-123',
             load_id_ssi: 'abc123',
             title_tsim: ['My title'],
             access_ssi: 'Public',
@@ -86,7 +87,8 @@ RSpec.describe SolrMapper do
             provider_identifier_ssi: '10.1234/5678',
             doi_ssi: '10.1234/5678',
             url_ss: 'https://example.com/my-dataset',
-            publication_year_isi: 2023
+            publication_year_isi: 2023,
+            courses_sim: ['CS246']
           }
         )
       end
