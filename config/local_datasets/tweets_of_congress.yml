@@ -1,0 +1,12 @@
+---
+titles:
+- title: Tweets of Congress
+publication_year: '2017'
+descriptions:
+- description: Daily tweets of both houses of Congress, encompassing 1,000+ campaign, office, committee and party accounts. The collected tweets are available as JSON datasets.
+identifiers:
+- identifier: https://github.com/alexlitel/congresstweets
+  identifier_type: LocalReference
+url: https://github.com/alexlitel/congresstweets
+access: Public
+provider: Local

@@ -1,0 +1,12 @@
+---
+titles:
+- title: Global Surface Water - Data Access
+publication_year: '2016'
+descriptions:
+- description: https://storage.cloud.google.com/global-surface-water/downloads_ancillary/DataUsersGuidev2021.pdf
+identifiers:
+- identifier: https://global-surface-water.appspot.com/download
+  identifier_type: LocalReference
+url: https://global-surface-water.appspot.com/download
+access: Public
+provider: Local
