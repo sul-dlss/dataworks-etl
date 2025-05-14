@@ -1,0 +1,197 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://redivis.com/api/v1/datasets/sdss.project_loon:673p:v1_0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.1
+      Authorization:
+      - "<AUTHORIZATION>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 14 May 2025 11:11:06 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '2354'
+      Connection:
+      - keep-alive
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Access-Control-Max-Age:
+      - '1728000'
+      Cross-Origin-Opener-Policy:
+      - same-origin-allow-popups
+      Content-Security-Policy:
+      - frame-ancestors 'self' redivis.com *.redivis.com;
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - User-Agent,Cache-Control,Content-Type,Accept,Accept-Encoding,Authorization,X-Redivis-Client,X-Redivis-Client-Version,X-Requested-With
+      X-Robots-Tag:
+      - noindex
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Ratelimit-Remaining:
+      - '999'
+      X-Ratelimit-Reset:
+      - '1747221127'
+      Last-Modified:
+      - Invalid Date
+      Etag:
+      - W/"932-pWdwlKN5AfxPVyZrOVUQ7+tqPTQ"
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: '{"kind":"dataset","id":"673p-a2f2hqe7m","qualifiedReference":"sdss.project_loon:673p:v1_0","scopedReference":"project_loon:673p:v1_0","referenceId":"673p","name":"Project
+        Loon","url":"https://redivis.com/datasets/673p-a2f2hqe7m?v=1.0","uri":"/datasets/sdss.project_loon:673p:v1_0","doi":"10.57761/mjpn-gn58","owner":{"kind":"organization","name":"SDSS","fullName":"Stanford
+        Doerr School of Sustainability","ror":null},"createdAt":1719349397162,"updatedAt":1726772432038,"accessLevel":"data","publicAccessLevel":"data","description":"The
+        purpose of this dataset is to offer an estimate of the horizontal momentum
+        fluxed vertically by the atmospheric internal gravity waves (GWs) observed
+        by Project Loon balloons. This vertical flux of horizontal momentum is commonly
+        referred to as the GW momentum flux. Before estimating the GW momentum fluxes,
+        additional processing was necessary to remove data sampling errors, irregularities,
+        and balloon maneuvering.","tableCount":1,"numBytes":2394493251,"totalNumBytes":2511313281,"totalActiveTabularBytes":2511313281,"totalInactiveTabularBytes":0,"totalRawFileBytes":0,"temporalPrecision":"dateTime","temporalRange":[1366405738562,1617252349000],"geoBBox":null,"sampleConfiguration":null,"methodologyMarkdown":"\n\nThe
+        procedures for this processing, and the subsequent analysis of the processed
+        data, are described in Green et al. (2024). The Python code (in Jupyter notebooks)
+        that was used for both is available at: [https://github.com/DataWaveProject/Loon-momentum-fluxes](<https://github.com/DataWaveProject/Loon-momentum-fluxes>).\n\n\n\n\n\n","usageMarkdown":"See
+        the following sample project for examples:\n\n\n\n[https://redivis.com/projects/q08b-889vc3xgg](<https://redivis.com/projects/q08b-889vc3xgg>)\n\n","links":[],"customDocumentationSections":[],"tags":[],"version":{"kind":"version","tag":"v1.0","index":0,"label":null,"url":"https://redivis.com/datasets/673p-a2f2hqe7m?v=1.0","datasetUri":"/datasets/sdss.project_loon:673p:v1_0","uri":"/datasets/sdss.project_loon:673p/versions/v1_0","isReleased":true,"isDeleted":false},"currentVersion":{"kind":"version","tag":"v1.0","index":0,"label":null,"url":"https://redivis.com/datasets/673p-a2f2hqe7m?v=1.0","datasetUri":"/datasets/sdss.project_loon:673p:v1_0","uri":"/datasets/sdss.project_loon:673p/versions/v1_0","isReleased":true,"isDeleted":false}}'
+  recorded_at: Wed, 14 May 2025 11:11:06 GMT
+- request:
+    method: get
+    uri: https://redivis.com/api/v1/datasets/sdss.project_loon:673p:v1_0/tables?maxResults=1000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.1
+      Authorization:
+      - "<AUTHORIZATION>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 14 May 2025 11:11:07 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '592'
+      Connection:
+      - keep-alive
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Access-Control-Max-Age:
+      - '1728000'
+      Cross-Origin-Opener-Policy:
+      - same-origin-allow-popups
+      Content-Security-Policy:
+      - frame-ancestors 'self' redivis.com *.redivis.com;
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - User-Agent,Cache-Control,Content-Type,Accept,Accept-Encoding,Authorization,X-Redivis-Client,X-Redivis-Client-Version,X-Requested-With
+      X-Robots-Tag:
+      - noindex
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Ratelimit-Remaining:
+      - '998'
+      X-Ratelimit-Reset:
+      - '1747221127'
+      Etag:
+      - W/"250-bNaQG7aaOwd0JOAOzyW83Hy08qE"
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: '{"kind":"tableList","nextPageToken":null,"results":[{"kind":"table","id":"9dzz-bt5g5twtp","qualifiedReference":"sdss.project_loon:673p:v1_0.loon:9dzz","scopedReference":"loon:9dzz","referenceId":"9dzz","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0","name":"Loon","isSample":false,"hash":"e3d1470527ffde54a0c14db9b669426b","isFileIndex":false,"createdAt":1719349410878,"updatedAt":1743690126169,"description":null,"numRows":3894001,"numBytes":2394493251,"variableCount":30,"uploadMergeStrategy":"append"}]}'
+  recorded_at: Wed, 14 May 2025 11:11:06 GMT
+- request:
+    method: get
+    uri: https://redivis.com/api/v1/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables?maxResults=10000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.1
+      Authorization:
+      - "<AUTHORIZATION>"
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 14 May 2025 11:11:07 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '8179'
+      Connection:
+      - keep-alive
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Access-Control-Max-Age:
+      - '1728000'
+      Cross-Origin-Opener-Policy:
+      - same-origin-allow-popups
+      Content-Security-Policy:
+      - frame-ancestors 'self' redivis.com *.redivis.com;
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - User-Agent,Cache-Control,Content-Type,Accept,Accept-Encoding,Authorization,X-Redivis-Client,X-Redivis-Client-Version,X-Requested-With
+      X-Robots-Tag:
+      - noindex
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Ratelimit-Remaining:
+      - '997'
+      X-Ratelimit-Reset:
+      - '1747221127'
+      Etag:
+      - W/"1ff3-tRylntIBmqeFAnOVzZtPVd97SEk"
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: '{"kind":"variableList","nextPageToken":null,"results":[{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flight_id","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flight_id","name":"flight_id","type":"string","isFileId":false,"index":0,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/time","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=time","name":"time","type":"dateTime","isFileId":false,"index":1,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/latitude","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=latitude","name":"latitude","type":"float","isFileId":false,"index":2,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/longitude","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=longitude","name":"longitude","type":"float","isFileId":false,"index":3,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/altitude","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=altitude","name":"altitude","type":"float","isFileId":false,"index":4,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/pressure","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=pressure","name":"pressure","type":"float","isFileId":false,"index":5,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/wind_u","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=wind_u","name":"wind_u","type":"float","isFileId":false,"index":6,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/wind_v","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=wind_v","name":"wind_v","type":"float","isFileId":false,"index":7,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/t_cosmic","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=T_cosmic","name":"T_cosmic","type":"float","isFileId":false,"index":8,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/dtdz_cosmic","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=dTdz_cosmic","name":"dTdz_cosmic","type":"float","isFileId":false,"index":9,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/n_cosmic","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=N_cosmic","name":"N_cosmic","type":"float","isFileId":false,"index":10,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/segment_id","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=segment_id","name":"segment_id","type":"integer","isFileId":false,"index":11,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/u_smooth","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=u_smooth","name":"u_smooth","type":"float","isFileId":false,"index":12,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/v_smooth","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=v_smooth","name":"v_smooth","type":"float","isFileId":false,"index":13,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_east","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_east","name":"flux_east","type":"float","isFileId":false,"index":14,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_west","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_west","name":"flux_west","type":"float","isFileId":false,"index":15,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_north","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_north","name":"flux_north","type":"float","isFileId":false,"index":16,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_south","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_south","name":"flux_south","type":"float","isFileId":false,"index":17,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_east_hf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_east_HF","name":"flux_east_HF","type":"float","isFileId":false,"index":18,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_west_hf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_west_HF","name":"flux_west_HF","type":"float","isFileId":false,"index":19,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_north_hf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_north_HF","name":"flux_north_HF","type":"float","isFileId":false,"index":20,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_south_hf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_south_HF","name":"flux_south_HF","type":"float","isFileId":false,"index":21,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_east_mf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_east_MF","name":"flux_east_MF","type":"float","isFileId":false,"index":22,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_west_mf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_west_MF","name":"flux_west_MF","type":"float","isFileId":false,"index":23,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_north_mf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_north_MF","name":"flux_north_MF","type":"float","isFileId":false,"index":24,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_south_mf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_south_MF","name":"flux_south_MF","type":"float","isFileId":false,"index":25,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_east_lf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_east_LF","name":"flux_east_LF","type":"float","isFileId":false,"index":26,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_west_lf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_west_LF","name":"flux_west_LF","type":"float","isFileId":false,"index":27,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_north_lf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_north_LF","name":"flux_north_LF","type":"float","isFileId":false,"index":28,"label":null},{"kind":"variable","uri":"/tables/sdss.project_loon:673p:v1_0.loon:9dzz/variables/flux_south_lf","url":"https://redivis.com/datasets/673p-a2f2hqe7m/tables/9dzz-bt5g5twtp?v=1.0&variable=flux_south_LF","name":"flux_south_LF","type":"float","isFileId":false,"index":29,"label":null}]}'
+  recorded_at: Wed, 14 May 2025 11:11:07 GMT
+recorded_with: VCR 6.3.1

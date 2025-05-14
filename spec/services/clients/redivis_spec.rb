@@ -17,10 +17,28 @@ RSpec.describe Clients::Redivis, :vcr do
   end
 
   describe '.dataset' do
-    let(:dataset) { client.dataset(id: 'stanfordphs.prime_india:016c:v0_1') }
+    context 'when there are no tables' do
+      let(:dataset) { client.dataset(id: 'stanfordphs.prime_india:016c:v0_1') }
 
-    it 'retrieves the dataset' do
-      expect(dataset['id']).to eq('016c-aj7b81qhb')
+      it 'retrieves the dataset' do
+        expect(dataset['id']).to eq('016c-aj7b81qhb')
+        expect(dataset['tableCount']).to eq(0)
+        expect(dataset['tables']).to be_nil
+      end
+    end
+
+    context 'when there are tables' do
+      let(:dataset) { client.dataset(id: 'sdss.project_loon:673p:v1_0') }
+
+      it 'retrieves the dataset' do
+        expect(dataset['id']).to eq('673p-a2f2hqe7m')
+        expect(dataset['tableCount']).to eq(1)
+        expect(dataset['tables'].size).to eq(1)
+        table = dataset['tables'].first
+        expect(table['variableCount']).to eq(30)
+        expect(table['variables'].size).to eq(30)
+        expect(table['variables'].first['name']).to eq('flight_id')
+      end
     end
   end
 end

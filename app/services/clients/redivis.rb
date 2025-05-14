@@ -19,7 +19,10 @@ module Clients
     end
 
     def dataset(id:)
-      get_json(path: "/api/v1/datasets/#{id}")
+      # This creates a synthetic source record that includes additional table and variable metadata.
+      get_json(path: "/api/v1/datasets/#{id}").tap do |dataset|
+        add_tables(dataset:) if dataset['tableCount'].positive? && dataset['publicAccessLevel'] == 'data'
+      end
     end
 
     private
@@ -35,6 +38,26 @@ module Clients
         )
       end
       [results, response_json['nextPageToken']]
+    end
+
+    def add_tables(dataset:)
+      # Requesting 1000 tables to avoid having to paginate. (As of 05-2025, the max tables is 102.)
+      response_json = get_json(path: "/api/v1/datasets/#{dataset['qualifiedReference']}/tables",
+                               params: { maxResults: 1000 })
+      tables = response_json['results']
+      tables.each do |table|
+        add_variables(table:) if table['variableCount'].positive?
+      end
+
+      dataset['tables'] = tables
+    end
+
+    def add_variables(table:)
+      # Requesting 10,000 variables to avoid having to paginate.
+      response_json = get_json(path: "/api/v1/tables/#{table['qualifiedReference']}/variables",
+                               params: { maxResults: 10_000 })
+      variables = response_json['results']
+      table['variables'] = variables
     end
   end
 end
