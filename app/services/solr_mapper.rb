@@ -15,11 +15,13 @@ class SolrMapper
   # @param doi [String] the DOI, if present, stored in the dataset record
   # @param id [String] the ID of the dataset
   # @param load_id [String] the ID of the load
-  def initialize(metadata:, doi:, id:, load_id:)
+  # @param provider_identifiers_map [Hash<String,String>] a map of provider identifiers to their values
+  def initialize(metadata:, doi:, id:, load_id:, provider_identifiers_map:)
     @metadata = metadata.with_indifferent_access
     @doi = doi
     @id = id
     @load_id = load_id
+    @provider_identifiers_map = provider_identifiers_map
   end
 
   # @return [Hash] the Solr document
@@ -56,7 +58,8 @@ class SolrMapper
       affiliation_names_sim: affilation_names_field,
       variables_tsim: metadata['variables'],
       temporal_isim: temporal_field,
-      courses_sim: courses
+      courses_sim: courses,
+      provider_identifier_map_struct_ss: provider_identifiers_map.presence&.to_json
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -129,7 +132,7 @@ class SolrMapper
 
   private
 
-  attr_reader :metadata, :doi, :id, :load_id
+  attr_reader :metadata, :doi, :id, :load_id, :provider_identifiers_map
 
   # Get the identifier type associated with a particular provider
   def provider_ref(provider)

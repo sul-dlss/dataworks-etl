@@ -6,7 +6,7 @@ RSpec.describe DatasetTransformerLoader do
   let(:dataset_record) { create(:dataset_record) }
 
   let(:solr_service) { instance_double(SolrService, add: true) }
-  let(:zenodo_dataset_record) { instance_double(DatasetRecord, provider: 'zenodo') }
+  let(:zenodo_dataset_record) { instance_double(DatasetRecord, provider: 'zenodo', dataset_id: 'zenodo-123') }
   let(:load_id) { 'abc123' }
 
   before do
@@ -19,7 +19,8 @@ RSpec.describe DatasetTransformerLoader do
     described_class.call(dataset_records: [zenodo_dataset_record, dataset_record], load_id:)
     expect(DataworksMappers::Redivis).to have_received(:call).with(source: dataset_record.source).once
     expect(SolrMapper).to have_received(:call)
-      .with(metadata: Hash, doi: dataset_record.doi, id: dataset_record.doi, load_id:).once
+      .with(metadata: Hash, doi: dataset_record.doi, id: dataset_record.doi, load_id:,
+            provider_identifiers_map: { 'redivis' => 'abc1', 'zenodo' => 'zenodo-123' }).once
     expect(solr_service).to have_received(:add).once
   end
 
