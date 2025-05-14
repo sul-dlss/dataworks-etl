@@ -24,7 +24,9 @@ module Extractors
       end
 
       def list
-        Dir.glob("#{path}/*.yml").map do |filepath|
+        Dir.glob("#{path}/*.yml").filter_map do |filepath|
+          next if filepath.ends_with?('/example.yml') && !Rails.env.test?
+
           metadata = YAML.load_file(filepath)
           DataworksValidator.new(metadata:).valid!
           Clients::ListResult.new(

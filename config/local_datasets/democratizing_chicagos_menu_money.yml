@@ -1,0 +1,13 @@
+---
+titles:
+- title: Democratizing Chicago's Menu Money Data
+publication_year: '2023'
+descriptions:
+- description: >
+    Each year, every member of Chicago's city council gets $1.5 million in "menu money" to spend on capital improvement in their ward. Some alderpersons spend this money on streets and sidewalks, while others use it to fund park upkeep, bike lanes, or art projects. The alderperson has enormous discretion over how this money gets spent -- and, in the past, menu money has been at the center of bribery and corruption scandals. Yet the city only publishes menu money expenditures in massive, unsightly, and inconsistently organized PDFs buried in the city website. Because of this inaccessibility, it has historically been difficult to scrutinize how menu money is actually spent.This project aims to change that, by making the data public in a simple spreadsheet and sorting each line item into one of nine broad categories. The bigger goal: to empower the public to finally understand how their tax dollars are being spent, allow reporters to sniff out suspicious patterns, and help social scientists study how dollars get allocated at the hyper-micro level.
+identifiers:
+- identifier: https://github.com/jakejsmith/ChicagoMenuMoney
+  identifier_type: LocalReference
+url: https://github.com/jakejsmith/ChicagoMenuMoney
+access: Public
+provider: Local

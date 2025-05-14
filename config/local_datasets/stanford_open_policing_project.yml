@@ -1,0 +1,12 @@
+---
+titles:
+- title: The Stanford Open Policing Project
+publication_year: '2015'
+descriptions:
+- description: Records from millions of traffic stops by law enforcement agencies across the United States. The data are available in both CSV and RDS formats. In addition, shapefiles are available for select locations.
+identifiers:
+- identifier: https://openpolicing.stanford.edu/data/
+  identifier_type: LocalReference
+url: https://openpolicing.stanford.edu/data/
+access: Public
+provider: Local
