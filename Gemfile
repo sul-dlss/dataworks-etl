@@ -44,7 +44,7 @@ gem 'thruster', require: false
 # gem "image_processing", "~> 1.2"
 
 # Application gems
-gem 'cocina-models', '~> 0.103.1' # For SDR datasets
+gem 'cocina-models', '~> 0.103.2' # For SDR datasets
 gem 'config'
 gem 'dor-services-client', '~> 15.7' # For SDR datasets
 gem 'edtf'
