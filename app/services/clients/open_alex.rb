@@ -11,9 +11,7 @@ module Clients
     # @param page_size [Integer] the number of results to return per page (optional, default/max: 200)
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(institution_id: nil, type: 'dataset', page_size: 200)
-      raise Clients::Error, 'institution_id required' unless institution_id
-
+    def list(institution_id:, type: 'dataset', page_size: 200)
       @institution_id = institution_id
       @type = type
       @page_size = page_size
@@ -30,7 +28,7 @@ module Clients
 
     # @param id [String] the Identifier of the dataset
     def dataset(id:)
-      get_json(path: "/works/#{id}")
+      get_json(path: "/works/#{id.delete_prefix('https://openalex.org/')}")
     end
 
     private
@@ -42,7 +40,7 @@ module Clients
         Clients::ListResult.new(
           id: dataset_json['id'],
           modified_token: dataset_json['updated_date'].to_s,
-          source: nil
+          source: dataset_json
         )
       end
       cursor = response_json.dig('meta', 'next_cursor')
