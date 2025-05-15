@@ -5,6 +5,9 @@ class DatasetTransformerLoader
   # These providers are ordered by preference for mapping.
   PROVIDERS = %w[sdr datacite local searchworks dryad redivis zenodo].freeze
 
+  # These fields are merged from the dataset records of other providers in preference order.
+  MERGEABLE_FIELDS = [:variables_tsim].freeze
+
   def self.call(...)
     new(...).call
   end
@@ -16,9 +19,12 @@ class DatasetTransformerLoader
   end
 
   def call
-    # Reloading because the provided DatasetRecord missing the source
-    dataset_record = dataset_records.first.reload
-    solr_doc = solr_doc_for(dataset_record:)
+    solr_docs = dataset_records.map { |dataset_record| solr_doc_for(dataset_record:) }
+    solr_doc = solr_docs.shift
+    # Merge in the fields that are mergeable from the other providers.
+    solr_docs.each do |doc|
+      solr_doc.reverse_merge!(doc.slice(*MERGEABLE_FIELDS))
+    end
     solr.add(solr_doc:) if solr_doc
   end
 
@@ -58,7 +64,9 @@ class DatasetTransformerLoader
   end
 
   def ignore_dataset_ids(provider:)
-    @ignore_dataset_ids ||= Settings[provider]&.ignore || []
+    @ignore_dataset_ids ||= {}
+    @ignore_dataset_ids[provider] ||= Settings[provider]&.ignore || []
+    @ignore_dataset_ids[provider]
   end
 
   def check_mapping_success(dataset_record:)
