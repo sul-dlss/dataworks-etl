@@ -12,6 +12,26 @@ module DataworksMappers
     CREATOR_ROLES = ['author', 'authoring entity', 'primary investigator'].freeze
     PUBLISHER_ROLES = %w[publisher].freeze
 
+    class << self
+      # DOI can be stored in two places, so check both
+      def doi(source:)
+        # If it's here, it is not in URL form
+        if (non_url_doi = source.dig('identification', 'doi')).present?
+          return non_url_doi
+        end
+
+        # If it's here, it is in URL form
+        return if (url_doi = source.dig('description', 'identifier')&.find { |id| id['type'] == 'DOI' }).blank?
+
+        id_from_url(url_doi['value'])
+      end
+
+      # Strip the URL prefix from a DOI (or other identifier) and return just the ID
+      def id_from_url(id_url)
+        URI(id_url).path.delete_prefix('/')
+      end
+    end
+
     def initialize(source:)
       super(source: source.is_a?(Hash) ? Cocina::Models::DROWithMetadata.new(source) : source)
     end
@@ -59,32 +79,15 @@ module DataworksMappers
       [
         { identifier: source.externalIdentifier, identifier_type: 'DRUID' }
       ].tap do |ids|
-        ids.push(doi) if doi.present?
+        if (doi_id = self.class.doi(source:)).present?
+          ids.push(
+            {
+              identifier: doi_id,
+              identifier_type: 'DOI'
+            }
+          )
+        end
       end
-    end
-
-    # DOI can be stored in two places, so check both
-    def doi
-      # If it's here, it is not in URL form
-      if source.identification.doi.present?
-        return {
-          identifier: source.identification.doi,
-          identifier_type: 'DOI'
-        }
-      end
-
-      return if (doi = source.description.identifier.find { |id| id.type == 'DOI' }).nil?
-
-      # If it's here, it is in URL form
-      {
-        identifier: id_from_url(doi.value),
-        identifier_type: 'DOI'
-      }
-    end
-
-    # Strip the URL prefix from a DOI (or other identifier) and return just the ID
-    def id_from_url(id_url)
-      URI(id_url).path.delete_prefix('/')
     end
 
     def creators

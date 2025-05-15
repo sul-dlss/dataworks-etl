@@ -13,19 +13,20 @@ module Extractors
 
     private
 
-    # @param source [Cocina::Models::DROWithMetadata] the dataset cocina
+    # @param source [Hash] the dataset cocina
     # @return [Clients::ListResult]
     def source_to_result(source:)
       Clients::ListResult.new(
-        id: source.externalIdentifier,
-        modified_token: source.modified,
-        source:
+        id: source['externalIdentifier'],
+        modified_token: source['modified'],
+        source: source
       )
     end
 
-    # @param source [Cocina::Models::DROWithMetadata] the dataset cocina
+    # @param source [Hash] the dataset cocina
+    # Delegate to the mapper since this can be in multiple places
     def doi_from(source:)
-      source.identification.doi
+      DataworksMappers::Sdr.doi(source:)
     end
   end
 end
