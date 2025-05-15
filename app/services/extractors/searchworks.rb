@@ -6,7 +6,7 @@ module Extractors
     def initialize(list_args:, client: Clients::Solr.new, provider: 'searchworks',
                    extra_dataset_ids: YAML.load_file('config/datasets/searchworks.yml'))
       super
-      @list_args[:params].merge!(default_solr_params)
+      @list_args[:params].reverse_merge!(default_solr_params)
     end
 
     private
