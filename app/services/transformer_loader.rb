@@ -31,7 +31,6 @@ class TransformerLoader
   def grouped_dataset_records
     dataset_records = DatasetRecord.joins(:dataset_record_associations)
                                    .where(dataset_record_associations: { dataset_record_set: dataset_record_sets })
-                                   .select(:id, :provider, :dataset_id, :doi)
 
     dataset_records.group_by(&:external_dataset_id)
   end
