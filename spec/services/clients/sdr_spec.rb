@@ -18,8 +18,8 @@ RSpec.describe Clients::Sdr, :vcr do
 
     it 'fetches the Cocina model for the dataset' do
       dataset = client.dataset(id: druid)
-      expect(dataset).to be_a(Cocina::Models::DROWithMetadata)
-      expect(dataset.externalIdentifier).to eq("druid:#{druid}")
+      expect(dataset).to be_a(Hash)
+      expect(dataset['externalIdentifier']).to eq("druid:#{druid}")
     end
   end
 end

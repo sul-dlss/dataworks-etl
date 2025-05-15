@@ -97,6 +97,9 @@ searchworks:
 purl_fetcher:
   url: https://purl-fetcher.stanford.edu
 
+purl:
+  url: https://purl.stanford.edu
+
 dor_services:
   url: https://dor-services-prod-lb.stanford.edu
   token: ~

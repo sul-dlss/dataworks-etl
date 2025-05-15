@@ -3,6 +3,10 @@
 module Clients
   # Client for fetching SDR items released to DataWorks
   class Sdr < Base
+    def initialize(url: Settings.purl.url, conn: nil)
+      super
+    end
+
     # All druids released to DataWorks from SDR, with timestamps
     # @return [Array[Client::ListResult]] datasets
     def list
@@ -14,10 +18,10 @@ module Clients
       end
     end
 
-    # Fetch the Cocina from SDR for a given dataset by druid
-    # @return [Cocina::Models::DROWithMetadata] Cocina model for the dataset
+    # Fetch the Cocina from PURL for a given dataset by druid
+    # @return [Hash] Cocina metadata for the dataset
     def dataset(id:)
-      sdr_client.object("druid:#{id}").find
+      get_json(path: "/#{id}.json")
     end
 
     private
@@ -25,14 +29,6 @@ module Clients
     def purl_fetcher_client
       @purl_fetcher_client ||= PurlFetcher::Client::Reader.new(
         host: Settings.purl_fetcher.url
-      )
-    end
-
-    def sdr_client
-      @sdr_client ||= Dor::Services::Client.configure(
-        url: Settings.dor_services.url,
-        token: Settings.dor_services.token,
-        enable_get_retries: true
       )
     end
   end
