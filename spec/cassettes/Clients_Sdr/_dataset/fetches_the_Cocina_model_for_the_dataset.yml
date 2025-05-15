@@ -2,15 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: https://dor-services-prod-lb.stanford.edu/v1/objects/druid:zs631wn7371
+    uri: https://purl.stanford.edu/zs631wn7371.json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - dor-services-client 15.6.1
-      Authorization:
-      - "<AUTHORIZATION>"
+      - Faraday v2.13.1
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -21,13 +19,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 24 Apr 2025 20:29:00 GMT
+      - Thu, 15 May 2025 22:05:19 GMT
       Server:
       - Apache/2.4.41 (Ubuntu)
       Cache-Control:
       - max-age=0, private, must-revalidate
-      Vary:
-      - Accept,Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
       Referrer-Policy:
       - strict-origin-when-cross-origin
       X-Permitted-Cross-Domain-Policies:
@@ -35,23 +33,23 @@ http_interactions:
       X-Xss-Protection:
       - '0'
       X-Request-Id:
-      - bf18208c-16d1-49be-a41a-bf2e60f9e6e2
+      - 280b46a2-0706-4396-9192-d345b36a28d1
       X-Frame-Options:
       - SAMEORIGIN
-      X-Created-At:
-      - Tue, 18 Jul 2023 22:48:05 GMT
+      X-Runtime:
+      - '0.055362'
       X-Content-Type-Options:
       - nosniff
-      X-Runtime:
-      - '4.520065'
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
       Last-Modified:
-      - Thu, 13 Jun 2024 10:21:00 GMT
+      - Fri, 10 Jan 2025 03:46:43 GMT
       Etag:
-      - W/"druid:zs631wn7371=0=1-gzip"
+      - W/"e335ecb81cb41400b69470b4c12bc2ad-gzip"
       Status:
       - 200 OK
+      Vary:
+      - Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
       Transfer-Encoding:
       - chunked
       Content-Type:
@@ -7781,6 +7779,6 @@ http_interactions:
         7692","version":2,"structural":{"contains":[{"type":"https://cocina.sul.stanford.edu/models/file","externalIdentifier":"https://cocina.sul.stanford.edu/file/30bd4d18-503d-4cdd-9044-01541a1e4132","label":"XM_029361297.zip","filename":"XM_029361297.zip","size":531458,"version":2,"hasMimeType":"application/zip","sdrGeneratedText":false,"correctedForAccessibility":false,"hasMessageDigests":[{"type":"md5","digest":"efdabd37501a4c456f6c8d6d23f92aaa"},{"type":"sha1","digest":"29a1f8698b1c5fefb4aeffd402f3b562f503c6e4"}],"access":{"view":"world","download":"world","controlledDigitalLending":false},"administrative":{"publish":true,"sdrPreserve":true,"shelve":true}}]}},{"type":"https://cocina.sul.stanford.edu/models/resources/file","externalIdentifier":"zs631wn7371_7693","label":"File
         7693","version":2,"structural":{"contains":[{"type":"https://cocina.sul.stanford.edu/models/file","externalIdentifier":"https://cocina.sul.stanford.edu/file/4a33fd40-1984-4a2a-ad32-e9447d50e141","label":"XM_029363602.zip","filename":"XM_029363602.zip","size":307298,"version":2,"hasMimeType":"application/zip","sdrGeneratedText":false,"correctedForAccessibility":false,"hasMessageDigests":[{"type":"md5","digest":"c54f6eb138834e1a8e181d48b8881744"},{"type":"sha1","digest":"08a338e3349ff34d7fbc2509cb36a65930655a2d"}],"access":{"view":"world","download":"world","controlledDigitalLending":false},"administrative":{"publish":true,"sdrPreserve":true,"shelve":true}}]}},{"type":"https://cocina.sul.stanford.edu/models/resources/file","externalIdentifier":"zs631wn7371_7694","label":"File
         7694","version":2,"structural":{"contains":[{"type":"https://cocina.sul.stanford.edu/models/file","externalIdentifier":"https://cocina.sul.stanford.edu/file/716e7bd0-0ecf-40c3-a9ab-3715d389e224","label":"XM_043075935.zip","filename":"XM_043075935.zip","size":291926,"version":2,"hasMimeType":"application/zip","sdrGeneratedText":false,"correctedForAccessibility":false,"hasMessageDigests":[{"type":"md5","digest":"8a124c0a120c25a9f2d55fe9adbb1304"},{"type":"sha1","digest":"8cc0fc7c2b5c937589c8bbffb00efaf5d8e555bf"}],"access":{"view":"world","download":"world","controlledDigitalLending":false},"administrative":{"publish":true,"sdrPreserve":true,"shelve":true}}]}},{"type":"https://cocina.sul.stanford.edu/models/resources/file","externalIdentifier":"zs631wn7371_7695","label":"File
-        7695","version":2,"structural":{"contains":[{"type":"https://cocina.sul.stanford.edu/models/file","externalIdentifier":"https://cocina.sul.stanford.edu/file/41327b8a-87f6-4a88-b2e1-9f8859670ed5","label":"XM_045239726.zip","filename":"XM_045239726.zip","size":349679,"version":2,"hasMimeType":"application/zip","sdrGeneratedText":false,"correctedForAccessibility":false,"hasMessageDigests":[{"type":"md5","digest":"6743550de3e4f436d66ad1148d3cb2a1"},{"type":"sha1","digest":"192ae69b41eed7a25baa816e098dff1366331ee3"}],"access":{"view":"world","download":"world","controlledDigitalLending":false},"administrative":{"publish":true,"sdrPreserve":true,"shelve":true}}]}}],"hasMemberOrders":[],"isMemberOf":["druid:md919gh6774"]}}'
-  recorded_at: Thu, 24 Apr 2025 20:29:05 GMT
+        7695","version":2,"structural":{"contains":[{"type":"https://cocina.sul.stanford.edu/models/file","externalIdentifier":"https://cocina.sul.stanford.edu/file/41327b8a-87f6-4a88-b2e1-9f8859670ed5","label":"XM_045239726.zip","filename":"XM_045239726.zip","size":349679,"version":2,"hasMimeType":"application/zip","sdrGeneratedText":false,"correctedForAccessibility":false,"hasMessageDigests":[{"type":"md5","digest":"6743550de3e4f436d66ad1148d3cb2a1"},{"type":"sha1","digest":"192ae69b41eed7a25baa816e098dff1366331ee3"}],"access":{"view":"world","download":"world","controlledDigitalLending":false},"administrative":{"publish":true,"sdrPreserve":true,"shelve":true}}]}}],"hasMemberOrders":[],"isMemberOf":["druid:md919gh6774"]},"created":"2023-07-18T22:48:05.000+00:00","modified":"2024-06-13T10:21:00.000+00:00","lock":"druid:zs631wn7371=0=1"}'
+  recorded_at: Thu, 15 May 2025 22:05:20 GMT
 recorded_with: VCR 6.3.1
