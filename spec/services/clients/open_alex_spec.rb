@@ -15,12 +15,13 @@ RSpec.describe Clients::OpenAlex, :vcr do
         result = results.first
         expect(result.id).to eq('https://openalex.org/W4398293344')
         expect(result.modified_token).to eq('2025-02-02T15:51:45.052029')
+        expect(result.source).to be_a(Hash)
       end
     end
   end
 
   describe '.dataset' do
-    let(:dataset) { client.dataset(id: 'W4398293344') }
+    let(:dataset) { client.dataset(id: 'https://openalex.org/W4398293344') }
 
     it 'retrieves the dataset' do
       expect(dataset['id']).to eq('https://openalex.org/W4398293344')
