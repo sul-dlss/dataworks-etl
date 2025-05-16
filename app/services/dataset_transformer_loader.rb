@@ -19,7 +19,7 @@ class DatasetTransformerLoader
   end
 
   def call
-    solr_docs = dataset_records.map { |dataset_record| solr_doc_for(dataset_record:) }
+    solr_docs = dataset_records.filter_map { |dataset_record| solr_doc_for(dataset_record:) }
     solr_doc = solr_docs.shift
     # Merge in the fields that are mergeable from the other providers.
     solr_docs.each do |doc|
