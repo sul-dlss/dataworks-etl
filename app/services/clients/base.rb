@@ -7,12 +7,10 @@ module Clients
 
   # Base class for harvesting clients
   class Base
-    attr_reader :url, :conn
+    attr_reader :conn
 
     def initialize(url: nil, api_token: nil, conn: nil)
-      @url = url
-      @api_token = api_token
-      @conn = conn || new_conn
+      @conn = conn || new_conn(url:, api_token:)
     end
 
     def get_json(path:, params: {})
@@ -23,11 +21,17 @@ module Clients
       raise Error, "JSON parsing error: #{e.message}"
     end
 
+    def post_json(path:, params: {})
+      conn.post(path, params.compact).body
+    rescue Faraday::Error => e
+      raise Error, "Connection err: #{e.message}"
+    rescue JSON::ParserError => e
+      raise Error, "JSON parsing error: #{e.message}"
+    end
+
     private
 
-    attr_reader :api_token
-
-    def new_conn
+    def new_conn(url:, api_token: nil)
       Faraday.new({ url: }.compact) do |f|
         f.request :json
         f.request :retry, **retry_options
