@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Performs transformation from source metadata to Solr documents and loading into Solr for a single dataset
-class DatasetTransformerLoader
+# Performs transformation from source metadata to Solr documents for a single dataset
+class DatasetTransformer
   # These providers are ordered by preference for mapping.
   PROVIDERS = %w[sdr datacite local searchworks dryad redivis zenodo].freeze
 
@@ -12,12 +12,12 @@ class DatasetTransformerLoader
     new(...).call
   end
 
-  def initialize(dataset_records:, load_id:, solr: SolrService.new)
+  def initialize(dataset_records:, load_id:)
     @dataset_records = dataset_records
-    @solr = solr
     @load_id = load_id
   end
 
+  # @return [Hash] Solr document for the dataset.
   def call
     solr_docs = dataset_records.filter_map { |dataset_record| solr_doc_for(dataset_record:) }
     solr_doc = solr_docs.shift
@@ -25,16 +25,17 @@ class DatasetTransformerLoader
     solr_docs.each do |doc|
       solr_doc.reverse_merge!(doc.slice(*MERGEABLE_FIELDS))
     end
-    solr.add(solr_doc:) if solr_doc
+    solr_doc
   end
 
   private
 
-  attr_reader :solr, :load_id
+  attr_reader :load_id
 
   # @return [Array<DatasetRecord>] dataset records ordered by provider preference
   def dataset_records
-    @dataset_records.sort_by do |dataset_record|
+    @dataset_records.select { |dataset_record| PROVIDERS.include?(dataset_record.provider) }
+                    .sort_by do |dataset_record|
       PROVIDERS.index(dataset_record.provider)
     end
   end

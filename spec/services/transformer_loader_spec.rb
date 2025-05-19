@@ -12,11 +12,13 @@ RSpec.describe TransformerLoader do
                                                        extractor: 'Extractors::Datacite')
   end
 
-  let(:solr_service) { instance_double(SolrService, commit: true, delete_by_query: true) }
+  let(:solr_service) { instance_double(SolrService, commit: true, delete_by_query: true, add: true) }
+
+  let(:solr_doc) { instance_double(Hash) }
 
   before do
     allow(SolrService).to receive(:new).and_return(solr_service)
-    allow(DatasetTransformerLoader).to receive(:call)
+    allow(DatasetTransformer).to receive(:call).and_return(solr_doc)
 
     # Incomplete dataset record set
     create(:dataset_record_set, :with_dataset_records, complete: false)
@@ -30,27 +32,26 @@ RSpec.describe TransformerLoader do
   it 'transforms and loads' do
     described_class.call(load_id: 'load123')
 
-    expect(DatasetTransformerLoader).to have_received(:call).exactly(3).times
-    expect(DatasetTransformerLoader).to have_received(:call).with(
+    expect(DatasetTransformer).to have_received(:call).exactly(3).times
+    expect(DatasetTransformer).to have_received(:call).with(
       dataset_records: [redivis_dataset_record_set.dataset_records.first,
                         datacite_dataset_record_set.dataset_records.first],
-      solr: solr_service, load_id: String
+      load_id: String
     ).once
-    expect(DatasetTransformerLoader).to have_received(:call).with(
-      dataset_records: [redivis_dataset_record_set.dataset_records.last],
-      solr: solr_service, load_id: String
+    expect(DatasetTransformer).to have_received(:call).with(
+      dataset_records: [redivis_dataset_record_set.dataset_records.last], load_id: String
     ).once
-    expect(DatasetTransformerLoader).to have_received(:call).with(
-      dataset_records: [datacite_dataset_record_set.dataset_records.last],
-      solr: solr_service, load_id: String
+    expect(DatasetTransformer).to have_received(:call).with(
+      dataset_records: [datacite_dataset_record_set.dataset_records.last], load_id: String
     ).once
+    expect(solr_service).to have_received(:add).with(solr_doc:).exactly(3).times
     expect(solr_service).to have_received(:commit).once
     expect(solr_service).to have_received(:delete_by_query).with(query: '-load_id_ssi:"load123"').once
   end
 
   context 'when there is an error in mapping' do
     before do
-      allow(DatasetTransformerLoader).to receive(:call).and_raise(DataworksMappers::MappingError)
+      allow(DatasetTransformer).to receive(:call).and_raise(DataworksMappers::MappingError)
     end
 
     it 'raises an error' do
@@ -65,6 +66,22 @@ RSpec.describe TransformerLoader do
 
     it 'does not raise an error' do
       expect { described_class.call(fail_fast: false) }.not_to raise_error
+    end
+  end
+
+  context 'when load is false' do
+    it 'does not load' do
+      described_class.call(load_id: 'load123', load: false)
+
+      expect(solr_service).not_to have_received(:add)
+      expect(solr_service).not_to have_received(:commit)
+      expect(solr_service).not_to have_received(:delete_by_query)
+    end
+  end
+
+  context 'when a block is given' do
+    it 'yields the solr doc' do
+      expect { |block| described_class.call(&block) }.to yield_control.exactly(3).times
     end
   end
 end
