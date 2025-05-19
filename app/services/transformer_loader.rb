@@ -2,24 +2,27 @@
 
 # Performs a transform and load of the most recent completed dataset record sets for each extractor / list arguments.
 class TransformerLoader
-  def self.call(...)
-    new(...).call
+  def self.call(**args, &)
+    new(**args).call(&)
   end
 
   # @param fail_fast [Boolean] If true, raise an error on the first failure. If false, continue processing.
-  def initialize(fail_fast: true, load_id: SecureRandom.uuid)
+  # @param load [Boolean] If true, load the transformed documents into Solr. If false, only transform.
+  def initialize(fail_fast: true, load_id: SecureRandom.uuid, load: true)
     @fail_fast = fail_fast
     @load_id = load_id
+    @load = load
   end
 
-  def call
-    add_records
-    delete_records
+  def call(&)
+    add_records(&)
+
+    delete_records if load?
   end
 
   private
 
-  attr_reader :fail_fast, :load_id
+  attr_reader :load_id
 
   def dataset_record_sets
     DatasetRecordSet.select(:extractor, :list_args).group(:extractor, :list_args).pluck(:extractor, :list_args)
@@ -39,14 +42,26 @@ class TransformerLoader
     @solr ||= SolrService.new
   end
 
-  def add_records
+  def load?
+    @load
+  end
+
+  def fail_fast?
+    @fail_fast
+  end
+
+  def add_records # rubocop:disable Metrics/CyclomaticComplexity
     grouped_dataset_records.each_value do |dataset_records|
-      DatasetTransformerLoader.call(dataset_records:, solr:, load_id:)
+      solr_doc = DatasetTransformer.call(dataset_records:, load_id:)
+      next unless solr_doc
+
+      solr.add(solr_doc:) if load?
+      yield solr_doc if block_given?
     rescue DataworksMappers::MappingError
-      raise if fail_fast
+      raise if fail_fast?
     end
   ensure
-    solr.commit
+    solr.commit if load?
   end
 
   def delete_records
