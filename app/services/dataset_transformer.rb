@@ -12,9 +12,10 @@ class DatasetTransformer
     new(...).call
   end
 
-  def initialize(dataset_records:, load_id:)
+  def initialize(dataset_records:, load_id:, mapper_class: SolrMapper)
     @dataset_records = dataset_records
     @load_id = load_id
+    @mapper_class = mapper_class
   end
 
   # @return [Hash] Solr document for the dataset.
@@ -30,7 +31,7 @@ class DatasetTransformer
 
   private
 
-  attr_reader :load_id
+  attr_reader :load_id, :mapper_class
 
   # @return [Array<DatasetRecord>] dataset records ordered by provider preference
   def dataset_records
@@ -50,8 +51,8 @@ class DatasetTransformer
     metadata = mapper_for(dataset_record:).call(source: dataset_record.source)
     check_mapping_success(dataset_record:)
 
-    SolrMapper.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
-                    provider_identifiers_map:)
+    mapper_class.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
+                      provider_identifiers_map:)
   rescue DataworksMappers::MappingError => e
     return if ignore?(dataset_record:)
 
