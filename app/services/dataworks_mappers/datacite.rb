@@ -23,7 +23,8 @@ module DataworksMappers
         funding_references:,
         url: attrs[:url],
         access: 'Public', # TODO: Hardcoded for now, but needs additional consideration
-        provider: 'DataCite'
+        provider: 'DataCite',
+        geo_locations:
       }.compact_blank
     end
 
@@ -91,6 +92,18 @@ module DataworksMappers
       date.sub!(' to ', '/')
       date << 'Z' if date.match?(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/)
       date
+    end
+
+    def geo_locations
+      return unless attrs[:geoLocations]
+
+      attrs[:geoLocations].filter_map do |geo_location|
+        next if geo_location[:geoLocationPlace].blank?
+
+        {
+          geo_location_place: geo_location[:geoLocationPlace]
+        }.compact
+      end
     end
 
     def identifiers

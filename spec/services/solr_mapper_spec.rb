@@ -65,7 +65,8 @@ RSpec.describe SolrMapper do
             variables_tsim: ['variable 1', 'variable 2'],
             temporal_isim: [2022],
             courses_sim: ['CS246'],
-            provider_identifier_map_struct_ss: '{"DataCite":"10.1234/5678","Redivis":"redivis-123"}'
+            provider_identifier_map_struct_ss: '{"DataCite":"10.1234/5678","Redivis":"redivis-123"}',
+            geo_place_ssim: ['Vancouver, British Columbia, Canada', 'Victoria, British Columbia, Canada']
           }
         )
       end

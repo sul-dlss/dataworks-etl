@@ -108,6 +108,12 @@ properties:
       - Zenodo
       - SearchWorks
       - SDR
+  geo_locations:
+    description: A list of geographic locations relevant to the dataset
+    type: array
+    items:
+      $ref: '#/components/schemas/GeoLocation'
+    minItems: 1
 required:
   - titles
   - publication_year
@@ -233,7 +239,7 @@ components:
       dependentRequired:
         funder_identifier:
           - funder_identifier_type
-      additionalProperties: false    
+      additionalProperties: false
     PersonOrOrganization:
       type: object
       properties:
@@ -521,4 +527,12 @@ components:
       required:
         - identifier
         - identifier_type
+      additionalProperties: false
+    GeoLocation:
+      type: object
+      properties:
+        geo_location_place:
+          type: string
+      required:
+        - geo_location_place
       additionalProperties: false
