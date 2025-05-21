@@ -59,6 +59,7 @@ class SolrMapper
       variables_tsim: metadata['variables'],
       temporal_isim: temporal_field,
       courses_sim: courses,
+      geo_place_ssim: geo_locations_field,
       provider_identifier_map_struct_ss: provider_identifiers_map.presence&.to_json
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
@@ -173,6 +174,10 @@ class SolrMapper
 
   def subjects_field
     metadata['subjects']&.pluck('subject')
+  end
+
+  def geo_locations_field
+    metadata['geo_locations']&.pluck('geo_location_place')
   end
 
   # Retrieve affiliation name array given either creator or contributor field

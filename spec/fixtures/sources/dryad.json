@@ -61,6 +61,11 @@
   "keywords": [
     "Geomorphology and cosmogenic radionuclides"
   ],
+  "locations": [
+    {
+      "place": "Apalachicola River basin, Florida"
+    }
+  ],
   "methods": "TEST METHODS",
   "usageNotes": "TEST USAGE NOTES",
   "versionNumber": 3,

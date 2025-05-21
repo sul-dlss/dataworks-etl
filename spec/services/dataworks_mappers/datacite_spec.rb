@@ -480,6 +480,11 @@ RSpec.describe DataworksMappers::Datacite do
             rights_identifier_scheme: 'SPDX'
           }
         ],
+        geo_locations: [
+          {
+            geo_location_place: 'Vancouver, British Columbia, Canada'
+          }
+        ],
         funding_references: [
           {
             award_uri: 'https://example.com/example-award-uri',

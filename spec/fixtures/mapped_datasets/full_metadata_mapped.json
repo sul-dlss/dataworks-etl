@@ -226,5 +226,13 @@
   ],
   "data_use_statement": "My data use statement",
   "access": "Restricted",
-  "provider": "Redivis"
+  "provider": "Redivis",
+  "geo_locations": [
+    {
+      "geo_location_place": "Vancouver, British Columbia, Canada"
+    },
+    {
+      "geo_location_place": "Victoria, British Columbia, Canada"
+    }
+  ]
 }

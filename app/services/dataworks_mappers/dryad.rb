@@ -23,7 +23,7 @@ module DataworksMappers
       'crossref_funder_id' => 'Crossref Funder ID'
     }.freeze
 
-    def perform_map
+    def perform_map # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       {
         titles: [{ title: source[:title] }],
         creators:,
@@ -34,6 +34,7 @@ module DataworksMappers
         provider: 'Dryad',
         descriptions:,
         dates:,
+        geo_locations:,
         subjects:,
         sizes:,
         funding_references:,
@@ -126,6 +127,18 @@ module DataworksMappers
 
           identifiers << { identifier: source[identifier_type[:key]], identifier_type: identifier_type[:type] }
         end
+      end
+    end
+
+    def geo_locations
+      return unless source[:locations]
+
+      source[:locations].filter_map do |location|
+        next if location[:place].blank?
+
+        {
+          geo_location_place: location[:place]
+        }.compact
       end
     end
 
