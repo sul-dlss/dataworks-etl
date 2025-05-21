@@ -76,6 +76,7 @@ RSpec.describe DataworksMappers::Dryad do
             funder_name: 'National Science Foundation'
           }
         ],
+        geo_locations: [{ geo_location_place: 'Apalachicola River basin, Florida' }],
         version: '3'
       }
     )
