@@ -44,3 +44,5 @@ config/environments/*.local.yml
 
 # SimpleCov coverage artifacts
 /coverage
+
+/html_docs

@@ -14,5 +14,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  get '/vertex', to: 'vertex#index', as: :vertex_index
+  get '/vertex/search', to: 'vertex#search', as: :vertex_search
+  get '/vertex/converse', to: 'vertex#converse', as: :vertex_converse
+  get '/vertex/html_search', to: 'vertex#html_search', as: :vertex_html_search
+
   mount MissionControl::Jobs::Engine, at: '/jobs'
 end

@@ -8,10 +8,11 @@ class TransformerLoader
 
   # @param fail_fast [Boolean] If true, raise an error on the first failure. If false, continue processing.
   # @param load [Boolean] If true, load the transformed documents into Solr. If false, only transform.
-  def initialize(fail_fast: true, load_id: SecureRandom.uuid, load: true)
+  def initialize(fail_fast: true, load_id: SecureRandom.uuid, load: true, mapper_class: SolrMapper)
     @fail_fast = fail_fast
     @load_id = load_id
     @load = load
+    @mapper_class = mapper_class
   end
 
   def call(&)
@@ -22,7 +23,7 @@ class TransformerLoader
 
   private
 
-  attr_reader :load_id
+  attr_reader :load_id, :mapper_class
 
   def dataset_record_sets
     DatasetRecordSet.select(:extractor, :list_args).group(:extractor, :list_args).pluck(:extractor, :list_args)
@@ -52,7 +53,7 @@ class TransformerLoader
 
   def add_records # rubocop:disable Metrics/CyclomaticComplexity
     grouped_dataset_records.each_value do |dataset_records|
-      solr_doc = DatasetTransformer.call(dataset_records:, load_id:)
+      solr_doc = DatasetTransformer.call(dataset_records:, load_id:, mapper_class:)
       next unless solr_doc
 
       solr.add(solr_doc:) if load?

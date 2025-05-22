@@ -1,0 +1,42 @@
+<h1>DataWorks Proof of Concept using Vertex AI Search</h1>
+
+<div class="row g-4 mt-5">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Search with dataset metadata</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Provides search-type interface over dataset metadata</h6>
+        <p class="card-text">
+          Metadata is mapped from Dataworks schema to flattened JSON structure.
+        </p>
+        <%= link_to 'Try it ...', vertex_search_path, class: 'card-link' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Converse with dataset metadata</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Provides conversation-type interface over dataset metadata</h6>
+        <p class="card-text">
+          Metadata is mapped from Dataworks schema to flattened JSON structure.
+        </p>
+        <%= link_to 'Try it ...', vertex_converse_path, class: 'card-link' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Search with HTML docs</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Provides search-type interface over HTML documents</h6>
+        <p class="card-text">
+          The landing page for each dataset is indexed as an HTML document. Note that this will not work will for SPA websites such as OpenNeuro.
+        </p>
+        <%= link_to 'Try it ...', vertex_html_search_path, class: 'card-link' %>
+      </div>
+    </div>
+  </div>
+</div>

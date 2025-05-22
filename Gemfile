@@ -49,6 +49,7 @@ gem 'config'
 gem 'dor-services-client', '~> 15.7' # For SDR datasets
 gem 'edtf'
 gem 'faraday'
+gem 'faraday-follow_redirects'
 gem 'faraday-retry'
 gem 'honeybadger'
 gem 'iso-639', '~> 0.3.8' # For SearchWorks language mapping

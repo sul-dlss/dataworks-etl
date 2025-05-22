@@ -36,13 +36,14 @@ RSpec.describe TransformerLoader do
     expect(DatasetTransformer).to have_received(:call).with(
       dataset_records: [redivis_dataset_record_set.dataset_records.first,
                         datacite_dataset_record_set.dataset_records.first],
-      load_id: String
+      load_id: String,
+      mapper_class: SolrMapper
     ).once
     expect(DatasetTransformer).to have_received(:call).with(
-      dataset_records: [redivis_dataset_record_set.dataset_records.last], load_id: String
+      dataset_records: [redivis_dataset_record_set.dataset_records.last], load_id: String, mapper_class: SolrMapper
     ).once
     expect(DatasetTransformer).to have_received(:call).with(
-      dataset_records: [datacite_dataset_record_set.dataset_records.last], load_id: String
+      dataset_records: [datacite_dataset_record_set.dataset_records.last], load_id: String, mapper_class: SolrMapper
     ).once
     expect(solr_service).to have_received(:add).with(solr_doc:).exactly(3).times
     expect(solr_service).to have_received(:commit).once
