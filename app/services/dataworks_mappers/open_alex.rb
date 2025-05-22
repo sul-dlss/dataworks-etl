@@ -17,7 +17,6 @@ module DataworksMappers
         url: source.dig(:primary_location, :landing_page_url),
         access:,
         provider: 'OpenAlex',
-        dates:,
         language: source[:language],
         rights_list:,
         subjects:,
@@ -56,15 +55,6 @@ module DataworksMappers
           affiliation: affiliations_for(author[:institutions])
         }.compact_blank
       end
-    end
-
-    def dates
-      return unless source[:created_date] && source[:updated_date]
-
-      [
-        { date: source[:created_date].to_datetime.strftime('%F'), date_type: 'Created' },
-        { date: source[:updated_date].to_datetime.strftime('%F'), date_type: 'Updated' }
-      ].compact
     end
 
     def funding_references

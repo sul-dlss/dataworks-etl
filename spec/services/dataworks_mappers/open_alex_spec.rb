@@ -40,10 +40,6 @@ RSpec.describe DataworksMappers::OpenAlex do
         url: 'https://www.gbif.org/dataset/50914b57-6c66-4432-91c7-edbc7a296a9f',
         access: 'Public',
         provider: 'OpenAlex',
-        dates: [
-          { date: '2024-04-26', date_type: 'Created' },
-          { date: '2025-02-01', date_type: 'Updated' }
-        ],
         subjects: [
           {
             subject: 'Inertial Sensor and Navigation'
