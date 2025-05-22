@@ -108,6 +108,7 @@ properties:
       - Zenodo
       - SearchWorks
       - SDR
+      - OpenAlex
   geo_locations:
     description: A list of geographic locations relevant to the dataset
     type: array
@@ -227,6 +228,7 @@ components:
             - GRID
             - ISNI
             - ROR
+            - OpenAlex
             - Other
         award_number:
           type: string
@@ -269,6 +271,7 @@ components:
                   - ISNI
                   - ROR
                   - FundRef
+                  - OpenAlex
                   - Other
               required:
                 - name_identifier
@@ -425,6 +428,7 @@ components:
             - URL
             - URN
             - w3id
+            - OpenAlex
         relation_type:
           $ref: '#/components/schemas/RelationType'
         resource_type_general:

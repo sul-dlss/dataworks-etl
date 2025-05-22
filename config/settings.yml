@@ -77,6 +77,10 @@ datacite:
 #   ignore:
 #     - ~
 
+open_alex:
+  ignore:
+    - https://openalex.org/W4240842404
+
 searchworks:
   solr_url: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod
 

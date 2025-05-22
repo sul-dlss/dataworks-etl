@@ -1,0 +1,520 @@
+{
+  "id": "https://openalex.org/W4395524397",
+  "doi": "https://doi.org/10.15468/7zkca3",
+  "title": "TOPP Summary of SSM-derived Telemetry",
+  "display_name": "TOPP Summary of SSM-derived Telemetry",
+  "publication_year": 2021,
+  "publication_date": "2021-01-01",
+  "ids": {
+    "openalex": "https://openalex.org/W4395524397",
+    "doi": "https://doi.org/10.15468/7zkca3"
+  },
+  "language": "en",
+  "primary_location": {
+    "is_oa": true,
+    "landing_page_url": "https://www.gbif.org/dataset/50914b57-6c66-4432-91c7-edbc7a296a9f",
+    "pdf_url": null,
+    "source": {
+      "id": "https://openalex.org/S4398183272",
+      "display_name": "Global Biodiversity Information Facility",
+      "issn_l": null,
+      "issn": null,
+      "is_oa": true,
+      "is_in_doaj": false,
+      "is_indexed_in_scopus": false,
+      "is_core": false,
+      "host_organization": "https://openalex.org/I111796040",
+      "host_organization_name": "Global Biodiversity Information Facility",
+      "host_organization_lineage": [
+        "https://openalex.org/I111796040"
+      ],
+      "host_organization_lineage_names": [
+        "Global Biodiversity Information Facility"
+      ],
+      "type": "repository"
+    },
+    "license": "cc-by-nc",
+    "license_id": "https://openalex.org/licenses/cc-by-nc",
+    "version": null,
+    "is_accepted": false,
+    "is_published": false
+  },
+  "type": "dataset",
+  "type_crossref": "dataset",
+  "indexed_in": [
+    "datacite"
+  ],
+  "open_access": {
+    "is_oa": true,
+    "oa_status": "gold",
+    "oa_url": "https://www.gbif.org/dataset/50914b57-6c66-4432-91c7-edbc7a296a9f",
+    "any_repository_has_fulltext": true
+  },
+  "authorships": [
+    {
+      "author_position": "first",
+      "author": {
+        "id": "https://openalex.org/A5110752267",
+        "display_name": "James E. Ganong",
+        "orcid": null
+      },
+      "institutions": [
+        {
+          "id": "https://openalex.org/I97018004",
+          "display_name": "Stanford University",
+          "ror": "https://ror.org/00f54p054",
+          "country_code": "US",
+          "type": "funder",
+          "lineage": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ],
+      "countries": [
+        "US"
+      ],
+      "is_corresponding": true,
+      "raw_author_name": "James Ganong",
+      "raw_affiliation_strings": [
+        "Stanford University"
+      ],
+      "affiliations": [
+        {
+          "raw_affiliation_string": "Stanford University",
+          "institution_ids": [
+            "https://openalex.org/I97018004"
+          ]
+        }
+      ]
+    }
+  ],
+  "institution_assertions": [],
+  "countries_distinct_count": 1,
+  "institutions_distinct_count": 1,
+  "corresponding_author_ids": [
+    "https://openalex.org/A5110752267"
+  ],
+  "corresponding_institution_ids": [
+    "https://openalex.org/I97018004"
+  ],
+  "apc_list": null,
+  "apc_paid": null,
+  "fwci": null,
+  "has_fulltext": false,
+  "cited_by_count": 270,
+  "citation_normalized_percentile": {
+    "value": 0.99801,
+    "is_in_top_1_percent": true,
+    "is_in_top_10_percent": true
+  },
+  "cited_by_percentile_year": {
+    "min": 99,
+    "max": 100
+  },
+  "biblio": {
+    "volume": null,
+    "issue": null,
+    "first_page": null,
+    "last_page": null
+  },
+  "is_retracted": false,
+  "is_paratext": false,
+  "primary_topic": {
+    "id": "https://openalex.org/T11325",
+    "display_name": "Inertial Sensor and Navigation",
+    "score": 0.1134,
+    "subfield": {
+      "id": "https://openalex.org/subfields/2202",
+      "display_name": "Aerospace Engineering"
+    },
+    "field": {
+      "id": "https://openalex.org/fields/22",
+      "display_name": "Engineering"
+    },
+    "domain": {
+      "id": "https://openalex.org/domains/3",
+      "display_name": "Physical Sciences"
+    }
+  },
+  "topics": [
+    {
+      "id": "https://openalex.org/T11325",
+      "display_name": "Inertial Sensor and Navigation",
+      "score": 0.1134,
+      "subfield": {
+        "id": "https://openalex.org/subfields/2202",
+        "display_name": "Aerospace Engineering"
+      },
+      "field": {
+        "id": "https://openalex.org/fields/22",
+        "display_name": "Engineering"
+      },
+      "domain": {
+        "id": "https://openalex.org/domains/3",
+        "display_name": "Physical Sciences"
+      }
+    }
+  ],
+  "keywords": [],
+  "concepts": [
+    {
+      "id": "https://openalex.org/C183121708",
+      "wikidata": "https://www.wikidata.org/wiki/Q209867",
+      "display_name": "Telemetry",
+      "level": 2,
+      "score": 0.9187695
+    },
+    {
+      "id": "https://openalex.org/C62649853",
+      "wikidata": "https://www.wikidata.org/wiki/Q199687",
+      "display_name": "Remote sensing",
+      "level": 1,
+      "score": 0.42259073
+    },
+    {
+      "id": "https://openalex.org/C41008148",
+      "wikidata": "https://www.wikidata.org/wiki/Q21198",
+      "display_name": "Computer science",
+      "level": 0,
+      "score": 0.35862875
+    },
+    {
+      "id": "https://openalex.org/C39432304",
+      "wikidata": "https://www.wikidata.org/wiki/Q188847",
+      "display_name": "Environmental science",
+      "level": 0,
+      "score": 0.32027298
+    },
+    {
+      "id": "https://openalex.org/C205649164",
+      "wikidata": "https://www.wikidata.org/wiki/Q1071",
+      "display_name": "Geography",
+      "level": 0,
+      "score": 0.30068162
+    },
+    {
+      "id": "https://openalex.org/C76155785",
+      "wikidata": "https://www.wikidata.org/wiki/Q418",
+      "display_name": "Telecommunications",
+      "level": 1,
+      "score": 0.10486448
+    }
+  ],
+  "mesh": [],
+  "locations_count": 2,
+  "locations": [
+    {
+      "is_oa": true,
+      "landing_page_url": "https://www.gbif.org/dataset/50914b57-6c66-4432-91c7-edbc7a296a9f",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4398183272",
+        "display_name": "Global Biodiversity Information Facility",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": true,
+        "is_in_doaj": false,
+        "is_indexed_in_scopus": false,
+        "is_core": false,
+        "host_organization": "https://openalex.org/I111796040",
+        "host_organization_name": "Global Biodiversity Information Facility",
+        "host_organization_lineage": [
+          "https://openalex.org/I111796040"
+        ],
+        "host_organization_lineage_names": [
+          "Global Biodiversity Information Facility"
+        ],
+        "type": "repository"
+      },
+      "license": "cc-by-nc",
+      "license_id": "https://openalex.org/licenses/cc-by-nc",
+      "version": null,
+      "is_accepted": false,
+      "is_published": false
+    },
+    {
+      "is_oa": false,
+      "landing_page_url": "https://api.datacite.org/dois/10.15468/7zkca3",
+      "pdf_url": null,
+      "source": {
+        "id": "https://openalex.org/S4393179698",
+        "display_name": "DataCite API",
+        "issn_l": null,
+        "issn": null,
+        "is_oa": true,
+        "is_in_doaj": false,
+        "is_indexed_in_scopus": false,
+        "is_core": false,
+        "host_organization": "https://openalex.org/I4210145204",
+        "host_organization_name": "DataCite",
+        "host_organization_lineage": [
+          "https://openalex.org/I4210145204"
+        ],
+        "host_organization_lineage_names": [
+          "DataCite"
+        ],
+        "type": "metadata"
+      },
+      "license": null,
+      "license_id": null,
+      "version": null
+    }
+  ],
+  "best_oa_location": {
+    "is_oa": true,
+    "landing_page_url": "https://www.gbif.org/dataset/50914b57-6c66-4432-91c7-edbc7a296a9f",
+    "pdf_url": null,
+    "source": {
+      "id": "https://openalex.org/S4398183272",
+      "display_name": "Global Biodiversity Information Facility",
+      "issn_l": null,
+      "issn": null,
+      "is_oa": true,
+      "is_in_doaj": false,
+      "is_indexed_in_scopus": false,
+      "is_core": false,
+      "host_organization": "https://openalex.org/I111796040",
+      "host_organization_name": "Global Biodiversity Information Facility",
+      "host_organization_lineage": [
+        "https://openalex.org/I111796040"
+      ],
+      "host_organization_lineage_names": [
+        "Global Biodiversity Information Facility"
+      ],
+      "type": "repository"
+    },
+    "license": "cc-by-nc",
+    "license_id": "https://openalex.org/licenses/cc-by-nc",
+    "version": null,
+    "is_accepted": false,
+    "is_published": false
+  },
+  "sustainable_development_goals": [],
+  "grants": [
+    {
+      "funder":	"https://openalex.org/F4320337442",
+      "funder_display_name":	"California Sea Grant, University of California, San Diego",
+      "award_id":	"R/OPCFISH-06"
+    }
+  ],
+  "datasets": [],
+  "versions": [],
+  "referenced_works_count": 0,
+  "referenced_works": [
+    "https://openalex.org/W1505862594",
+    "https://openalex.org/W1572335475"
+  ],
+  "related_works": [
+    "https://openalex.org/W748047311",
+    "https://openalex.org/W4391375266",
+    "https://openalex.org/W4388599231",
+    "https://openalex.org/W4298110012",
+    "https://openalex.org/W4212896802",
+    "https://openalex.org/W2748952813",
+    "https://openalex.org/W2519661158",
+    "https://openalex.org/W2359918844",
+    "https://openalex.org/W2070863773",
+    "https://openalex.org/W2056771637"
+  ],
+  "abstract_inverted_index": {
+    "Original": [
+      0
+    ],
+    "provider:": [
+      1
+    ],
+    "Census": [
+      2,
+      12
+    ],
+    "of": [
+      3,
+      7,
+      13
+    ],
+    "Marine": [
+      4,
+      14
+    ],
+    "Life": [
+      5,
+      15
+    ],
+    "Tagging": [
+      6
+    ],
+    "Pacific": [
+      8
+    ],
+    "Predators": [
+      9
+    ],
+    "Dataset": [
+      10
+    ],
+    "credits:": [
+      11
+    ],
+    "TOPP": [
+      16,
+      30
+    ],
+    "Purpose:": [
+      17
+    ],
+    "This": [
+      18,
+      55
+    ],
+    "is": [
+      19,
+      57
+    ],
+    "the": [
+      20,
+      29,
+      53
+    ],
+    "product": [
+      21
+    ],
+    "for": [
+      22
+    ],
+    "upload": [
+      23
+    ],
+    "into": [
+      24,
+      67
+    ],
+    "OBIS,": [
+      25
+    ],
+    "derived": [
+      26
+    ],
+    "from": [
+      27
+    ],
+    "all": [
+      28
+    ],
+    "SSM": [
+      31
+    ],
+    "data": [
+      32,
+      39
+    ],
+    "in": [
+      33,
+      52
+    ],
+    "OBIS-SEAMAP.": [
+      34
+    ],
+    "Supplemental": [
+      35
+    ],
+    "information:": [
+      36
+    ],
+    "All": [
+      37
+    ],
+    "telemetry": [
+      38
+    ],
+    "are": [
+      40
+    ],
+    "aggregated": [
+      41
+    ],
+    "per": [
+      42,
+      44
+    ],
+    "species": [
+      43,
+      50
+    ],
+    "1": [
+      45
+    ],
+    "degree": [
+      46
+    ],
+    "grid": [
+      47
+    ],
+    "representing": [
+      48
+    ],
+    "only": [
+      49
+    ],
+    "existence": [
+      51
+    ],
+    "cells.": [
+      54
+    ],
+    "dataset": [
+      56
+    ],
+    "not": [
+      58
+    ],
+    "meant": [
+      59
+    ],
+    "to": [
+      60
+    ],
+    "be": [
+      61
+    ],
+    "published": [
+      62
+    ],
+    "on": [
+      63
+    ],
+    "OBIS-SEAMAP": [
+      64
+    ],
+    "but": [
+      65
+    ],
+    "uploaded": [
+      66
+    ],
+    "OBIS.": [
+      68
+    ]
+  },
+  "abstract_inverted_index_v3": null,
+  "cited_by_api_url": "https://api.openalex.org/works?filter=cites:W4395524397",
+  "counts_by_year": [
+    {
+      "year": 2024,
+      "cited_by_count": 8
+    },
+    {
+      "year": 2023,
+      "cited_by_count": 114
+    },
+    {
+      "year": 2022,
+      "cited_by_count": 89
+    },
+    {
+      "year": 2021,
+      "cited_by_count": 59
+    }
+  ],
+  "updated_date": "2025-02-01T14:49:06.874486",
+  "created_date": "2024-04-26"
+}
