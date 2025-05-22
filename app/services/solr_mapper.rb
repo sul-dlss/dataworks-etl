@@ -71,7 +71,7 @@ class SolrMapper
 
   # Retrieve the identifier used by the provider themselves
   def provider_identifier_field
-    metadata['identifiers'].find { |i| i['identifier_type'] == provider_ref(metadata['provider']) } ['identifier']
+    metadata['identifiers'].find { |i| i['identifier_type'] == provider_ref(metadata['provider']) }['identifier']
   end
 
   # By default, Solr will throw errors for text fields that are longer than 32,766 characters
