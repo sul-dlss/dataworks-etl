@@ -54,7 +54,7 @@ class VertexMapper
 
   # Retrieve the identifier used by the provider themselves
   def provider_identifier_field
-    metadata['identifiers'].find { |i| i['identifier_type'] == provider_ref(metadata['provider']) } ['identifier']
+    metadata['identifiers'].find { |i| i['identifier_type'] == provider_ref(metadata['provider']) }['identifier']
   end
 
   def description_field
