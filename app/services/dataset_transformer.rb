@@ -3,7 +3,7 @@
 # Performs transformation from source metadata to Solr documents for a single dataset
 class DatasetTransformer
   # These providers are ordered by preference for mapping.
-  PROVIDERS = %w[sdr datacite local searchworks dryad redivis zenodo].freeze
+  PROVIDERS = %w[sdr datacite local searchworks dryad redivis zenodo open_alex].freeze
 
   # These fields are merged from the dataset records of other providers in preference order.
   MERGEABLE_FIELDS = [:variables_tsim].freeze
