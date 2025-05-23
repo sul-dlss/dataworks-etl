@@ -69,7 +69,9 @@ datacite:
     - 10.7288/v4/magic/19822
     - 10.7288/v4/magic/19922
 
-# dryad:
+dryad:
+  client_id: ~
+  client_secret: ~
 #   ignore:
 #     - ~
 
