@@ -79,7 +79,17 @@ datacite:
 
 open_alex:
   ignore:
+    # Missing required fields such as title
     - https://openalex.org/W4240842404
+    - https://openalex.org/W424084240
+    - https://openalex.org/W4242494377
+    - https://openalex.org/W4248206402
+    - https://openalex.org/W4249260174
+    - https://openalex.org/W4255049939
+    - https://openalex.org/W4256093189
+    - https://openalex.org/W4256095229
+
+
 
 searchworks:
   solr_url: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod

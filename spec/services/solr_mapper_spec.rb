@@ -158,6 +158,19 @@ RSpec.describe SolrMapper do
         expect(solr_mapper.provider_identifier_field).to eq('druid:123ab456')
       end
     end
+
+    context 'with OpenAlex as provider' do
+      let(:metadata) do
+        {
+          provider: 'OpenAlex',
+          identifiers: [{ identifier: 'https://openalex.org/W4240842401', identifier_type: 'OpenAlex' }]
+        }
+      end
+
+      it 'retrieves the SDR DRUID' do
+        expect(solr_mapper.provider_identifier_field).to eq('https://openalex.org/W4240842401')
+      end
+    end
   end
 
   describe '#descriptions_field' do

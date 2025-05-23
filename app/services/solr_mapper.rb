@@ -144,6 +144,8 @@ class SolrMapper
       'ZenodoId'
     when 'SDR'
       'DRUID'
+    when 'OpenAlex'
+      'OpenAlex'
     else
       "#{provider}Reference"
     end
