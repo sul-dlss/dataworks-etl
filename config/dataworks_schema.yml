@@ -526,7 +526,7 @@ components:
         identifier:
           type: string
         identifier_type:
-          $ref: '#/components/schemas/IdentifierType'
+          type: string # Recommended: IdentifierType
       required:
         - identifier
         - identifier_type
