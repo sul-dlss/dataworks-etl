@@ -5,8 +5,7 @@ require 'rails_helper'
 RSpec.describe DataworksMappers::Sdr do
   subject(:metadata) { described_class.call(source:) }
 
-  let(:cocina_json) { JSON.parse(File.read('spec/fixtures/sources/sdr.json')) }
-  let(:source) { Cocina::Models::DROWithMetadata.new(cocina_json) }
+  let(:source) { JSON.parse(file_fixture('sdr.json').read) }
 
   it 'maps the identifiers' do
     expect(metadata[:identifiers]).to include(
@@ -339,11 +338,31 @@ RSpec.describe DataworksMappers::Sdr do
     expect(metadata[:formats]).to eq(['application/x-gzip'])
   end
 
-  context 'when the source is a hash' do
-    let(:source) { cocina_json }
+  context 'when there is a date with structured value and other type' do
+    before do
+      source['description']['event'].push(
+        {
+          'date' => [
+            {
+              'structuredValue' => [
+                { 'value' => '2018-01-01' },
+                { 'value' => '2019-01-01' }
+              ],
+              'type' => 'My type'
+            }
+          ]
+        }
+      )
+    end
 
-    it 'maps to a solr document' do
-      expect(metadata).to be_a(Hash)
+    it 'uses the first value and notes the type' do
+      expect(metadata[:dates]).to include(
+        {
+          date: '2018-01-01',
+          date_type: 'Other',
+          date_information: 'My type'
+        }
+      )
     end
   end
 end
