@@ -392,9 +392,7 @@ components:
             related_item_identifier:
               type: string
             related_item_identifier_type:
-              type: string
-              enum:
-                - URL
+              $ref: '#/components/schemas/IdentifierType'
       required:
         - related_item_identifier
       additionalProperties: false  # DataCite allows many more fields we don't use
@@ -404,31 +402,7 @@ components:
         related_identifier:
           type: string
         related_identifier_type:
-          type: string
-          enum:
-            - ARK
-            - arXiv
-            - bibcode
-            - CSTR
-            - DOI
-            - EAN8
-            - EAN13
-            - EISSN
-            - Handle
-            - IGSN
-            - ISBN
-            - ISSN
-            - ISTC
-            - LISSN
-            - LSID
-            - PMID
-            - PURL
-            - RRID
-            - UPC
-            - URL
-            - URN
-            - w3id
-            - OpenAlex
+          $ref: '#/components/schemas/IdentifierType'
         relation_type:
           $ref: '#/components/schemas/RelationType'
         resource_type_general:
@@ -516,18 +490,43 @@ components:
       required:
         - title
       additionalProperties: false
+    IdentifierType:
+      type: string
+      enum:
+        - ARK
+        - arXiv
+        - bibcode
+        - CSTR
+        - DOI
+        - EAN8
+        - EAN13
+        - EISSN
+        - Handle
+        - IGSN
+        - ISBN
+        - ISSN
+        - ISTC
+        - LISSN
+        - LSID
+        - PMID
+        - PURL
+        - RRID
+        - UPC
+        - URL
+        - URN
+        - w3id
+        - OpenAlex
+        - DRUID
+        - RedivisReference
+        - SearchWorksReference
+        - ZenodoId
     Identifier:
       type: object
       properties:
         identifier:
           type: string
         identifier_type:
-          type: string
-          # Recommended values:
-          #   - DOI
-          #   - RedivisReference
-          #   - SearchWorksReference
-          #   - ZenodoId
+          $ref: '#/components/schemas/IdentifierType'
       required:
         - identifier
         - identifier_type

@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 module DataworksMappers
   # Map fields from SDR cocina records to Dataworks metadata
-  # rubocop:disable Metrics/ClassLength
   class Sdr < Base
     include ActiveSupport::NumberHelper
-
-    # Generally we should be able to filter contributors using their marcrelator
-    # role code, but some data doesn't use the code even when it says it does,
-    # so we have to check the role value instead.
-    CREATOR_ROLES = ['author', 'authoring entity', 'primary investigator'].freeze
-    PUBLISHER_ROLES = %w[publisher].freeze
 
     class << self
       # DOI can be stored in two places, so check both
@@ -30,10 +24,6 @@ module DataworksMappers
       def id_from_url(id_url)
         URI(id_url).path.delete_prefix('/')
       end
-    end
-
-    def initialize(source:)
-      super(source: source.is_a?(Hash) ? Cocina::Models::DROWithMetadata.new(source) : source)
     end
 
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -66,148 +56,137 @@ module DataworksMappers
     private
 
     # Not mapping alternative/subtitles at the moment
-    def titles(element = source.description.title)
-      return [] if element.blank?
+    def titles
+      return [] if (title = source.dig('description', 'title', 0, 'value')).blank?
 
-      [
-        { title: Cocina::Models::Builders::TitleBuilder.full_title(element).first }
-      ]
+      [{ title: }]
     end
 
     # Druid is always present, but DOI may not be
     def identifiers
-      [
-        { identifier: source.externalIdentifier, identifier_type: 'DRUID' }
-      ].tap do |ids|
-        if (doi_id = self.class.doi(source:)).present?
-          ids.push(
-            {
-              identifier: doi_id,
-              identifier_type: 'DOI'
-            }
-          )
-        end
+      ids = [{ identifier: source['externalIdentifier'], identifier_type: 'DRUID' }]
+
+      if (doi_id = self.class.doi(source:)).present?
+        ids.push({ identifier: doi_id, identifier_type: 'DOI' })
       end
+
+      ids
+    end
+
+    def all_contributors
+      source.dig('description', 'contributor')&.map { |c| ContributorMapper.new(c) }&.compact || []
     end
 
     def creators
-      source.description.contributor.map do |c|
-        cocina_contributor_struct(c) if c.role.any? { |r| CREATOR_ROLES.include? r.value.downcase }
-      end.compact
+      all_contributors.filter(&:creator?).map(&:call)
     end
 
     def contributors
-      source.description.contributor.map do |c|
-        cocina_contributor_struct(c) unless c.role.any? { |r| CREATOR_ROLES.include? r.value.downcase }
-      end.compact
+      all_contributors.reject(&:creator?).map(&:call)
     end
 
     def publisher
-      source.description.event.flat_map(&:contributor).map do |c|
-        { name: c.name.first.value } if c.role.any? { |r| PUBLISHER_ROLES.include? r.value.downcase }
-      end
+      all_contributors.find(&:publisher?)&.call
     end
 
     # Use the earliest year from a publication date, or failing that, the
     # earliest year from a creation date. If no dates at all, fall back to the
     # year the source metadata was created.
     def publication_year
-      first_pub_year = date_values_by_type('Issued').map { |d| Date.edtf(d)&.year }.compact.min
-      created_year = date_values_by_type('Created').map { |d| Date.edtf(d)&.year }.compact.min
+      first_pub_year = date_years_by_type('Issued').min
+      created_year = date_years_by_type('Created').min
 
-      (first_pub_year || created_year || source.created.year).to_s
+      (first_pub_year || created_year || Time.zone.parse(source['created']).year).to_s
     end
 
     def language
-      source.description.language.pick(:code)
+      source.dig('description', 'language')&.pick('code')
     end
 
     def subjects
-      source.description.subject.filter { |s| s.type == 'topic' }.map do |subject|
-        { subject: subject.value }
-      end
+      return if (topics = source.dig('description', 'subject')&.filter { |s| s['type'] == 'topic' }).blank?
+
+      topics.map { |topic| { subject: topic['value'] } }
     end
 
     def descriptions
-      source.description.note.map { |note| description_struct(note) }.compact
+      return if (notes = source.dig('description', 'note')).blank?
+
+      notes.map { |note| DescriptionMapper.new(note).call }.compact
     end
 
-    # rubocop:disable Metrics/MethodLength, Style/EmptyElse
-    # Convert a Cocina note to DataCite structured data
-    def description_struct(note)
-      return if note.value.blank?
-
-      description_type = case note.type
-                         when 'abstract'
-                           'Abstract'
-                         when 'numbering'
-                           'SeriesInformation'
-                         when 'table of contents'
-                           'TableOfContents'
-                         when 'technical note'
-                           'TechnicalInfo'
-                         else
-                           nil
-                         end
-
-      return if description_type.nil?
-
-      {
-        description: note.value,
-        description_type:
-      }
+    def all_dates
+      source.dig('description', 'event').pluck('date').flatten.map { |d| DateMapper.new(d) }
     end
-    # rubocop:enable Metrics/MethodLength, Style/EmptyElse
 
     def dates
-      source.description.event.flat_map(&:date).map { |d| event_date_struct(d) }.compact
+      all_dates.map(&:call).compact
     end
 
-    # This is the data version, not the (metadata) SDR version or user version
+    # NOTE: This is the data version, not the (metadata) SDR version or user version
     def version
-      source.description.note.filter { |n| n.type == 'version' }.map(&:value).compact.first
+      return if (version_notes = source.dig('description', 'version')&.filter { |n| n['type'] == 'version' }).blank?
+
+      version_notes.pluck('value').compact.first
+    end
+
+    def related_resources
+      source.dig('description', 'relatedResource') || []
+    end
+
+    # Related items are used for things that may not have an identifier, often
+    # user-provided links that only have a title and URL.
+    def related_items
+      related_resources.map { |r| RelatedItemMapper.new(r).call }.compact
     end
 
     # Related resources with an identifier go here
     def related_identifiers
-      source.description.relatedResource.map { |r| related_identifier_struct(r) }.compact
-    end
-
-    # Related items are used for things that don't have an identifier, often
-    # user-provided links that only have a title and URL.
-    def related_items
-      source.description.relatedResource.map { |r| related_item_struct(r) }.compact
+      related_resources.map { |r| RelatedItemMapper.new(r).as_related_identifier }.compact
     end
 
     # Sizes could be anything, but in example data were rarely populated, and we
     # mostly want a bytes estimate for download. If there's nothing, sum the
     # sizes of all files as a fallback.
-    # rubocop:disable Metrics/AbcSize
     def sizes
-      desc_sizes = source.description.form.filter { |f| f.type == 'extent' }.map(&:value).compact
-      return desc_sizes if desc_sizes.any?
+      extents = source.dig('description', 'extent')&.filter { |f| f['type'] == 'extent' }
+      return extents.pluck('value').compact if extents.present?
 
-      total_size = source.structural.contains.flat_map do |fs|
-        fs.structural.contains.map(&:size)
-      end.compact_blank.sum
-      desc_sizes.push(number_to_human_size(total_size)) if total_size
-
-      desc_sizes
+      [total_size]
     end
-    # rubocop:enable Metrics/AbcSize
 
-    # Also available via source.description.form, but rarely populated there.
-    # This approach actually inspects the MIME types of every file instead.
+    # Sum the file sizes of all files in the structural metadata as a string.
+    def total_size
+      sizes_bytes = source.dig('structural', 'contains').flat_map do |fs|
+        fs.dig('structural', 'contains')&.pluck('size')
+      end.compact_blank
+
+      number_to_human_size(sizes_bytes.sum)
+    end
+
+    # Example data rarely had this populated, so we fall back to MIME types
     def formats
-      source.structural.contains.flat_map { |fs| fs.structural.contains.map(&:hasMimeType) }.compact_blank.uniq
+      forms = source.dig('description', 'form')&.filter { |f| f['type'] == 'form' }
+      return forms.pluck('value').compact if forms.present?
+
+      mime_types
+    end
+
+    # Get the unique MIME types from the structural metadata.
+    def mime_types
+      struct_mime_types = source.dig('structural', 'contains').flat_map do |fs|
+        fs.dig('structural', 'contains')&.pluck('hasMimeType')
+      end.compact_blank
+
+      struct_mime_types.uniq
     end
 
     # We only ever have one rights statement even though field is an array
     def rights_list
       [
         {
-          rights: source.access.useAndReproductionStatement,
-          rights_uri: source.access.license
+          rights: source.dig('access', 'useAndReproductionStatement'),
+          rights_uri: source.dig('access', 'license')
         }.compact_blank
       ]
     end
@@ -215,254 +194,370 @@ module DataworksMappers
     # Our data collapses both funder name and award name into the "name" field
     # here, and it's not straightforward to separate, so we just keep the whole
     # thing as funder_name and ignore award_number.
-    # rubocop:disable Metrics/CyclomaticComplexity
     def funding_references
-      source.description.contributor.map do |c|
-        next unless c.role.any? { |r| r.value.downcase == 'funder' }
+      return if (funders = all_contributors.filter(&:funder?)).blank?
 
-        {
-          funder_name: c.name&.first&.value,
-          funder_identifier: c.identifier&.first&.value
-        }.compact_blank
-      end.compact
+      funders.map do |funder|
+        funding_reference = { funder_name: funder[:name] }
+        identifier = funder[:name_identifiers]&.first
+        next funding_reference unless identifier
+
+        funding_reference.merge(
+          {
+            funder_identifier: identifier[:name_identifier],
+            funder_identifier_type: identifier[:name_identifier_scheme],
+            scheme_uri: identifier[:scheme_uri]
+          }.compact_blank
+        )
+      end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
 
     # We use the PURL as the canonical URL
     def url
-      source.description.purl
+      source.dig('description', 'purl')
     end
 
+    # We only care about download access
     def access
-      source.access.download == 'world' ? 'Public' : 'Restricted'
+      source.dig('access', 'download') == 'world' ? 'Public' : 'Restricted'
     end
 
-    # Get the actual date values for all dates of a given type
-    def date_values_by_type(type)
-      dates.filter { |d| d[:date_type] == type }.pluck(:date)
+    # Get the year values for all dates of a given type
+    def date_years_by_type(type)
+      all_dates.filter { |d| d.date_type == type }.map(&:year).compact
     end
 
-    # Convert marcrelator code to DataCite contributor type (non-creator)
-    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
-    def marc_relator_to_contributor_type(role)
-      return unless role.code
-      return unless role.source&.code == 'marcrelator'
+    # Convert a Cocina relatedResource to DataCite structured data
+    class RelatedItemMapper
+      # Mapping of Cocina relatedResource types to DataCite relation types
+      RELATION_TYPES = {
+        'derived from' => 'IsDerivedFrom',
+        'has other format' => 'isVariantFormOf',
+        'preceded by' => 'IsNewVersionOf',
+        'has original version' => 'IsNewVersionOf',
+        'succeeded by' => 'IsPreviousVersionOf',
+        'has version' => 'IsVersionOf',
+        'has part' => 'HasPart',
+        'is identical to' => 'IsIdenticalTo',
+        'in series' => 'IsPartOf',
+        'referenced by' => 'IsReferencedBy',
+        'references' => 'References',
+        'reviewed by' => 'IsReviewedBy',
+        'source of' => 'IsSourceOf',
+        'supplemented by' => 'IsSupplementedBy',
+        'supplement to' => 'IsSupplementTo'
+      }.freeze
 
-      case role.code
-      when 'aut'
-        nil # Creator is handled separately
-      when 'mdc', 'prc'
-        'ContactPerson'
-      when 'col'
-        'DataCollector'
-      when 'cur'
-        'DataCurator'
-      when 'dtm'
-        'DataManager'
-      when 'dst'
-        'Distributor'
-      when 'edt'
-        'Editor'
-      when 'his'
-        'HostingInstitution'
-      when 'pro'
-        'Producer'
-      when 'pdr'
-        'ProjectLeader'
-      when 'res'
-        'Researcher'
-      when 'cph'
-        'RightsHolder'
-      when 'spn'
-        'Sponsor'
-      when 'trl'
-        'Translator'
-      else
-        'Other'
+      def initialize(resource)
+        @resource = resource
+      end
+
+      # RelatedItem form; may not have an identifier or identifier may be a URL
+      def call
+        {
+          titles:,
+          relation_type:,
+          related_item_identifier: {
+            related_item_identifier: identifier.value || url,
+            related_item_identifier_type: identifier.type || ('URL' if url)
+          }
+        }.compact_blank
+      end
+
+      # RelatedIdentifier form; must have an ID
+      def as_related_identifier
+        {
+          relation_type:,
+          related_identifier: identifier.value,
+          related_identifier_type: identifier.type
+        }.compact_blank
+      end
+
+      private
+
+      attr_reader :resource
+
+      def titles
+        return [] if (title = resource.dig('title', 0, 'value')).blank?
+
+        [{ title: }]
+      end
+
+      def identifier
+        id = resource.dig('identifier', 0)
+        IdentifierMapper.new(id) if id.present?
+      end
+
+      def url
+        resource.dig('access', 'url', 0)
+      end
+
+      def relation_type
+        return if (type = resource['type']).blank?
+
+        RELATION_TYPES[type] || 'Other'
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity
 
     # Convert a Cocina event date to DataCite structured data
-    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
-    def event_date_struct(date)
-      date_value = date.value || date.structuredValue.first.value
-      date_information = date.note.map(&:value)
-      date_type = case date.type
-                  when 'copyright'
-                    'Copyrighted'
-                  when 'collection'
-                    'Collected'
-                  when 'coverage'
-                    'Coverage'
-                  when 'creation', 'production', 'generation'
-                    'Created'
-                  when 'submission'
-                    'Submitted'
-                  when 'publication', 'release', 'distribution'
-                    'Issued'
-                  when 'modification'
-                    'Updated'
-                  when 'validity'
-                    'Valid'
-                  when 'withdrawal'
-                    'Withdrawn'
-                  else
-                    date_information.unshift(date.type)
-                    'Other'
-                  end
+    class DateMapper
+      # Mapping of Cocina event date types to DataCite date types
+      DATE_TYPES = {
+        'copyright' => 'Copyrighted',
+        'collection' => 'Collected',
+        'coverage' => 'Coverage',
+        'creation' => 'Created',
+        'production' => 'Created',
+        'generation' => 'Created',
+        'submission' => 'Submitted',
+        'publication' => 'Issued',
+        'release' => 'Issued',
+        'distribution' => 'Issued',
+        'modification' => 'Updated',
+        'validity' => 'Valid',
+        'withdrawal' => 'Withdrawn'
+      }.freeze
 
-      {
-        date: date_value,
-        date_type:,
-        date_information: date_information.compact_blank.presence&.join('; ')
-      }.compact_blank
-    end
-    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity
-
-    # Convert Cocina::Models::DescriptiveValue person to DataCite structured data
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-    def cocina_contributor_struct(contributor)
-      return if (name = contributor.name.first).blank?
-
-      # Cocina supports many other types but they're all effectively organizational
-      name_type = contributor.type == 'person' ? 'Personal' : 'Organizational'
-
-      struct = {
-        name: name.value,
-        name_type:
-      }
-
-      contributor_type = marc_relator_to_contributor_type(contributor.role.first) if contributor.role.any?
-      struct.merge!({ contributor_type: }.compact)
-
-      # Given/family names sometimes present as structuredValue
-      if name.structuredValue.present?
-        given_name = name.structuredValue.filter { |v| v.type == 'forename' }.first
-        family_name = name.structuredValue.filter { |v| v.type == 'surname' }.first
-
-        struct.merge!(
-          {
-            given_name: given_name&.value,
-            family_name: family_name&.value
-          }.compact
-        )
+      def initialize(date)
+        @date = date
       end
 
-      # Sometimes the name has no value but does have split out given/family names
-      if !struct[:name] && (struct[:given_name] || struct[:family_name])
-        struct[:name] = [struct[:family_name], struct[:given_name]].compact.join(', ')
+      def call
+        {
+          date: date_value,
+          date_type:,
+          date_information:
+        }.compact_blank
       end
 
-      # Identifiers, if present. Sometimes there is a field 'id' with the full
-      # link (e.g. for ORCID), sometimes there's just "value" with the ID part
-      # and you need to add it to the source URI to construct the full link.
-      if contributor.identifier.any?
-        struct[:name_identifiers] = contributor.identifier.map do |id|
-          name_identifier = id.uri || [id.source&.uri, id.value].compact.join('/')
-          next unless name_identifier
-
-          # Sometimes we set the type to 'ORCID' but don't provide a URI
-          name_identifier_scheme = id.type
-          scheme_uri = id.source&.uri || ('https://orcid.org/' if name_identifier_scheme == 'ORCID')
-
-          {
-            name_identifier:,
-            name_identifier_scheme:,
-            scheme_uri:
-          }.compact_blank
-        end.compact_blank
+      # Date type is required, so use 'Other' if not present or no mapping
+      def date_type
+        (DATE_TYPES[date['type']] if date['type'].present?) || 'Other'
       end
 
-      # Affiliations are in the note field
-      if (affiliations = contributor.note.filter { |n| n.type == 'affiliation' }).any?
-        struct[:affiliation] = affiliations.map do |affiliation|
-          affiliation_struct = { name: affiliation.value }
-
-          # Affiliations can also have identifiers, but only one
-          if affiliation.identifier.any?
-            affiliation_id = affiliation.identifier.first
-            affiliation_struct[:affiliation_identifier] = affiliation_id.uri
-            affiliation_struct[:affiliation_identifier_scheme] = affiliation_id.type
-            affiliation_struct[:scheme_uri] = affiliation_id.source&.uri
-          end
-
-          affiliation_struct.compact_blank
-        end
+      def year
+        Date.edtf(date_value)&.year
       end
 
-      struct
-    end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      private
 
-    # Map a Cocina relatedResource type to DataCite relation type
-    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
-    def related_resource_type(resource)
-      case resource.type
-      when 'derived from'
-        'IsDerivedFrom'
-      when 'has other format'
-        'isVariantFormOf'
-      when 'preceded by', 'has original version'
-        'IsNewVersionOf'
-      when 'succeeded by'
-        'IsPreviousVersionOf'
-      when 'has version'
-        'IsVersionOf'
-      when 'has part'
-        'HasPart'
-      when 'is identical to'
-        'IsIdenticalTo'
-      when 'in series'
-        'IsPartOf'
-      when 'referenced by'
-        'IsReferencedBy'
-      when 'references'
-        'References'
-      when 'reviewed by'
-        'IsReviewedBy'
-      when 'source of'
-        'IsSourceOf'
-      when 'supplemented by'
-        'IsSupplementedBy'
-      when 'supplement to'
-        'IsSupplementTo'
+      attr_reader :date
+
+      # If the date is a range, return the start date
+      def date_value
+        date['value'] || date['structuredValue'].pick('value')
+      end
+
+      # Notes about the date, including original type if mapped to 'Other'
+      def date_information
+        notes = (date['note'] || []).pluck('value')
+        notes.unshift(date['type']) if date_type == 'Other'
+        notes.compact_blank.presence&.join('; ')
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity
 
-    # Convert a Cocina relatedResource with ID to DataCite structured data
-    def related_identifier_struct(resource)
-      # If no ID, it will become a related item instead
-      resource_id = resource.identifier.first
-      return if resource_id.blank?
+    # Convert a Cocina descriptive note to DataCite structured data
+    class DescriptionMapper
+      # Mapping of Cocina note types to DataCite description types
+      DESCRIPTION_TYPES = {
+        'abstract' => 'Abstract',
+        'numbering' => 'SeriesInformation',
+        'table of contents' => 'TableOfContents',
+        'technical note' => 'TechnicalInfo'
+      }.freeze
 
-      {
-        relation_type: related_resource_type(resource),
-        related_identifier: id_from_url(resource_id.value),
-        related_identifier_type: resource_id.type
-      }.compact_blank
-    end
+      def initialize(description)
+        @description = description
+      end
 
-    # Convert a Cocina relatedResource without ID to DataCite structured data
-    def related_item_struct(resource)
-      # If we have an ID, it will become a related identifier instead
-      resource_id = resource.identifier.first
-      return if resource_id.present?
+      def call
+        return if description['value'].blank? || description_type.blank?
 
-      # Check if we have a URL, which is the only required field
-      return if (url = resource.access&.url&.first).blank?
-
-      {
-        titles: titles(resource.title),
-        related_item_type: related_resource_type(resource),
-        related_item_identifier: {
-          related_item_identifier: url.value,
-          related_item_identifier_type: 'URL'
+        {
+          description: description['value'],
+          description_type:
         }
-      }.compact_blank
+      end
+
+      private
+
+      attr_reader :description
+
+      def description_type
+        DESCRIPTION_TYPES[description['type']] if description['type'].present?
+      end
     end
 
-    # rubocop:enable Metrics/ClassLength
+    # Convert a Cocina identifier to DataCite structured data
+    # NOTE: DataCite uses these frequently, but frustratingly the keys are named
+    # differently depending on where it appears. Be careful!
+    class IdentifierMapper
+      # Scheme URI values for common identifiers
+      SCHEME_URIS = {
+        'ORCID' => 'https://orcid.org/',
+        'ROR' => 'https://ror.org/',
+        'DOI' => 'https://doi.org/',
+        'ISNI' => 'https://isni.org/'
+      }.freeze
+
+      def initialize(identifier)
+        @identifier = identifier
+      end
+
+      def value
+        DataworksMappers::Sdr.id_from_url(identifier['value'])
+      end
+
+      def uri
+        identifier['uri'] || [scheme_uri, value].compact.join
+      end
+
+      def type
+        identifier['type'] || identifier.dig('source', 'code')
+      end
+
+      def scheme_uri
+        identifier.dig('source', 'uri') || SCHEME_URIS[identifier['type']]
+      end
+
+      private
+
+      attr_reader :identifier
+    end
+
+    # Convert a Cocina contributor to DataCite structured data
+    class ContributorMapper
+      # Cocina contributor roles (marcrelator codes) as DataCite contributor types
+      CONTRIBUTOR_TYPES = {
+        'mdc' => 'ContactPerson',
+        'prc' => 'ContactPerson',
+        'col' => 'DataCollector',
+        'cur' => 'DataCurator',
+        'dtm' => 'DataManager',
+        'dst' => 'Distributor',
+        'edt' => 'Editor',
+        'his' => 'HostingInstitution',
+        'pro' => 'Producer',
+        'pdr' => 'ProjectLeader',
+        'res' => 'Researcher',
+        'oth' => 'Other',
+        'cph' => 'RightsHolder',
+        'spn' => 'Sponsor',
+        'trl' => 'Translator'
+      }.freeze
+
+      # Generally we should be able to filter contributors using their marcrelator
+      # role code, but some data doesn't use the code (even when it says it does),
+      # so we have to check the role value instead.
+      CREATOR_ROLES = ['author', 'authoring entity', 'primary investigator'].freeze
+
+      def initialize(contributor)
+        @contributor = contributor
+      end
+
+      def call
+        {
+          name:,
+          name_type:,
+          given_name:,
+          family_name:,
+          contributor_type:,
+          affiliation:,
+          name_identifiers:
+        }.compact_blank
+      end
+
+      def creator?
+        role_code == 'aut' || roles.any? { |r| CREATOR_ROLES.include? r.downcase }
+      end
+
+      def publisher?
+        roles.any? { |r| r.downcase == 'publisher' }
+      end
+
+      def funder?
+        roles.any? { |r| r.downcase == 'funder' }
+      end
+
+      private
+
+      attr_reader :contributor
+
+      def name
+        contributor.dig('name', 0, 'value') || [given_name, family_name].compact.join(', ')
+      end
+
+      def name_type
+        contributor['type'] == 'person' ? 'Personal' : 'Organizational'
+      end
+
+      def given_name
+        contributor.dig('name', 0, 'structuredValue')&.filter { |v| v['type'] == 'forename' }&.pick('value')
+      end
+
+      def family_name
+        contributor.dig('name', 0, 'structuredValue')&.filter { |v| v['type'] == 'surname' }&.pick('value')
+      end
+
+      def roles
+        contributor['role']&.pluck('value') || []
+      end
+
+      def role_code
+        contributor.dig('role', 0, 'code')
+      end
+
+      def contributor_type
+        return if role_code.blank?
+        return if creator? # Handled separately; doesn't get a type
+
+        CONTRIBUTOR_TYPES[role_code] || 'Other'
+      end
+
+      def affiliation
+        return if (affiliation_notes = contributor['note']&.filter { |n| n['type'] == 'affiliation' }).blank?
+
+        affiliation_notes.map { |note| AffiliationMapper.new(note).call }.compact
+      end
+
+      def name_identifiers
+        return if (identifiers = contributor['identifier'].presence).blank?
+
+        identifiers.map do |id|
+          id_mapper = IdentifierMapper.new(id)
+
+          {
+            name_identifier: id_mapper.uri,
+            name_identifier_scheme: id_mapper.type,
+            scheme_uri: id_mapper.scheme_uri
+          }.compact_blank
+        end.compact
+      end
+    end
+
+    # Convert a Cocina note with affiliation metadata to DataCite structured data
+    class AffiliationMapper
+      def initialize(affiliation)
+        @affiliation = affiliation
+      end
+
+      def call
+        {
+          name: affiliation['value'],
+          affiliation_identifier: identifier&.dig('identifier'),
+          affiliation_identifier_scheme: identifier&.dig('scheme'),
+          scheme_uri: identifier&.dig('scheme_uri')
+        }.compact_blank
+      end
+
+      private
+
+      attr_reader :affiliation
+
+      def identifier
+        IdentifierMapper.new(affiliation['identifier'].first).call if affiliation['identifier']&.any?
+      end
+    end
   end
 end
+# rubocop:enable Metrics/ClassLength
