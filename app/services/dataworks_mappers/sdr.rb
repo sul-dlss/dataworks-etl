@@ -24,6 +24,14 @@ module DataworksMappers
       def id_from_url(id_url)
         URI(id_url).path.delete_prefix('/')
       end
+
+      # Can be called from the main object or from related items. Not mapping
+      # any alternative titles at the moment.
+      def map_titles(source_titles)
+        return [] if (title = source_titles.dig(0, 'value')).blank?
+
+        [{ title: }]
+      end
     end
 
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -55,26 +63,21 @@ module DataworksMappers
 
     private
 
-    # Not mapping alternative/subtitles at the moment
     def titles
-      return [] if (title = source.dig('description', 'title', 0, 'value')).blank?
-
-      [{ title: }]
+      DataworksMappers::Sdr.map_titles(source.dig('description', 'title'))
     end
 
     # Druid is always present, but DOI may not be
     def identifiers
-      ids = [{ identifier: source['externalIdentifier'], identifier_type: 'DRUID' }]
-
-      if (doi_id = self.class.doi(source:)).present?
-        ids.push({ identifier: doi_id, identifier_type: 'DOI' })
+      [{ identifier: source['externalIdentifier'], identifier_type: 'DRUID' }].tap do |ids|
+        if (doi_id = self.class.doi(source:)).present?
+          ids.push({ identifier: doi_id, identifier_type: 'DOI' })
+        end
       end
-
-      ids
     end
 
     def all_contributors
-      source.dig('description', 'contributor')&.map { |c| ContributorMapper.new(c) }&.compact || []
+      Array(source.dig('description', 'contributor')).map { |c| ContributorMapper.new(c) }
     end
 
     def creators
@@ -100,23 +103,19 @@ module DataworksMappers
     end
 
     def language
-      source.dig('description', 'language')&.pick('code')
+      Array(source.dig('description', 'language')).pick('code')
     end
 
     def subjects
-      return if (topics = source.dig('description', 'subject')&.filter { |s| s['type'] == 'topic' }).blank?
-
-      topics.map { |topic| { subject: topic['value'] } }
+      Array(source.dig('description', 'subject')).filter_map { |s| { subject: s['value'] } if s['type'] == 'topic' }
     end
 
     def descriptions
-      return if (notes = source.dig('description', 'note')).blank?
-
-      notes.map { |note| DescriptionMapper.new(note).call }.compact
+      Array(source.dig('description', 'note')).map { |note| DescriptionMapper.new(note).call }.compact
     end
 
     def all_dates
-      source.dig('description', 'event').pluck('date').flatten.map { |d| DateMapper.new(d) }
+      Array(source.dig('description', 'event')).pluck('date').flatten.map { |d| DateMapper.new(d) }
     end
 
     def dates
@@ -149,10 +148,8 @@ module DataworksMappers
     # mostly want a bytes estimate for download. If there's nothing, sum the
     # sizes of all files as a fallback.
     def sizes
-      extents = source.dig('description', 'extent')&.filter { |f| f['type'] == 'extent' }
-      return extents.pluck('value').compact if extents.present?
-
-      [total_size]
+      extents = Array(source.dig('description', 'extent')).filter { |f| f['type'] == 'extent' }.pluck('value').compact
+      extents.presence || [total_size]
     end
 
     # Sum the file sizes of all files in the structural metadata as a string.
@@ -166,10 +163,8 @@ module DataworksMappers
 
     # Example data rarely had this populated, so we fall back to MIME types
     def formats
-      forms = source.dig('description', 'form')&.filter { |f| f['type'] == 'form' }
-      return forms.pluck('value').compact if forms.present?
-
-      mime_types
+      forms = Array(source.dig('description', 'form')).filter { |f| f['type'] == 'form' }.pluck('value').compact
+      forms.presence || mime_types
     end
 
     # Get the unique MIME types from the structural metadata.
@@ -278,9 +273,7 @@ module DataworksMappers
       attr_reader :resource
 
       def titles
-        return [] if (title = resource.dig('title', 0, 'value')).blank?
-
-        [{ title: }]
+        DataworksMappers::Sdr.map_titles(Array(resource['title']))
       end
 
       def identifier
@@ -293,9 +286,7 @@ module DataworksMappers
       end
 
       def relation_type
-        return if (type = resource['type']).blank?
-
-        RELATION_TYPES[type] || 'Other'
+        RELATION_TYPES.fetch(resource['type'], 'Other')
       end
     end
 
@@ -332,7 +323,7 @@ module DataworksMappers
 
       # Date type is required, so use 'Other' if not present or no mapping
       def date_type
-        (DATE_TYPES[date['type']] if date['type'].present?) || 'Other'
+        DATE_TYPES.fetch(date['type'], 'Other')
       end
 
       def year
@@ -384,7 +375,7 @@ module DataworksMappers
       attr_reader :description
 
       def description_type
-        DESCRIPTION_TYPES[description['type']] if description['type'].present?
+        DESCRIPTION_TYPES[description['type']]
       end
     end
 
@@ -511,7 +502,7 @@ module DataworksMappers
         return if role_code.blank?
         return if creator? # Handled separately; doesn't get a type
 
-        CONTRIBUTOR_TYPES[role_code] || 'Other'
+        CONTRIBUTOR_TYPES.fetch(role_code, 'Other')
       end
 
       def affiliation
@@ -555,7 +546,7 @@ module DataworksMappers
       attr_reader :affiliation
 
       def identifier
-        IdentifierMapper.new(affiliation['identifier'].first).call if affiliation['identifier']&.any?
+        IdentifierMapper.new(affiliation['identifier'].first).call if affiliation['identifier'].present?
       end
     end
   end
