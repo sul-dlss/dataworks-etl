@@ -122,3 +122,11 @@ courses:
   # These are made up courses for demonstration purposes.
   10_25549_examiner-c44-40760: ['CS246']
   10_18112_p2159b: ['CS246', 'CS247']
+  local-data2nhgis: ['CS246', 'CS346']
+  local-democratizing_chicagos_menu_money: ['CS249', 'CS247', 'CS111']
+  local-first_person_narratives_of_the_american_south: ['CS111']
+  local-global_surface_water: ['CS245', 'CS111']
+  local-tweets_of_congress: ['CS246', 'CS248', 'CS112']
+  local-mapping_inequality: ['CS246', 'CS247', 'CS111']
+  # To be added after
+  # local-stanford_open_policing_project: ['CS246', 'CS247', 'CS111']
