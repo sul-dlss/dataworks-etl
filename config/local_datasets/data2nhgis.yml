@@ -1,0 +1,16 @@
+---
+creators:
+- name: University of Minnesota. Minnesota Population Center
+  name_type: Organizational
+titles:
+- title: NHGIS Data Finder
+publication_year: '2004'
+descriptions:
+- description: >
+    The NHGIS Data Finder lets you explore what’s available in NHGIS, select any data tables or GIS files you’d like to get, and then customize, request, and download a data extract.
+identifiers:
+- identifier: https://data2.nhgis.org/
+  identifier_type: LocalReference
+url: https://data2.nhgis.org/
+access: Public
+provider: Local

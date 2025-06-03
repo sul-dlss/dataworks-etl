@@ -1,12 +1,15 @@
 ---
+creators:
+- name: University of Richmond. Digital Scholarship Lab
+  name_type: Organizational
 titles:
-- title: The Stanford Open Policing Project
-publication_year: '2015'
+- title: "Mapping inequality : redlining in New Deal America"
+publication_year: '2023'
 descriptions:
-- description: Records from millions of traffic stops by law enforcement agencies across the United States. The data are available in both CSV and RDS formats. In addition, shapefiles are available for select locations.
+- description: Maps & area descriptions are public;  georectified rasters and spatial data are available under a CC-BY-NC license.
 identifiers:
-- identifier: https://openpolicing.stanford.edu/data/
+- identifier: https://dsl.richmond.edu/panorama/redlining/
   identifier_type: LocalReference
-url: https://openpolicing.stanford.edu/data/
+url: https://dsl.richmond.edu/panorama/redlining/
 access: Public
 provider: Local
