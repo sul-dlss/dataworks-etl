@@ -136,12 +136,12 @@ module DataworksMappers
     # Related items are used for things that may not have an identifier, often
     # user-provided links that only have a title and URL.
     def related_items
-      related_resources.map { |r| RelatedItemMapper.new(r).call }.compact
+      related_resources.map { |r| RelatedItemMapper.new(r).call }.compact_blank
     end
 
     # Related resources with an identifier go here
     def related_identifiers
-      related_resources.map { |r| RelatedItemMapper.new(r).as_related_identifier }.compact
+      related_resources.map { |r| RelatedItemMapper.new(r).as_related_identifier }.compact_blank
     end
 
     # Sizes could be anything, but in example data were rarely populated, and we
@@ -253,14 +253,16 @@ module DataworksMappers
           titles:,
           relation_type:,
           related_item_identifier: {
-            related_item_identifier: identifier.value || url,
-            related_item_identifier_type: identifier.type || ('URL' if url)
-          }
+            related_item_identifier: identifier&.value || url,
+            related_item_identifier_type: identifier&.type || ('URL' if url)
+          }.compact_blank
         }.compact_blank
       end
 
       # RelatedIdentifier form; must have an ID
       def as_related_identifier
+        return nil if identifier.blank?
+
         {
           relation_type:,
           related_identifier: identifier.value,
@@ -281,12 +283,14 @@ module DataworksMappers
         IdentifierMapper.new(id) if id.present?
       end
 
+      # Related resources may have either a purl or more information at the access URL in the
+      # case where no identifiers are present
       def url
-        resource.dig('access', 'url', 0)
+        resource['purl'] || resource.dig('access', 'url', 0, 'value')
       end
 
       def relation_type
-        RELATION_TYPES.fetch(resource['type'], 'Other')
+        RELATION_TYPES.fetch(resource['type'], nil)
       end
     end
 

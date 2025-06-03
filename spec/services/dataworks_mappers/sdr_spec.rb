@@ -305,6 +305,134 @@ RSpec.describe DataworksMappers::Sdr do
     )
   end
 
+  # rubocop:disable Layout/LineLength
+  # Related items may not have identifiers but may have URLs
+  it 'maps the related items' do
+    expect(metadata[:related_items]).to eq(
+      [
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/sb4q-wj06',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2011 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/1vyz-b592',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2012 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/2zme-3q44',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2013 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/3jhw-x180',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2014 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/0fbp-re41',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2015 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/64cr-bc95',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2016 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/c8bw-ar96',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2017 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: '10.25740/pknx-5s37',
+            related_item_identifier_type: 'DOI'
+          },
+          relation_type: 'IsPreviousVersionOf',
+          titles: [
+            {
+              title: "2018 Machine Learning Data Set for NASA's Solar Dynamics Observatory - Atmospheric Imaging Assembly"
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: 'https://github.com/edhlee/FLPedBrain',
+            related_item_identifier_type: 'URL'
+          },
+          titles: [
+            {
+              title: 'FLPedBrain'
+            }
+          ]
+        },
+        {
+          related_item_identifier: {
+            related_item_identifier: 'https://purl.stanford.edu/zx935qw7203',
+            related_item_identifier_type: 'URL'
+          },
+          titles: [
+            {
+              title: 'FLPedBrain with PURL'
+            }
+          ]
+        }
+      ]
+    )
+  end
+  # rubocop:enable Layout/LineLength
+
   it 'maps the access' do
     expect(metadata[:access]).to eq('Public')
   end
