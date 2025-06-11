@@ -1311,7 +1311,68 @@
         "subject": [],
         "purl": "https://purl.stanford.edu/nk828sc2920",
         "relatedResource": []
-      }
+      },
+      {
+        "title": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "FLPedBrain",
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "contributor": [],
+        "event": [],
+        "form": [],
+        "language": [],
+        "note": [],
+        "identifier": [],
+        "subject": [],
+        "access": {
+          "url": [
+            {
+              "structuredValue": [],
+              "parallelValue": [],
+              "groupedValue": [],
+              "value": "https://github.com/edhlee/FLPedBrain",
+              "identifier": [],
+              "note": [],
+              "appliesTo": []
+            }
+          ],
+          "physicalLocation": [],
+          "digitalLocation": [],
+          "accessContact": [],
+          "digitalRepository": [],
+          "note": []
+        },
+        "relatedResource": []
+      },
+      {
+        "title": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "FLPedBrain with PURL",
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "contributor": [],
+        "event": [],
+        "form": [],
+        "language": [],
+        "note": [],
+        "identifier": [],
+        "subject": [],
+        "purl": "https://purl.stanford.edu/zx935qw7203",
+        "relatedResource": []
+      }        
     ],
     "marcEncodedData": [],
     "adminMetadata": {
