@@ -17,7 +17,8 @@ module DataworksMappers
         # If it's here, it is in URL form
         return if (url_doi = source.dig('description', 'identifier')&.find { |id| id['type'] == 'DOI' }).blank?
 
-        id_from_url(url_doi['value'])
+        # In some cases there's no value, only a URI
+        id_from_url(url_doi['value'] || url_doi['uri'])
       end
 
       # Strip the URL prefix from a DOI (or other identifier) and return just the ID

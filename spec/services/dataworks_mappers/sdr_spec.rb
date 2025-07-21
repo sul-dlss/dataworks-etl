@@ -493,4 +493,25 @@ RSpec.describe DataworksMappers::Sdr do
       )
     end
   end
+
+  context 'when there is a DOI with no value but a URI' do
+    before do
+      source['description']['identifier'] = []
+      source['description']['identifier'].push(
+        {
+          'type' => 'DOI',
+          'uri' => 'https://doi.org/10.1234/5678'
+        }
+      )
+    end
+
+    it 'maps the DOI from the URI' do
+      expect(metadata[:identifiers]).to include(
+        {
+          identifier: '10.1234/5678',
+          identifier_type: 'DOI'
+        }
+      )
+    end
+  end
 end
