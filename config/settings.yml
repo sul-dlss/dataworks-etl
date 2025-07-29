@@ -78,6 +78,7 @@ datacite:
 #     - ~
 
 open_alex:
+  api_token: ~
   ignore:
     # Missing required fields such as title
     - https://openalex.org/W4240842404

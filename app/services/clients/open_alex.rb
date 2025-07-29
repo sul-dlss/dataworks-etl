@@ -3,7 +3,7 @@
 module Clients
   # Client for interacting with the OpenAlex API
   class OpenAlex < Clients::Base
-    def initialize(url: 'https://api.openalex.org', conn: nil)
+    def initialize(url: 'https://api.openalex.org', api_token: nil, conn: nil)
       super
     end
 
@@ -29,6 +29,12 @@ module Clients
     # @param id [String] the Identifier of the dataset
     def dataset(id:)
       get_json(path: "/works/#{id.delete_prefix('https://openalex.org/')}")
+    end
+
+    # Pass API key as a query parameter if provided
+    def get_json(path:, params: {})
+      params.merge!({ api_key: api_token }) if api_token
+      super
     end
 
     private

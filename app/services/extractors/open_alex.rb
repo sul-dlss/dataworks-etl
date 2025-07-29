@@ -5,7 +5,7 @@ module Extractors
   class OpenAlex < Base
     def initialize(institution_id:, extra_dataset_ids: YAML.load_file('config/datasets/open_alex.yml'))
       super(
-        client: Clients::OpenAlex.new,
+        client: Clients::OpenAlex.new(api_token: Settings.open_alex.api_token),
         provider: 'open_alex',
         list_args: { institution_id: },
         extra_dataset_ids: extra_dataset_ids

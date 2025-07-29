@@ -29,4 +29,18 @@ RSpec.describe Clients::OpenAlex, :vcr do
                                      'Responses to the US Supreme Court MKS_ReplicationCode_JLC.do')
     end
   end
+
+  context 'when API token is provided' do
+    let(:client) { described_class.new(api_token: 'test_api_token') }
+
+    before do
+      allow(client).to receive(:get_json).and_call_original
+    end
+
+    it 'includes the API token in the request' do
+      client.list(institution_id: 'I67328108')
+      expect(client).to have_received(:get_json)
+        .with(hash_including(params: include(api_key: 'test_api_token'))).exactly(2).times
+    end
+  end
 end
