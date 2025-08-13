@@ -179,7 +179,7 @@ GEM
       reline (>= 0.4.2)
     iso-639 (0.3.8)
       csv
-    jbuilder (2.14.0)
+    jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
     json (2.13.2)
