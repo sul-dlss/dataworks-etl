@@ -207,11 +207,13 @@ RSpec.describe DataworksMappers::Sdr do
       [
         {
           name: 'Lockheed Martin',
-          name_type: 'Organizational'
+          name_type: 'Organizational',
+          contributor_type: 'Other'
         },
         {
           name: 'IBM',
-          name_type: 'Organizational'
+          name_type: 'Organizational',
+          contributor_type: 'Other'
         }
       ]
     )
@@ -473,24 +475,73 @@ RSpec.describe DataworksMappers::Sdr do
           'date' => [
             {
               'structuredValue' => [
-                { 'value' => '2018-01-01' },
-                { 'value' => '2019-01-01' }
+                { 'value' => '2018-01-01', 'type' => 'start' },
+                { 'value' => '2019-01-01', 'type' => 'end' }
               ],
-              'type' => 'My type'
+              'encoding' => { 'code' => 'edtf' },
+              'type' => 'Special time',
+              'note' => [
+                { 'value' => 'Recorded by me' }
+              ]
             }
           ]
         }
       )
     end
 
-    it 'uses the first value and notes the type' do
+    it 'uses the start value and notes the type and any other notes' do
       expect(metadata[:dates]).to include(
         {
           date: '2018-01-01',
           date_type: 'Other',
-          date_information: 'My type'
+          date_information: 'Special time; ended 2019-01-01; Recorded by me'
         }
       )
+    end
+  end
+
+  context 'when there is an encoded date' do
+    before do
+      source['description']['event'].push(
+        {
+          'date' => [
+            {
+              'value' => '2018-01-01T00:00:00Z',
+              'encoding' => { 'code' => 'iso8601' }
+            }
+          ]
+        }
+      )
+    end
+
+    it 'formats the date to match the schema' do
+      expect(metadata[:dates]).to include(
+        {
+          date: '2018-01-01',
+          date_type: 'Other'
+        }
+      )
+    end
+  end
+
+  context 'when there is no version' do
+    it 'does not set a version' do
+      expect(metadata[:version]).to be_nil
+    end
+  end
+
+  context 'when there is a version note' do
+    before do
+      source['description']['note'].push(
+        {
+          'type' => 'version',
+          'value' => '1.0'
+        }
+      )
+    end
+
+    it 'maps the version' do
+      expect(metadata[:version]).to eq('1.0')
     end
   end
 

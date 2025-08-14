@@ -4,34 +4,10 @@
 module DataworksMappers
   # Map fields from SDR cocina records to Dataworks metadata
   class Sdr < Base
-    include ActiveSupport::NumberHelper
-
     class << self
-      # DOI can be stored in two places, so check both
+      # Static helper to get a DOI that can be called from the indexer
       def doi(source:)
-        # If it's here, it is not in URL form
-        if (non_url_doi = source.dig('identification', 'doi')).present?
-          return non_url_doi
-        end
-
-        # If it's here, it is in URL form
-        return if (url_doi = source.dig('description', 'identifier')&.find { |id| id['type'] == 'DOI' }).blank?
-
-        # In some cases there's no value, only a URI
-        id_from_url(url_doi['value'] || url_doi['uri'])
-      end
-
-      # Strip the URL prefix from a DOI (or other identifier) and return just the ID
-      def id_from_url(id_url)
-        URI(id_url).path.delete_prefix('/')
-      end
-
-      # Can be called from the main object or from related items. Not mapping
-      # any alternative titles at the moment.
-      def map_titles(source_titles)
-        return [] if (title = source_titles.dig(0, 'value')).blank?
-
-        [{ title: }]
+        CocinaDisplay::CocinaRecord.new(source).doi
       end
     end
 
@@ -65,50 +41,44 @@ module DataworksMappers
     private
 
     def titles
-      DataworksMappers::Sdr.map_titles(source.dig('description', 'title'))
+      TitleMapper.call(record)
     end
 
     # Druid is always present, but DOI may not be
     def identifiers
-      [{ identifier: source['externalIdentifier'], identifier_type: 'DRUID' }].tap do |ids|
-        if (doi_id = self.class.doi(source:)).present?
-          ids.push({ identifier: doi_id, identifier_type: 'DOI' })
-        end
+      [{ identifier: record.druid, identifier_type: 'DRUID' }].tap do |ids|
+        ids.push({ identifier: record.doi, identifier_type: 'DOI' }) if record.doi.present?
       end
     end
 
     def all_contributors
-      Array(source.dig('description', 'contributor')).map { |c| ContributorMapper.new(c) }
+      record.contributors.map { |c| ContributorMapper.new(c) }
     end
 
     def creators
-      all_contributors.filter(&:creator?).map(&:call)
+      all_contributors.filter(&:author?).map(&:call)
     end
 
     def contributors
-      all_contributors.reject(&:creator?).map(&:call)
+      all_contributors.reject(&:author?).map(&:call)
     end
 
     def publisher
       all_contributors.find(&:publisher?)&.call
     end
 
-    # Use the earliest year from a publication date, or failing that, the
-    # earliest year from a creation date. If no dates at all, fall back to the
-    # year the source metadata was created.
+    # If no publication year, fall back to year metadata was created
     def publication_year
-      first_pub_year = date_years_by_type('Issued').min
-      created_year = date_years_by_type('Created').min
-
-      (first_pub_year || created_year || Time.zone.parse(source['created']).year).to_s
+      record.pub_year_str || record.created_time.year.to_s
     end
 
+    # We use whatever the first language in the record is (usually English)
     def language
-      Array(source.dig('description', 'language')).pick('code')
+      record.languages.filter_map(&:code).first
     end
 
     def subjects
-      Array(source.dig('description', 'subject')).filter_map { |s| { subject: s['value'] } if s['type'] == 'topic' }
+      record.subject_topics.map { |topic| { subject: topic } }
     end
 
     def descriptions
@@ -116,7 +86,7 @@ module DataworksMappers
     end
 
     def all_dates
-      Array(source.dig('description', 'event')).pluck('date').flatten.map { |d| DateMapper.new(d) }
+      record.event_dates.map { |d| DateMapper.new(d) }
     end
 
     def dates
@@ -125,56 +95,28 @@ module DataworksMappers
 
     # NOTE: This is the data version, not the (metadata) SDR version or user version
     def version
-      return if (version_notes = source.dig('description', 'version')&.filter { |n| n['type'] == 'version' }).blank?
-
-      version_notes.pluck('value').compact.first
-    end
-
-    def related_resources
-      source.dig('description', 'relatedResource') || []
+      record.path("$.description.note[?(@.type == 'version')].value").first
     end
 
     # Related items are used for things that may not have an identifier, often
     # user-provided links that only have a title and URL.
     def related_items
-      related_resources.map { |r| RelatedItemMapper.new(r).call }.compact_blank
+      record.related_resources.map { |r| RelatedItemMapper.new(r).call }.compact_blank
     end
 
     # Related resources with an identifier go here
     def related_identifiers
-      related_resources.map { |r| RelatedItemMapper.new(r).as_related_identifier }.compact_blank
+      record.related_resources.map { |r| RelatedItemMapper.new(r).as_related_identifier }.compact_blank
     end
 
-    # Sizes could be anything, but in example data were rarely populated, and we
-    # mostly want a bytes estimate for download. If there's nothing, sum the
-    # sizes of all files as a fallback.
+    # Example data rarely had extents populated, so we fall back to total size
     def sizes
-      extents = Array(source.dig('description', 'extent')).filter { |f| f['type'] == 'extent' }.pluck('value').compact
-      extents.presence || [total_size]
+      record.extents.presence || [record.total_file_size_str]
     end
 
-    # Sum the file sizes of all files in the structural metadata as a string.
-    def total_size
-      sizes_bytes = source.dig('structural', 'contains').flat_map do |fs|
-        fs.dig('structural', 'contains')&.pluck('size')
-      end.compact_blank
-
-      number_to_human_size(sizes_bytes.sum)
-    end
-
-    # Example data rarely had this populated, so we fall back to MIME types
+    # Example data rarely had forms populated, so we fall back to MIME types
     def formats
-      forms = Array(source.dig('description', 'form')).filter { |f| f['type'] == 'form' }.pluck('value').compact
-      forms.presence || mime_types
-    end
-
-    # Get the unique MIME types from the structural metadata.
-    def mime_types
-      struct_mime_types = source.dig('structural', 'contains').flat_map do |fs|
-        fs.dig('structural', 'contains')&.pluck('hasMimeType')
-      end.compact_blank
-
-      struct_mime_types.uniq
+      record.forms.presence || record.file_mime_types
     end
 
     # We only ever have one rights statement even though field is an array
@@ -191,9 +133,7 @@ module DataworksMappers
     # here, and it's not straightforward to separate, so we just keep the whole
     # thing as funder_name and ignore award_number.
     def funding_references
-      return if (funders = all_contributors.filter(&:funder?)).blank?
-
-      funders.map do |funder|
+      all_contributors.filter(&:funder?).map do |funder|
         funding_reference = { funder_name: funder[:name] }
         identifier = funder[:name_identifiers]&.first
         next funding_reference unless identifier
@@ -205,12 +145,12 @@ module DataworksMappers
             scheme_uri: identifier[:scheme_uri]
           }.compact_blank
         )
-      end
+      end.presence
     end
 
     # We use the PURL as the canonical URL
     def url
-      source.dig('description', 'purl')
+      record.purl_url
     end
 
     # We only care about download access
@@ -221,6 +161,26 @@ module DataworksMappers
     # Get the year values for all dates of a given type
     def date_years_by_type(type)
       all_dates.filter { |d| d.date_type == type }.map(&:year).compact
+    end
+
+    # Cached copy of the Cocina record object
+    def record
+      @record ||= CocinaDisplay::CocinaRecord.new(source)
+    end
+
+    # Convert Cocina titles to DataCite structured data
+    class TitleMapper
+      # The main title, plus any additional titles.
+      # Note that this is also called by RelatedResources, which may have no
+      # titles at all, in which case it will return nil.
+      def self.call(record)
+        [].tap do |titles|
+          titles << { title: record.main_title } if record.main_title.present?
+          record.additional_titles.each do |title|
+            titles << { title: title, type: 'AlternativeTitle' }
+          end
+        end.compact
+      end
     end
 
     # Convert a Cocina relatedResource to DataCite structured data
@@ -262,10 +222,11 @@ module DataworksMappers
 
       # RelatedIdentifier form; must have an ID
       def as_related_identifier
-        return nil if identifier.blank?
+        return if identifier&.value.blank?
 
         {
           relation_type:,
+          resource_type_general:,
           related_identifier: identifier.value,
           related_identifier_type: identifier.type
         }.compact_blank
@@ -276,22 +237,32 @@ module DataworksMappers
       attr_reader :resource
 
       def titles
-        DataworksMappers::Sdr.map_titles(Array(resource['title']))
+        TitleMapper.call(resource)
       end
 
+      # Use the first non-empty mappable identifier (usually DOI)
       def identifier
-        id = resource.dig('identifier', 0)
-        IdentifierMapper.new(id) if id.present?
+        resource.path('$.description.identifier.*').filter_map { |i| IdentifierMapper.new(i) }.first
       end
 
       # Related resources may have either a purl or more information at the access URL in the
       # case where no identifiers are present
       def url
-        resource['purl'] || resource.dig('access', 'url', 0, 'value')
+        resource.purl_url || resource.path('$.description.access.url.*.value').compact_blank.first
       end
 
+      # Items deposited using H3 may have dataCiteRelationType populated, but
+      # if not, we need to convert using the lookup table
       def relation_type
-        RELATION_TYPES.fetch(resource['type'], nil)
+        resource.cocina_doc['dataCiteRelationType'] || RELATION_TYPES.fetch(resource.type, nil)
+      end
+
+      # Items deposited using H3 may have DataCite resource type populated
+      def resource_type_general
+        resource.path(
+          "$.description.form[?(@.type == 'resource type') && " \
+          "(@.source.value == 'DataCite resource types')]"
+        ).first
       end
     end
 
@@ -319,37 +290,62 @@ module DataworksMappers
       end
 
       def call
+        return if formatted_value.blank?
+
         {
-          date: date_value,
+          date: formatted_value,
           date_type:,
           date_information:
         }.compact_blank
-      end
-
-      # Date type is required, so use 'Other' if not present or no mapping
-      def date_type
-        DATE_TYPES.fetch(date['type'], 'Other')
-      end
-
-      def year
-        Date.edtf(date_value)&.year
       end
 
       private
 
       attr_reader :date
 
-      # If the date is a range, return the start date
-      def date_value
-        date['value'] || date['structuredValue'].pick('value')
+      def formatted_value
+        format_date(preferred_edtf_date) if preferred_edtf_date.present?
+      end
+
+      # Use only the value from the start if we have a range
+      def preferred_edtf_date
+        return date.start&.date if date.is_a?(CocinaDisplay::Dates::DateRange)
+
+        date.date
+      end
+
+      # Date type is required, so use 'Other' if not present or no mapping
+      def date_type
+        DATE_TYPES.fetch(date.type, 'Other')
+      end
+
+      # Format the date like YYYY or YYYY-MM-DD based on precision
+      def format_date(edtf_date)
+        case edtf_date.precision
+        when :year, :month
+          edtf_date.strftime('%Y')
+        when :day
+          edtf_date.strftime('%Y-%m-%d')
+        end
       end
 
       # Notes about the date, including original type if mapped to 'Other'
+      # rubocop:disable Metrics/AbcSize
       def date_information
-        notes = (date['note'] || []).pluck('value')
-        notes.unshift(date['type']) if date_type == 'Other'
+        notes = Array(date.cocina['note']).pluck('value')
+
+        # The end date, if it was a range
+        if date.is_a?(CocinaDisplay::Dates::DateRange) && date.stop&.date.present?
+          notes.unshift("ended #{format_date(date.stop.date)}")
+        end
+
+        # The actual type, if it didn't fit datacite schema
+        notes.unshift(date.type) if date_type == 'Other'
+
+        # Join with semicolons
         notes.compact_blank.presence&.join('; ')
       end
+      # rubocop:enable Metrics/AbcSize
     end
 
     # Convert a Cocina descriptive note to DataCite structured data
@@ -401,7 +397,7 @@ module DataworksMappers
       end
 
       def value
-        DataworksMappers::Sdr.id_from_url(identifier['value'])
+        URI(identifier['value'] || uri).path.delete_prefix('/')
       end
 
       def uri
@@ -409,11 +405,11 @@ module DataworksMappers
       end
 
       def type
-        identifier['type'] || identifier.dig('source', 'code')
+        (identifier['type'] || identifier.dig('source', 'code'))&.upcase
       end
 
       def scheme_uri
-        identifier.dig('source', 'uri') || SCHEME_URIS[identifier['type']]
+        identifier.dig('source', 'uri') || SCHEME_URIS[type]
       end
 
       private
@@ -432,6 +428,7 @@ module DataworksMappers
         'dtm' => 'DataManager',
         'dst' => 'Distributor',
         'edt' => 'Editor',
+        'fnd' => 'Funder',
         'his' => 'HostingInstitution',
         'pro' => 'Producer',
         'pdr' => 'ProjectLeader',
@@ -442,14 +439,11 @@ module DataworksMappers
         'trl' => 'Translator'
       }.freeze
 
-      # Generally we should be able to filter contributors using their marcrelator
-      # role code, but some data doesn't use the code (even when it says it does),
-      # so we have to check the role value instead.
-      CREATOR_ROLES = ['author', 'authoring entity', 'primary investigator'].freeze
-
       def initialize(contributor)
         @contributor = contributor
       end
+
+      delegate :publisher?, :author?, :funder?, to: :contributor
 
       def call
         {
@@ -463,61 +457,45 @@ module DataworksMappers
         }.compact_blank
       end
 
-      def creator?
-        role_code == 'aut' || roles.any? { |r| CREATOR_ROLES.include? r.downcase }
-      end
-
-      def publisher?
-        roles.any? { |r| r.downcase == 'publisher' }
-      end
-
-      def funder?
-        roles.any? { |r| r.downcase == 'funder' }
-      end
-
       private
 
       attr_reader :contributor
 
       def name
-        contributor.dig('name', 0, 'value') || [given_name, family_name].compact.join(', ')
+        contributor.display_name
       end
 
+      # All non-person types are mapped to 'Organizational'
       def name_type
-        contributor['type'] == 'person' ? 'Personal' : 'Organizational'
+        contributor.person? ? 'Personal' : 'Organizational'
       end
 
       def given_name
-        contributor.dig('name', 0, 'structuredValue')&.filter { |v| v['type'] == 'forename' }&.pick('value')
+        contributor.forename
       end
 
       def family_name
-        contributor.dig('name', 0, 'structuredValue')&.filter { |v| v['type'] == 'surname' }&.pick('value')
+        contributor.surname
       end
 
-      def roles
-        contributor['role']&.pluck('value') || []
-      end
-
-      def role_code
-        contributor.dig('role', 0, 'code')
-      end
-
+      # Uses the first role that maps to a known contributor type, falling back
+      # to 'Other' since this property is required per DataCite
       def contributor_type
-        return if role_code.blank?
-        return if creator? # Handled separately; doesn't get a type
+        return if author? # Handled separately; doesn't get a type
 
-        CONTRIBUTOR_TYPES.fetch(role_code, 'Other')
+        contributor.roles.map { |role| CONTRIBUTOR_TYPES[role.code] }.compact.first || 'Other'
       end
 
       def affiliation
-        return if (affiliation_notes = contributor['note']&.filter { |n| n['type'] == 'affiliation' }).blank?
+        return if (affiliation_notes = Array(contributor.cocina['note']).filter do |n|
+          n['type'] == 'affiliation'
+        end).empty?
 
         affiliation_notes.map { |note| AffiliationMapper.new(note).call }.compact
       end
 
       def name_identifiers
-        return if (identifiers = contributor['identifier'].presence).blank?
+        return if (identifiers = Array(contributor.cocina['identifier'])).empty?
 
         identifiers.map do |id|
           id_mapper = IdentifierMapper.new(id)

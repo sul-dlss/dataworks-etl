@@ -44,6 +44,7 @@ gem 'thruster', require: false
 # gem "image_processing", "~> 1.2"
 
 # Application gems
+gem 'cocina_display', '~> 1.0' # For parsing SDR datasets
 gem 'config'
 gem 'edtf'
 gem 'faraday'
@@ -55,7 +56,7 @@ gem 'json_schemer' # JSON schema validation
 gem 'marc', '~> 1.3' # For SearchWorks MARC records
 gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
-gem 'purl_fetcher-client', '~> 3.1' # For SDR datasets
+gem 'purl_fetcher-client', '~> 3.1' # For fetching SDR datasets
 gem 'rsolr'
 
 group :development, :test do
