@@ -61,7 +61,7 @@ namespace :development do # rubocop:disable Metrics/BlockLength
         end
 
         data = {
-          id: doc[:id].gsub(%r{[\.,/]}, '_'),
+          id: doc[:id].gsub(%r{[.,/]}, '_'),
           structData: doc,
           content: { mimeType: 'text/html', uri: "gs://dataworks-jlit/#{filepath}" }
         }

@@ -128,7 +128,7 @@ class SolrMapper
 
   # Replace slashes and periods with underscores for Solr id to support Blacklight catalog display
   def transform_id
-    id.gsub(%r{[\.,/]}, '_')
+    id.gsub(%r{[.,/]}, '_')
   end
 
   private
