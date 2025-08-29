@@ -10,7 +10,7 @@ class MetadataCleaner
   end
 
   def initialize(solr_doc:)
-    @solr_doc = solr_doc.with_indifferent_access
+    @solr_doc = solr_doc&.with_indifferent_access
   end
 
   # @return [Hash] Solr document for the dataset.
@@ -19,8 +19,6 @@ class MetadataCleaner
   end
 
   def cleanup_fields(solr_doc)
-    Rails.logger.debug solr_doc.keys
-
     FIELDS.each do |field|
       solr_doc[field] = cleanup_field(field, solr_doc[field]) if solr_doc.key?(field)
     end
@@ -31,7 +29,7 @@ class MetadataCleaner
   def cleanup_field(_field, values)
     delim = quote_delimited(values)
     titleized = delim.map(&:titleize)
-    titleized.map { |val| val.delete_prefix('(').delete_suffix(')') }
+    titleized.map { |val| val.delete_prefix('(').delete_suffix(')').strip }
   end
 
   def quote_delimited(values)
