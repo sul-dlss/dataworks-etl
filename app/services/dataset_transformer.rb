@@ -26,8 +26,9 @@ class DatasetTransformer
     solr_docs.each do |doc|
       solr_doc.reverse_merge!(doc.slice(*MERGEABLE_FIELDS))
     end
+
     # Apply additional metadata cleanup and return the solr document
-    solr_doc
+    solr_doc.present? ? cleanup_metadata(solr_doc) : solr_doc
   end
 
   private
