@@ -1,0 +1,53 @@
+# frozen_string_literal: true
+
+# Performs transformation from source metadata to Solr documents for a single dataset
+class MetadataCleaner
+  # Fields for cleanup
+  FIELDS = %w[creators_ssim contributors_ssim funders_ssim subjects_ssim].freeze
+
+  def self.call(...)
+    new(...).call
+  end
+
+  def initialize(solr_doc:)
+    @solr_doc = solr_doc.with_indifferent_access
+  end
+
+  # @return [Hash] Solr document for the dataset.
+  def call
+    cleanup_fields(@solr_doc)
+  end
+
+  def cleanup_fields(solr_doc)
+    Rails.logger.debug solr_doc.keys
+
+    FIELDS.each do |field|
+      solr_doc[field] = cleanup_field(field, solr_doc[field]) if solr_doc.key?(field)
+    end
+    solr_doc
+  end
+
+  # Pass in an array of values for a field and clean up each value
+  def cleanup_field(_field, values)
+    delim = quote_delimited(values)
+    titleized = delim.map(&:titleize)
+    titleized.map { |val| val.delete_prefix('(').delete_suffix(')') }
+  end
+
+  def quote_delimited(values)
+    return_values = []
+
+    values.each do |value|
+      if value.include?('"') && value.include?(',')
+        values_extracted = value.delete_prefix('"').delete_suffix('"').split('",')
+        values_extracted.each do |value_extracted|
+          return_values << value_extracted.delete_prefix('"').delete_suffix('"')
+        end
+      else
+        return_values << value
+      end
+    end
+
+    return_values
+  end
+end
