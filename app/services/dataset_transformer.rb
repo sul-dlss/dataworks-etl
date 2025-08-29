@@ -26,6 +26,7 @@ class DatasetTransformer
     solr_docs.each do |doc|
       solr_doc.reverse_merge!(doc.slice(*MERGEABLE_FIELDS))
     end
+    # Apply additional metadata cleanup and return the solr document
     solr_doc
   end
 
@@ -83,5 +84,10 @@ class DatasetTransformer
     dataset_records.to_h do |dataset_record|
       [dataset_record.provider, dataset_record.dataset_id]
     end
+  end
+
+  # Metadata standardization and cleanup
+  def cleanup_metadata(solr_doc)
+    MetadataCleaner.call(solr_doc:)
   end
 end
