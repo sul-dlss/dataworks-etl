@@ -17,5 +17,9 @@ RSpec.describe MetadataCleaner do
     it 'returns field values without opening and closing parentheses' do
       expect(cleaned_up_doc['creators_ssim']).to contain_exactly('Alexandra Trelle', 'Alexander Second')
     end
+
+    it 'converts field values to have the first letter of each word upper case' do
+      expect(cleaned_up_doc['publisher_ssi']).to contain_exactly('Figshare')
+    end
   end
 end
