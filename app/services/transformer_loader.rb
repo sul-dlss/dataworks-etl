@@ -51,18 +51,42 @@ class TransformerLoader
     @fail_fast
   end
 
-  def add_records # rubocop:disable Metrics/CyclomaticComplexity
+  # Return array of solr docs to be added to the index
+  def transform_records
+    solr_docs = []
     grouped_dataset_records.each_value do |dataset_records|
       solr_doc = DatasetTransformer.call(dataset_records:, load_id:, mapper_class:)
-      next unless solr_doc
-
-      solr.add(solr_doc:) if load?
-      yield solr_doc if block_given?
+      solr_docs << solr_doc if solr_doc
     rescue DataworksMappers::MappingError
       raise if fail_fast?
     end
+    process_versions(solr_docs)
+  end
+
+  # Given an array of solr docs, review which dois appear to be versions of the same
+  # id and keep only the most recent or canonical versions
+  def process_versions(solr_docs)
+    dois = solr_docs.select { |doc| doc.key?('doi_ssi') }.map { |doc| doc['doi_ssi'] }
+    related_id_struct = solr_docs.select { |doc| doc.key?('related_identifiers_struct_ss') }.map { |doc| doc['related_identifiers_struct_ss']}
+    puts "Process versions - these are all the dois"
+    dois.sort.each do |doi|
+      puts doi
+    end
+    puts "Version relationships in struct"
+    related_id_struct.each do |struct|
+      JSON.parse(struct).select{ |s| s.key?('relation_type') }.each { |s| puts s}
+    end
+
+  end
+
+  def add_records # rubocop:disable Metrics/CyclomaticComplexity
+    solr_docs = transform_records
+    solr_docs.each do |solr_doc|
+      # solr.add(solr_doc:) if load?
+      # yield solr_doc if block_given?
+    end
   ensure
-    solr.commit if load?
+    # solr.commit if load?
   end
 
   def delete_records
