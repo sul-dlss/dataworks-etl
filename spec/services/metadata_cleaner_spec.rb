@@ -8,18 +8,18 @@ RSpec.describe MetadataCleaner do
     let(:cleaned_up_doc) { described_class.call(solr_doc:) }
 
     it 'returns field values broken out even when strings have quotation strings delimited by commas' do
-      expect(cleaned_up_doc['subjects_ssim']).to contain_exactly('Physics', 'Inelastic X Ray Scattering',
-                                                                 'Nonlinear X Ray Dynamics', 'Isxrs', 'Earth Science',
-                                                                 'Cryosphere', 'Glaciers/Ice Sheets',
-                                                                 'Glacier Motion/Ice Sheet Motion')
+      expect(cleaned_up_doc['subjects_ssim']).to contain_exactly('Physics', 'Inelastic X-ray scattering',
+                                                                 'Nonlinear X-ray dynamics', 'ISXRS', 'EARTH SCIENCE',
+                                                                 'CRYOSPHERE', 'GLACIERS/ICE SHEETS',
+                                                                 'GLACIER MOTION/ICE SHEET MOTION')
     end
 
     it 'returns field values without opening and closing parentheses' do
       expect(cleaned_up_doc['creators_ssim']).to contain_exactly('Alexandra Trelle', 'Alexander Second')
     end
 
-    it 'converts field values to have the first letter of each word upper case' do
-      expect(cleaned_up_doc['publisher_ssi']).to contain_exactly('Figshare')
+    it 'removes leading and trailing white space' do
+      expect(cleaned_up_doc['publisher_ssi']).to contain_exactly('figshare')
     end
   end
 end
