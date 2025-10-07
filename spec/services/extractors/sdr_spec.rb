@@ -24,6 +24,7 @@ RSpec.describe Extractors::Sdr do
   context 'when the DOI is stored in the identification section' do
     before do
       dataset['identification']['doi'] = '10.25740/abc1234test'
+      dataset['description'] = {}
     end
 
     it 'extracts the DOI' do
