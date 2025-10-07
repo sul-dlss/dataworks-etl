@@ -26,11 +26,12 @@ class MetadataCleaner
   end
 
   # Pass in an array of values for a field and clean up each value
+  # Cleanup: Split out string of subjects into individual subjects; 
+  # remove opening and closing parentheses; remove leading or trailing spaces.
   def cleanup_field(values)
     values = [values] unless values.is_a?(Array)
     delim = quote_delimited(values)
-    titleized = delim.map(&:titleize)
-    trimmed = titleized.map { |val| val.delete_prefix('(').delete_suffix(')').strip }
+    trimmed = delim.map { |val| val.delete_prefix('(').delete_suffix(')').strip }
 
     values.is_a?(Array) ? trimmed : trimmed[0]
   end
