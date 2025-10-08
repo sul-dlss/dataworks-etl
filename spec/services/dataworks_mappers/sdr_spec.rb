@@ -14,169 +14,42 @@ RSpec.describe DataworksMappers::Sdr do
     )
   end
 
-  it 'maps the creators' do
-    expect(metadata[:creators]).to eq(
-      [
+  context 'with creators' do
+    # sdr.json fixture has old-style affiliation data as notes; this one is newer
+    # See: https://github.com/sul-dlss/cocina-models/issues/816
+    let(:source) { JSON.parse(file_fixture('sdr_affiliations.json').read) }
+
+    it 'maps the creators' do
+      expect(metadata[:creators].first).to eq(
         {
-          name: 'Fouhey, David',
+          name: 'Ghosh, Sayak',
+          given_name: 'Sayak',
+          family_name: 'Ghosh',
           name_type: 'Personal',
-          affiliation: [
-            {
-              name: 'Electrical Engineering and Computer Science Department, University of Michigan'
-            }
-          ],
           name_identifiers: [
             {
-              name_identifier: 'https://orcid.org/0000-0001-5028-5161',
+              name_identifier: 'https://orcid.org/0000-0003-4168-7198',
               name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
+              scheme_uri: 'https://orcid.org'
             }
-          ]
-        },
-        {
-          name: 'Jin, Meng',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'SETI Institute' },
-            { name: "Lockheed Martin Solar \u0026 Astrophysics Laboratory" }
           ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0002-9672-3873',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Cheung, Mark',
-          name_type: 'Personal',
           affiliation: [
-            { name: "Lockheed Martin Solar \u0026 Astrophysics Laboratory" },
-            { name: 'Hansen Experimental Physics Laboratory, Stanford University' }
-          ],
-          name_identifiers: [
             {
-              name_identifier: 'https://orcid.org/0000-0003-2110-9753',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Munoz-Jaramillo, Abndres',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'Southwest Research Institute' }
-          ],
-          name_identifiers: [
+              name: 'Stanford University, Geballe Laboratory for Advanced Materials',
+              affiliation_identifier: 'https://ror.org/00f54p054',
+              affiliation_identifier_scheme: 'ROR',
+              scheme_uri: 'https://ror.org/'
+            },
             {
-              name_identifier: 'https://orcid.org/0000-0002-4716-0840',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Galvez, Richard',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'Center for Data Science, New York University' }
-          ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0002-4780-9566',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Thomas, Rajat',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'Department of Psychiatry, University of Amsterdam' }
-          ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0002-5362-4816',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Wright, Paul',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'SUPA School of Physics and Astronomy, University of Glasgow' }
-          ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0001-9021-611X',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Szenicer, Alexander',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'University of Oxford, Department of Earth Sciences' }
-          ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0002-4829-5739',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Bobra, Monica G.',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'Hansen Experimental Physics Laboratory, Stanford University' }
-          ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0002-5662-9604',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Liu, Yang',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'Hansen Experimental Physics Laboratory, Stanford University' }
-          ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0002-0671-689X',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
-            }
-          ]
-        },
-        {
-          name: 'Mason, James',
-          name_type: 'Personal',
-          affiliation: [
-            { name: 'NASA Goddard Space Flight Center' }
-          ],
-          name_identifiers: [
-            {
-              name_identifier: 'https://orcid.org/0000-0002-3783-5509',
-              name_identifier_scheme: 'ORCID',
-              scheme_uri: 'https://orcid.org/'
+              name: 'Stanford University, Department of Applied Physics',
+              affiliation_identifier: 'https://ror.org/00f54p054',
+              affiliation_identifier_scheme: 'ROR',
+              scheme_uri: 'https://ror.org/'
             }
           ]
         }
-      ]
-    )
+      )
+    end
   end
 
   it 'maps the titles' do

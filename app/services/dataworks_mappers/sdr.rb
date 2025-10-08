@@ -82,7 +82,7 @@ module DataworksMappers
     end
 
     def descriptions
-      Array(source.dig('description', 'note')).map { |note| DescriptionMapper.new(note).call }.compact
+      record.notes.map { |note| DescriptionMapper.new(note).call }.compact
     end
 
     def all_dates
@@ -214,8 +214,8 @@ module DataworksMappers
           titles:,
           relation_type:,
           related_item_identifier: {
-            related_item_identifier: identifier&.value || url,
-            related_item_identifier_type: identifier&.type || ('URL' if url)
+            related_item_identifier: identifier&.identifier || resource.url,
+            related_item_identifier_type: identifier&.type || ('URL' if resource.url?)
           }.compact_blank
         }.compact_blank
       end
@@ -227,7 +227,7 @@ module DataworksMappers
         {
           relation_type:,
           resource_type_general:,
-          related_identifier: identifier.value,
+          related_identifier: identifier.identifier,
           related_identifier_type: identifier.type
         }.compact_blank
       end
@@ -240,15 +240,8 @@ module DataworksMappers
         TitleMapper.call(resource)
       end
 
-      # Use the first non-empty mappable identifier (usually DOI)
       def identifier
-        resource.path('$.description.identifier.*').filter_map { |i| IdentifierMapper.new(i) }.first
-      end
-
-      # Related resources may have either a purl or more information at the access URL in the
-      # case where no identifiers are present
-      def url
-        resource.purl_url || resource.path('$.description.access.url.*.value').compact_blank.first
+        resource.identifiers.first
       end
 
       # Items deposited using H3 may have dataCiteRelationType populated, but
@@ -358,63 +351,31 @@ module DataworksMappers
         'technical note' => 'TechnicalInfo'
       }.freeze
 
-      def initialize(description)
-        @description = description
+      def initialize(note)
+        @note = note
       end
 
       def call
-        return if description['value'].blank? || description_type.blank?
+        # If we didn't get a mappable type or no description, skip it
+        return if description.blank? || description_type.blank?
 
         {
-          description: description['value'],
+          description:,
           description_type:
         }
       end
 
       private
 
-      attr_reader :description
+      attr_reader :note
+
+      def description
+        note.values.join("\n").strip
+      end
 
       def description_type
-        DESCRIPTION_TYPES[description['type']]
+        DESCRIPTION_TYPES[note.type]
       end
-    end
-
-    # Convert a Cocina identifier to DataCite structured data
-    # NOTE: DataCite uses these frequently, but frustratingly the keys are named
-    # differently depending on where it appears. Be careful!
-    class IdentifierMapper
-      # Scheme URI values for common identifiers
-      SCHEME_URIS = {
-        'ORCID' => 'https://orcid.org/',
-        'ROR' => 'https://ror.org/',
-        'DOI' => 'https://doi.org/',
-        'ISNI' => 'https://isni.org/'
-      }.freeze
-
-      def initialize(identifier)
-        @identifier = identifier
-      end
-
-      def value
-        URI(identifier['value'] || uri).path.delete_prefix('/')
-      end
-
-      def uri
-        identifier['uri'] || [scheme_uri, value].compact.join
-      end
-
-      def type
-        (identifier['type'] || identifier.dig('source', 'code'))&.upcase
-      end
-
-      def scheme_uri
-        identifier.dig('source', 'uri') || SCHEME_URIS[type]
-      end
-
-      private
-
-      attr_reader :identifier
     end
 
     # Convert a Cocina contributor to DataCite structured data
@@ -487,49 +448,24 @@ module DataworksMappers
       end
 
       def affiliation
-        return if (affiliation_notes = Array(contributor.cocina['note']).filter do |n|
-          n['type'] == 'affiliation'
-        end).empty?
-
-        affiliation_notes.map { |note| AffiliationMapper.new(note).call }.compact
-      end
-
-      def name_identifiers
-        return if (identifiers = Array(contributor.cocina['identifier'])).empty?
-
-        identifiers.map do |id|
-          id_mapper = IdentifierMapper.new(id)
-
+        contributor.affiliations.map do |affiliation|
           {
-            name_identifier: id_mapper.uri,
-            name_identifier_scheme: id_mapper.type,
-            scheme_uri: id_mapper.scheme_uri
+            name: affiliation.to_s,
+            affiliation_identifier: affiliation.identifiers.first&.uri,
+            affiliation_identifier_scheme: affiliation.identifiers.first&.type,
+            scheme_uri: affiliation.identifiers.first&.scheme_uri
           }.compact_blank
         end.compact
       end
-    end
 
-    # Convert a Cocina note with affiliation metadata to DataCite structured data
-    class AffiliationMapper
-      def initialize(affiliation)
-        @affiliation = affiliation
-      end
-
-      def call
-        {
-          name: affiliation['value'],
-          affiliation_identifier: identifier&.dig('identifier'),
-          affiliation_identifier_scheme: identifier&.dig('scheme'),
-          scheme_uri: identifier&.dig('scheme_uri')
-        }.compact_blank
-      end
-
-      private
-
-      attr_reader :affiliation
-
-      def identifier
-        IdentifierMapper.new(affiliation['identifier'].first).call if affiliation['identifier'].present?
+      def name_identifiers
+        contributor.identifiers.map do |id|
+          {
+            name_identifier: id.uri,
+            name_identifier_scheme: id.type,
+            scheme_uri: id.scheme_uri
+          }.compact_blank
+        end.compact
       end
     end
   end
