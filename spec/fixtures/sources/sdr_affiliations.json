@@ -1,0 +1,2413 @@
+{
+  "cocinaVersion": "0.105.2",
+  "type": "https://cocina.sul.stanford.edu/models/object",
+  "externalIdentifier": "druid:cz537wr8540",
+  "label": "Elastocaloric evidence for a multicomponent superconductor stabilized within the nematic state in Ba(Fe1−xCox)2As2",
+  "version": 1,
+  "access": {
+    "view": "world",
+    "download": "world",
+    "controlledDigitalLending": false,
+    "copyright": "",
+    "useAndReproductionStatement": "User agrees that, where applicable, content will not be used to identify or to otherwise infringe the privacy or confidentiality rights of individuals. Content distributed via the Stanford Digital Repository may be subject to additional license and use restrictions applied by the depositor.",
+    "license": "https://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  "administrative": { "hasAdminPolicy": "druid:zw306xn5593" },
+  "description": {
+    "title": [
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Elastocaloric evidence for a multicomponent superconductor stabilized within the nematic state in Ba(Fe1−xCox)2As2",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "contributor": [
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Sayak",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Ghosh",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "status": "primary",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0003-4168-7198",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Geballe Laboratory for Advanced Materials",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Applied Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Matthias",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Ikeda",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0002-4367-2937",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Geballe Laboratory for Advanced Materials",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Applied Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Anzumaan",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Chakraborty",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0009-0006-4264-6805",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "University of Minnesota",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/017zqws13",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "School of Physics and Astronomy",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Thanapat",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Worasaran",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Geballe Laboratory for Advanced Materials",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Applied Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Florian",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Theuss",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0002-7996-8510",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Cornell University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/05bnh6r87",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Laboratory of Atomic and Solid State Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Luciano",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Bastidas Peralta",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0009-0001-7233-083X",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Cornell University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/05bnh6r87",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Laboratory of Atomic and Solid State Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Universidad de Los Andes",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/02mhbdp94",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Pedro",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Mercado Lozano",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0001-6602-4118",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Argonne National Laboratory",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/05gvnxz63",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Advanced Photon Source",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Jong-Woo",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Kim",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0001-9641-2947",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Argonne National Laboratory",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/05gvnxz63",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Advanced Photon Source",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Paul",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Thompson",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0002-9697-6141",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "University of Liverpool",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/04xs57h96",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Philip",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Ryan",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0001-5247-349X",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Argonne National Laboratory",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/05gvnxz63",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Advanced Photon Source",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Linda",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Ye",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0001-7949-1356",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Geballe Laboratory for Advanced Materials",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Applied Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Aharon",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Kapitulnik",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0002-2569-3582",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Applied PGeballe Laboratory for Advanced Materialshysics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Applied Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Steven",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Kivelson",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0001-9149-9502",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Geballe Laboratory for Advanced Materials",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Brad",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Ramshaw",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0002-3222-5007",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Cornell University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/05bnh6r87",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Laboratory of Atomic and Solid State Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Canadian Institute for Advanced Research",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/01sdtdd95",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Rafael",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Fernandes",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "University of Minnesota",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/017zqws13",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "School of Physics and Astronomy",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      },
+      {
+        "name": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Ian",
+                "type": "forename",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Fisher",
+                "type": "surname",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "type": "person",
+        "role": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "author",
+            "code": "aut",
+            "uri": "http://id.loc.gov/vocabulary/relators/aut",
+            "identifier": [],
+            "source": {
+              "code": "marcrelator",
+              "uri": "http://id.loc.gov/vocabulary/relators/",
+              "note": []
+            },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "0000-0002-1278-7862",
+            "type": "ORCID",
+            "identifier": [],
+            "source": { "uri": "https://orcid.org", "note": [] },
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "affiliation": [
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Geballe Laboratory for Advanced Materials",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Stanford University",
+                "identifier": [
+                  {
+                    "structuredValue": [],
+                    "parallelValue": [],
+                    "groupedValue": [],
+                    "type": "ROR",
+                    "uri": "https://ror.org/00f54p054",
+                    "identifier": [],
+                    "source": { "code": "ror", "note": [] },
+                    "note": [],
+                    "appliesTo": []
+                  }
+                ],
+                "note": [],
+                "appliesTo": []
+              },
+              {
+                "structuredValue": [],
+                "parallelValue": [],
+                "groupedValue": [],
+                "value": "Department of Applied Physics",
+                "identifier": [],
+                "note": [],
+                "appliesTo": []
+              }
+            ],
+            "parallelValue": [],
+            "groupedValue": [],
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "note": [],
+        "parallelContributor": []
+      }
+    ],
+    "event": [],
+    "form": [
+      {
+        "structuredValue": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "Data",
+            "type": "type",
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          },
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "value": "Tabular data",
+            "type": "subtype",
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "parallelValue": [],
+        "groupedValue": [],
+        "type": "resource type",
+        "identifier": [],
+        "source": {
+          "value": "Stanford self-deposit resource types",
+          "note": []
+        },
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Data sets",
+        "type": "genre",
+        "uri": "http://id.loc.gov/authorities/genreForms/gf2018026119",
+        "identifier": [],
+        "source": { "code": "lcgft", "note": [] },
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "dataset",
+        "type": "genre",
+        "identifier": [],
+        "source": { "code": "local", "note": [] },
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Tables (data)",
+        "type": "genre",
+        "uri": "http://id.loc.gov/authorities/genreForms/gf2014026186",
+        "identifier": [],
+        "source": { "code": "lcgft", "note": [] },
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Dataset",
+        "type": "resource type",
+        "uri": "http://id.loc.gov/vocabulary/resourceTypes/dat",
+        "identifier": [],
+        "source": {
+          "uri": "http://id.loc.gov/vocabulary/resourceTypes/",
+          "note": []
+        },
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "text",
+        "type": "resource type",
+        "identifier": [],
+        "source": { "value": "MODS resource types", "note": [] },
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Dataset",
+        "type": "resource type",
+        "identifier": [],
+        "source": { "value": "DataCite resource types", "note": [] },
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "geographic": [],
+    "language": [],
+    "note": [
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "The iron-based high-Tc superconductors exhibit rich phase diagrams with intertwined phases, including magnetism, nematicity and superconductivity. The superconducting Tc in many of these materials is maximized in the regime of strong nematic fluctuations, making the role of nematicity in influencing the superconductivity a topic of intense research. Here, we use the AC elastocaloric effect (ECE) to map out the phase diagram of Ba(Fe1−xCox)2As2 near optimal doping. The ECE signature at Tc on the overdoped side, where superconductivity condenses without any nematic order, is quantitatively consistent with other thermodynamic probes that indicate a single-component superconducting state. In contrast, on the slightly underdoped side, where superconductivity condenses within the nematic phase, ECE reveals a second thermodynamic transition proximate to and below Tc. We rule out magnetism and re-entrant tetragonality as the origin of this transition, and find that our observations strongly suggest a phase transition into a multicomponent superconducting state. This implies the existence of a sub-dominant pairing instability that competes strongly with the dominant s± instability. Our results thus motivate a re-examination of the pairing state and its interplay with nematicity in this extensively studied iron-based superconductor, while also demonstrating the power of ECE in uncovering strain-tuned phase diagrams of quantum materials.",
+        "type": "abstract",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "https://doi.org/10.25740/cz537wr8540",
+        "type": "preferred citation",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "identifier": [],
+    "subject": [
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Elastocaloric effect",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Unconventional superconductivity",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Time-reversal symmetry breaking",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      },
+      {
+        "structuredValue": [],
+        "parallelValue": [],
+        "groupedValue": [],
+        "value": "Strain-tuning",
+        "identifier": [],
+        "note": [],
+        "appliesTo": []
+      }
+    ],
+    "access": {
+      "url": [],
+      "physicalLocation": [],
+      "digitalLocation": [],
+      "accessContact": [
+        {
+          "structuredValue": [],
+          "parallelValue": [],
+          "groupedValue": [],
+          "value": "kaanalpyay@gmail.com",
+          "type": "email",
+          "identifier": [],
+          "displayLabel": "Contact",
+          "note": [],
+          "appliesTo": []
+        },
+        {
+          "structuredValue": [],
+          "parallelValue": [],
+          "groupedValue": [],
+          "value": "sg2235@cornell.edu",
+          "type": "email",
+          "identifier": [],
+          "displayLabel": "Contact",
+          "note": [],
+          "appliesTo": []
+        },
+        {
+          "structuredValue": [],
+          "parallelValue": [],
+          "groupedValue": [],
+          "value": "irfisher@stanford.edu",
+          "type": "email",
+          "identifier": [],
+          "displayLabel": "Contact",
+          "note": [],
+          "appliesTo": []
+        }
+      ],
+      "digitalRepository": [],
+      "note": []
+    },
+    "relatedResource": [
+      {
+        "type": "described by",
+        "dataCiteRelationType": "IsDescribedBy",
+        "title": [],
+        "contributor": [],
+        "event": [],
+        "form": [],
+        "language": [],
+        "note": [],
+        "identifier": [
+          {
+            "structuredValue": [],
+            "parallelValue": [],
+            "groupedValue": [],
+            "type": "arxiv",
+            "uri": "https://arxiv.org/abs/2402.17945",
+            "identifier": [],
+            "note": [],
+            "appliesTo": []
+          }
+        ],
+        "subject": [],
+        "relatedResource": []
+      }
+    ],
+    "marcEncodedData": [],
+    "adminMetadata": {
+      "contributor": [],
+      "event": [
+        {
+          "structuredValue": [],
+          "type": "creation",
+          "date": [
+            {
+              "structuredValue": [],
+              "parallelValue": [],
+              "groupedValue": [],
+              "value": "2025-08-23",
+              "encoding": { "code": "edtf", "note": [] },
+              "identifier": [],
+              "note": [],
+              "appliesTo": []
+            }
+          ],
+          "contributor": [],
+          "location": [],
+          "identifier": [],
+          "note": [],
+          "parallelEvent": []
+        }
+      ],
+      "language": [],
+      "note": [
+        {
+          "structuredValue": [],
+          "parallelValue": [],
+          "groupedValue": [],
+          "value": "Metadata created by user via Stanford self-deposit application",
+          "type": "record origin",
+          "identifier": [],
+          "note": [],
+          "appliesTo": []
+        }
+      ],
+      "metadataStandard": [],
+      "identifier": []
+    },
+    "purl": "https://purl.stanford.edu/cz537wr8540"
+  },
+  "identification": {
+    "catalogLinks": [],
+    "doi": "10.25740/cz537wr8540",
+    "sourceId": "h3:object-7625"
+  },
+  "structural": {
+    "contains": [
+      {
+        "type": "https://cocina.sul.stanford.edu/models/resources/file",
+        "externalIdentifier": "https://cocina.sul.stanford.edu/fileSet/cz537wr8540-988038b2-67f8-4c19-a3f3-43f796b38827",
+        "label": "",
+        "version": 1,
+        "structural": {
+          "contains": [
+            {
+              "type": "https://cocina.sul.stanford.edu/models/file",
+              "externalIdentifier": "https://cocina.sul.stanford.edu/file/cz537wr8540-988038b2-67f8-4c19-a3f3-43f796b38827/SupportingData_PNAS.zip",
+              "label": "",
+              "filename": "SupportingData_PNAS.zip",
+              "size": 5770488,
+              "version": 1,
+              "hasMimeType": "application/zip",
+              "sdrGeneratedText": false,
+              "correctedForAccessibility": false,
+              "hasMessageDigests": [
+                { "type": "md5", "digest": "f7cb6ea05b77b5980fbd47249f55f2ae" },
+                {
+                  "type": "sha1",
+                  "digest": "7ab5e72a6c995c3cfa0368f4d11af57af3133045"
+                }
+              ],
+              "access": {
+                "view": "world",
+                "download": "world",
+                "controlledDigitalLending": false
+              },
+              "administrative": {
+                "publish": true,
+                "sdrPreserve": true,
+                "shelve": true
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "hasMemberOrders": [],
+    "isMemberOf": ["druid:md919gh6774"]
+  },
+  "created": "2025-08-23T04:35:44.000+00:00",
+  "modified": "2025-08-23T04:54:12.000+00:00",
+  "lock": "druid:cz537wr8540=2=8"
+}
