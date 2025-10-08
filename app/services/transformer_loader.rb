@@ -66,16 +66,26 @@ class TransformerLoader
   # Given an array of solr docs, review which dois appear to be versions of the same
   # id and keep only the most recent or canonical versions
   def process_versions(solr_docs)
+    # This is the set of all dois we currently have
     dois = solr_docs.select { |doc| doc.key?('doi_ssi') }.map { |doc| doc['doi_ssi'] }
-    related_id_struct = solr_docs.select { |doc| doc.key?('related_identifiers_struct_ss') }.map { |doc| doc['related_identifiers_struct_ss']}
-    puts "Process versions - these are all the dois"
-    dois.sort.each do |doi|
-      puts doi
+    # related_id_struct = solr_docs.select { |doc| doc.key?('related_identifiers_struct_ss') }.map { |doc| doc['related_identifiers_struct_ss']}
+    # Array of dois we will be removing
+    remove_dois = []
+    solr_docs.each do |solr_doc|
+      doi = solr_doc['doi_ssi']
+      related_id_struct = doc['related_identifiers_struct_ss']
+
+      next unless doi.present? && related_id_struct.present?
+      
+      related_identifiers = JSON.parse(related_id_struct)
+      related_identifiers.each do |related_info|
+        related_id = related_info['related_identifier']
+        relation_type = related_info['relation_type']
+        puts "#{doi} #{relation_type} #{related_id}"
+      end
+      
     end
-    puts "Version relationships in struct"
-    related_id_struct.each do |struct|
-      JSON.parse(struct).select{ |s| s.key?('relation_type') }.each { |s| puts s}
-    end
+
 
   end
 
