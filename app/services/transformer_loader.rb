@@ -68,12 +68,14 @@ class TransformerLoader
   def process_versions(solr_docs)
     # This is the set of all dois we currently have
     dois = solr_docs.select { |doc| doc.key?('doi_ssi') }.map { |doc| doc['doi_ssi'] }
+    dois_set = Set.new(dois)
     # related_id_struct = solr_docs.select { |doc| doc.key?('related_identifiers_struct_ss') }.map { |doc| doc['related_identifiers_struct_ss']}
     # Array of dois we will be removing
     remove_dois = []
+    keep_versions = []
     solr_docs.each do |solr_doc|
       doi = solr_doc['doi_ssi']
-      related_id_struct = doc['related_identifiers_struct_ss']
+      related_id_struct = solr_doc['related_identifiers_struct_ss']
 
       next unless doi.present? && related_id_struct.present?
       
@@ -81,12 +83,29 @@ class TransformerLoader
       related_identifiers.each do |related_info|
         related_id = related_info['related_identifier']
         relation_type = related_info['relation_type']
-        puts "#{doi} #{relation_type} #{related_id}"
+
+        
+        if relation_type.present? && dois_set.include?(related_id)
+          if ['IsPreviousVersionOf', 'IsVersionOf'].include?(relation_type)
+            keep_versions << related_id
+            remove_dois << doi
+            puts "#{relation_type} #{doi} #{related_id}"
+          end
+
+          if ['IsNewVersionOf', 'HasVersion'].include?(relation_type)
+            keep_versions << doi
+            remove_dois << related_id
+            puts "#{relation_type} #{doi} #{related_id}"
+          end
+        end
       end
-      
     end
 
-
+    # Remove the DOIs we no longer want
+    modified_dois_set = dois_set.subtract(remove_dois)
+    # Sort and look for patterns?
+    modified_dois = modified_dois_set.to_a.sort
+    modified_dois.each { |d| puts d}
   end
 
   def add_records # rubocop:disable Metrics/CyclomaticComplexity
