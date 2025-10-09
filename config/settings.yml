@@ -16,9 +16,12 @@ redivis:
 #   ignore:
 #     - ~
 
-# DataCite has OpenNeuro datasets that do not have title elements and thus cannot validate against our schema
 datacite:
+  username: ~
+  password: ~
+  contact_email: doi-contact@lists.stanford.edu  # Used in User-Agent header for Datacite API requests
   ignore:
+    # OpenNeuro datasets that do not have title elements and thus cannot validate against our schema
     - 10.18112/openneuro.ds003871.v1.0.2
     - 10.18112/openneuro.ds004475.v1.0.3
     - 10.18112/openneuro.ds004475.v1.0.2

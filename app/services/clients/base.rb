@@ -7,11 +7,13 @@ module Clients
 
   # Base class for harvesting clients
   class Base
-    attr_reader :url, :conn
+    attr_reader :url, :conn, :username, :password
 
-    def initialize(url: nil, api_token: nil, conn: nil)
+    def initialize(url: nil, api_token: nil, username: nil, password: nil, conn: nil)
       @url = url
       @api_token = api_token
+      @username = username
+      @password = password
       @conn = conn || new_conn
     end
 
@@ -31,7 +33,13 @@ module Clients
       Faraday.new({ url: }.compact) do |f|
         f.request :json
         f.request :retry, **retry_options
-        f.request :authorization, :Bearer, api_token if api_token
+
+        if api_token
+          f.request :authorization, :Bearer, api_token
+        elsif username && password
+          f.request :authorization, :basic, username, password
+        end
+
         f.response :json
         f.response :raise_error
       end
