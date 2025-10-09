@@ -66,55 +66,18 @@ class TransformerLoader
   # Given an array of solr docs, review which dois appear to be versions of the same
   # id and keep only the most recent or canonical versions
   def process_versions(solr_docs)
-    # This is the set of all dois we currently have
-    dois = solr_docs.select { |doc| doc.key?('doi_ssi') }.map { |doc| doc['doi_ssi'] }
-    dois_set = Set.new(dois)
-    # related_id_struct = solr_docs.select { |doc| doc.key?('related_identifiers_struct_ss') }.map { |doc| doc['related_identifiers_struct_ss']}
-    # Array of dois we will be removing
-    remove_dois = []
-    keep_versions = []
-    solr_docs.each do |solr_doc|
-      doi = solr_doc['doi_ssi']
-      related_id_struct = solr_doc['related_identifiers_struct_ss']
-
-      next unless doi.present? && related_id_struct.present?
-      
-      related_identifiers = JSON.parse(related_id_struct)
-      related_identifiers.each do |related_info|
-        related_id = related_info['related_identifier']
-        relation_type = related_info['relation_type']
-
-        
-        if relation_type.present? && dois_set.include?(related_id)
-          if ['IsPreviousVersionOf', 'IsVersionOf'].include?(relation_type)
-            keep_versions << related_id
-            remove_dois << doi
-            puts "#{relation_type} #{doi} #{related_id}"
-          end
-
-          if ['IsNewVersionOf', 'HasVersion'].include?(relation_type)
-            keep_versions << doi
-            remove_dois << related_id
-            puts "#{relation_type} #{doi} #{related_id}"
-          end
-        end
-      end
-    end
-
-    # Remove the DOIs we no longer want
-    modified_dois_set = dois_set.subtract(remove_dois)
-    # Sort and look for patterns?
-    modified_dois = modified_dois_set.to_a.sort
-    modified_dois.each { |d| puts d}
+    dois_to_remove = VersionHandler.new(solr_docs:).removal_dois_set
+    # Return Solr docs without the DOIs to remove
+    solr_docs.reject { |solr_doc| dois_to_remove.include?(solr_doc['doi_ssi']) }
   end
 
-  def add_records # rubocop:disable Metrics/CyclomaticComplexity
+  def add_records
     solr_docs = transform_records
     solr_docs.each do |solr_doc|
       # solr.add(solr_doc:) if load?
       # yield solr_doc if block_given?
     end
-  ensure
+
     # solr.commit if load?
   end
 
