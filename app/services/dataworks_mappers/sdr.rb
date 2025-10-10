@@ -380,24 +380,25 @@ module DataworksMappers
 
     # Convert a Cocina contributor to DataCite structured data
     class ContributorMapper
-      # Cocina contributor roles (marcrelator codes) as DataCite contributor types
+      # Cocina contributor role names as DataCite contributor types
+      # See https://github.com/sul-dlss/cocina_display/blob/main/config/marc_relators.yml
       CONTRIBUTOR_TYPES = {
-        'mdc' => 'ContactPerson',
-        'prc' => 'ContactPerson',
-        'col' => 'DataCollector',
-        'cur' => 'DataCurator',
-        'dtm' => 'DataManager',
-        'dst' => 'Distributor',
-        'edt' => 'Editor',
-        'fnd' => 'Funder',
-        'his' => 'HostingInstitution',
-        'pro' => 'Producer',
-        'pdr' => 'ProjectLeader',
-        'res' => 'Researcher',
-        'oth' => 'Other',
-        'cph' => 'RightsHolder',
-        'spn' => 'Sponsor',
-        'trl' => 'Translator'
+        'metadata contact' => 'ContactPerson',
+        'process contact' => 'ContactPerson',
+        'collector' => 'DataCollector',
+        'curator' => 'DataCurator',
+        'data manager' => 'DataManager',
+        'distributor' => 'Distributor',
+        'editor' => 'Editor',
+        'funder' => 'Funder',
+        'host institution' => 'HostingInstitution',
+        'producer' => 'Producer',
+        'project director' => 'ProjectLeader',
+        'researcher' => 'Researcher',
+        'other' => 'Other',
+        'copyright holder' => 'RightsHolder',
+        'sponsor' => 'Sponsor',
+        'translator' => 'Translator'
       }.freeze
 
       def initialize(contributor)
@@ -444,7 +445,7 @@ module DataworksMappers
       def contributor_type
         return if author? # Handled separately; doesn't get a type
 
-        contributor.roles.map { |role| CONTRIBUTOR_TYPES[role.code] }.compact.first || 'Other'
+        contributor.roles.map { |role| CONTRIBUTOR_TYPES[role.to_s] }.compact.first || 'Other'
       end
 
       def affiliation
