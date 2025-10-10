@@ -60,6 +60,7 @@ class TransformerLoader
     rescue DataworksMappers::MappingError
       raise if fail_fast?
     end
+    # Remove previous or non-canonical versions
     process_versions(solr_docs)
   end
 
@@ -74,11 +75,11 @@ class TransformerLoader
   def add_records
     solr_docs = transform_records
     solr_docs.each do |solr_doc|
-      # solr.add(solr_doc:) if load?
-      # yield solr_doc if block_given?
+      solr.add(solr_doc:) if load?
+      yield solr_doc if block_given?
     end
 
-    # solr.commit if load?
+    solr.commit if load?
   end
 
   def delete_records
