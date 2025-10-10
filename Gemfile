@@ -44,7 +44,7 @@ gem 'thruster', require: false
 # gem "image_processing", "~> 1.2"
 
 # Application gems
-gem 'cocina_display', '~> 1.1' # For parsing SDR datasets
+gem 'cocina_display', '~> 1' # For parsing SDR datasets
 gem 'config'
 gem 'edtf'
 gem 'faraday'
