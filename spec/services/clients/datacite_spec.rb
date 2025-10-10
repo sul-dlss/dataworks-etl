@@ -5,6 +5,26 @@ require 'rails_helper'
 RSpec.describe Clients::Datacite, :vcr do
   let(:client) { described_class.new }
 
+  before do
+    allow(Settings.datacite).to receive_messages(
+      username: 'test_user',
+      password: 'test_password',
+      contact_email: 'test@stanford.edu'
+    )
+  end
+
+  it 'sends the basic auth header and user agent' do
+    client.dataset(id: '10.5061/dryad.rg148qj4')
+    expect(
+      a_request(:get, 'https://api.datacite.org/dois/10.5061/dryad.rg148qj4?affiliation=true&publisher=true').with(
+        headers: {
+          'Authorization' => 'Basic dGVzdF91c2VyOnRlc3RfcGFzc3dvcmQ=',
+          'User-Agent' => 'Stanford DataWorks (mailto:test@stanford.edu)'
+        }
+      )
+    ).to have_been_made
+  end
+
   describe '.list' do
     context 'when passing an affiliation and affiliation_id' do
       let(:results) { client.list(affiliation: 'Amherst College', affiliation_id: 'https://ror.org/028vqfs63', page_size: 100) }

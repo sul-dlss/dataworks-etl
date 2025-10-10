@@ -3,7 +3,12 @@
 module Clients
   # Client for interacting with the Datacite API
   class Datacite < Clients::Base
-    def initialize(url: 'https://api.datacite.org', conn: nil)
+    def initialize(
+      url: 'https://api.datacite.org',
+      username: Settings.datacite.username,
+      password: Settings.datacite.password,
+      conn: nil
+    )
       super
     end
 
@@ -41,6 +46,14 @@ module Clients
     end
 
     private
+
+    # DataCite asks that we send a User-Agent with a contact email in order to
+    # facilitate communication in case of issues.
+    def new_conn
+      base_conn = super
+      base_conn.headers['User-Agent'] = "Stanford DataWorks (mailto:#{Settings.datacite.contact_email})"
+      base_conn
+    end
 
     def list_page(page_size:, cursor: 1)
       response_json = get_json(path: '/dois',
