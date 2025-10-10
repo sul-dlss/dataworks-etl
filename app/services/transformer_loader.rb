@@ -78,7 +78,9 @@ class TransformerLoader
       solr.add(solr_doc:) if load?
       yield solr_doc if block_given?
     end
-
+  rescue DataworksMappers::MappingError
+    raise if fail_fast?
+  ensure
     solr.commit if load?
   end
 

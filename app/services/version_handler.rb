@@ -85,6 +85,7 @@ class VersionHandler
   end
 
   # @param dois: [String]. List of versions
+  # @param prefix: String. The part of the DOI which precedes the last '.v'
   def compare_numerical_version(versions, prefix)
     # Keep the base DOI without any version info as that is probably the canonical
     # version and will link to other versions
