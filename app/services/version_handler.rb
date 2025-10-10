@@ -72,46 +72,51 @@ class VersionHandler
     # Get a hash with DOI prefixes as keys and any versions as values
     # or '' representing how the DOI has no version suffixes
     # Example: ['abc.123.v1', 'abc.123.v2', 'abc.123'] should yield
-    # {'abc.123' => ['v1','v2','']}
+    # {'abc.123' => ['1','2','-1']}
     prefix_hash = generate_prefix_hash(modified_dois)
-    prefix_hash.each do |k, v|
+    prefix_hash.each do |prefix, versions|
       # Without any version suffixes, the value array will still have one element
       # with empty string
-      next unless v.length > 1
+      next unless versions.length > 1
 
-      # Keep the base DOI without any version info as that is probably the canonical
-      # version and will link to other versions
-      if v.include?('')
-        # Remove everything but the base version.
-        # The DOI needs to be rebuilt from prefix and version suffix
-        remove_these = v.reject { |version| version == '' }.map { |version| "#{k}.#{version}" }
-      else
-        # Keep only the biggest version i.e. the last element of the sorted array
-        sorted_v = v.sort
-        remove_these = sorted_v[0, sorted_v.length - 1].map { |version| "#{k}.#{version}" }
-      end
-      remove_dois.concat(remove_these)
+      remove_dois.concat(compare_numerical_version(versions, prefix))
     end
     remove_dois
   end
 
+  # @param dois: [String]. List of versions
+  def compare_numerical_version(versions, prefix)
+    # Keep the base DOI without any version info as that is probably the canonical
+    # version and will link to other versions
+    if versions.include?('-1')
+      # Remove everything but the base version.
+      # The DOI needs to be rebuilt from prefix and version suffix
+      return versions.reject { |version| version == '-1' }.map { |version| "#{prefix}.v#{version}" }
+    end
+
+    # Keep only the biggest numerical version i.e. the last element of the sorted array
+    sorted_v = versions.sort_by(&:to_f)
+    sorted_v[0, sorted_v.length - 1].map { |version| "#{prefix}.v#{version}" }
+  end
+
   # @param modified_dois: [String]. Array of DOIs.
   # Generate a hash with the part preceding version suffixes as the key and
-  # values being an array of version suffixes.  If a DOI has no version suffix,
-  # then that DOI's value is represented by an empty string.
-  # Example: ['abc.123.v1', 'abc.123.v2', 'abc.123'] should yield
-  # {'abc.123' => ['v1','v2','']}
+  # values being an array of numerical version suffixes.  If a DOI has no version suffix,
+  # then that DOI's value is represented by -1.
+  # Example: ['abc.123.v1', 'abc.123.v1.0.1', 'abc.123.v2', 'abc.123'] should yield
+  # {'abc.123' => ['1', '1.0.1', '2', '-1']}
   def generate_prefix_hash(modified_dois)
     prefix_hash = {}
-    modified_dois.sort.each do |d|
+    modified_dois.each do |d|
       prefix = d
-      version = ''
+      version = '-1'
       # This regex will match dois like abc.def.v1 or abc.def.v1.01 etc.
-      # but we don't want to match a doi like dryad.v123 since v123 does
-      # not appear to be a version suffix but part of the DOI itself
-      if /\w+\.\w+\.v[\d+][.\d]*$/.match?(d)
+      # In general, we don't want to match a doi like dryad.v123 since v123 does
+      # not appear to be a version suffix but part of the DOI itself.
+      # An exception to the above is the ICPSR pattern e.g. 10.3886/ICPSR07803.v10
+      if /\w+\.\w+\.v[\d+][.\d]*$/.match?(d) || /ICPSR\d{5}.v[\d+][.\d]*$/.match?(d)
         prefix = d[0, d.rindex('.v')]
-        version = d[d.rindex('.v') + 1, d.length]
+        version = d[d.rindex('.v') + 2, d.length]
       end
 
       prefix_hash[prefix] = [] unless prefix_hash.key?(prefix)

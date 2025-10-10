@@ -110,7 +110,8 @@ RSpec.describe VersionHandler do
           { 'doi_ssi' => '10.18112/a.ds001.v1.03' },
           { 'doi_ssi' => '10.18112/b.ds001.v1' },
           { 'doi_ssi' => '10.18112/b.ds001.v2' },
-          { 'doi_ssi' => '10.18112/b.ds001.v3' }
+          { 'doi_ssi' => '10.18112/b.ds001.v3' },
+          { 'doi_ssi' => '10.18112/b.ds001.v11' }
         ]
       end
 
@@ -118,10 +119,11 @@ RSpec.describe VersionHandler do
         remove_dois = version_handler.remove_by_version_number([
                                                                  '10.18112/a.ds001.v1.01.01', '10.18112/a.ds001.v1.02',
                                                                  '10.18112/a.ds001.v1.03', '10.18112/b.ds001.v1',
-                                                                 '10.18112/b.ds001.v2', '10.18112/b.ds001.v3'
+                                                                 '10.18112/b.ds001.v2', '10.18112/b.ds001.v3',
+                                                                 '10.18112/b.ds001.v11'
                                                                ])
         expect(remove_dois).to contain_exactly('10.18112/a.ds001.v1.01.01', '10.18112/a.ds001.v1.02',
-                                               '10.18112/b.ds001.v1', '10.18112/b.ds001.v2')
+                                               '10.18112/b.ds001.v1', '10.18112/b.ds001.v2', '10.18112/b.ds001.v3')
       end
     end
 
@@ -140,6 +142,24 @@ RSpec.describe VersionHandler do
                                                                  '10.18112/a.ds001.v1.03'
                                                                ])
         expect(remove_dois).to contain_exactly('10.18112/a.ds001.v1.02', '10.18112/a.ds001.v1.03')
+      end
+    end
+
+    context 'with ICSPR DOIs' do
+      let(:solr_docs) do
+        [
+          { 'doi_ssi' => '10.3886/ICPSR07803.v1' },
+          { 'doi_ssi' => '10.3886/ICPSR07803.v2' },
+          { 'doi_ssi' => '10.3886/ICPSR07803.v10' }
+        ]
+      end
+
+      it 'lists all lower version numbers for removal' do
+        remove_dois = version_handler.remove_by_version_number([
+                                                                 '10.3886/ICPSR07803.v1', '10.3886/ICPSR07803.v2',
+                                                                 '10.3886/ICPSR07803.v10'
+                                                               ])
+        expect(remove_dois).to contain_exactly('10.3886/ICPSR07803.v1', '10.3886/ICPSR07803.v2')
       end
     end
   end
