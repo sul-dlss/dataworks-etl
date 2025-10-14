@@ -51,16 +51,35 @@ class TransformerLoader
     @fail_fast
   end
 
-  def add_records # rubocop:disable Metrics/CyclomaticComplexity
+  # Return array of solr docs to be added to the index
+  def transform_records
+    solr_docs = []
     grouped_dataset_records.each_value do |dataset_records|
       solr_doc = DatasetTransformer.call(dataset_records:, load_id:, mapper_class:)
-      next unless solr_doc
-
-      solr.add(solr_doc:) if load?
-      yield solr_doc if block_given?
+      solr_docs << solr_doc if solr_doc
     rescue DataworksMappers::MappingError
       raise if fail_fast?
     end
+    # Remove previous or non-canonical versions
+    process_versions(solr_docs)
+  end
+
+  # Given an array of solr docs, review which dois appear to be versions of the same
+  # id and keep only the most recent or canonical versions
+  def process_versions(solr_docs)
+    dois_to_remove = VersionHandler.new(solr_docs:).removal_dois_set
+    # Return Solr docs without the DOIs to remove
+    solr_docs.reject { |solr_doc| dois_to_remove.include?(solr_doc['doi_ssi']) }
+  end
+
+  def add_records
+    solr_docs = transform_records
+    solr_docs.each do |solr_doc|
+      solr.add(solr_doc:) if load?
+      yield solr_doc if block_given?
+    end
+  rescue DataworksMappers::MappingError
+    raise if fail_fast?
   ensure
     solr.commit if load?
   end

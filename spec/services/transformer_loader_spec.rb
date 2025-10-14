@@ -14,7 +14,7 @@ RSpec.describe TransformerLoader do
 
   let(:solr_service) { instance_double(SolrService, commit: true, delete_by_query: true, add: true) }
 
-  let(:solr_doc) { instance_double(Hash) }
+  let(:solr_doc) { {} }
 
   before do
     allow(SolrService).to receive(:new).and_return(solr_service)
