@@ -38,9 +38,8 @@ class DatasetTransformer
   # @return [Array<DatasetRecord>] dataset records ordered by provider preference
   def dataset_records
     @dataset_records.select { |dataset_record| PROVIDERS.include?(dataset_record.provider) }
-                    .sort_by do |dataset_record|
-      PROVIDERS.index(dataset_record.provider)
-    end
+                    .sort_by { |dataset_record| PROVIDERS.index(dataset_record.provider) }
+                    .filter { |dataset_record| !suppress?(dataset_record:) }
   end
 
   def mapper_for(dataset_record:)
@@ -67,10 +66,24 @@ class DatasetTransformer
     ignore_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id)
   end
 
+  def suppress?(dataset_record:)
+    suppress_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id)
+  end
+
+  # Ignored datasets are expected to raise mapping errors; if they do not,
+  # we log and notify Honeybadger so they can be un-ignored as appropriate.
   def ignore_dataset_ids(provider:)
     @ignore_dataset_ids ||= {}
     @ignore_dataset_ids[provider] ||= Settings[provider]&.ignore || []
     @ignore_dataset_ids[provider]
+  end
+
+  # Suppressed datasets are always skipped without notification; they are used
+  # for valid datasets that we nevertheless do not want to index.
+  def suppress_dataset_ids(provider:)
+    @suppress_dataset_ids ||= {}
+    @suppress_dataset_ids[provider] ||= Settings[provider]&.suppress || []
+    @suppress_dataset_ids[provider]
   end
 
   def check_mapping_success(dataset_record:)

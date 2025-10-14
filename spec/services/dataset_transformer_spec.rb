@@ -76,4 +76,18 @@ RSpec.describe DatasetTransformer do
       expect(Honeybadger).to have_received(:notify).with(/is ignored but mapping succeeded/)
     end
   end
+
+  context 'when there is a suppressed dataset' do
+    before do
+      allow(Settings.redivis).to receive(:suppress).and_return([redivis_dataset_record.dataset_id])
+      allow(Honeybadger).to receive(:notify)
+    end
+
+    let(:dataset_records) { [redivis_dataset_record] }
+
+    it 'skips the dataset without notifying Honeybadger' do
+      expect(solr_doc).to be_nil
+      expect(Honeybadger).not_to have_received(:notify)
+    end
+  end
 end
