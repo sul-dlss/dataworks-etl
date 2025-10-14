@@ -10,6 +10,8 @@ redivis:
   api_token: ~
   ignore:
     - ~
+  suppress:
+    - ~
 
 # zenodo:
 #   api_token: ~
