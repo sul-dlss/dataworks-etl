@@ -61,7 +61,7 @@ class RecordsHandler
     # If DOI1 IsPreviousVersionOf DOI2 OR DOI1 IsVersionOf DOI2, we want to remove DOI1
     # If DOI1 IsNewVersionOf DOI2 OR DOI1 HasVersion DOI2, we want to remove DOI2
     # If DOI1 IsPartOf DOI2, remove DOI1.
-    # If DOI1 HasPart DOI1, remove DOI2.
+    # If DOI1 HasPart DOI2, remove DOI2.
     return doi if %w[IsPreviousVersionOf IsVersionOf IsPartOf].include?(relation_type)
 
     related_id if %w[IsNewVersionOf HasVersion HasPart].include?(relation_type)
