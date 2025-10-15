@@ -80,7 +80,7 @@ RSpec.describe DatasetConsolidator do
         ]
       end
 
-      it 'adds subject of HasVersion and object of IsVersionOf to removal list' do
+      it 'adds object of HasVersion and subject of IsVersionOf to removal list' do
         remove_dois = dataset_consolidator.remove_by_relation_types
         expect(remove_dois).to contain_exactly('10.18112/b.ds001', '10.18112/c.ds001')
       end
@@ -100,7 +100,7 @@ RSpec.describe DatasetConsolidator do
         ]
       end
 
-      it 'adds subject of HasPart and object of IsPartOf to removal list' do
+      it 'adds object of HasPart and subject of IsPartOf to removal list' do
         remove_dois = dataset_consolidator.remove_by_relation_types
         expect(remove_dois).to contain_exactly('10.18112/b.ds001', '10.18112/c.ds001')
       end
