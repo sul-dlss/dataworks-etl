@@ -465,8 +465,8 @@ RSpec.describe DataworksMappers::Datacite do
         provider: 'DataCite',
         access: 'Public',
         sizes: [
-          '1 MB',
-          '90 pages'
+          '90 pages',
+          '1 MB'
         ],
         formats: [
           'application/xml',
@@ -716,5 +716,15 @@ RSpec.describe DataworksMappers::Datacite do
         ]
       }
     )
+  end
+
+  context 'with a variety of size info' do
+    let(:sizes) { ['10 MB', '2048 bytes', '5.5 GB', '100 kilobytes', '90 pages'] }
+
+    before { source['data']['attributes']['sizes'] = sizes }
+
+    it 'parses and sums sizes correctly' do
+      expect(metadata[:sizes]).to eq(['90 pages', '5.51 GB'])
+    end
   end
 end
