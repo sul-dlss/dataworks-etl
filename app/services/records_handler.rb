@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # Removes previous versions of canonical or more recent DOIs we have retrieved
-class VersionHandler
+# Remove parts of datasets where we have the parent datasets
+class RecordsHandler
   # @param solr_docs: [hash representing Solr doc]
   def initialize(solr_docs:)
     @solr_docs = solr_docs
@@ -11,7 +12,7 @@ class VersionHandler
   # Return set of dois to remove from the initializing Solr documents
   def removal_dois_set
     remove_relation_dois = remove_by_relation_types
-    # Remove the DOIs based on relation type parsing
+    # Remove the DOIs based on relation type parsing, including versions and parts
     modified_dois_set = @dois_set.subtract(remove_relation_dois)
     # Based on the new set of DOIs, remove versions based on DOI version suffixes
     remove_number_dois = remove_by_version_number(modified_dois_set.to_a)
@@ -35,7 +36,7 @@ class VersionHandler
       next unless doi.present? && related_id_struct.present?
 
       JSON.parse(related_id_struct).each do |related_info|
-        remove_doi = compare_versions_for_removal(doi, related_info)
+        remove_doi = compare_relationships_for_removal(doi, related_info)
         remove_dois << remove_doi if remove_doi.present?
       end
     end
@@ -48,7 +49,7 @@ class VersionHandler
   # the 'related_identifiers_struct_ss' in a Solr document
   # Returns which DOI to remove based on the relationship type between the DOI of the Solr document
   # and the related DOI in the related_info JSON object. Returns null if neither DOI is to be removed.
-  def compare_versions_for_removal(doi, related_info)
+  def compare_relationships_for_removal(doi, related_info)
     related_id = related_info['related_identifier']
     relation_type = related_info['relation_type']
 
@@ -59,9 +60,11 @@ class VersionHandler
     # We want to retain the newest version of a DOI or the canonical version
     # If DOI1 IsPreviousVersionOf DOI2 OR DOI1 IsVersionOf DOI2, we want to remove DOI1
     # If DOI1 IsNewVersionOf DOI2 OR DOI1 HasVersion DOI2, we want to remove DOI2
-    return doi if %w[IsPreviousVersionOf IsVersionOf].include?(relation_type)
+    # If DOI1 IsPartOf DOI2, remove DOI1.
+    # If DOI1 HasPart DOI1, remove DOI2.
+    return doi if %w[IsPreviousVersionOf IsVersionOf IsPartOf].include?(relation_type)
 
-    related_id if %w[IsNewVersionOf HasVersion].include?(relation_type)
+    related_id if %w[IsNewVersionOf HasVersion HasPart].include?(relation_type)
   end
 
   # @param modified_dois: [String]. Array of DOIs.
