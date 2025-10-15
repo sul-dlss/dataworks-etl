@@ -3,6 +3,8 @@
 module DataworksMappers
   # Map from Datacite metadata to Dataworks metadata
   class Datacite < Base # rubocop:disable Metrics/ClassLength
+    include ApplicationHelper
+
     def perform_map # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       {
         creators: people_or_organizations_for(attrs[:creators]),
@@ -17,7 +19,7 @@ module DataworksMappers
         version: attrs[:version],
         identifiers:,
         related_identifiers:,
-        sizes: attrs[:sizes],
+        sizes:,
         formats: attrs[:formats]&.uniq,
         rights_list:,
         funding_references:,
@@ -151,6 +153,21 @@ module DataworksMappers
           related_identifier_type: related_identifier[:relatedIdentifierType]
         }.compact
       end
+    end
+
+    # Some records return sizes for every individual file, which isn't useful.
+    # We try to sum up the file sizes and return a single human-readable size.
+    def sizes
+      return if attrs[:sizes].blank?
+
+      # Get all of the sizes that look like bytes (e.g. "5 MB" or just "3492")
+      byte_sizes, sizes = attrs[:sizes]&.partition { |size| size.match?(BYTES_REGEX) }
+      return sizes.uniq if byte_sizes.blank?
+
+      # Sum up the byte sizes and convert to a human-readable format
+      total_size = byte_sizes.map(&method(:number_from_human_size)).sum
+      sizes.push ActiveSupport::NumberHelper.number_to_human_size(total_size) if total_size.positive?
+      sizes.uniq
     end
   end
 end
