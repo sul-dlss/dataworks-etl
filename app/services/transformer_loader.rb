@@ -61,14 +61,14 @@ class TransformerLoader
       raise if fail_fast?
     end
     # Remove previous or non-canonical versions
-    process_records(solr_docs)
+    consolidate_datasets(solr_docs)
   end
 
   # Given an array of solr docs, review which dois appear to be versions of the same
   # id and keep only the most recent or canonical versions.
   # Also remove any parts of datasets where we have the datasets themselves
-  def process_records(solr_docs)
-    dois_to_remove = RecordsHandler.new(solr_docs:).removal_dois_set
+  def consolidate_datasets(solr_docs)
+    dois_to_remove = DatasetConsolidator.new(solr_docs:).removal_dois_set
     # Return Solr docs without the DOIs to remove
     solr_docs.reject { |solr_doc| dois_to_remove.include?(solr_doc['doi_ssi']) }
   end

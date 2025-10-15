@@ -2,7 +2,7 @@
 
 # Removes previous versions of canonical or more recent DOIs we have retrieved
 # Remove parts of datasets where we have the parent datasets
-class RecordsHandler
+class DatasetConsolidator
   # @param solr_docs: [hash representing Solr doc]
   def initialize(solr_docs:)
     @solr_docs = solr_docs
