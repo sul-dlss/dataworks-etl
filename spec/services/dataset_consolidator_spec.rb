@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe RecordsHandler do
-  let(:records_handler) { described_class.new(solr_docs:) }
+RSpec.describe DatasetConsolidator do
+  let(:dataset_consolidator) { described_class.new(solr_docs:) }
 
   describe '#removal_dois_set' do
     let(:solr_docs) do
@@ -22,7 +22,7 @@ RSpec.describe RecordsHandler do
     end
 
     it 'list DOIs to remove based on a combination of relationships and version numbering' do
-      remove_dois = records_handler.removal_dois_set
+      remove_dois = dataset_consolidator.removal_dois_set
       expect(remove_dois).to contain_exactly('10.18112/a.ds001', '10.18112/c.ds001.v1', '10.18112/d.ds001')
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe RecordsHandler do
       end
 
       it 'adds all previous versions to the removal list when current version is in our set' do
-        remove_dois = records_handler.remove_by_relation_types
+        remove_dois = dataset_consolidator.remove_by_relation_types
         expect(remove_dois).to contain_exactly('10.18112/a.ds001', '10.18112/b.ds001')
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe RecordsHandler do
       end
 
       it 'adds all previous versions to the removal list when current version is in our set' do
-        remove_dois = records_handler.remove_by_relation_types
+        remove_dois = dataset_consolidator.remove_by_relation_types
         expect(remove_dois).to contain_exactly('10.18112/b.ds001', '10.18112/c.ds001')
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe RecordsHandler do
       end
 
       it 'adds subject of HasVersion and object of IsVersionOf to removal list' do
-        remove_dois = records_handler.remove_by_relation_types
+        remove_dois = dataset_consolidator.remove_by_relation_types
         expect(remove_dois).to contain_exactly('10.18112/b.ds001', '10.18112/c.ds001')
       end
     end
@@ -101,7 +101,7 @@ RSpec.describe RecordsHandler do
       end
 
       it 'adds subject of HasVersion and object of IsVersionOf to removal list' do
-        remove_dois = records_handler.remove_by_relation_types
+        remove_dois = dataset_consolidator.remove_by_relation_types
         expect(remove_dois).to contain_exactly('10.18112/b.ds001', '10.18112/c.ds001')
       end
     end
@@ -119,7 +119,7 @@ RSpec.describe RecordsHandler do
       end
 
       it 'does not choose DOIs for removal if related DOIs are not in our DOI set' do
-        remove_dois = records_handler.remove_by_relation_types
+        remove_dois = dataset_consolidator.remove_by_relation_types
         expect(remove_dois.length).to eq(0)
       end
     end
@@ -140,12 +140,12 @@ RSpec.describe RecordsHandler do
       end
 
       it 'lists all lower version numbers for removal' do
-        remove_dois = records_handler.remove_by_version_number([
-                                                                 '10.18112/a.ds001.v1.01.01', '10.18112/a.ds001.v1.02',
-                                                                 '10.18112/a.ds001.v1.03', '10.18112/b.ds001.v1',
-                                                                 '10.18112/b.ds001.v2', '10.18112/b.ds001.v3',
-                                                                 '10.18112/b.ds001.v11'
-                                                               ])
+        remove_dois = dataset_consolidator.remove_by_version_number([
+                                                                      '10.18112/a.ds001.v1.01.01', '10.18112/a.ds001.v1.02',
+                                                                      '10.18112/a.ds001.v1.03', '10.18112/b.ds001.v1',
+                                                                      '10.18112/b.ds001.v2', '10.18112/b.ds001.v3',
+                                                                      '10.18112/b.ds001.v11'
+                                                                    ])
         expect(remove_dois).to contain_exactly('10.18112/a.ds001.v1.01.01', '10.18112/a.ds001.v1.02',
                                                '10.18112/b.ds001.v1', '10.18112/b.ds001.v2', '10.18112/b.ds001.v3')
       end
@@ -161,10 +161,10 @@ RSpec.describe RecordsHandler do
       end
 
       it 'lists all lower version numbers for removal' do
-        remove_dois = records_handler.remove_by_version_number([
-                                                                 '10.18112/a.ds001', '10.18112/a.ds001.v1.02',
-                                                                 '10.18112/a.ds001.v1.03'
-                                                               ])
+        remove_dois = dataset_consolidator.remove_by_version_number([
+                                                                      '10.18112/a.ds001', '10.18112/a.ds001.v1.02',
+                                                                      '10.18112/a.ds001.v1.03'
+                                                                    ])
         expect(remove_dois).to contain_exactly('10.18112/a.ds001.v1.02', '10.18112/a.ds001.v1.03')
       end
     end
@@ -179,10 +179,10 @@ RSpec.describe RecordsHandler do
       end
 
       it 'lists all lower version numbers for removal' do
-        remove_dois = records_handler.remove_by_version_number([
-                                                                 '10.3886/ICPSR07803.v1', '10.3886/ICPSR07803.v2',
-                                                                 '10.3886/ICPSR07803.v10'
-                                                               ])
+        remove_dois = dataset_consolidator.remove_by_version_number([
+                                                                      '10.3886/ICPSR07803.v1', '10.3886/ICPSR07803.v2',
+                                                                      '10.3886/ICPSR07803.v10'
+                                                                    ])
         expect(remove_dois).to contain_exactly('10.3886/ICPSR07803.v1', '10.3886/ICPSR07803.v2')
       end
     end
