@@ -470,7 +470,8 @@ RSpec.describe DataworksMappers::Datacite do
         ],
         formats: [
           'application/xml',
-          'text/plain'
+          'text/plain',
+          'text/csv'
         ],
         rights_list: [
           {
