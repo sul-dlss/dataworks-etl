@@ -824,7 +824,9 @@
       ],
       "formats": [
         "application/xml",
-        "text/plain"
+        "text/plain",
+        "text/csv",
+        "text/csv"
       ],
       "version": "1",
       "rightsList": [

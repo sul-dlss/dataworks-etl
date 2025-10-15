@@ -18,7 +18,7 @@ module DataworksMappers
         identifiers:,
         related_identifiers:,
         sizes: attrs[:sizes],
-        formats: attrs[:formats],
+        formats: attrs[:formats]&.uniq,
         rights_list:,
         funding_references:,
         url: attrs[:url],
