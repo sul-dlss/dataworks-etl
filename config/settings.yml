@@ -75,6 +75,7 @@ datacite:
     # Subject value uri does not match uri perhaps because of ? in the URL
     - 10.7288/v4/magic/19822
     - 10.7288/v4/magic/19922
+    - 10.7288/v4/magic/20328
 
 # dryad:
 #   ignore:
