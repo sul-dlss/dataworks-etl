@@ -127,16 +127,60 @@ open_alex:
     - https://openalex.org/W4256093189
     - https://openalex.org/W4256095229
 
-
-
 searchworks:
   solr_url: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod
 
 purl_fetcher:
-  url: https://purl-fetcher.stanford.edu
+  url: https://purl-fetcher-stage.stanford.edu
+  targets: # Must be released to *all* of these in order to be indexed
+    - Searchworks
+    - PURL sitemap
+  skip_collections: # If the item is in any of these, it will be skipped
+    - kg712km1576 # SDR graveyard collection (prod)
+    - rm216bn3270 # SDR graveyard collection (stage)
+    - wm752pd6356
+    - qq279mc0438
+    - qk912vj7408
+    - bw522zz4583
+    - tn578sq1945
+    - pz310tn8238
+    - ff984ns9763
+    - rr255gf6892
+    - pn596gn7571
+    - zx244rw1154
+    - gs860rq5377
+    - bw467mm6252
+    - pf670qd3191
+    - nr325kt8685
+    - wh620hw5859
+    - qx298gy3987
+    - hn730ks3626
+    - px507jb1735
+    - ds247vz0452
+    - jg722zc0626
 
+# Determines the environment that cocina metadata will be fetched from; for
+# stage indexing it should be set to staging PURL
 purl:
-  url: https://purl.stanford.edu
+  url: https://sul-purl-stage.stanford.edu
+
+# Should be purl_fetcher_stage or purl_fetcher_prod; determines which queue
+# of SDR item updates we are 'listening' to
+indexer_topic: purl_fetcher_stage
+
+# Kafka groups split messages across consumers; we set this to something for
+# local dev so we don't 'steal' messages from stage/prod consumers
+indexer_group: dataworks-dev-indexer
+
+# Settings for reporting indexing status to SDR; turned off in local dev.
+# The messages appear in the event log in Argo
+sdr_events:
+  enabled: false
+  mq:
+    vhost: /
+    hostname: localhost
+    username: guest
+    password: guest
 
 honeybadger:
   datacite_extract_job_stanford_university_checkin: ~
