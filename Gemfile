@@ -54,6 +54,7 @@ gem 'honeybadger'
 gem 'iso-639', '~> 0.3.8' # For SearchWorks language mapping
 gem 'json_schemer' # JSON schema validation
 gem 'marc', '~> 1.3' # For SearchWorks MARC records
+gem 'mime-types', '~> 3.7' # For friendlier format names
 gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
 gem 'purl_fetcher-client', '~> 3.1' # For fetching SDR datasets

@@ -58,7 +58,7 @@ RSpec.describe SolrMapper do
             subjects_ssim: ['My subject', 'My subject 2'],
             language_ssi: 'en',
             sizes_ssm: ['1.2 MB', '3 pages'],
-            formats_ssim: ['application/pdf', '.pdf'],
+            formats_ssim: ['PDF'],
             version_ss: '1.0',
             rights_uris_sim: ['https://creativecommons.org/licenses/by/4.0/'],
             affiliation_names_sim: ['My institution', 'B. Parent Organization', 'My contributor institution'],

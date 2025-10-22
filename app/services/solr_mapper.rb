@@ -3,6 +3,8 @@
 # Map from Dataworks metadata to Solr metadata
 # rubocop:disable Metrics/ClassLength
 class SolrMapper
+  include ApplicationHelper
+
   # Solr field of type text allows up to 32_766 characters
   # but encoding can expand the length, so we are enforcing
   # a smaller length
@@ -52,7 +54,7 @@ class SolrMapper
                                                              TechnicalInfo]),
       language_ssi: metadata['language'],
       sizes_ssm: metadata['sizes'],
-      formats_ssim: metadata['formats'],
+      formats_ssim: formats_field,
       version_ss: metadata['version'],
       rights_uris_sim: rights_uris_field,
       affiliation_names_sim: affilation_names_field,
@@ -129,6 +131,11 @@ class SolrMapper
   # Replace slashes and periods with underscores for Solr id to support Blacklight catalog display
   def transform_id
     id.gsub(%r{[.,/]}, '_')
+  end
+
+  # Transform MIME type formats to friendly names
+  def formats_field
+    Array(metadata['formats']).filter_map { |format| mime_type_friendly_name(format) }.uniq
   end
 
   private
