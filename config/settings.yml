@@ -13,10 +13,10 @@ redivis:
   suppress:
     - ~
 
-# zenodo:
+zenodo:
 #   api_token: ~
-#   ignore:
-#     - ~
+  ignore:
+    - 10.5281/zenodo.17306298"
 
 datacite:
   username: ~
