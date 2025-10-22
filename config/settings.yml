@@ -114,7 +114,6 @@ dor_services:
 
 honeybadger:
   datacite_extract_job_stanford_university_checkin: ~
-  datacite_extract_job_sul_openneuro_checkin: ~
   datacite_extract_job_sul_checkin: ~
   zenodo_extract_job_checkin: ~
   redivis_extract_job_stanfordphs_checkin: ~
