@@ -79,9 +79,10 @@ datacite:
     - 10.7288/v4/magic/19922
     - 10.7288/v4/magic/20328
 
-# dryad:
-#   ignore:
-#     - ~
+dryad:
+   ignore:
+    # Has empty creator with no name and just name type, i.e. { name_type: 'Personal' }
+    - doi:10.5061/dryad.k3j9kd5ng
 
 # searchworks:
 #   ignore:
