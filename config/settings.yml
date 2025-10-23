@@ -108,10 +108,6 @@ purl_fetcher:
 purl:
   url: https://purl.stanford.edu
 
-dor_services:
-  url: https://dor-services-prod-lb.stanford.edu
-  token: ~
-
 honeybadger:
   datacite_extract_job_stanford_university_checkin: ~
   datacite_extract_job_sul_checkin: ~
