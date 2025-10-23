@@ -28,10 +28,6 @@ production:
     class: DataciteExtractJob
     args: [{ affiliation: "Stanford University", affiliation_id: "https://ror.org/00f54p054" }]
     schedule: every sunday
-  open_neuro_etl:
-    class: DataciteExtractJob
-    args: [{ client_id: "sul.openneuro" }]
-    schedule: every monday
   datacite_provider_etl:
     class: DataciteExtractJob
     args: [{ provider_id: "sul" }]
