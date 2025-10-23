@@ -16,7 +16,7 @@ redivis:
 zenodo:
 #   api_token: ~
   ignore:
-    - 10.5281/zenodo.17306298"
+    - 10.5281/zenodo.17306298
 
 datacite:
   username: ~
@@ -78,6 +78,8 @@ datacite:
     - 10.7288/v4/magic/19822
     - 10.7288/v4/magic/19922
     - 10.7288/v4/magic/20328
+    # name type without any name
+    - 10.5281/zenodo.17306298
 
 dryad:
    ignore:
