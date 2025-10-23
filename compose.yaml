@@ -12,9 +12,19 @@ services:
 
   solr:
     image: solr:9.6.1
-    command: solr-create -c dataworks
+    volumes:
+      - index:/var/solr
+      # Use the solr config from the DWExperimentsBlacklight repo
+      # If the repos aren't stored in the same parent directory, this will error
+      - ../DWExperimentsBlacklight/solr/conf:/solr-setup/conf
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - dataworks
+      - /solr-setup/conf
     ports:
       - 8983:8983
 
 volumes:
   postgres-data:
+  index:
