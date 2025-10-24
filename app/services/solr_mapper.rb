@@ -35,10 +35,8 @@ class SolrMapper
       descriptions_tsim: descriptions_field,
       doi_ssi: doi,
       provider_identifier_ssi: provider_identifier_field,
-      creators_ssim: person_or_organization_names_field('creators'),
-      creators_ids_sim: person_or_organization_ids_field('creators'),
-      contributors_ssim: person_or_organization_names_field('contributors'),
-      contributors_ids_sim: person_or_organization_ids_field('contributors'),
+      contributors_ssim: person_or_organization_names_fields('creators', 'contributors'),
+      contributors_ids_sim: person_or_organization_ids_fields('creators', 'contributors'),
       funders_ssim: funders_field,
       funders_ids_sim: funders_ids_field,
       url_ss: metadata['url'],
@@ -81,10 +79,13 @@ class SolrMapper
     end
   end
 
-  def person_or_organization_ids_field(field)
-    Array(metadata[field]).map do |creator|
-      creator['name_identifiers']&.pluck('name_identifier')
-    end.flatten.compact
+  # Get the name IDs for everything in the given fields (creators, contributors)
+  def person_or_organization_ids_fields(*fields)
+    fields.flat_map do |field|
+      Array(metadata[field]).map do |creator|
+        creator['name_identifiers']&.pluck('name_identifier')
+      end.flatten.compact
+    end.uniq
   end
 
   def funders_field
@@ -151,8 +152,9 @@ class SolrMapper
     end
   end
 
-  def person_or_organization_names_field(field)
-    metadata[field]&.pluck('name')
+  # Get the names for everything in the given fields (creators, contributors)
+  def person_or_organization_names_fields(*fields)
+    fields.flat_map { |field| metadata[field]&.pluck('name') }.compact.uniq
   end
 
   def struct_fields
