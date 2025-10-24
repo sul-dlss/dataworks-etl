@@ -82,6 +82,8 @@ datacite:
     - 10.7288/v4/magic/20328
     # name type without any name
     - 10.5281/zenodo.17306298
+    # date element missing although date property is present
+    - 10.48322/22dk-a715
 
 dryad:
    ignore:
