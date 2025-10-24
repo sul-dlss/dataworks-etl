@@ -84,6 +84,26 @@ datacite:
     - 10.5281/zenodo.17306298
     # date element missing although date property is present
     - 10.48322/22dk-a715
+    # Additional failing elements
+    - 10.48322/4x4p-sr85
+    - 10.48322/f9tw-dz15
+    - 10.48322/f2z0-rs29
+    - 10.48322/e9dg-yp34
+    - 10.48322/mn3e-wv09
+    - 10.48322/k5gw-7c10
+    - 10.48322/v6me-8w52
+    - 10.48322/2q9m-hj09
+    - 10.48322/mebd-jv40
+    - 10.48322/qa09-xp16
+    - 10.48322/hsx6-rz81
+    - 10.48322/m86t-bh26
+    - 10.48322/m97j-0816
+    - 10.48322/ejj7-n105
+    - 10.48322/pbwn-9t13
+    - 10.48322/f3t3-n879
+    - 10.48322/8bnw-ag97
+    - 10.48322/sjvb-rb76
+    - 10.48322/nvsm-n779
 
 dryad:
    ignore:
