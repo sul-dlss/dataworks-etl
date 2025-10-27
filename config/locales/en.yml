@@ -28,4 +28,64 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  dataworks_etl:
+    format:
+      application:
+        dbf: Shapefile
+        fits: FITS
+        gzip: Gzip Archive
+        json: JSON
+        jsonl: JSON
+        matlab-mat: MATLAB
+        msword: Word Document
+        pdf: PDF
+        prj: Shapefile
+        rar: RAR Archive
+        sbn: Shapefile
+        sbx: Shapefile
+        shp: Shapefile
+        shx: Shapefile
+        vnd-apache-arrow-stream: Arrow
+        vnd-ms-excel: Excel Spreadsheet
+        vnd-openxmlformats-officedocument-spreadsheetml-sheet: Excel Spreadsheet
+        vnd-openxmlformats-officedocument-wordprocessingml-document: Word Document
+        warc: Web Archive
+        x-7z-compressed: 7-Zip Archive
+        x-avro: Avro
+        x-gzip: Gzip Archive
+        x-h5: HDF5
+        x-hdf5: HDF5
+        x-ipynb-json: Jupyter Notebook
+        x-ndjson: JSON
+        x-parquet: Parquet
+        x-rar-compressed: RAR Archive
+        x-rlang-transport: R
+        x-sas-data: SAS
+        x-sas-syntax: SAS
+        x-spss-sav: SPSS
+        x-stata: Stata
+        x-stata-13: Stata
+        x-stata-14: Stata
+        x-stata-ado: Stata
+        x-stata-dta: Stata
+        x-stata-smcl: Stata
+        x-stata-syntax: Stata
+        x-tar: Tar Archive
+        x-xz: XZ Archive
+      text:
+        comma-separated-values: CSV
+        css: CSS
+        csv: CSV
+        html: HTML
+        markdown: Markdown
+        plain: Plain Text
+        rtf: RTF
+        x-c: C
+        x-fixed-field: Fixed Width Text
+        x-python-script: Python
+        x-r-notebook: R Notebook
+        x-r-source: R
+        x-stata-syntax: Stata
+        xml: XML
+      type:
+        x-r-syntax: R
