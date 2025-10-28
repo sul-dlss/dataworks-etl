@@ -14,6 +14,10 @@ RSpec.describe DataworksMappers::Sdr do
     )
   end
 
+  it 'sets the stanford project flag to true' do
+    expect(metadata[:stanford_project]).to be_truthy
+  end
+
   context 'with creators' do
     # sdr.json fixture has old-style affiliation data as notes; this one is newer
     # See: https://github.com/sul-dlss/cocina-models/issues/816

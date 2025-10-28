@@ -33,7 +33,8 @@ module DataworksMappers
         related_items:,
         url:,
         access:,
-        provider: 'SDR'
+        provider: 'SDR',
+        stanford_project: true
       }.compact_blank
     end
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
