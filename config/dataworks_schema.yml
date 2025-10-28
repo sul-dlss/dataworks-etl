@@ -115,6 +115,9 @@ properties:
     items:
       $ref: '#/components/schemas/GeoLocation'
     minItems: 1
+  stanford_project:
+    description: Boolean true/false specifying a project as Stanford related or not
+    type: boolean
 required:
   - titles
   - publication_year

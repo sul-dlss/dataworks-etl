@@ -64,7 +64,9 @@ RSpec.describe SolrMapper do
             temporal_isim: [2022],
             courses_sim: ['CS246'],
             provider_identifier_map_struct_ss: '{"DataCite":"10.1234/5678","Redivis":"redivis-123"}',
-            geo_place_ssim: ['Vancouver, British Columbia, Canada', 'Victoria, British Columbia, Canada']
+            geo_place_ssim: ['Vancouver, British Columbia, Canada', 'Victoria, British Columbia, Canada'],
+            stanford_project_ssi: true,
+            stanford_contributor_ssi: true
           }
         )
       end
@@ -353,6 +355,44 @@ RSpec.describe SolrMapper do
 
     it 'replaces characters correctly' do
       expect(solr_mapper.transform_id).to eq('10_1234_5678')
+    end
+  end
+
+  describe '#stanford_contributor' do
+    context 'when the creator affiliation name starts with Stanford' do
+      let(:metadata) do
+        {
+          creators: [
+            {
+              affiliation: [
+                {
+                  name: 'Stanford University'
+                }
+              ]
+            }
+          ]
+        }
+      end
+
+      it 'identifies the dataset as having a stanford contributor' do
+        expect(solr_mapper.stanford_contributor).to be_truthy
+      end
+    end
+
+    context 'when the creator name is Stanford University' do
+      let(:metadata) do
+        {
+          creators: [
+            {
+              name: 'Stanford University'
+            }
+          ]
+        }
+      end
+
+      it 'identifies the dataset as having a stanford contributor' do
+        expect(solr_mapper.stanford_contributor).to be_truthy
+      end
     end
   end
 end

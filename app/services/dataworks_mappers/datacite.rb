@@ -26,7 +26,8 @@ module DataworksMappers
         url: attrs[:url],
         access: 'Public', # TODO: Hardcoded for now, but needs additional consideration
         provider: 'DataCite',
-        geo_locations:
+        geo_locations:,
+        stanford_project:
       }.compact_blank
     end
 
@@ -168,6 +169,12 @@ module DataworksMappers
       total_size = byte_sizes.map(&method(:number_from_human_size)).sum
       sizes.push ActiveSupport::NumberHelper.number_to_human_size(total_size) if total_size.positive?
       sizes.uniq
+    end
+
+    # If the provider is "sul", we identify this dataset as related to a Stanford project
+    def stanford_project
+      provider_id = source.dig(:data, :relationships, :provider, :data, :id)
+      provider_id == 'sul'
     end
   end
 end
