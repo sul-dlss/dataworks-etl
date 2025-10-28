@@ -394,5 +394,26 @@ RSpec.describe SolrMapper do
         expect(solr_mapper.stanford_contributor).to be_truthy
       end
     end
+
+    context 'when the creator id is Stanford University RoR Id' do
+      let(:metadata) do
+        {
+          creators: [
+            {
+              name_identifiers: [
+                {
+                  name_identifier: 'https://ror.org/00f54p054',
+                  name_identifier_scheme: 'ROR'
+                }
+              ]
+            }
+          ]
+        }
+      end
+
+      it 'identifies the dataset as having a stanford contributor' do
+        expect(solr_mapper.stanford_contributor).to be_truthy
+      end
+    end
   end
 end
