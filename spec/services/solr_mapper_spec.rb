@@ -358,7 +358,7 @@ RSpec.describe SolrMapper do
     end
   end
 
-  describe '#stanford_contributor' do
+  describe '#stanford_contributor?' do
     context 'when the creator affiliation name starts with Stanford' do
       let(:metadata) do
         {
@@ -375,7 +375,7 @@ RSpec.describe SolrMapper do
       end
 
       it 'identifies the dataset as having a stanford contributor' do
-        expect(solr_mapper.stanford_contributor).to be_truthy
+        expect(solr_mapper).to be_stanford_contributor
       end
     end
 
@@ -391,7 +391,7 @@ RSpec.describe SolrMapper do
       end
 
       it 'identifies the dataset as having a stanford contributor' do
-        expect(solr_mapper.stanford_contributor).to be_truthy
+        expect(solr_mapper).to be_stanford_contributor
       end
     end
 
@@ -412,7 +412,7 @@ RSpec.describe SolrMapper do
       end
 
       it 'identifies the dataset as having a stanford contributor' do
-        expect(solr_mapper.stanford_contributor).to be_truthy
+        expect(solr_mapper).to be_stanford_contributor
       end
     end
   end

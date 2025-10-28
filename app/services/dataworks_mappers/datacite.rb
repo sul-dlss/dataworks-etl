@@ -27,7 +27,7 @@ module DataworksMappers
         access: 'Public', # TODO: Hardcoded for now, but needs additional consideration
         provider: 'DataCite',
         geo_locations:,
-        stanford_project:
+        stanford_project: stanford_project?
       }.compact_blank
     end
 
@@ -172,7 +172,7 @@ module DataworksMappers
     end
 
     # If the provider is "sul", we identify this dataset as related to a Stanford project
-    def stanford_project
+    def stanford_project?
       provider_id = source.dig(:data, :relationships, :provider, :data, :id)
       provider_id == 'sul'
     end

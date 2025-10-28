@@ -62,7 +62,7 @@ class SolrMapper
       geo_place_ssim: geo_locations_field,
       provider_identifier_map_struct_ss: provider_identifiers_map.presence&.to_json,
       stanford_project_ssi: metadata['stanford_project'],
-      stanford_contributor_ssi: stanford_contributor
+      stanford_contributor_ssi: stanford_contributor?
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -142,7 +142,7 @@ class SolrMapper
   end
 
   # Specify whether the dataset has Stanford affiliated contributors
-  def stanford_contributor
+  def stanford_contributor?
     # Are creator or contributor names equivalent to "Stanford University"?
     # We don't want to check if the name starts with "Stanford" to prevent person names from coming through
     return true if person_or_organization_names_fields('creators', 'contributors').any? do |name|
