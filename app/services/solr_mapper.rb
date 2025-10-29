@@ -60,7 +60,9 @@ class SolrMapper
       temporal_isim: temporal_field,
       courses_sim: courses,
       geo_place_ssim: geo_locations_field,
-      provider_identifier_map_struct_ss: provider_identifiers_map.presence&.to_json
+      provider_identifier_map_struct_ss: provider_identifiers_map.presence&.to_json,
+      stanford_project_ssi: metadata['stanford_project'],
+      stanford_contributor_ssi: stanford_contributor?
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -139,6 +141,26 @@ class SolrMapper
     Array(metadata['formats']).filter_map { |format| mime_type_friendly_name(format) }.uniq
   end
 
+  # Specify whether the dataset has Stanford affiliated contributors
+  def stanford_contributor?
+    # Are creator or contributor names equivalent to "Stanford University"?
+    # We don't want to check if the name starts with "Stanford" to prevent person names from coming through
+    return true if person_or_organization_names_fields('creators', 'contributors').any? do |name|
+      name.downcase == 'stanford university'
+    end
+
+    # Do affiliation names for creators or contributors start with "Stanford"? This would cover
+    # cases like "Stanford Center for Population Health Sciences" as well as "Stanford University" etc,
+    return true if affilation_names_field.any? { |name| name.start_with?('Stanford') }
+
+    # Do any of the affiliation ids or creator/contributor ids equal the RoR id for Stanford?
+    contributor_ids = person_or_organization_ids_fields('creators', 'contributors')
+    affiliation_ids = affiliation_ids_for_role('creators').concat(affiliation_ids_for_role('contributors'))
+    return true if affiliation_ids.concat(contributor_ids).uniq.any? { |id| id == 'https://ror.org/00f54p054' }
+
+    false
+  end
+
   private
 
   attr_reader :metadata, :doi, :id, :load_id, :provider_identifiers_map
@@ -195,6 +217,13 @@ class SolrMapper
   def affiliation_names_for_role(role)
     Array(metadata[role]).flat_map do |role_entity|
       role_entity['affiliation']&.pluck('name')
+    end&.compact
+  end
+
+  # Retrieve affiliation ids array given either creator or contributor field
+  def affiliation_ids_for_role(role)
+    Array(metadata[role]).flat_map do |role_entity|
+      role_entity['affiliation']&.pluck('affiliationIdentifier')
     end&.compact
   end
 

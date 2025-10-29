@@ -234,5 +234,6 @@
     {
       "geo_location_place": "Victoria, British Columbia, Canada"
     }
-  ]
+  ],
+  "stanford_project": true
 }

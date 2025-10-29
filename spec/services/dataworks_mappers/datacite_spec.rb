@@ -727,4 +727,12 @@ RSpec.describe DataworksMappers::Datacite do
       expect(metadata[:sizes]).to eq(['90 pages', '5.51 GB'])
     end
   end
+
+  context 'with a provider that is not sul' do
+    before { source['data']['relationships']['provider']['data']['id'] = 'sul' }
+
+    it 'sets the Stanford project flag corectly' do
+      expect(metadata[:stanford_project]).to be(true)
+    end
+  end
 end
