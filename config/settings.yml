@@ -104,6 +104,54 @@ datacite:
     - 10.48322/8bnw-ag97
     - 10.48322/sjvb-rb76
     - 10.48322/nvsm-n779
+  suppress:
+    # Datasets we do not want to bring in from Redivis instances through any queries
+    # Shah Lab
+    - 10.57761/vjfj-f076
+    - 10.57761/7hh9-gd47
+    - 10.57761/39m5-mp81
+    - 10.57761/ngh9-6h30 
+    # Previous version DOIs of these Shah Lab datasets - based on DataCite relationships
+    - 10.57761/0gv9-nd83
+    - 10.57761/d9mk-0732
+    - 10.57761/2a9p-5155
+    - 10.57761/nx9z-w529
+    - 10.57761/trbe-8t18
+    - 10.57761/r819-9y68
+    - 10.57761/m28m-xc83
+    # Taking the pulse of the planet. 1 dataset, canonical and other versions.
+    - 10.57761/kqv4-9d93
+    - 10.57761/j3m1-pn59
+    - 10.57761/ykqw-gv69
+    - 10.57761/nefx-ye49
+    - 10.57761/2beg-kv51
+    - 10.57761/6rwc-by64
+    - 10.57761/pmsy-x075
+    - 10.57761/54t4-6624
+    - 10.57761/acsb-t215
+    - 10.57761/aeja-wg14
+    - 10.57761/2yzx-pg12
+    - 10.57761/mte3-nz45
+    - 10.57761/tw4d-8n36
+    - 10.57761/mr9y-kp21
+    - 10.57761/2pq2-b643
+    - 10.57761/nk3p-7g28
+    - 10.57761/2v11-1m39
+    - 10.57761/mmne-nt25
+    - 10.57761/2rzd-8e85
+    - 10.57761/9v1w-nc19
+    - 10.57761/s6kr-xz27
+    - 10.57761/g37v-5902
+    - 10.57761/5x9t-tp11
+    - 10.57761/wtaq-9c77
+    - 10.57761/y7x5-s351
+    - 10.57761/6kw2-n710
+    - 10.57761/2edy-3d29
+    - 10.57761/qy1r-er72
+    - 10.57761/syyy-d264
+    - 10.57761/v5rc-s420
+    - 10.57761/bpvs-7y03
+    - 10.57761/f2w6-2s37
 
 dryad:
    ignore:
