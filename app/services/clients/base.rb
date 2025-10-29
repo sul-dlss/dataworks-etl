@@ -50,7 +50,7 @@ module Clients
         max: 10,
         interval: 5.0,
         backoff_factor: 2,
-        retry_statuses: [429, 500, 502, 503]
+        retry_statuses: [429, 500, 502, 503, 504]
       }
     end
   end
