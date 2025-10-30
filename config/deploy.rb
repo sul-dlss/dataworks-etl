@@ -53,6 +53,10 @@ before 'deploy:restart', 'shared_configs:update'
 set :solid_queue_systemd_role, :app
 set :solid_queue_systemd_use_hooks, true
 
+# Manage racecar via systemd (from dlss-capistrano gem)
+set :racecar_systemd_role, :indexer
+set :racecar_systemd_use_hooks, true
+
 # configure capistrano-rails to work with propshaft instead of sprockets
 # (we don't have public/assets/.sprockets-manifest* or public/assets/manifest*.*)
 set :assets_manifests, lambda {

@@ -46,6 +46,7 @@ gem 'thruster', require: false
 # Application gems
 gem 'cocina_display', '~> 1' # For parsing SDR datasets
 gem 'config'
+gem 'dor-event-client', '~> 1.1' # For reporting indexing status to SDR
 gem 'edtf'
 gem 'faraday'
 gem 'faraday-follow_redirects'
@@ -57,7 +58,7 @@ gem 'marc', '~> 1.3' # For SearchWorks MARC records
 gem 'mime-types', '~> 3.7' # For friendlier format names
 gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
-gem 'purl_fetcher-client', '~> 3.1' # For fetching SDR datasets
+gem 'racecar', '~> 2.12' # For monitoring Kafka indexing queues
 gem 'rsolr'
 
 group :development, :test do

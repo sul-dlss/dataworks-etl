@@ -18,7 +18,7 @@ class SolrMapper
   # @param id [String] the ID of the dataset
   # @param load_id [String] the ID of the load
   # @param provider_identifiers_map [Hash<String,String>] a map of provider identifiers to their values
-  def initialize(metadata:, doi:, id:, load_id:, provider_identifiers_map:)
+  def initialize(metadata:, doi:, id:, load_id: nil, provider_identifiers_map: {})
     @metadata = metadata.with_indifferent_access
     @doi = doi
     @id = id
