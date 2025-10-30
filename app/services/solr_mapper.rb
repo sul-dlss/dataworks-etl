@@ -62,7 +62,8 @@ class SolrMapper
       geo_place_ssim: geo_locations_field,
       provider_identifier_map_struct_ss: provider_identifiers_map.presence&.to_json,
       stanford_project_ssi: metadata['stanford_project'],
-      stanford_contributor_ssi: stanford_contributor?
+      stanford_contributor_ssi: stanford_contributor?,
+      stanford_dataset_ssi: metadata['stanford_project'] || stanford_contributor?
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
