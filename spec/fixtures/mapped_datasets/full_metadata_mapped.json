@@ -235,5 +235,11 @@
       "geo_location_place": "Victoria, British Columbia, Canada"
     }
   ],
-  "stanford_project": true
+  "stanford_project": true,
+  "access_contact": [
+    {
+      "name": "Contact Person",
+      "email": "contact@contact.com"
+    }
+  ]
 }

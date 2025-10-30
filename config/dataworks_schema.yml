@@ -118,6 +118,11 @@ properties:
   stanford_project:
     description: Boolean true/false specifying a project as Stanford related or not
     type: boolean
+  access_contact:
+    description: Access information for contact person for dataset.
+    type: array
+    items:
+      $ref: '#/components/schemas/AccessContact'
 required:
   - titles
   - publication_year
@@ -128,6 +133,13 @@ required:
 additionalProperties: false
 components:
   schemas:
+    AccessContact:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
     Contributor:
       allOf:
         - $ref: '#/components/schemas/PersonOrOrganization'

@@ -34,7 +34,8 @@ module DataworksMappers
         url:,
         access:,
         provider: 'SDR',
-        stanford_project: true
+        stanford_project: true,
+        access_contact:
       }.compact_blank
     end
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
@@ -162,6 +163,13 @@ module DataworksMappers
     # Get the year values for all dates of a given type
     def date_years_by_type(type)
       all_dates.filter { |d| d.date_type == type }.map(&:year).compact
+    end
+
+    # Get the access contact information
+    def access_contact
+      record.access_contacts.select(&:contact_email?).map do |access|
+        { email: access.to_s }
+      end
     end
 
     # Cached copy of the Cocina record object
