@@ -65,8 +65,9 @@ RSpec.describe SolrMapper do
             courses_sim: ['CS246'],
             provider_identifier_map_struct_ss: '{"DataCite":"10.1234/5678","Redivis":"redivis-123"}',
             geo_place_ssim: ['Vancouver, British Columbia, Canada', 'Victoria, British Columbia, Canada'],
-            stanford_project_ssi: true,
-            stanford_contributor_ssi: true,
+            stanford_project_bsi: true,
+            stanford_contributor_bsi: true,
+            stanford_dataset_bsi: true,
             access_contact_struct_ss: '[{"name":"Contact Person","email":"contact@contact.com"}]'
           }
         )
@@ -414,6 +415,60 @@ RSpec.describe SolrMapper do
 
       it 'identifies the dataset as having a stanford contributor' do
         expect(solr_mapper).to be_stanford_contributor
+      end
+    end
+
+    context 'when dataset is Stanford project but not contributor' do
+      let(:metadata) do
+        {
+          creators: [
+            {
+              name: 'Ultron Avenger'
+            }
+          ],
+          stanford_project: true,
+          titles: [{ title: 'My title' }],
+          publication_year: '2023',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+          url: 'https://example.com/my-dataset',
+          access: 'Public',
+          provider: 'DataCite'
+        }
+      end
+
+      it 'identifies dataset as a Stanford dataset' do
+        expect(solr_mapper.call).to include(
+          stanford_dataset_bsi: true
+        )
+      end
+    end
+
+    context 'when dataset is Stanford contributor but not project' do
+      let(:metadata) do
+        {
+          titles: [{ title: 'My title' }],
+          publication_year: '2023',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+          url: 'https://example.com/my-dataset',
+          access: 'Public',
+          provider: 'DataCite',
+          creators: [
+            {
+              name_identifiers: [
+                {
+                  name_identifier: 'https://ror.org/00f54p054',
+                  name_identifier_scheme: 'ROR'
+                }
+              ]
+            }
+          ]
+        }
+      end
+
+      it 'identifies dataset as a Stanford dataset' do
+        expect(solr_mapper.call).to include(
+          stanford_dataset_bsi: true
+        )
       end
     end
   end
