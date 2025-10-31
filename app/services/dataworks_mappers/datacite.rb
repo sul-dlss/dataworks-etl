@@ -27,7 +27,8 @@ module DataworksMappers
         access: 'Public', # TODO: Hardcoded for now, but needs additional consideration
         provider: 'DataCite',
         geo_locations:,
-        stanford_project: stanford_project?
+        stanford_project: stanford_project?,
+        access_contact:
       }.compact_blank
     end
 
@@ -177,6 +178,14 @@ module DataworksMappers
     def stanford_project?
       provider_id = source.dig(:data, :relationships, :provider, :data, :id)
       provider_id == 'sul'
+    end
+
+    # Get the access contact information
+    def access_contact
+      # Get the contact person from the creators or contributor roles, and utilize their names
+      people_or_organizations_for(attrs[:contributors]).filter_map do |contributor|
+        { name: contributor[:name] } if contributor[:contributor_type] == 'ContactPerson' && contributor[:name].present?
+      end
     end
   end
 end

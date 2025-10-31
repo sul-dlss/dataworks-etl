@@ -18,6 +18,10 @@ RSpec.describe DataworksMappers::Sdr do
     expect(metadata[:stanford_project]).to be_truthy
   end
 
+  it 'maps the access contact email address' do
+    expect(metadata[:access_contact]).to contain_exactly({ email: 'jth@stanford.edu' }, { email: 'jinmeng@lmsal.com' })
+  end
+
   context 'with creators' do
     # sdr.json fixture has old-style affiliation data as notes; this one is newer
     # See: https://github.com/sul-dlss/cocina-models/issues/816

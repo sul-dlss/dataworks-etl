@@ -189,7 +189,7 @@ class SolrMapper
 
   def struct_fields
     %w[creators contributors dates rights_list funding_references
-       related_identifiers].filter_map do |field|
+       related_identifiers access_contact].filter_map do |field|
       [:"#{field}_struct_ss", metadata[field]&.to_json]
     end.to_h
   end
