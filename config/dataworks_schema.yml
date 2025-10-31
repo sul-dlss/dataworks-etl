@@ -135,6 +135,11 @@ components:
   schemas:
     AccessContact:
       type: object
+      oneOf:
+        required:
+          - name
+        required:
+          - email
       properties:
         name:
           type: string
