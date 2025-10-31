@@ -67,7 +67,7 @@ RSpec.describe SolrMapper do
             geo_place_ssim: ['Vancouver, British Columbia, Canada', 'Victoria, British Columbia, Canada'],
             stanford_project_ssi: true,
             stanford_contributor_ssi: true,
-            stanford_dataset_ssi: true
+            stanford_dataset_ssi: true,
             access_contact_struct_ss: '[{"name":"Contact Person","email":"contact@contact.com"}]'
           }
         )
