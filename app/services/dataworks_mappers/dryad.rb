@@ -40,7 +40,8 @@ module DataworksMappers
         funding_references:,
         rights_list:,
         related_identifiers:,
-        version: source[:versionNumber].to_s
+        version: source[:versionNumber].to_s,
+        access_contact:
       }.compact_blank
     end
 
@@ -174,6 +175,19 @@ module DataworksMappers
       return unless source[:keywords]
 
       source[:keywords].map { |tag| { subject: tag } }
+    end
+
+    # Returns access contact information based on authors who have an email address
+    # and a name
+    def access_contact
+      Array(source[:authors]).filter_map do |author|
+        if author[:email].present?
+          {
+            name: "#{author[:firstName]} #{author[:lastName]}",
+            email: author[:email]
+          }.compact_blank
+        end
+      end
     end
   end
 end

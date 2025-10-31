@@ -77,7 +77,21 @@ RSpec.describe DataworksMappers::Dryad do
           }
         ],
         geo_locations: [{ geo_location_place: 'Apalachicola River basin, Florida' }],
-        version: '3'
+        version: '3',
+        access_contact: [
+          {
+            name: 'Emma Harrison',
+            email: 'ejharris@ucsd.edu'
+          },
+          {
+            name: 'Brandon McElroy',
+            email: 'bmcelroy@uwyo.edu'
+          },
+          {
+            name: 'Jane Willenbring',
+            email: 'willenbring@stanford.edu'
+          }
+        ]
       }
     )
   end

@@ -66,7 +66,8 @@ RSpec.describe SolrMapper do
             provider_identifier_map_struct_ss: '{"DataCite":"10.1234/5678","Redivis":"redivis-123"}',
             geo_place_ssim: ['Vancouver, British Columbia, Canada', 'Victoria, British Columbia, Canada'],
             stanford_project_ssi: true,
-            stanford_contributor_ssi: true
+            stanford_contributor_ssi: true,
+            access_contact_struct_ss: '[{"name":"Contact Person","email":"contact@contact.com"}]'
           }
         )
       end

@@ -713,6 +713,11 @@ RSpec.describe DataworksMappers::Datacite do
             resource_type_general: 'Other',
             related_identifier_type: 'DOI'
           }
+        ],
+        access_contact: [
+          {
+            name: 'ExampleFamilyName, ExampleGivenName'
+          }
         ]
       }
     )
