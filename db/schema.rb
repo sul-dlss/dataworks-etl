@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_25_162621) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_03_220030) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,6 +46,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_25_162621) do
     t.index ["doi"], name: "index_dataset_records_on_doi"
     t.index ["provider", "dataset_id", "modified_token"], name: "idx_on_provider_dataset_id_modified_token_fa567d21be"
     t.index ["provider", "dataset_id", "source_md5"], name: "idx_on_provider_dataset_id_source_md5_f8fc00ab0d"
+  end
+
+  create_table "stanford_authors", force: :cascade do |t|
+    t.string "sunet_id"
+    t.string "full_name"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "orcid"
+    t.string "cap_profile_id"
+    t.string "email"
+    t.string "active"
+    t.string "departments", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cap_profile_id"], name: "index_stanford_authors_on_cap_profile_id"
   end
 
   add_foreign_key "dataset_record_associations", "dataset_record_sets"
