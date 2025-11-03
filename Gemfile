@@ -61,6 +61,7 @@ gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
 gem 'racecar', '~> 2.12' # For monitoring Kafka indexing queues
 gem 'rsolr'
+gem 'activerecord-import'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
