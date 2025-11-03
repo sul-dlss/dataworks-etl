@@ -76,35 +76,34 @@ namespace :development do # rubocop:disable Metrics/BlockLength
   end
 
   desc 'Load author CSV into database'
-  task :load_stanford_authors, [:file_path]  => :environment do |_t, args|
+  task :load_stanford_authors, [:file_path] => :environment do |_t, args|
     require 'csv'
     require 'activerecord-import'
     file_path = args[:file_path]
     full_path = Rails.root.join(file_path)
     puts "Loading file at #{full_path}"
-    
+
     import_records = []
     CSV.foreach(full_path, headers: true) do |row|
       import_records << StanfordAuthor.new(sunet_id: row['sunetid'],
-        cap_profile_id: row['cap_profile_id'],
-        full_name: row['full_name'],
-        first_name: row['first_name'],
-        last_name: row['last_name'],
-        orcid: row['orcidid'],
-        email: row['email'],
-        active: row['active'],
-        departments: row['all_departments']&.split("|")
-      )
+                                           cap_profile_id: row['cap_profile_id'],
+                                           full_name: row['full_name'],
+                                           first_name: row['first_name'],
+                                           last_name: row['last_name'],
+                                           orcid: row['orcidid'],
+                                           email: row['email'],
+                                           active: row['active'],
+                                           departments: row['all_departments']&.split('|'))
     end
 
     puts "Created records for import: #{import_records.length}"
     StanfordAuthor.import import_records
-    puts "Finished importing records"
+    puts 'Finished importing records'
   end
 
   desc 'Delete authors from stanford authors'
   task remove_stanford_authors: :environment do
     StanfordAuthor.delete_all
-    puts "Removed all Stanford authors"
+    puts 'Removed all Stanford authors'
   end
 end

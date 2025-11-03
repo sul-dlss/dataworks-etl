@@ -44,6 +44,7 @@ gem 'thruster', require: false
 # gem "image_processing", "~> 1.2"
 
 # Application gems
+gem 'activerecord-import'
 gem 'cocina_display', '~> 1' # For parsing SDR datasets
 gem 'config'
 gem 'dor-event-client', '~> 1.1' # For reporting indexing status to SDR
@@ -60,7 +61,6 @@ gem 'okcomputer'
 gem 'overmind' # Process manager for running Procfile.dev
 gem 'racecar', '~> 2.12' # For monitoring Kafka indexing queues
 gem 'rsolr'
-gem 'activerecord-import'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
