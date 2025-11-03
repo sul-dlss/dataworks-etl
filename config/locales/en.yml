@@ -80,6 +80,8 @@ en:
         markdown: Markdown
         plain: Plain Text
         rtf: RTF
+        tab-separated-values: TSV
+        tsv: TSV
         x-c: C
         x-fixed-field: Fixed Width Text
         x-python-script: Python
