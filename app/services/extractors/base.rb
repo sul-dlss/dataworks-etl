@@ -15,14 +15,16 @@ module Extractors
       @extra_dataset_ids = extra_dataset_ids
     end
 
-    # @return [DatasetRecordSet] the set of dataset records created
+    # Perform extraction and return the populated DatasetRecordSet
+    # @return [DatasetRecordSet]
     def call
-      dataset_record_set = DatasetRecordSet.create!(provider:, extractor: self.class.name, list_args: list_args.to_json)
+      dataset_record_set = create_dataset_record_set
 
       results.each do |result|
         dataset_record = find_or_create_dataset_record(result:)
         dataset_record_set.dataset_records << dataset_record
       end
+
       dataset_record_set.update!(complete: true)
       dataset_record_set
     end
@@ -30,6 +32,12 @@ module Extractors
     private
 
     attr_reader :client, :provider, :list_args, :extract_sleep, :extra_dataset_ids
+
+    # Create a new DatasetRecordSet to contain records from this run
+    # @return [DatasetRecordSet]
+    def create_dataset_record_set
+      DatasetRecordSet.create!(provider:, extractor: self.class.name, list_args: list_args.to_json)
+    end
 
     def results
       (extra_dataset_results + client.list(**list_args)).uniq(&:id)
