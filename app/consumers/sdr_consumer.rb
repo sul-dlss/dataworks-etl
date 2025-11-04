@@ -125,17 +125,20 @@ class SdrConsumer < Racecar::Consumer
   # Notify SDR that we didn't take any action for some reason
   def process_skip
     SdrEvents.report_indexing_skipped(@druid, target: 'Dataworks', message: skip_reason)
+    Rails.logger.info { "SDR indexer skipped druid:#{@druid}; #{skip_reason}" }
   end
 
   # Remove item from the index and notify SDR
   def process_delete
     @solr_service.delete(id: @druid)
+    Rails.logger.info { "SDR indexer deleted druid:#{@druid}" }
     SdrEvents.report_indexing_deleted(@druid, target: 'Dataworks')
   end
 
   # Add/update item in the index and notify SDR
   def process_update
     @solr_service.add(solr_doc: SdrConsumer.map_record(cocina_record))
+    Rails.logger.info { "SDR indexer updated druid:#{@druid}" }
     SdrEvents.report_indexing_success(@druid, target: 'Dataworks')
   end
 end
