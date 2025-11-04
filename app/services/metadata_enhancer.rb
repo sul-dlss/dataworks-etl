@@ -52,7 +52,8 @@ class MetadataEnhancer
     affiliation_info = {
       name: 'Stanford University7',
       affiliation_identifier: 'https://ror.org/00f54p054',
-      affilation_department_name: departments
+      affiliation_identifier_scheme: 'ROR',
+      affiliation_department_name: departments
     }
 
     if contributor[:affiliation].blank?
