@@ -311,7 +311,7 @@ components:
               affiliation_identifier_scheme:
                 type: string
                 enum:
-                  # These are the examples schemes from DataCite + CAPS. Additional schemes may be added.
+                  # These are the examples schemes from DataCite. Additional schemes may be added.
                   - GRID
                   - ISNI
                   - ROR
