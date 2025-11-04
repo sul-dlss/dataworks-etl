@@ -5,9 +5,9 @@ class CocinaService
   attr_reader :purl_url
 
   # Initialize the service
-  # @param purl_url [String] Base URL for PURL from which to fetch Cocina
-  def initialize(purl_url: Settings.purl.url)
-    @purl_url = purl_url
+  # @param purl_hostname [String] Base hostname for PURL to fetch Cocina
+  def initialize(purl_hostname: Settings.purl.hostname)
+    @purl_url = "https://#{purl_hostname}"
   end
 
   # Fetch the Cocina record from PURL for a given item by druid
