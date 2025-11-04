@@ -8,10 +8,10 @@ require 'socket'
 class SdrEvents
   class << self
     def configure(
-      hostname: ENV.fetch('SDR_EVENTS_MQ_HOSTNAME', ::Settings.sdr_events.mq.hostname),
-      vhost: ENV.fetch('SDR_EVENTS_MQ_VHOST', ::Settings.sdr_events.mq.vhost),
-      username: ENV.fetch('SDR_EVENTS_MQ_USERNAME', ::Settings.sdr_events.mq.username),
-      password: ENV.fetch('SDR_EVENTS_MQ_PASSWORD', ::Settings.sdr_events.mq.password)
+      hostname: Settings.sdr_events.mq.hostname,
+      vhost: Settings.sdr_events.mq.vhost,
+      username: Settings.sdr_events.mq.username,
+      password: Settings.sdr_events.mq.password
     )
       Dor::Event::Client.configure(hostname:, vhost:, username:, password:)
     end
