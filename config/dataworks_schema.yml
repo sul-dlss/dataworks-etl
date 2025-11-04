@@ -286,12 +286,13 @@ components:
               name_identifier_scheme:
                 type: string
                 enum:
-                  # These are the examples schemes from DataCite. Additional schemes may be added.
+                  # These are the examples schemes from DataCite + CAPS. Additional schemes may be added.
                   - ORCID
                   - ISNI
                   - ROR
                   - FundRef
                   - OpenAlex
+                  - CAPS
                   - Other
               required:
                 - name_identifier
@@ -310,10 +311,14 @@ components:
               affiliation_identifier_scheme:
                 type: string
                 enum:
-                  # These are the examples schemes from DataCite. Additional schemes may be added.
+                  # These are the examples schemes from DataCite + CAPS. Additional schemes may be added.
                   - GRID
                   - ISNI
                   - ROR
+              affiliation_department_name:
+                type: array
+                items:
+                  type: string
             anyOf:
               required:
                 - name

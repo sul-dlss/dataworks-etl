@@ -50,8 +50,14 @@ class DatasetTransformer
     Honeybadger.context(dataset_record_id: dataset_record.id, provider: dataset_record.provider,
                         dataset_id: dataset_record.dataset_id)
     metadata = mapper_for(dataset_record:).call(source: dataset_record.source)
+
+    # If item was on ignore list but metadata validation succeeds, notify
     check_mapping_success(dataset_record:)
 
+    # Add enhancements
+    metadata = enhance_metadata(mapped_record: metadata)
+
+    # Call the Solr mapper (or vertex related transformation)
     mapper_class.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
                       provider_identifiers_map:)
   rescue DataworksMappers::MappingError => e
@@ -103,5 +109,11 @@ class DatasetTransformer
   # Metadata standardization and cleanup
   def cleanup_metadata(solr_doc)
     MetadataCleaner.call(solr_doc:)
+  end
+
+  # Metadata enhancement one record at a time
+  # Parameter is the DataWorks schema record, not Solr record
+  def enhance_metadata(mapped_record:)
+    MetadataEnhancer.call(mapped_record:)
   end
 end
