@@ -75,17 +75,17 @@ class TransformerLoader
 
   def add_records
     solr_docs = transform_records
-    solr_docs.each do |solr_doc|
-      solr.add(solr_doc:) if load?
-      yield solr_doc if block_given?
-    end
+    # solr_docs.each do |solr_doc|
+    #  solr.add(solr_doc:) if load?
+    #  yield solr_doc if block_given?
+    # end
   rescue DataworksMappers::MappingError
     raise if fail_fast?
   ensure
-    solr.commit if load?
+    # solr.commit if load?
   end
 
   def delete_records
-    solr.delete_by_query(query: "-load_id_ssi:\"#{load_id}\"")
+    # solr.delete_by_query(query: "-load_id_ssi:\"#{load_id}\"")
   end
 end

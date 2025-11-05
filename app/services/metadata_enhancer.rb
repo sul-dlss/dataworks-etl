@@ -22,19 +22,27 @@ class MetadataEnhancer
     contributors = Array(@mapped_record[:creators]).concat(Array(@mapped_record[:contributors]))
     contributors.each do |contributor|
       # Does it have a name section with an identfier
-      name_identifiers = contributor[:name_identifiers] || []
+      name_identifiers = Array(contributor[:name_identifiers])
       # See if Orcid exists
       orcid = retrieve_metadata_orcid(name_identifiers:)
 
       if orcid.present?
         author = retrieve_stanford_author(orcid:)
         enhance_author(contributor:, author:) if author.present?
+        if author.present?
+          puts "AUTHOR IS PRESENT FOR #{orcid} #{author.departments}"
+          puts "AUTHOR SHOULD BE ENHANCED NOW"
+          puts @mapped_record[:creators]
+          puts @mapped_record[:contributors]
+          puts "----ADD STANFORD AUTHORS finished --"
+        end
       end
     end
   end
 
   # Add caps profile id and department names
   def enhance_author(contributor:, author:)
+    puts "ENHANCING AUTHOR #{author.orcid}"
     # Add cap profile id to the name identifiers
     cap_identifier = {
       'name_identifier' => author.cap_profile_id,
