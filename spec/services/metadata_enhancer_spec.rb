@@ -11,7 +11,7 @@ RSpec.describe MetadataEnhancer do
                            last_name: 'Researcher',
                            orcid: 'https://orcid.org/0000-0001-2345-6789',
                            email: 'test@test.com',
-                           active: true,
+                           active: "TRUE",
                            departments: ['Test Department 1', 'Test Department 2'])
   end
 
