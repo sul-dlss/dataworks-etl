@@ -11,7 +11,6 @@ class SolrService
   end
 
   def delete_by_query(query:)
-    # Allow OR queries with mm = 1
     solr.delete_by_query(query)
   end
 
