@@ -86,6 +86,13 @@ class TransformerLoader
   end
 
   def delete_records
-    solr.delete_by_query(query: "-load_id_ssi:\"#{load_id}\"")
+    # Re-include once SDR method has been incorporated or re-write
+    # solr.delete_by_query(query: "-load_id_ssi:\"#{load_id}\")
+    # Run a query to get all the ids that are NOT the current load id OR are not SDR with no load id
+    query = "(-load_id_ssi:\"#{load_id}\") OR NOT (provider_ssi:SDR AND -load_id_ssi:[* TO *])"
+    results = solr.get(params: {q: query, defType: 'edismax', mm: '1', fl: 'id', rows: 30000 })
+    solr_ids = results['response']['docs'].map { |d| d['id']}
+    # Delete the ids that result from the query above
+    solr.delete(id: solr_ids)
   end
 end
