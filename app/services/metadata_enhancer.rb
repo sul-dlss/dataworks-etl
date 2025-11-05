@@ -19,7 +19,7 @@ class MetadataEnhancer
   # Match stanford contributors and creators with Stanford authorrsbased on ORCIDs
   def add_stanford_authors
     # Do we have any ORCIDs?
-    contributors = (@mapped_record[:creators] || []).concat(@mapped_record[:contributors] || [])
+    contributors = Array(@mapped_record[:creators]).concat(Array(@mapped_record[:contributors]))
     contributors.each do |contributor|
       # Does it have a name section with an identfier
       name_identifiers = contributor[:name_identifiers] || []
