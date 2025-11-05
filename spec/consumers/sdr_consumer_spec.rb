@@ -18,6 +18,7 @@ RSpec.describe SdrConsumer do
   let(:message_contents) { { druid: 'druid:cz537wr8540', true_targets: ['Dataworks'] } }
   let(:solr_service) { instance_double(SolrService, delete: true, add: true) }
   let(:cocina_service) { instance_double(CocinaService, cocina_record: record) }
+  let(:sdr_set) { DatasetRecordSet.find_or_create_by!(provider: 'sdr', complete: true) }
 
   before do
     allow(Settings).to receive_messages(
@@ -36,10 +37,39 @@ RSpec.describe SdrConsumer do
   end
 
   describe '#process' do
+    context 'when the item is in the database already' do
+      before do
+        DatasetRecord.create!(
+          provider: 'sdr',
+          dataset_id: 'cz537wr8540',
+          source: {},
+          dataset_record_set_ids: [sdr_set.id]
+        )
+      end
+
+      it 'updates the item in the database' do
+        consumer.process(message)
+        dataset_record = DatasetRecord.find_by(provider: 'sdr', dataset_id: 'cz537wr8540')
+        expect(dataset_record.source).to eq(cocina)
+      end
+    end
+
+    context 'when the item is not in the database' do
+      it 'creates the item in the database' do
+        consumer.process(message)
+        dataset_record = DatasetRecord.find_by(provider: 'sdr', dataset_id: 'cz537wr8540')
+        expect(dataset_record.source).to eq(cocina)
+      end
+    end
+
     it 'sends the mapped item to Solr' do
       solr_doc = described_class.map_record(record)
       consumer.process(message)
       expect(solr_service).to have_received(:add).with(solr_doc: solr_doc)
+    end
+
+    it 'notifies SDR of successful indexing' do
+      consumer.process(message)
       expect(SdrEvents).to have_received(:report_indexing_success).with('cz537wr8540', target: 'Dataworks')
     end
 
@@ -47,10 +77,14 @@ RSpec.describe SdrConsumer do
       let(:targets) { ['PURL Sitemap', 'Searchworks'] }
       let(:message_contents) { { druid: 'druid:cz537wr8540', true_targets: ['purl sitemap', 'SearchWorks'] } }
 
-      it 'sends the mapped item to Solr and notifies SDR' do
+      it 'sends the mapped item to Solr' do
         solr_doc = described_class.map_record(record)
         consumer.process(message)
         expect(solr_service).to have_received(:add).with(solr_doc: solr_doc)
+      end
+
+      it 'notifies SDR of successful indexing' do
+        consumer.process(message)
         expect(SdrEvents).to have_received(:report_indexing_success).with('cz537wr8540', target: 'Dataworks')
       end
     end
@@ -68,9 +102,35 @@ RSpec.describe SdrConsumer do
     context 'when the kafka message had no content' do
       let(:message_contents) { nil }
 
-      it 'executes a delete and notifies SDR' do
+      context 'when the item is in the database already' do
+        before do
+          DatasetRecord.create!(
+            provider: 'sdr',
+            dataset_id: 'cz537wr8540',
+            source: {},
+            dataset_record_set_ids: [sdr_set.id]
+          )
+        end
+
+        it 'removes the item from the database' do
+          consumer.process(message)
+          expect(DatasetRecord.find_by(provider: 'sdr', dataset_id: 'cz537wr8540')).to be_nil
+        end
+      end
+
+      context 'when the item is not in the database' do
+        it 'does not raise an error' do
+          expect { consumer.process(message) }.not_to raise_error
+        end
+      end
+
+      it 'removes the item from the index' do
         consumer.process(message)
         expect(solr_service).to have_received(:delete).with(id: 'cz537wr8540')
+      end
+
+      it 'notifies SDR' do
+        consumer.process(message)
         expect(SdrEvents).to have_received(:report_indexing_deleted).with('cz537wr8540', target: 'Dataworks')
       end
     end
@@ -83,9 +143,35 @@ RSpec.describe SdrConsumer do
         }
       end
 
-      it 'executes a delete and notifies SDR' do
+      context 'when the item is in the database already' do
+        before do
+          DatasetRecord.create!(
+            provider: 'sdr',
+            dataset_id: 'cz537wr8540',
+            source: {},
+            dataset_record_set_ids: [sdr_set.id]
+          )
+        end
+
+        it 'removes the item from the database' do
+          consumer.process(message)
+          expect(DatasetRecord.find_by(provider: 'sdr', dataset_id: 'cz537wr8540')).to be_nil
+        end
+      end
+
+      context 'when the item is not in the database' do
+        it 'does not raise an error' do
+          expect { consumer.process(message) }.not_to raise_error
+        end
+      end
+
+      it 'removes the item from the index' do
         consumer.process(message)
         expect(solr_service).to have_received(:delete).with(id: 'cz537wr8540')
+      end
+
+      it 'notifies SDR' do
+        consumer.process(message)
         expect(SdrEvents).to have_received(:report_indexing_deleted).with('cz537wr8540', target: 'Dataworks')
       end
     end
@@ -95,9 +181,13 @@ RSpec.describe SdrConsumer do
         allow(cocina_service).to receive(:cocina_record).and_raise(Faraday::ResourceNotFound)
       end
 
-      it 'skips indexing and notifies SDR' do
+      it 'skips indexing' do
         consumer.process(message)
         expect(solr_service).not_to have_received(:add)
+      end
+
+      it 'notifies SDR' do
+        consumer.process(message)
         expect(SdrEvents).to have_received(:report_indexing_skipped).with(
           'cz537wr8540',
           target: 'Dataworks',
@@ -108,13 +198,17 @@ RSpec.describe SdrConsumer do
 
     context 'when the item is not a self-deposited dataset' do
       before do
-        # Remove the self-deposit resource type
+        # Remove the self-deposit resource type from the item
         cocina['description']['form'][0] = {}
       end
 
-      it 'skips indexing and notifies SDR' do
+      it 'skips indexing' do
         consumer.process(message)
         expect(solr_service).not_to have_received(:add)
+      end
+
+      it 'notifies SDR' do
+        consumer.process(message)
         expect(SdrEvents).to have_received(:report_indexing_skipped).with(
           'cz537wr8540',
           target: 'Dataworks',
@@ -130,9 +224,13 @@ RSpec.describe SdrConsumer do
         cocina['access']['download'] = 'none'
       end
 
-      it 'skips indexing and notifies SDR' do
+      it 'skips indexing' do
         consumer.process(message)
         expect(solr_service).not_to have_received(:add)
+      end
+
+      it 'notifies SDR' do
+        consumer.process(message)
         expect(SdrEvents).to have_received(:report_indexing_skipped).with(
           'cz537wr8540',
           target: 'Dataworks',

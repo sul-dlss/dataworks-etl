@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Harvest and index datasets published from SDR
+# Incrementally harvest, store, and index datasets published from SDR
+# rubocop:disable Metrics/ClassLength
 class SdrConsumer < Racecar::Consumer
   subscribes_to Settings.indexer_topic
   self.group_id = Settings.indexer_group
@@ -51,7 +52,7 @@ class SdrConsumer < Racecar::Consumer
     return process_skip if should_skip?
 
     process_update
-  rescue StandardError => e
+  rescue DataworksMappers::MappingError => e
     context = { druid: @druid, record: cocina_record&.cocina_doc }
     Honeybadger.notify(e, context: context)
     SdrEvents.report_indexing_errored(@druid, target: 'Dataworks', message: e.message, context: context)
@@ -122,23 +123,40 @@ class SdrConsumer < Racecar::Consumer
     nil
   end
 
+  # Reference to the single persistent dataset record set for SDR
+  def dataset_record_set
+    @dataset_record_set ||= DatasetRecordSet.find_or_create_by!(provider: 'sdr', complete: true)
+  end
+
+  # Create or update the DatasetRecord for this item
+  def update_dataset_record
+    dataset_record = DatasetRecord.find_or_initialize_by(provider: 'sdr', dataset_id: @druid)
+    dataset_record.dataset_record_set_ids = [dataset_record_set.id]
+    dataset_record.source = cocina_record.cocina_doc
+    dataset_record.modified_token = cocina_record.modified_time
+    dataset_record.save!
+  end
+
   # Notify SDR that we didn't take any action for some reason
   def process_skip
     SdrEvents.report_indexing_skipped(@druid, target: 'Dataworks', message: skip_reason)
     Rails.logger.info { "SDR indexer skipped druid:#{@druid}; #{skip_reason}" }
   end
 
-  # Remove item from the index and notify SDR
+  # Remove item from the database and index and notify SDR
   def process_delete
+    DatasetRecord.destroy_by(provider: 'sdr', dataset_id: @druid)
     @solr_service.delete(id: @druid)
     Rails.logger.info { "SDR indexer deleted druid:#{@druid}" }
     SdrEvents.report_indexing_deleted(@druid, target: 'Dataworks')
   end
 
-  # Add/update item in the index and notify SDR
+  # Add/update item in the database and index and notify SDR
   def process_update
+    update_dataset_record
     @solr_service.add(solr_doc: SdrConsumer.map_record(cocina_record))
     Rails.logger.info { "SDR indexer updated druid:#{@druid}" }
     SdrEvents.report_indexing_success(@druid, target: 'Dataworks')
   end
 end
+# rubocop:enable Metrics/ClassLength
