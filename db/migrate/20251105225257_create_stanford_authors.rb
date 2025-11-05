@@ -9,7 +9,7 @@ class CreateStanfordAuthors < ActiveRecord::Migration[8.0]
       t.string :cap_profile_id
       t.index  :cap_profile_id
       t.string :email
-      t.string :active, type: :boolean
+      t.boolean :active
       t.string :departments, array: true, default: []
       t.timestamps
     end
