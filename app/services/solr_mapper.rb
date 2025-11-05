@@ -63,7 +63,8 @@ class SolrMapper
       provider_identifier_map_struct_ss: provider_identifiers_map.presence&.to_json,
       stanford_project_bsi: metadata['stanford_project'],
       stanford_contributor_bsi: stanford_contributor?,
-      stanford_dataset_bsi: metadata['stanford_project'] || stanford_contributor?
+      stanford_dataset_bsi: metadata['stanford_project'] || stanford_contributor?,
+      department_ssim: department_field
     }.merge(title_fields).merge(struct_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -162,6 +163,12 @@ class SolrMapper
     false
   end
 
+  # Enhanced metadata for Stanford authors can provide department information
+  def department_field
+    # Retrieve department information
+    affiliation_department_names_for_role('creators').concat(affiliation_department_names_for_role('contributors')).uniq
+  end
+
   private
 
   attr_reader :metadata, :doi, :id, :load_id, :provider_identifiers_map
@@ -219,6 +226,13 @@ class SolrMapper
     Array(metadata[role]).flat_map do |role_entity|
       role_entity['affiliation']&.pluck('name')
     end&.compact
+  end
+
+  # Retrieve department names for roles
+  def affiliation_department_names_for_role(role)
+    Array(metadata[role]).flat_map do |role_entity|
+      role_entity['affiliation']&.pluck('affiliation_department_name')
+    end&.compact&.flatten
   end
 
   # Retrieve affiliation ids array given either creator or contributor field

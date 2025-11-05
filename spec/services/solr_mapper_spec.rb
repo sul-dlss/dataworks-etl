@@ -471,5 +471,43 @@ RSpec.describe SolrMapper do
         )
       end
     end
+
+    # rubocop:disable Layout/LineLength
+    context 'when dataset has department names associated with creators or contributors' do
+      let(:metadata) do
+        {
+          titles: [{ title: 'My title' }],
+          publication_year: '2023',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+          url: 'https://example.com/my-dataset',
+          access: 'Public',
+          provider: 'DataCite',
+          creators: [
+            {
+              affiliation: [
+                {
+                  name: 'Stanford University',
+                  affiliation_department_name: [
+                    'Test Department 1',
+                    'Test Department 2'
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      end
+
+      it 'populates the department field' do
+        expect(solr_mapper.call).to include(
+          department_ssim: [
+            'Test Department 1',
+            'Test Department 2'
+          ],
+          creators_struct_ss: '[{"affiliation":[{"name":"Stanford University","affiliation_department_name":["Test Department 1","Test Department 2"]}]}]'
+        )
+      end
+    end
+    # rubocop:enable Layout/LineLength
   end
 end
