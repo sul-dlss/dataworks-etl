@@ -15,7 +15,7 @@ class SolrService
   end
 
   def get(params:)
-    solr.get 'select', :params => params
+    solr.get 'select', params: params
   end
 
   delegate :commit, to: :solr

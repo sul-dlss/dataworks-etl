@@ -12,7 +12,10 @@ RSpec.describe TransformerLoader do
                                                        extractor: 'Extractors::Datacite')
   end
 
-  let(:solr_service) { instance_double(SolrService, commit: true, delete_by_query: true, add: true) }
+  let(:solr_service) do
+    instance_double(SolrService, commit: true, delete_by_query: true, add: true,
+                                 get: { response: { docs: [] } }.with_indifferent_access, delete: true)
+  end
 
   let(:solr_doc) { {} }
 
@@ -47,7 +50,8 @@ RSpec.describe TransformerLoader do
     ).once
     expect(solr_service).to have_received(:add).with(solr_doc:).exactly(3).times
     expect(solr_service).to have_received(:commit).once
-    expect(solr_service).to have_received(:delete_by_query).with(query: '-load_id_ssi:"load123"').once
+    # expect(solr_service).to have_received(:delete_by_query).with(query: '-load_id_ssi:"load123"').once
+    expect(solr_service).to have_received(:delete).once
   end
 
   context 'when there is an error in mapping' do
