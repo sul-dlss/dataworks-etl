@@ -87,7 +87,7 @@ class MetadataEnhancer
   def retrieve_stanford_author(orcid:)
     # Use the form of the ORCID that starts with "https://orcid.org"
     orcid = "https://orcid.org/#{orcid}" unless orcid.start_with?('https://orcid.org/')
-    authors = StanfordAuthor.where(orcid:, active: true)
+    authors = StanfordAuthor.where(orcid:, active: "TRUE")
     authors.count.positive? ? authors.first : nil
   rescue StandardError
     nil
