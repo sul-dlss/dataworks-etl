@@ -50,7 +50,7 @@ class MetadataEnhancer
   # If Stanford University does not exist as an affiliation, add that block
   def add_departments(contributor:, departments:)
     affiliation_info = {
-      name: 'Stanford University7',
+      name: 'Stanford University',
       affiliation_identifier: 'https://ror.org/00f54p054', affiliation_identifier_scheme: 'ROR',
       affiliation_department_name: departments
     }
