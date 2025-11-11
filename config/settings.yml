@@ -152,7 +152,71 @@ datacite:
     - 10.57761/v5rc-s420
     - 10.57761/bpvs-7y03
     - 10.57761/f2w6-2s37
-
+    # From metadata evaluation across datasets
+    - 10.7910/dvn/pmmcsh
+    - 10.18112/openneuro.ds001636.v1.0.1
+    - 10.18112/openneuro.ds001646.v1.0.1
+    - 10.18112/openneuro.ds001968.v1.0.0
+    - 10.18112/openneuro.ds002002.v1.0.0
+    - 10.18112/openneuro.ds002110.v1.0.0
+    - 10.18112/openneuro.ds002153.v1.0.1
+    - 10.18112/openneuro.ds002184.v1.0.0
+    - 10.18112/openneuro.ds002249.v1.0.0
+    - 10.18112/openneuro.ds002282.v1.0.0
+    - 10.18112/openneuro.ds002283.v1.0.0
+    - 10.18112/openneuro.ds002398.v1.0.0
+    - 10.18112/openneuro.ds002399.v1.0.0
+    - 10.18112/openneuro.ds002400.v1.0.0
+    - 10.18112/openneuro.ds002561.v1.0.0
+    - 10.18112/openneuro.ds002563.v1.0.0
+    - 10.18112/openneuro.ds002564.v1.0.0
+    - 10.18112/openneuro.ds002565.v1.0.0
+    - 10.18112/openneuro.ds002567.v1.0.0
+    - 10.18112/openneuro.ds002568.v1.0.0
+    - 10.18112/openneuro.ds002576.v1.0.0
+    - 10.18112/openneuro.ds002616.v1.0.0
+    - 10.18112/openneuro.ds002615.v1.0.0
+    - 10.18112/openneuro.ds002622.v1.0.0
+    - 10.18112/openneuro.ds002743.v1.0.1
+    - 10.18112/openneuro.ds002847.v1.0.0
+    - 10.18112/openneuro.ds002864.v1.0.0
+    - 10.18112/openneuro.ds002910.v1.0.0
+    - 10.18112/openneuro.ds003401.v1.0.1
+    - 10.18112/openneuro.ds003426.v1.0.0
+    - 10.18112/openneuro.ds003448.v1.0.0
+    - 10.18112/openneuro.ds003449.v1.0.0
+    - 10.18112/openneuro.ds003450.v1.0.0
+    - 10.18112/openneuro.ds003451.v1.0.1
+    - 10.18112/openneuro.ds003457.v1.0.0
+    - 10.18112/openneuro.ds003466.v1.1.1
+    - 10.18112/openneuro.ds003480.v1.0.0
+    - 10.18112/openneuro.ds003510.v1.0.0
+    - 10.18112/openneuro.ds003512.v1.0.0
+    - 10.18112/openneuro.ds003515.v1.0.0
+    - 10.18112/openneuro.ds003601.v1.0.0
+    - 10.18112/openneuro.ds003603.v1.0.0
+    - 10.18112/openneuro.ds003714.v1.0.1
+    - 10.18112/openneuro.ds003504.v1.0.0
+    - 10.18112/openneuro.ds003813.v1.0.0
+    - 10.18112/openneuro.ds003933.v1.0.0
+    - 10.18112/openneuro.ds004220.v1.0.0
+    - 10.18112/openneuro.ds004250.v1.0.0
+    - 10.18112/openneuro.ds004310.v1.0.0
+    - 10.18112/openneuro.ds004339.v1.0.0
+    - 10.18112/openneuro.ds004539.v1.1.1
+    - 10.18112/openneuro.ds004653.v1.0.5
+    - 10.18112/openneuro.ds004720.v1.0.0
+    - 10.18112/openneuro.ds005068.v1.0.0
+    - 10.18112/openneuro.ds005069.v1.0.0
+    - 10.18112/openneuro.ds005072.v1.0.1
+    - 10.18112/openneuro.ds005492.v1.0.0
+    - 10.18112/openneuro.ds005295.v1.0.2
+    - 10.18112/openneuro.ds005600.v1.1.1
+    - 10.18112/openneuro.ds005604.v1.0.1
+    - 10.18112/openneuro.ds005623.v1.0.0
+    - 10.18112/openneuro.ds005017.v1.0.2
+    - 10.18112/openneuro.ds006179.v1.0.1
+    - 10.18112/openneuro.ds006209.v1.0.0
 dryad:
    ignore:
     # Has empty creator with no name and just name type, i.e. { name_type: 'Personal' }
