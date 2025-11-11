@@ -13,10 +13,8 @@ namespace :development do # rubocop:disable Metrics/BlockLength
 
       dataset_record_set.dataset_records.each do |dataset_record|
         mapper.call(source: dataset_record.source)
-        puts "#{dataset_record.id} succeeded"
       rescue DataworksMappers::MappingError => e
-        puts "#{dataset_record.id} failed - #{e.message}"
-        Rails.logger.error "Mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
+        puts "#{dataset_record.doi} - Failure message #{e.message}"
       end
     end
   end
