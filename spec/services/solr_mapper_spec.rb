@@ -498,12 +498,13 @@ RSpec.describe SolrMapper do
         }
       end
 
-      it 'populates the department field' do
+      it 'populates the department field, struct field, and contributor flag' do
         expect(solr_mapper.call).to include(
           department_ssim: [
             'Test Department 1',
             'Test Department 2'
           ],
+          stanford_contributor_bsi: true,
           creators_struct_ss: '[{"affiliation":[{"name":"Stanford University","affiliation_department_name":["Test Department 1","Test Department 2"]}]}]'
         )
       end
