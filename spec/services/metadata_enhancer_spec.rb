@@ -37,4 +37,34 @@ RSpec.describe MetadataEnhancer do
                                                                   ]))
     end
   end
+
+  context 'when provider metadata does not have Stanford University in affiliation' do
+    let(:mapped_record) do
+      {
+        titles: [{ title: 'My title' }],
+        publication_year: '2023',
+        identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+        url: 'https://example.com/my-dataset',
+        access: 'Public',
+        provider: 'DataCite',
+        creators: [
+          {
+            name: 'Creator',
+            name_identifiers: [
+              {
+                name_identifier: 'https://orcid.org/0000-0001-2345-6789',
+                name_identifier_scheme: 'ORCID'
+              }
+            ]
+          }
+        ]
+      }
+    end
+    let(:enhanced_record) { described_class.call(mapped_record:) }
+
+    it 'adds Stanford University affiliation block' do
+      creator = enhanced_record[:creators][0]
+      expect(creator['affiliation']).to include(hash_including('name' => 'Stanford University'))
+    end
+  end
 end

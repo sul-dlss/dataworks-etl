@@ -55,7 +55,7 @@ class DatasetTransformer
     check_mapping_success(dataset_record:)
 
     # Add enhancements
-    metadata = enhance_metadata(mapped_record: metadata)
+    metadata = enhance_metadata(mapped_record: metadata).with_indifferent_access
 
     # Call the Solr mapper (or vertex related transformation)
     mapper_class.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
