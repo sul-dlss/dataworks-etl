@@ -45,10 +45,11 @@ class SdrConsumer < Racecar::Consumer
   # Process a single message from the Kafka queue; key is the druid
   def process(message)
     @change = JSON.parse(message.value) if message.value.present?
+    @druid = message.key.delete_prefix('druid:')
     return process_delete if should_delete?
     return unless true_target?
 
-    update_item(message.key.delete_prefix('druid:'))
+    update_item
   rescue DataworksMappers::MappingError => e
     context = { druid: @druid, record: cocina_record&.cocina_doc }
     Honeybadger.notify(e, context: context)
@@ -58,9 +59,8 @@ class SdrConsumer < Racecar::Consumer
   # Add or update the item in the index, if possible
   # NOTE: You can use this in development to manually update an item by running:
   # SdrConsumer.new.update_item('xx123yy4567')
-  def update_item(druid, change: nil)
-    @change ||= change
-    @druid = druid
+  def update_item(druid = nil)
+    @druid ||= druid
     should_skip? ? process_skip : process_update
   end
 
@@ -153,6 +153,7 @@ class SdrConsumer < Racecar::Consumer
   def process_delete
     DatasetRecord.destroy_by(provider: 'sdr', dataset_id: @druid)
     @solr_service.delete(id: @druid)
+    @solr_service.commit
     Rails.logger.info { "SDR indexer deleted druid:#{@druid}" }
     SdrEvents.report_indexing_deleted(@druid, target: 'Dataworks')
   end
@@ -161,6 +162,7 @@ class SdrConsumer < Racecar::Consumer
   def process_update
     update_dataset_record
     @solr_service.add(solr_doc: SdrConsumer.map_record(cocina_record))
+    @solr_service.commit
     Rails.logger.info { "SDR indexer updated druid:#{@druid}" }
     SdrEvents.report_indexing_success(@druid, target: 'Dataworks')
   end
