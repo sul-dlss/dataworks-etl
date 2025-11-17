@@ -44,18 +44,24 @@ class SdrConsumer < Racecar::Consumer
 
   # Process a single message from the Kafka queue; key is the druid
   def process(message)
-    @druid = message.key.delete_prefix('druid:')
     @change = JSON.parse(message.value) if message.value.present?
-
     return process_delete if should_delete?
     return unless true_target?
-    return process_skip if should_skip?
 
-    process_update
+    update_item(message.key.delete_prefix('druid:'))
   rescue DataworksMappers::MappingError => e
     context = { druid: @druid, record: cocina_record&.cocina_doc }
     Honeybadger.notify(e, context: context)
     SdrEvents.report_indexing_errored(@druid, target: 'Dataworks', message: e.message, context: context)
+  end
+
+  # Add or update the item in the index, if possible
+  # NOTE: You can use this in development to manually update an item by running:
+  # SdrConsumer.new.update_item('xx123yy4567')
+  def update_item(druid, change: nil)
+    @change ||= change
+    @druid = druid
+    should_skip? ? process_skip : process_update
   end
 
   private
