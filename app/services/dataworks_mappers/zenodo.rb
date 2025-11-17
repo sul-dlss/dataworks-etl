@@ -69,7 +69,7 @@ module DataworksMappers
     end
 
     def publication_year
-      metadata[:publication_date].slice(0..3) if metadata[:publication_date].present?
+      metadata[:publication_date].presence&.slice(0..3)
     end
 
     def subjects
