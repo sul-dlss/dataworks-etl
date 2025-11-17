@@ -46,7 +46,7 @@ RSpec.describe TransformerLoader do
       dataset_records: [datacite_dataset_record_set.dataset_records.last], load_id: String, mapper_class: SolrMapper
     ).once
     expect(solr_service).to have_received(:add).with(solr_doc:).exactly(3).times
-    expect(solr_service).to have_received(:commit).once
+    expect(solr_service).to have_received(:commit).exactly(2).times # once after add, once after delete
     expect(solr_service).to have_received(:delete_by_query).with(query: '-load_id_ssi:"load123"').once
   end
 

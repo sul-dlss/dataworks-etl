@@ -87,5 +87,6 @@ class TransformerLoader
 
   def delete_records
     solr.delete_by_query(query: "-load_id_ssi:\"#{load_id}\"")
+    solr.commit
   end
 end
