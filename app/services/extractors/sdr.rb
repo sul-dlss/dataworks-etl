@@ -4,7 +4,7 @@ module Extractors
   # Extractor for SDR content that produces Cocina source records
   class Sdr < Base
     def initialize(
-      client: CocinaService.new(purl_url: 'https://purl.stanford.edu'),
+      client: CocinaService.new,
       provider: 'sdr',
       extra_dataset_ids: YAML.load_file('config/datasets/sdr.yml')
     )

@@ -16,7 +16,7 @@ RSpec.describe SdrConsumer do
   let(:record) { CocinaDisplay::CocinaRecord.new(cocina) }
   let(:message) { instance_double(Racecar::Message, key: 'druid:cz537wr8540', value: message_contents.to_json) }
   let(:message_contents) { { druid: 'druid:cz537wr8540', true_targets: ['Dataworks'] } }
-  let(:solr_service) { instance_double(SolrService, delete: true, add: true) }
+  let(:solr_service) { instance_double(SolrService, delete: true, add: true, commit: true) }
   let(:cocina_service) { instance_double(CocinaService, cocina_record: record) }
   let(:sdr_set) { DatasetRecordSet.find_or_create_by!(provider: 'sdr', complete: true) }
 

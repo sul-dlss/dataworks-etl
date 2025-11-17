@@ -245,7 +245,7 @@ searchworks:
   solr_url: https://sul-solr-prod-a.stanford.edu/solr/searchworks-prod
 
 purl_fetcher:
-  url: https://purl-fetcher-stage.stanford.edu
+  url: https://purl-fetcher.stanford.edu
   targets: # Must be released to *all* of these in order to be indexed
     - Searchworks
     - PURL sitemap
@@ -276,11 +276,11 @@ purl_fetcher:
 # Determines the environment that cocina metadata will be fetched from; for
 # stage indexing it should be set to staging PURL
 purl:
-  hostname: sul-purl-stage.stanford.edu
+  hostname: purl.stanford.edu
 
 # Should be purl_fetcher_stage or purl_fetcher_prod; determines which queue
 # of SDR item updates we are 'listening' to
-indexer_topic: purl_fetcher_stage
+indexer_topic: purl_fetcher_prod
 
 # Kafka groups split messages across consumers; we set this to something for
 # local dev so we don't 'steal' messages from stage/prod consumers
