@@ -33,21 +33,23 @@ class SdrConsumer < Racecar::Consumer
     targets: Settings.purl_fetcher.targets,
     skip_collections: Settings.purl_fetcher.skip_collections,
     cocina_service: CocinaService.new,
-    solr_service: SolrService.new
+    solr_service: SolrService.new,
+    logger: Rdkafka::Config.logger
   )
     super()
     @targets = targets.map(&:downcase)
     @skip_collections = skip_collections.map { |druid| "druid:#{druid}" }
     @cocina_service = cocina_service
     @solr_service = solr_service
+    @logger = logger
   end
 
   # Process a single message from the Kafka queue; key is the druid
   def process(message)
     @change = JSON.parse(message.value) if message.value.present?
     @druid = message.key.delete_prefix('druid:')
+    @logger.debug { "SDR indexer received message for druid:#{@druid}: #{@change}" }
     return process_delete if should_delete?
-    return unless true_target?
 
     update_item
   rescue DataworksMappers::MappingError => e
@@ -61,6 +63,14 @@ class SdrConsumer < Racecar::Consumer
   # SdrConsumer.new.update_item('xx123yy4567')
   def update_item(druid = nil)
     @druid ||= druid
+
+    # If the item's release targets don't match ours, skip it and don't bother
+    # notifying SDR, since it wasn't expected to be indexed anyway
+    unless true_target?
+      @logger.debug { "SDR indexer skipped druid:#{@druid}; target mismatch" }
+      return
+    end
+
     should_skip? ? process_skip : process_update
   end
 
@@ -146,7 +156,7 @@ class SdrConsumer < Racecar::Consumer
   # Notify SDR that we didn't take any action for some reason
   def process_skip
     SdrEvents.report_indexing_skipped(@druid, target: 'Dataworks', message: skip_reason)
-    Rails.logger.info { "SDR indexer skipped druid:#{@druid}; #{skip_reason}" }
+    @logger.info { "SDR indexer skipped druid:#{@druid}; #{skip_reason}" }
   end
 
   # Remove item from the database and index and notify SDR
@@ -154,7 +164,7 @@ class SdrConsumer < Racecar::Consumer
     DatasetRecord.destroy_by(provider: 'sdr', dataset_id: @druid)
     @solr_service.delete(id: @druid)
     @solr_service.commit
-    Rails.logger.info { "SDR indexer deleted druid:#{@druid}" }
+    @logger.info { "SDR indexer deleted druid:#{@druid}" }
     SdrEvents.report_indexing_deleted(@druid, target: 'Dataworks')
   end
 
@@ -163,7 +173,7 @@ class SdrConsumer < Racecar::Consumer
     update_dataset_record
     @solr_service.add(solr_doc: SdrConsumer.map_record(cocina_record))
     @solr_service.commit
-    Rails.logger.info { "SDR indexer updated druid:#{@druid}" }
+    @logger.info { "SDR indexer updated druid:#{@druid}" }
     SdrEvents.report_indexing_success(@druid, target: 'Dataworks')
   end
 end
