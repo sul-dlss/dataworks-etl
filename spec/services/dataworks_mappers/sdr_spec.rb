@@ -446,4 +446,31 @@ RSpec.describe DataworksMappers::Sdr do
       )
     end
   end
+
+  context 'when there are related resources that are citations only' do
+    before do
+      source['description']['relatedResource'] = []
+      source['description']['relatedResource'].push(
+        {
+          'type' => 'preceded by',
+          'dataCiteRelationType' => 'Continues',
+          'note' => [
+            { 'value' => 'Some article related to the dataset' },
+            { 'type' => 'preferred citation' }
+          ]
+        }
+      )
+    end
+
+    it 'uses the citation and the datacite relation type' do
+      expect(metadata[:related_items]).to include(
+        {
+          titles: [
+            { title: 'Some article related to the dataset' }
+          ],
+          relation_type: 'Continues'
+        }
+      )
+    end
+  end
 end

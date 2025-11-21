@@ -419,7 +419,7 @@ components:
             related_item_identifier_type:
               $ref: '#/components/schemas/IdentifierType'
       required:
-        - related_item_identifier
+        - titles
       additionalProperties: false  # DataCite allows many more fields we don't use
     RelatedIdentifier:
       type: object
