@@ -179,9 +179,6 @@ module DataworksMappers
 
     # Convert Cocina titles to DataCite structured data
     class TitleMapper
-      # The main title, plus any additional titles.
-      # Note that this is also called by RelatedResources, which may have no
-      # titles at all, in which case it will return nil.
       def self.call(record)
         [].tap do |titles|
           titles << { title: record.main_title } if record.main_title.present?
@@ -245,8 +242,10 @@ module DataworksMappers
 
       attr_reader :resource
 
+      # RelatedResource#to_s will use titles if present, falling back to
+      # preferred citation or other information as needed
       def titles
-        TitleMapper.call(resource)
+        [{ title: resource.to_s }]
       end
 
       def identifier
@@ -256,7 +255,7 @@ module DataworksMappers
       # Items deposited using H3 may have dataCiteRelationType populated, but
       # if not, we need to convert using the lookup table
       def relation_type
-        resource.cocina_doc['dataCiteRelationType'] || RELATION_TYPES.fetch(resource.type, nil)
+        resource.cocina_doc.dig('description', 'dataCiteRelationType') || RELATION_TYPES.fetch(resource.type, nil)
       end
 
       # Items deposited using H3 may have DataCite resource type populated
