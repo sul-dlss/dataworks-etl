@@ -43,4 +43,21 @@ RSpec.describe Clients::OpenAlex, :vcr do
         .with(hash_including(params: include(api_key: 'test_api_token'))).exactly(2).times
     end
   end
+
+  describe '.dataset_doi' do
+    let(:dataset) { client.dataset_doi(doi: '10.7910/dvn/qj9rlj') }
+
+    it 'retrieves the dataset' do
+      expect(dataset['id']).to eq('https://openalex.org/W4398887383')
+    end
+  end
+
+  describe '.query_relationship' do
+    let(:results) { client.query_relationship(relationship: 'cites', id: 'W4398887383') }
+
+    it 'retrieves the results' do
+      expect(results.size).to eq(1)
+      expect(results[0]['id']).to eq('https://openalex.org/W3171987103')
+    end
+  end
 end

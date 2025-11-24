@@ -55,7 +55,7 @@ class DatasetTransformer
     check_mapping_success(dataset_record:)
 
     # Add enhancements
-    metadata = enhance_metadata(mapped_record: metadata).with_indifferent_access
+    metadata = enhance_metadata(mapped_record: metadata, doi: dataset_record.doi).with_indifferent_access
 
     # Call the Solr mapper (or vertex related transformation)
     mapper_class.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
@@ -113,7 +113,7 @@ class DatasetTransformer
 
   # Metadata enhancement one record at a time
   # Parameter is the DataWorks schema record, not Solr record
-  def enhance_metadata(mapped_record:)
-    MetadataEnhancer.call(mapped_record:)
+  def enhance_metadata(mapped_record:, doi:)
+    MetadataEnhancer.call(mapped_record:, doi:)
   end
 end

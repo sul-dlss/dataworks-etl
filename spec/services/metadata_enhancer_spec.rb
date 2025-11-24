@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe MetadataEnhancer do
+  let(:openalex_client) { instance_double(Clients::OpenAlex) }
+
   before do
     StanfordAuthor.create!(sunet_id: 123,
                            cap_profile_id: 345,
@@ -13,11 +15,13 @@ RSpec.describe MetadataEnhancer do
                            email: 'test@test.com',
                            active: true,
                            departments: ['Test Department 1', 'Test Department 2'])
+    allow(Clients::OpenAlex).to receive(:new).and_return(openalex_client)
+    allow(openalex_client).to receive(:dataset_doi).and_return({})
   end
 
   context 'when creators or contributors have ORCIDs that map to our Stanford authors table' do
     let(:mapped_record) { JSON.parse(File.read('spec/fixtures/mapped_datasets/full_metadata_mapped.json')) }
-    let(:enhanced_record) { described_class.call(mapped_record:) }
+    let(:enhanced_record) { described_class.call(mapped_record:, doi: '10.1234/5678') }
 
     it 'adds profile id and department name for creators' do
       creator = enhanced_record[:creators][1]
@@ -60,7 +64,7 @@ RSpec.describe MetadataEnhancer do
         ]
       }
     end
-    let(:enhanced_record) { described_class.call(mapped_record:) }
+    let(:enhanced_record) { described_class.call(mapped_record:, doi: '10.1234/5678') }
 
     it 'adds Stanford University affiliation block' do
       creator = enhanced_record[:creators][0]
