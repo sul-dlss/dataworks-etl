@@ -7,6 +7,7 @@ RSpec.describe DatasetTransformer do
     described_class.call(dataset_records:, load_id:)
   end
 
+  let(:openalex_client) { instance_double(Clients::OpenAlex) }
   let(:dataset_records) { [redivis_dataset_record, datacite_dataset_record] }
   let(:redivis_dataset_record) { create(:dataset_record) }
   let(:datacite_dataset_record) { create(:dataset_record, :datacite) }
@@ -24,6 +25,8 @@ RSpec.describe DatasetTransformer do
     allow(DataworksMappers::Redivis).to receive(:call).and_call_original
     allow(DataworksMappers::Datacite).to receive(:call).and_call_original
     allow(SolrMapper).to receive(:call).and_call_original
+    allow(Clients::OpenAlex).to receive(:new).and_return(openalex_client)
+    allow(openalex_client).to receive(:dataset_doi).and_return({})
   end
 
   it 'transforms' do

@@ -24,11 +24,32 @@ module Clients
       results
     end
 
+    # This is for related works filter query
+    # @param relationship [String] the relationship we wish to filter by, cites or cited_by
+    # @param doi [String] the DOI of the work we wish to query for
+    # @param page_size [Integer] the number of results to return per page (optional, default/max: 200)
+    # @return list of results combined from multiple calls if required
+    # @raise [Clients::Error] if the request fails
+    def query_relationship(relationship:, id:, page_size: 200)
+      @page_size = page_size
+      results, cursor = query_relationship_page(relationship:, id:)
+      while cursor
+        next_results, cursor = query_relationship_page(cursor:, relationship:, id:)
+        results.concat(next_results)
+      end
+      results
+    end
+
     attr_reader :institution_id, :type, :page_size
 
     # @param id [String] the Identifier of the dataset
     def dataset(id:)
       get_json(path: "/works/#{id.delete_prefix('https://openalex.org/')}")
+    end
+
+    # @param doi [String] the DOI of the dataset
+    def dataset_doi(doi:)
+      get_json(path: "/works/https://doi.org/#{doi}")
     end
 
     # Pass API key as a query parameter if provided
@@ -51,6 +72,24 @@ module Clients
       end
       cursor = response_json.dig('meta', 'next_cursor')
       [results, cursor]
+    end
+
+    # Run query and use the cursor-based method to select a particular page
+    def query_relationship_page(relationship:, id:, cursor: '*')
+      response_json = get_json(path: '/works',
+                               params: query_relationship_params(cursor:, relationship:, id:))
+      results = response_json['results']
+      cursor = response_json.dig('meta', 'next_cursor')
+      [results, cursor]
+    end
+
+    def query_relationship_params(cursor:, relationship:, id:)
+      {
+        cursor: cursor,
+        filter: "#{relationship}:#{id},type:!dataset|database|software",
+        'per-page': page_size,
+        select: 'id,doi,ids,type'
+      }
     end
 
     def params(cursor:)

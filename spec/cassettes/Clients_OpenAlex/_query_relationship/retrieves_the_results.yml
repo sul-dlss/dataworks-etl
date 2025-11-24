@@ -1,0 +1,127 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openalex.org/works?cursor=*&filter=cites:W4398887383,type:!dataset%7Cdatabase%7Csoftware&per-page=200&select=id,doi,ids,type
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 20 Nov 2025 22:32:39 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 9a1b6788ff86f4b9-DEN
+      Cf-Cache-Status:
+      - DYNAMIC
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - accept-encoding
+      Server:
+      - cloudflare
+      Via:
+      - 1.1 heroku-router
+      Access-Control-Allow-Headers:
+      - Accept, Accept-Language, Accept-Encoding, Authorization, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, HEAD, POST, OPTIONS
+      Access-Control-Expose-Headers:
+      - Cache-Control, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Ratelimit-Limit:
+      - '5'
+      Ratelimit-Remaining:
+      - '9'
+      Ratelimit-Reset:
+      - '1'
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=OFNVzqGmjrXyNtlCFs9CyjLPd4NPLTtjgDog0bamebk%3D\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\u0026ts=1763677958"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=OFNVzqGmjrXyNtlCFs9CyjLPd4NPLTtjgDog0bamebk%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1763677958"
+    body:
+      encoding: ASCII-8BIT
+      string: '{"meta":{"count":1,"db_response_time_ms":1156,"page":null,"per_page":200,"next_cursor":"Ils5OS4wLCAxMSwgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1czMTcxOTg3MTAzJ10i","groups_count":null},"results":[{"id":"https://openalex.org/W3171987103","doi":"https://doi.org/10.1017/xps.2021.16","ids":{"openalex":"https://openalex.org/W3171987103","doi":"https://doi.org/10.1017/xps.2021.16","mag":"3171987103"},"type":"article"}],"group_by":[]}
+
+        '
+  recorded_at: Thu, 20 Nov 2025 22:32:39 GMT
+- request:
+    method: get
+    uri: https://api.openalex.org/works?cursor=Ils5OS4wLCAxMSwgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1czMTcxOTg3MTAzJ10i&filter=cites:W4398887383,type:!dataset%7Cdatabase%7Csoftware&per-page=200&select=id,doi,ids,type
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 20 Nov 2025 22:32:42 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 9a1b67926eb9d318-MCI
+      Cf-Cache-Status:
+      - DYNAMIC
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - accept-encoding
+      Server:
+      - cloudflare
+      Via:
+      - 1.1 heroku-router
+      Access-Control-Allow-Headers:
+      - Accept, Accept-Language, Accept-Encoding, Authorization, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, HEAD, POST, OPTIONS
+      Access-Control-Expose-Headers:
+      - Cache-Control, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Ratelimit-Limit:
+      - '5'
+      Ratelimit-Remaining:
+      - '9'
+      Ratelimit-Reset:
+      - '1'
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=VmLsOR2EOjNbXY4eBNbCWfAFCs8f1qhIEFoiqXKw%2FYE%3D\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\u0026ts=1763677960"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=VmLsOR2EOjNbXY4eBNbCWfAFCs8f1qhIEFoiqXKw%2FYE%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1763677960"
+    body:
+      encoding: ASCII-8BIT
+      string: '{"meta":{"count":1,"db_response_time_ms":571,"page":null,"per_page":200,"next_cursor":null,"groups_count":null},"results":[],"group_by":[]}
+
+        '
+  recorded_at: Thu, 20 Nov 2025 22:32:42 GMT
+recorded_with: VCR 6.3.1
