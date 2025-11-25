@@ -17,6 +17,13 @@ class OpenalexEnhancer
   def add_metadata
     return @mapped_record if @doi.blank? || @openalex_record.blank?
 
+    @mapped_record = add_publications_metadata
+    @mapped_record = add_access
+    @mapped_record
+  end
+
+  # Add publication related information
+  def add_publications_metadata
     @id = @openalex_record['id']
     # Publications this work references. The filter query uses order: works cited_by this work
     cites = related_publications(relationship: 'cited_by', field: 'referenced_works_count')
@@ -71,5 +78,14 @@ class OpenalexEnhancer
     @mapped_record['related_identifiers'].filter_map do |info|
       info['related_identifier'] if info['related_identifier_type'].blank? || info['related_identifier_type'] == 'DOI'
     end
+  end
+
+  # Add access information into the rights list
+  def add_access
+    oa_status = @openalex_record['open_access']['is_oa']
+    oa_rights = oa_status == true ? 'Open access' : 'Not open access'
+    @mapped_record['rights_list'] = [] if @mapped_record['rights_list'].blank?
+    @mapped_record['rights_list'] << { 'rights' => oa_rights }
+    @mapped_record
   end
 end
