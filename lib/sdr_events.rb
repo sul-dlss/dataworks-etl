@@ -20,14 +20,14 @@ class SdrEvents
       ::Settings.sdr_events.enabled
     end
 
-    # Item was added/updated in the index
-    def report_indexing_success(druid, target:)
-      create_event(druid:, target:, type: 'indexing_success')
+    # Item will be added/updated in the index
+    def report_indexing_scheduled(druid, target:)
+      create_event(druid:, target:, type: 'indexing_scheduled')
     end
 
-    # Item was removed from the index (e.g. via unrelease)
-    def report_indexing_deleted(druid, target:)
-      create_event(druid:, target:, type: 'indexing_deleted')
+    # Item will be removed from the index (e.g. because of unrelease)
+    def report_indexing_deletion_scheduled(druid, target:)
+      create_event(druid:, target:, type: 'indexing_deletion_scheduled')
     end
 
     # Item has missing or inappropriately formatted metadata
