@@ -17,30 +17,16 @@ class SdrConsumer < Racecar::Consumer
     'Remote sensing imagery'
   ].freeze
 
-  # Map a single Cocina record to a Solr document
-  # @param cocina_record [CocinaDisplay::CocinaRecord]
-  # @return [Hash] Solr document
-  def self.map_record(cocina_record)
-    dataworks_record = DataworksMappers::Sdr.call(source: cocina_record.cocina_doc)
-    SolrMapper.call(
-      metadata: dataworks_record,
-      doi: cocina_record.doi,
-      id: cocina_record.druid
-    )
-  end
-
   def initialize(
     targets: Settings.purl_fetcher.targets,
     skip_collections: Settings.purl_fetcher.skip_collections,
     cocina_service: CocinaService.new,
-    solr_service: SolrService.new,
     logger: Rdkafka::Config.logger
   )
     super()
     @targets = targets.map(&:downcase)
     @skip_collections = skip_collections.map { |druid| "druid:#{druid}" }
     @cocina_service = cocina_service
-    @solr_service = solr_service
     @logger = logger
   end
 
@@ -49,20 +35,9 @@ class SdrConsumer < Racecar::Consumer
     @change = JSON.parse(message.value) if message.value.present?
     @druid = message.key.delete_prefix('druid:')
     @logger.debug { "SDR indexer received message for druid:#{@druid}: #{@change}" }
+
+    # If it was a deletion or unrelease, do that first
     return process_delete if should_delete?
-
-    update_item
-  rescue DataworksMappers::MappingError => e
-    context = { druid: @druid, record: cocina_record&.cocina_doc }
-    Honeybadger.notify(e, context: context)
-    SdrEvents.report_indexing_errored(@druid, target: 'Dataworks', message: e.message, context: context)
-  end
-
-  # Add or update the item in the index, if possible
-  # NOTE: You can use this in development to manually update an item by running:
-  # SdrConsumer.new.update_item('xx123yy4567')
-  def update_item(druid = nil)
-    @druid ||= druid
 
     # If the item's release targets don't match ours, skip it and don't bother
     # notifying SDR, since it wasn't expected to be indexed anyway
@@ -71,6 +46,14 @@ class SdrConsumer < Racecar::Consumer
       return
     end
 
+    update_item
+  end
+
+  # Add or update an item in the database by druid, if possible
+  # NOTE: You can use this in development to manually update an item by running:
+  # SdrConsumer.new.update_item('xx123yy4567')
+  def update_item(druid = nil)
+    @druid ||= druid
     should_skip? ? process_skip : process_update
   end
 
@@ -159,22 +142,18 @@ class SdrConsumer < Racecar::Consumer
     @logger.info { "SDR indexer skipped druid:#{@druid}; #{skip_reason}" }
   end
 
-  # Remove item from the database and index and notify SDR
+  # Remove item from the database and notify SDR
   def process_delete
     DatasetRecord.destroy_by(provider: 'sdr', dataset_id: @druid)
-    @solr_service.delete(id: @druid)
-    @solr_service.commit
     @logger.info { "SDR indexer deleted druid:#{@druid}" }
-    SdrEvents.report_indexing_deleted(@druid, target: 'Dataworks')
+    SdrEvents.report_indexing_deletion_scheduled(@druid, target: 'Dataworks')
   end
 
-  # Add/update item in the database and index and notify SDR
+  # Add/update item in the database and notify SDR
   def process_update
     update_dataset_record
-    @solr_service.add(solr_doc: SdrConsumer.map_record(cocina_record))
-    @solr_service.commit
     @logger.info { "SDR indexer updated druid:#{@druid}" }
-    SdrEvents.report_indexing_success(@druid, target: 'Dataworks')
+    SdrEvents.report_indexing_scheduled(@druid, target: 'Dataworks')
   end
 end
 # rubocop:enable Metrics/ClassLength
