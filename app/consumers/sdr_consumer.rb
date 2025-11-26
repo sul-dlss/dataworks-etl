@@ -54,6 +54,7 @@ class SdrConsumer < Racecar::Consumer
   # SdrConsumer.new.update_item('xx123yy4567')
   def update_item(druid = nil)
     @druid ||= druid
+    @change ||= {}
     should_skip? ? process_skip : process_update
   end
 
