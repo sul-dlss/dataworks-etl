@@ -34,7 +34,7 @@ module Extractors
     # @return [Clients::ListResult]
     def source_to_result(source:)
       Clients::ListResult.new(
-        id: source.druid,
+        id: source.bare_druid,
         modified_token: source.modified_time,
         source: source.cocina_doc
       )

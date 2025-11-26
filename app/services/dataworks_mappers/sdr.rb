@@ -48,7 +48,7 @@ module DataworksMappers
 
     # Druid is always present, but DOI may not be
     def identifiers
-      [{ identifier: record.druid, identifier_type: 'DRUID' }].tap do |ids|
+      [{ identifier: record.bare_druid, identifier_type: 'DRUID' }].tap do |ids|
         ids.push({ identifier: record.doi, identifier_type: 'DOI' }) if record.doi.present?
       end
     end
