@@ -124,7 +124,7 @@ class SdrConsumer < Racecar::Consumer
 
   # Reference to the single persistent dataset record set for SDR
   def dataset_record_set
-    @dataset_record_set ||= DatasetRecordSet.find_or_create_by!(provider: 'sdr', complete: true)
+    @dataset_record_set ||= DatasetRecordSet.find_or_create_by!(provider: 'sdr')
   end
 
   # Create or update the DatasetRecord for this item

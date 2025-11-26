@@ -16,7 +16,7 @@ module Extractors
     # For SDR, we use a single persistent set rather than creating a new one
     # each harvest. This supports both incremental and on-demand harvesting
     def create_dataset_record_set
-      DatasetRecordSet.find_or_create_by!(provider: provider, complete: true)
+      DatasetRecordSet.find_or_create_by!(provider: provider)
     end
 
     # Only index what was specified in extra_dataset_ids; everything else
