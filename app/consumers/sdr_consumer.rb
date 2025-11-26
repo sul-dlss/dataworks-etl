@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 # Incrementally harvest, store, and index datasets published from SDR
-# rubocop:disable Metrics/ClassLength
 class SdrConsumer < Racecar::Consumer
   subscribes_to Settings.indexer_topic
   self.group_id = Settings.indexer_group
-
-  attr_reader :targets, :skip_collections
 
   # If the object doesn't have one of these self-deposit resource types, skip it
   DATASET_RESOURCE_TYPES = [
@@ -21,7 +18,7 @@ class SdrConsumer < Racecar::Consumer
     targets: Settings.purl_fetcher.targets,
     skip_collections: Settings.purl_fetcher.skip_collections,
     cocina_service: CocinaService.new,
-    logger: Rdkafka::Config.logger
+    logger: Rails.logger
   )
     super()
     @targets = targets.map(&:downcase)
@@ -32,129 +29,108 @@ class SdrConsumer < Racecar::Consumer
 
   # Process a single message from the Kafka queue; key is the druid
   def process(message)
-    @change = JSON.parse(message.value) if message.value.present?
-    @druid = message.key.delete_prefix('druid:')
-    @logger.debug { "SDR indexer received message for druid:#{@druid}: #{@change}" }
+    change = JSON.parse(message.value) if message.value.present?
+    druid = message.key.delete_prefix('druid:')
+    @logger.debug { "SDR indexer received message for druid:#{druid}: #{change}" }
 
-    # If it was a deletion or unrelease, do that first
-    return process_delete if should_delete?
+    # An empty message means delete from all platforms; a matching false target
+    # means it was unreleased from our platform specifically
+    return process_delete(druid) if change.blank? || false_target?(change)
 
     # If the item's release targets don't match ours, skip it and don't bother
-    # notifying SDR, since it wasn't expected to be indexed anyway
-    unless true_target?
-      @logger.debug { "SDR indexer skipped druid:#{@druid}; target mismatch" }
-      return
-    end
+    # notifying SDR; it's going to a different platform (e.g. Searchworks)
+    return @logger.debug { "SDR indexer skipped druid:#{druid}; target mismatch" } unless true_target?(change)
 
-    update_item
+    # The message includes the collections the item is in, so we can check them
+    # without needing to fetch the cocina record yet
+    return process_skip(druid, reason: 'In skipped collection') if in_skipped_collection?(change)
+
+    # Proceed to fetch the cocina from PURL and try to update it
+    update_item(druid)
   end
 
-  # Add or update an item in the database by druid, if possible
+  # Fetch the cocina record and try to update the item in the database
   # NOTE: You can use this in development to manually update an item by running:
   # SdrConsumer.new.update_item('xx123yy4567')
-  def update_item(druid = nil)
-    @druid ||= druid
-    @change ||= {}
-    should_skip? ? process_skip : process_update
+  def update_item(druid)
+    record = cocina_record(druid)
+    return process_skip(druid, reason: 'No public Cocina record') if record.blank?
+    return process_skip(druid, reason: 'Object rights are dark') if record.dark_access?
+    return process_skip(druid, reason: 'Not a self-deposit dataset') unless self_deposit_dataset?(record)
+
+    process_update(druid, record: record)
   end
 
   private
 
-  # Should we delete the item from the index?
-  def should_delete?
-    return true if @change.blank?
-    return true if false_target?
-
-    false
-  end
-
-  # Should we skip indexing the item?
-  def should_skip?
-    skip_reason.present?
-  end
-
-  # Message indicating why we cannot index/update the item, if any
-  def skip_reason
-    return 'In skipped collection' if in_skipped_collection?
-    return 'No public Cocina record' if cocina_record.blank?
-    return 'Object rights are dark' if cocina_record.dark_access?
-    return 'Not a self-deposit dataset' unless self_deposit_dataset?
-
-    nil
-  end
-
-  # Downcased list of release targets for the item
-  def true_targets
-    @true_targets ||= Array(@change['true_targets']).map(&:downcase)
-  end
-
-  # Downcased list of non-release targets for the item
-  def false_targets
-    @false_targets ||= Array(@change['false_targets']).map(&:downcase)
-  end
-
   # Do the item's release targets match all of our desired targets?
-  def true_target?
-    targets.all? { |target| true_targets.include?(target) }
+  def true_target?(change)
+    true_targets = Array(change&.dig('true_targets')).map(&:downcase)
+    @targets.all? { |target| true_targets.include?(target) }
   end
 
   # Do the item's non-release targets match any of our desired targets?
-  def false_target?
-    targets.any? { |target| false_targets.include?(target) }
+  def false_target?(change)
+    false_targets = Array(change&.dig('false_targets')).map(&:downcase)
+    @targets.any? { |target| false_targets.include?(target) }
   end
 
   # Is the item in any collection we should skip?
-  def in_skipped_collection?
-    skip_collections.any? { |druid| Array(@change['collections']).include?(druid) }
+  def in_skipped_collection?(change)
+    collections = Array(change&.dig('collections'))
+    @skip_collections.any? { |druid| collections.include?(druid) }
   end
 
   # Is the item a self-deposited dataset?
   # Checks both top-level type and subtypes for self-deposit resource types.
-  def self_deposit_dataset?
+  def self_deposit_dataset?(cocina_record)
     cocina_record.self_deposit_resource_types.flat_map(&:values).any? do |type|
       DATASET_RESOURCE_TYPES.include?(type)
     end
   end
 
-  # Public cocina record for the item
-  def cocina_record
-    @cocina_service.cocina_record(druid: @druid)
+  # Public cocina record for an item; nil if not found
+  def cocina_record(druid)
+    @cocina_service.cocina_record(druid: druid)
   rescue Faraday::ResourceNotFound
     nil
   end
 
-  # Reference to the single persistent dataset record set for SDR
+  # Reference to the single persistent DatasetRecordSet for SDR
   def dataset_record_set
     @dataset_record_set ||= DatasetRecordSet.find_or_create_by!(provider: 'sdr')
   end
 
   # Create or update the DatasetRecord for this item
-  def update_dataset_record
-    dataset_record = DatasetRecord.find_or_initialize_by(provider: 'sdr', dataset_id: @druid)
+  def update_dataset_record(druid, record:)
+    dataset_record = DatasetRecord.find_or_initialize_by(provider: 'sdr', dataset_id: druid)
     dataset_record.dataset_record_set_ids = [dataset_record_set.id]
-    dataset_record.source = cocina_record.cocina_doc
-    dataset_record.modified_token = cocina_record.modified_time
+    dataset_record.source = record.cocina_doc
+    dataset_record.modified_token = record.modified_time
+    dataset_record.doi = record.doi
     dataset_record.save!
   end
 
   # Notify SDR that we didn't take any action for some reason
-  def process_skip
-    SdrEvents.report_indexing_skipped(@druid, target: 'Dataworks', message: skip_reason)
-    @logger.info { "SDR indexer skipped druid:#{@druid}; #{skip_reason}" }
+  def process_skip(druid, reason:)
+    SdrEvents.report_indexing_skipped(druid, target: 'Dataworks', message: reason)
+    @logger.info { "SDR indexer skipped druid:#{druid}; #{reason}" }
+    nil
   end
 
   # Remove item from the database and notify SDR
-  def process_delete
-    DatasetRecord.destroy_by(provider: 'sdr', dataset_id: @druid)
-    @logger.info { "SDR indexer deleted druid:#{@druid}" }
-    SdrEvents.report_indexing_deletion_scheduled(@druid, target: 'Dataworks')
+  def process_delete(druid)
+    DatasetRecord.destroy_by(provider: 'sdr', dataset_id: druid)
+    @logger.info { "SDR indexer deleted druid:#{druid}" }
+    SdrEvents.report_indexing_deletion_scheduled(druid, target: 'Dataworks')
+    nil
   end
 
   # Add/update item in the database and notify SDR
-  def process_update
-    update_dataset_record
-    @logger.info { "SDR indexer updated druid:#{@druid}" }
-    SdrEvents.report_indexing_scheduled(@druid, target: 'Dataworks')
+  def process_update(druid, record:)
+    update_dataset_record(druid, record: record)
+    @logger.info { "SDR indexer updated druid:#{druid}" }
+    SdrEvents.report_indexing_scheduled(druid, target: 'Dataworks')
+    nil
   end
 end
-# rubocop:enable Metrics/ClassLength
