@@ -473,4 +473,31 @@ RSpec.describe DataworksMappers::Sdr do
       )
     end
   end
+
+  context 'with contributors that provide funding information' do
+    before do
+      source['description']['contributor'].push(
+        {
+          'name' => [{ 'value' => 'NASA' }],
+          'role' => [{ 'value' => 'funder' }],
+          'identifier' => [
+            {
+              'type' => 'ROR',
+              'value' => 'https://ror.org/03yrm5c26'
+            }
+          ]
+        }
+      )
+    end
+
+    it 'maps the contributor as a funding reference' do
+      expect(metadata[:funding_references]).to include(
+        {
+          funder_name: 'NASA',
+          funder_identifier: 'https://ror.org/03yrm5c26',
+          funder_identifier_type: 'ROR'
+        }
+      )
+    end
+  end
 end

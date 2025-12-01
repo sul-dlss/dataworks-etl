@@ -135,7 +135,7 @@ module DataworksMappers
     # here, and it's not straightforward to separate, so we just keep the whole
     # thing as funder_name and ignore award_number.
     def funding_references
-      all_contributors.filter(&:funder?).map do |funder|
+      all_contributors.filter(&:funder?).map(&:call).map do |funder|
         funding_reference = { funder_name: funder[:name] }
         identifier = funder[:name_identifiers]&.first
         next funding_reference unless identifier
@@ -143,8 +143,7 @@ module DataworksMappers
         funding_reference.merge(
           {
             funder_identifier: identifier[:name_identifier],
-            funder_identifier_type: identifier[:name_identifier_scheme],
-            scheme_uri: identifier[:scheme_uri]
+            funder_identifier_type: identifier[:name_identifier_scheme]
           }.compact_blank
         )
       end.presence
