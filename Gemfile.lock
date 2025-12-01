@@ -88,6 +88,9 @@ GEM
     bootsnap (1.19.0)
       msgpack (~> 1.2)
     builder (3.3.0)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     bunny (2.24.0)
       amq-protocol (~> 2.3)
       sorted_set (~> 1, >= 1.0.2)
@@ -530,6 +533,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-import
   bootsnap
+  bundler-audit
   capistrano-passenger
   capistrano-rails
   cocina_display (~> 1)
