@@ -71,7 +71,7 @@ module DataworksMappers
 
     # If no publication year, fall back to year metadata was created
     def publication_year
-      record.pub_year_str || record.created_time.year.to_s
+      record.pub_year_int.to_s || record.created_time.year.to_s
     end
 
     # We use whatever the first language in the record is (usually English)
