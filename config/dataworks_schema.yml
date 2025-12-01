@@ -535,6 +535,7 @@ components:
         - LISSN
         - LSID
         - PMID
+        - pmid
         - PURL
         - RRID
         - UPC
