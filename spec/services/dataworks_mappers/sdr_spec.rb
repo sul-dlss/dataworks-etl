@@ -104,6 +104,16 @@ RSpec.describe DataworksMappers::Sdr do
     expect(metadata[:publication_year]).to eq('2018')
   end
 
+  context 'when there is no publication year' do
+    before do
+      source['description']['event'] = []
+    end
+
+    it 'falls back to the metadata created year' do
+      expect(metadata[:publication_year]).to eq('2024')
+    end
+  end
+
   it 'maps the subjects' do
     expect(metadata[:subjects]).to eq(
       [
