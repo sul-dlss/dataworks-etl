@@ -11,7 +11,7 @@ class OpenalexEnhancer
   rescue Clients::Error => e
     # We do not want Honeybadger notifications b/c OpenAlex provides a 404
     # for any dataset that does not exist
-    Rails.logger.debug { "OpenAlex record retrieval error for #{@doi}, #{e}" }
+    Rails.logger.info { "OpenAlex record retrieval error for #{@doi}, #{e}" }
   end
 
   def add_metadata
@@ -20,6 +20,11 @@ class OpenalexEnhancer
     @mapped_record = add_publications_metadata
     @mapped_record = add_access
     @mapped_record
+  rescue Clients::Error => e
+    # Log any error that might occur with the client
+    error_msg = "OpenAlex metadata enhancement client error, #{e}"
+    Rails.logger.error { error_msg }
+    Honeybadger.notify( error_msg )
   end
 
   # Add publication related information
