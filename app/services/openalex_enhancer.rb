@@ -24,7 +24,7 @@ class OpenalexEnhancer
     # Log any error that might occur with the client
     error_msg = "OpenAlex metadata enhancement client error, #{e}"
     Rails.logger.error { error_msg }
-    Honeybadger.notify( error_msg )
+    Honeybadger.notify(error_msg)
   end
 
   # Add publication related information
