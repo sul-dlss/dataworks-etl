@@ -20,7 +20,8 @@ module Clients
     def get_json(path:, params: {})
       conn.get(path, params.compact).body
     rescue Faraday::Error => e
-      raise Error, "Connection err: #{e.message}"
+      status = e.response.present? ? e.response[:status] : ''
+      raise Error, "Connection err: #{e.message} #{status}"
     rescue JSON::ParserError => e
       raise Error, "JSON parsing error: #{e.message}"
     end
