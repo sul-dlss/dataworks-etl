@@ -9,7 +9,7 @@ RSpec.describe DataworksMappers::Sdr do
 
   it 'maps the identifiers' do
     expect(metadata[:identifiers]).to include(
-      { identifier: 'druid:vk217bh4910', identifier_type: 'DRUID' },
+      { identifier: 'vk217bh4910', identifier_type: 'DRUID' },
       { identifier: '10.25740/ppax-bf07', identifier_type: 'DOI' }
     )
   end
