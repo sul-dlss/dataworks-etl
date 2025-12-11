@@ -272,6 +272,7 @@ purl_fetcher:
     - px507jb1735
     - ds247vz0452
     - jg722zc0626
+    - nk071jz2236
 
 # Determines the environment that cocina metadata will be fetched from; for
 # stage indexing it should be set to staging PURL
