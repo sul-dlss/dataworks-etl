@@ -51,14 +51,10 @@ jobs:
         with:
           ruby-version: 3.4.2
           bundler-cache: true
-      - name: Install dependencies
-        run: bundle install
       - name: Audit dependencies
         run: bin/bundler-audit
-      - name: Setup db
-        run: bin/rails db:test:prepare
       - name: Run tests
-        run: bundle exec rspec
+        run: bin/rake db:test:prepare spec
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
