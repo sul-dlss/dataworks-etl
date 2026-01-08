@@ -16,7 +16,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.2
+          ruby-version: ruby
           bundler-cache: true
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
@@ -31,7 +31,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.2
+          ruby-version: ruby
           bundler-cache: true
 
       - name: Lint code for consistent style
@@ -49,7 +49,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.2
+          ruby-version: 4.0.0
           bundler-cache: true
       - name: Audit dependencies
         run: bin/bundler-audit
