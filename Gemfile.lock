@@ -78,7 +78,7 @@ GEM
       public_suffix (>= 2.0.2, < 8.0)
     airbrussh (1.6.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    amq-protocol (2.5.0)
+    amq-protocol (2.5.1)
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.2)
@@ -183,7 +183,7 @@ GEM
       activesupport (>= 6.1)
     hana (1.3.7)
     hashdiff (1.2.1)
-    honeybadger (6.2.0)
+    honeybadger (6.2.1)
       logger
       ostruct
     i18n (1.14.8)
@@ -305,7 +305,7 @@ GEM
       date
       stringio
     public_suffix (7.0.2)
-    puma (7.1.0)
+    puma (7.2.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -353,31 +353,31 @@ GEM
     rainbow (3.1.1)
     rake (13.3.1)
     rbtree (0.4.6)
-    rdkafka (0.24.2)
+    rdkafka (0.25.0)
       ffi (~> 1.17.1)
       json (> 2.0)
       logger
       mini_portile2 (~> 2.6)
       rake (> 12)
-    rdkafka (0.24.2-aarch64-linux-gnu)
+    rdkafka (0.25.0-aarch64-linux-gnu)
       ffi (~> 1.17.1)
       json (> 2.0)
       logger
       mini_portile2 (~> 2.6)
       rake (> 12)
-    rdkafka (0.24.2-arm64-darwin)
+    rdkafka (0.25.0-arm64-darwin)
       ffi (~> 1.17.1)
       json (> 2.0)
       logger
       mini_portile2 (~> 2.6)
       rake (> 12)
-    rdkafka (0.24.2-x86_64-linux-gnu)
+    rdkafka (0.25.0-x86_64-linux-gnu)
       ffi (~> 1.17.1)
       json (> 2.0)
       logger
       mini_portile2 (~> 2.6)
       rake (> 12)
-    rdkafka (0.24.2-x86_64-linux-musl)
+    rdkafka (0.25.0-x86_64-linux-musl)
       ffi (~> 1.17.1)
       json (> 2.0)
       logger
