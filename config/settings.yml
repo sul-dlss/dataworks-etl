@@ -106,6 +106,27 @@ datacite:
     - 10.48322/nvsm-n779
     - 10.4121/8aae7661-4af1-4604-9653-8ea10eed0afd
     - 10.4121/8aae7661-4af1-4604-9653-8ea10eed0afd.v1
+    # Multiple elements not matching schema, e.g name_identifier_scheme
+    # is orchid instead of orcid
+    - 10.7281/t1kk98xb
+    # publisher id scheme is RRID which is not in our list
+    - 10.48324/dandi.000070/0.251218.1714
+    # date for the following is 2010-05-13/ which does not fit date format
+    - 10.48322/3jya-jk44
+    - 10.48322/pbyp-4d90
+    - 10.48322/n41j-hy30
+    - 10.48322/094z-2d40
+    - 10.48322/dpmb-xg29
+    - 10.48322/z1ks-mk18
+    - 10.48322/asmp-nf13
+    - 10.48322/fwtc-3d78
+    - 10.48322/4k86-r913
+    - 10.48322/xze3-9s15
+    - 10.48322/51e0-hf62
+    - 10.48322/mjpe-e089
+    # date is 2010-04-24/ which does not fit date format
+    - 10.48322/jdkz-xv95
+    - 10.48322/ze6r-3m97
   suppress:
     # Datasets we do not want to bring in from Redivis instances through any queries
     # Shah Lab
