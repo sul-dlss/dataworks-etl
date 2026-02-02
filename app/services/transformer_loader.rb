@@ -28,7 +28,7 @@ class TransformerLoader
   def dataset_record_sets
     DatasetRecordSet.select(:extractor, :list_args).group(:extractor, :list_args).pluck(:extractor, :list_args)
                     .filter_map do |extractor, list_args|
-                      DatasetRecordSet.latest_completed(extractor:, list_args:)
+      DatasetRecordSet.latest_completed(extractor:, list_args:)
     end
   end
 
