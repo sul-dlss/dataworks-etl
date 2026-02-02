@@ -180,7 +180,7 @@ module DataworksMappers
     class TitleMapper
       def self.call(record)
         [].tap do |titles|
-          titles << { title: record.main_title } if record.main_title.present?
+          titles << { title: record.display_title } if record.display_title.present?
           record.additional_titles.each do |title|
             titles << { title: title, type: 'AlternativeTitle' }
           end
