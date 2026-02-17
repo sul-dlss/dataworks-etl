@@ -312,8 +312,8 @@ RSpec.describe SolrMapper do
     let(:metadata) do
       {
         dates: [
-          date:,
-          date_type: 'Coverage'
+          { date:,
+            date_type: 'Coverage' }
         ]
       }
     end
