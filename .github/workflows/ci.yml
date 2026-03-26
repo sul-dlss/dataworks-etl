@@ -56,7 +56,7 @@ jobs:
       - name: Run tests
         run: bin/rake db:test:prepare spec
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: sul-dlss/dataworks-etl
