@@ -26,7 +26,7 @@ set :log_level, :info
 # append :linked_files, 'config/database.yml' # From puppet
 
 # Default value for linked_dirs is []
-append :linked_dirs, 'log', 'config/settings', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -45,9 +45,6 @@ set :honeybadger_env, fetch(:stage)
 
 # Set Rails env to production in all Cap environments
 set :rails_env, 'production'
-
-# update shared_configs before restarting app (from dlss-capistrano gem)
-before 'deploy:restart', 'shared_configs:update'
 
 # Manage SolidQueue via systemd (from dlss-capistrano gem)
 set :solid_queue_systemd_role, :app
