@@ -239,6 +239,18 @@ datacite:
     - 10.18112/openneuro.ds005017.v1.0.2
     - 10.18112/openneuro.ds006179.v1.0.1
     - 10.18112/openneuro.ds006209.v1.0.0
+    # More
+    - 10.48322/r8ty-4s63
+    - 10.48324/dandi.000409/0.260309.1324
+    - 10.48324/dandi.000054/0.260408.2101
+    - 10.48324/dandi.000054/0.260409.0433
+    - 10.48324/dandi.000054/0.260415.1712
+    - 10.4121/40d7a8c5-2c68-4681-8a15-a224be5ca1fe.v2
+    - 10.5281/zenodo.20221721
+    - 10.5281/zenodo.20221722
+    - 10.48324/dandi.000559/0.260528.0858
+    - 10.48324/dandi.000070/0.260528.0919
+    - 10.5880/gfz.2.8.2020.002
 dryad:
    ignore:
     # Has empty creator with no name and just name type, i.e. { name_type: 'Personal' }
