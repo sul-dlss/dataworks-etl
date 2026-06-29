@@ -15,6 +15,8 @@ namespace :development do # rubocop:disable Metrics/BlockLength
         mapper.call(source: dataset_record.source)
       rescue DataworksMappers::MappingError => e
         puts "#{dataset_record.doi} - Failure message #{e.message}"
+      rescue StandardError => e
+        puts "#{dataset_record.id} - Non mapping error #{e.message}"
       end
     end
   end
