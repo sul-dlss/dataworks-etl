@@ -6,12 +6,12 @@ namespace :development do # rubocop:disable Metrics/BlockLength
     provider = args[:provider]
 
     mapper = "DataworksMappers::#{provider.camelize}".constantize
-    puts "Mapper #{mapper}"
+
     DatasetRecordSet.where(provider:).select(:list_args).group(:list_args).pluck(:list_args).each do |list_args|
       dataset_record_set = DatasetRecordSet.where(provider:, list_args:, complete: true).order(updated_at: :desc).first
       next unless dataset_record_set
 
-      puts "Dataset record set exists"
+      puts 'Dataset record set exists'
       dataset_record_set.dataset_records.each do |dataset_record|
         puts "Dataset record being reviewed #{dataset_record.id}"
         mapper.call(source: dataset_record.source)
