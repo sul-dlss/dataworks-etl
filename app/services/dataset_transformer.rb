@@ -76,7 +76,7 @@ class DatasetTransformer
     raise
   end
 
-  def ignore?(dataset_record:)    
+  def ignore?(dataset_record:)
     ignore_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id)
   end
 
