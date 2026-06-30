@@ -11,14 +11,7 @@ namespace :development do # rubocop:disable Metrics/BlockLength
       dataset_record_set = DatasetRecordSet.where(provider:, list_args:, complete: true).order(updated_at: :desc).first
       next unless dataset_record_set
 
-      puts "---ALL records being reviewed"
       dataset_record_set.dataset_records.each do |dataset_record|
-        puts dataset_record.dataset_id
-      end
-      puts "---Begin transformation"
-
-      dataset_record_set.dataset_records.each do |dataset_record|
-        puts "Dataset record being reviewed #{dataset_record.dataset_id}"
         mapper.call(source: dataset_record.source)
       rescue DataworksMappers::MappingError => e
         puts "#{dataset_record.dataset_id} - Failure message #{e.message}"

@@ -367,6 +367,11 @@ purl_fetcher:
     - jg722zc0626
     - nk071jz2236
 
+sdr:
+  ignore:
+    # Missing URL
+    - xs445kg9020
+
 # Determines the environment that cocina metadata will be fetched from; for
 # stage indexing it should be set to staging PURL
 purl:

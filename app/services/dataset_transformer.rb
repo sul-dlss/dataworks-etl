@@ -65,10 +65,18 @@ class DatasetTransformer
 
     Rails.logger.error "Mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
     Honeybadger.notify(e)
+
+    raise
+  rescue StandardError => e
+    return if ignore?(dataset_record:)
+
+    Rails.logger.error "Standard non-mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
+    Honeybadger.notify(e)
+
     raise
   end
 
-  def ignore?(dataset_record:)
+  def ignore?(dataset_record:)    
     ignore_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id)
   end
 

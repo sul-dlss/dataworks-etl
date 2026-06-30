@@ -151,7 +151,6 @@ module DataworksMappers
 
     # We use the PURL as the canonical URL
     def url
-      puts "URL is #{record.purl_url}"
       record.purl_url
     end
 
