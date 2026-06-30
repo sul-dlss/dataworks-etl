@@ -13,6 +13,7 @@ class CocinaService
   # Fetch the Cocina record from PURL for a given item by druid
   # @return [CocinaDisplay::CocinaRecord] Cocina record for the item
   def cocina_record(druid:)
+    puts "Cocina record for #{druid}"
     CocinaDisplay::CocinaRecord.new(conn.get("/#{druid}.json").body)
   end
 
