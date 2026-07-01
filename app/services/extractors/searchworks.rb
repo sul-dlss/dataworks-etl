@@ -46,12 +46,10 @@ module Extractors
         # field['a'] has a contributor name. If none exists, we will just skip
         next unless field['a']
 
-        # If the creator/contributor IS an organization, we save the name directly
-        next unless field['u'].present? && %w[110 710].include?(field.
-                                         # We save affiliations for all creators/contributors where present
-                                         affiliations << field['u'])
-
-        organizations << field['a']
+        # If the creator/contributor IS an organization, save the name
+        organizations << field['a'] if %w[110 710].include? field.tag
+        # Save any affiliations for creators or contributors
+        affiliations << field['u'] if field['u'].present?
       end
 
       { affiliations: affiliations.uniq, organizations: organizations.uniq }
