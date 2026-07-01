@@ -110,4 +110,15 @@ namespace :development do # rubocop:disable Metrics/BlockLength
     StanfordAuthor.delete_all
     puts 'Removed all Stanford authors'
   end
+
+  # Task to use Sdr update to retrieve datasets in Sdr extractor
+  desc 'Run sdr consumer update on list of druids'
+  task sdr_update: :environment do
+    sdr_list = YAML.load_file(Rails.root.join('config/datasets/sdr_rake.yml'))
+
+    sdr_list.each do |druid|
+      puts "Updating: #{druid}"
+      SdrConsumer.new.update_item(druid)
+    end
+  end
 end
