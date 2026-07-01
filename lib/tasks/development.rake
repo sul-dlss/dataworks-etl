@@ -14,7 +14,13 @@ namespace :development do # rubocop:disable Metrics/BlockLength
       dataset_record_set.dataset_records.each do |dataset_record|
         mapper.call(source: dataset_record.source)
       rescue DataworksMappers::MappingError => e
-        puts "#{dataset_record.doi} - Failure message #{e.message}"
+        # Not every dataset has a DOI but all have a dataset id, which may be a DOI
+        puts "#{dataset_record.dataset_id} - Failure message #{e.message}"
+      # Some errors may occur for other reasons, for example, a malformed URI
+      # throwing an error from within Cocina code
+      # We want to capture any errors and output them for tracking
+      rescue StandardError => e
+        puts "#{dataset_record.dataset_id} - Non mapping error #{e.message}"
       end
     end
   end
