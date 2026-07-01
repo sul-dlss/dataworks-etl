@@ -22,7 +22,6 @@ namespace :development do # rubocop:disable Metrics/BlockLength
       rescue StandardError => e
         puts "#{dataset_record.dataset_id} - Non mapping error #{e.message}"
       end
-
     end
   end
 
