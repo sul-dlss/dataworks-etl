@@ -110,4 +110,21 @@ namespace :development do # rubocop:disable Metrics/BlockLength
     StanfordAuthor.delete_all
     puts 'Removed all Stanford authors'
   end
+
+  # Task to use Sdr update to retrieve datasets in Sdr extractor
+  desc 'Run sdr consumer update on list of druids'
+  task sdr_update: :environment do
+    sdr_list = YAML.load_file(Rails.root.join('config/datasets/sdr_rake.yml'))
+
+    sdr_list.each do |druid|
+      puts "Updating: #{druid}"
+      begin
+        SdrConsumer.new.update_item(druid)
+      rescue Racecar::Error => e
+        puts "Racecar error occurred with #{druid} - #{e.message}"
+      rescue StandardError => e
+        puts "Standard error occurred with #{druid} - #{e.message}"
+      end
+    end
+  end
 end
