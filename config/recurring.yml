@@ -49,9 +49,7 @@ production:
           query_label: "ICPSR",
           solr_params:
             {
-              q: "Inter-university Consortium for Political and Social Research.",
-              search_field: "search_author",
-              fq: ["access_facet:Online", "format_main_ssim:Dataset"],
+              q: "icpsr AND is4"
             },
         },
       ]

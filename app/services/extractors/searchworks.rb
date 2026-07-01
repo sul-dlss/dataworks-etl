@@ -12,10 +12,47 @@ module Extractors
     private
 
     def results
-      Enumerator::Chain.new(
+      retain_by_affiliation(Enumerator::Chain.new(
         extra_dataset_results,
         client.list(**list_args).map { |source| source_to_result(source:) }
-      ).uniq(&:id)
+      ).uniq(&:id))
+    end
+
+    # Retain only those results that have a Stanford affiliation
+    def retain_by_affiliation(results_list)
+      results_list.lazy.select do |result|
+        next unless result.source['marc_json_struct']&.any?
+
+        # We need to review the MARC record and retrieve the contributor names and affiliations
+        marc_record = MARC::Record.new_from_hash(JSON.parse(result.source['marc_json_struct'][0]))
+        stanford_affiliated?(marc_record)
+      end
+    end
+
+    # Check if record qualifies as Stanford affiliated
+    def stanford_affiliated?(marc_record)
+      relationships = retrieve_affiliations(marc_record)
+      relationships[:organizations].any? { |org| org.downcase.start_with?('stanford') } ||
+        relationships[:affiliations].any? { |affiliation| affiliation.downcase.include?('stanford') }
+    end
+
+    # Retrieve all organization creator or contributor names and creator or contributor affiliations
+    def retrieve_affiliations(marc_record)
+      affiliations = []
+      organizations = []
+
+      # These tags correspond to both creators and contributors
+      marc_record.fields.each_by_tag(%w[100 110 700 710]) do |field|
+        # field['a'] has a contributor name. If none exists, we will just skip
+        next unless field['a']
+
+        # If the creator/contributor IS an organization, save the name
+        organizations << field['a'] if %w[110 710].include? field.tag
+        # Save any affiliations for creators or contributors
+        affiliations << field['u'] if field['u'].present?
+      end
+
+      { affiliations: affiliations.uniq, organizations: organizations.uniq }
     end
 
     # Client returns solr docs; we need to map them to ListResults
