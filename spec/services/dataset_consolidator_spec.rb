@@ -187,5 +187,24 @@ RSpec.describe DatasetConsolidator do
         expect(remove_dois).to contain_exactly('10.3886/ICPSR07803.v1', '10.3886/ICPSR07803.v2')
       end
     end
+
+    # OpenICPSR DOIs follow a different pattern, 
+    context 'with ICSPR DOIs for OpenICPSR' do
+      let(:solr_docs) do
+        [
+          { 'doi_ssi' => '10.3886/e115368v1' },
+          { 'doi_ssi' => '10.3886/e115368v1-23247' },
+          { 'doi_ssi' => '10.3886/e8863v1' },
+          { 'doi_ssi' => '10.3886/e8863v2' }
+        ]
+      end
+
+      it 'lists all lower version numbers for removal' do
+        remove_dois = dataset_consolidator.remove_by_version_number([
+                                                                      '10.3886/e8863v1', '10.3886/e8863v2'
+                                                                    ])
+        expect(remove_dois).to contain_exactly('10.3886/e8863v1')
+      end
+    end
   end
 end
