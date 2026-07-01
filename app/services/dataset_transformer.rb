@@ -66,6 +66,17 @@ class DatasetTransformer
     Rails.logger.error "Mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
     Honeybadger.notify(e)
     raise
+  # This additional block allows for capturing other errors, such as malformed URIs
+  # or exceptions that are not related to mapping. We want to raise an exception
+  # only if they are not already on our ignore list, but flag them as a different
+  # kind of error.
+  rescue StandardError => e
+    return if ignore?(dataset_record:)
+
+    Rails.logger.error "Standard non-mapping error for dataset_record_id #{dataset_record.id}: #{e.message}"
+    Honeybadger.notify(e)
+
+    raise
   end
 
   def ignore?(dataset_record:)
