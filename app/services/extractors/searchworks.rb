@@ -24,7 +24,7 @@ module Extractors
         next unless result.source['marc_json_struct']&.any?
 
         # We need to review the MARC record and retrieve the contributor names and affiliations
-        marc_record ||= MARC::Record.new_from_hash(JSON.parse(result.source['marc_json_struct'][0]))
+        marc_record = MARC::Record.new_from_hash(JSON.parse(result.source['marc_json_struct'][0]))
         stanford_affiliated?(marc_record)
       end
     end
@@ -46,9 +46,12 @@ module Extractors
         # field['a'] has a contributor name. If none exists, we will just skip
         next unless field['a']
 
-        # If the contributor IS an organization, return the
-        organizations << field['a'] if %w[110 710].include? field.tag
-        affiliations << field['u'] if field['u'].present?
+        # If the creator/contributor IS an organization, we save the name directly
+        next unless field['u'].present? && %w[110 710].include?(field.
+                                         # We save affiliations for all creators/contributors where present
+                                         affiliations << field['u'])
+
+        organizations << field['a']
       end
 
       { affiliations: affiliations.uniq, organizations: organizations.uniq }
