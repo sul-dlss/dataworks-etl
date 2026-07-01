@@ -118,7 +118,13 @@ namespace :development do # rubocop:disable Metrics/BlockLength
 
     sdr_list.each do |druid|
       puts "Updating: #{druid}"
-      SdrConsumer.new.update_item(druid)
+      begin
+        SdrConsumer.new.update_item(druid)
+      rescue Racecar::Error => e
+        puts "Racecar error occurred with #{druid} - #{e.message}"
+      rescue StandardError => e
+        puts "Standard error occurred with #{druid} - #{e.message}"
+      end
     end
   end
 end
