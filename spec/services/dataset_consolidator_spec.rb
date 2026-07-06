@@ -188,7 +188,7 @@ RSpec.describe DatasetConsolidator do
       end
     end
 
-    # OpenICPSR DOIs follow a different pattern, 
+    # OpenICPSR DOIs follow a different pattern,
     context 'with ICSPR DOIs for OpenICPSR' do
       let(:solr_docs) do
         [
@@ -204,6 +204,13 @@ RSpec.describe DatasetConsolidator do
                                                                       '10.3886/e8863v1', '10.3886/e8863v2'
                                                                     ])
         expect(remove_dois).to contain_exactly('10.3886/e8863v1')
+      end
+
+      it 'lists hyphenated versions for removal' do
+        remove_dois = dataset_consolidator.remove_by_version_number([
+                                                                      '10.3886/e115368v1', '10.3886/e115368v1-23247'
+                                                                    ])
+        expect(remove_dois).to contain_exactly('10.3886/e115368v1-23247')
       end
     end
   end
