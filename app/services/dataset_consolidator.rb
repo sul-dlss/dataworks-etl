@@ -88,19 +88,43 @@ class DatasetConsolidator
   end
 
   # @param dois: [String]. List of versions
-  # @param prefix: String. The part of the DOI which precedes the last '.v'
+  # @param prefix: String. The part of the DOI which precedes the last '.v' OR 'v' for OpenICPSR datasets
   def compare_numerical_version(versions, prefix)
     # Keep the base DOI without any version info as that is probably the canonical
     # version and will link to other versions
     if versions.include?('-1')
       # Remove everything but the base version.
       # The DOI needs to be rebuilt from prefix and version suffix
-      return versions.reject { |version| version == '-1' }.map { |version| "#{prefix}.v#{version}" }
+      return versions.reject { |version| version == '-1' }.map { |version| rebuild_doi(prefix, version) }
     end
 
-    # Keep only the biggest numerical version i.e. the last element of the sorted array
-    sorted_v = versions.sort_by(&:to_f)
-    sorted_v[0, sorted_v.length - 1].map { |version| "#{prefix}.v#{version}" }
+    # Keep only the latest version i.e. the last element of the sorted array.ave
+    sorted_v = sort_versions(versions)
+    sorted_v[0, sorted_v.length - 1].map { |version| rebuild_doi(prefix, version) }
+  end
+
+  # @param versions: [String] an array of version numbers
+  # We want to handle both the regular case of normal numbers, but
+  # Open ICPSR includes versions like "1-2345". Any version with a hyphen
+  # will be passed over for other versions with numbers and a hyphen.
+  # Note "-1" is a special case and is dealt separately in the comparison method.
+  def sort_versions(versions)
+    versions.sort_by do |version|
+      [
+        version.match?(/[\d+]-[\d+]/) ? 0 : 1,
+        version.to_f
+      ]
+    end
+  end
+
+  # @param prefix: The beginning part of the DOI before the part we think is the version
+  # @param version: The version number
+  # For regular DOIs, we can recreate the DOI using prefix.version, but
+  # OpenICPSR records use a different format, namely 10.3886/e[digits]v1 without a dot.
+  def rebuild_doi(prefix, version)
+    return "#{prefix}.v#{version}" unless %r{^10\.3886/e\d+$}.match?(prefix)
+
+    "#{prefix}v#{version}"
   end
 
   # @param modified_dois: [String]. Array of DOIs.
@@ -109,6 +133,7 @@ class DatasetConsolidator
   # then that DOI's value is represented by -1.
   # Example: ['abc.123.v1', 'abc.123.v1.0.1', 'abc.123.v2', 'abc.123'] should yield
   # {'abc.123' => ['1', '1.0.1', '2', '-1']}
+  # rubocop:disable Metrics/AbcSize
   def generate_prefix_hash(modified_dois)
     prefix_hash = {}
     modified_dois.each do |d|
@@ -121,6 +146,11 @@ class DatasetConsolidator
       if /\w+\.\w+\.v[\d+][.\d]*$/.match?(d) || /ICPSR\d{5}.v[\d+][.\d]*$/.match?(d)
         prefix = d[0, d.rindex('.v')]
         version = d[d.rindex('.v') + 2, d.length]
+      # Open ICPSR is of the format 10.3886/e115368v1 or 10.3886/e115368v1-23247
+      # Afer 'e', we are capturing any number of digits
+      elsif (match = d.match(%r{^(10\.3886/e\d+)v(\d+-*\d*)}))
+        prefix = match[1]
+        version = match[2]
       end
 
       prefix_hash[prefix] = [] unless prefix_hash.key?(prefix)
@@ -128,4 +158,5 @@ class DatasetConsolidator
     end
     prefix_hash
   end
+  # rubocop:enable Metrics/AbcSize
 end
