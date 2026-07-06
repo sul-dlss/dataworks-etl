@@ -98,22 +98,21 @@ class DatasetConsolidator
       return versions.reject { |version| version == '-1' }.map { |version| rebuild_doi(prefix, version) }
     end
 
-    # Keep only the biggest numerical version i.e. the last element of the sorted array
-    # Additionally, we capture hyphenated OpenICSPR versions as "1-", so we want to remove
-    # those versions that have
+    # Keep only the latest version i.e. the last element of the sorted array.ave
     sorted_v = sort_versions(versions)
     sorted_v[0, sorted_v.length - 1].map { |version| rebuild_doi(prefix, version) }
   end
 
-  # @param versions: an array of version numbers
+  # @param versions: [String] an array of version numbers
   # We want to handle both the regular case of normal numbers, but
   # Open ICPSR includes versions like "1-2345". Any version with a hyphen
-  # will be passed over for other versions without a hyphen
+  # will be passed over for other versions with numbers and a hyphen.
+  # Note "-1" is a special case and is dealt separately in the comparison method.
   def sort_versions(versions)
     versions.sort_by do |version|
       [
         version.match?(/[\d+]-[\d+]/) ? 0 : 1,
-        version.to_f || 0
+        version.to_f
       ]
     end
   end
@@ -122,9 +121,8 @@ class DatasetConsolidator
   # @param version: The version number
   # For regular DOIs, we can recreate the DOI using prefix.version, but
   # OpenICPSR records use a different format, namely 10.3886/e[digits]v1 without a dot.
-  # We need to recreate
   def rebuild_doi(prefix, version)
-    return "#{prefix}.v#{version}" unless %r{^10\.3886/e\d{4,6}$}.match?(prefix)
+    return "#{prefix}.v#{version}" unless %r{^10\.3886/e\d+$}.match?(prefix)
 
     "#{prefix}v#{version}"
   end
@@ -149,8 +147,8 @@ class DatasetConsolidator
         prefix = d[0, d.rindex('.v')]
         version = d[d.rindex('.v') + 2, d.length]
       # Open ICPSR is of the format 10.3886/e115368v1 or 10.3886/e115368v1-23247
-      # Afer e, there may be between 4 and 6 digits
-      elsif (match = d.match(%r{^(10\.3886/e\d{4,6})v(\d+-*\d*)}))
+      # Afer 'e', we are capturing any number of digits
+      elsif (match = d.match(%r{^(10\.3886/e\d+)v(\d+-*\d*)}))
         prefix = match[1]
         version = match[2]
       end
