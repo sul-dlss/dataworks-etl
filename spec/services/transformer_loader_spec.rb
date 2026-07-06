@@ -34,8 +34,8 @@ RSpec.describe TransformerLoader do
 
     expect(DatasetTransformer).to have_received(:call).exactly(3).times
     expect(DatasetTransformer).to have_received(:call).with(
-      dataset_records: [redivis_dataset_record_set.dataset_records.first,
-                        datacite_dataset_record_set.dataset_records.first],
+      dataset_records: contain_exactly(redivis_dataset_record_set.dataset_records.first,
+                                       datacite_dataset_record_set.dataset_records.first),
       load_id: String,
       mapper_class: SolrMapper
     ).once
