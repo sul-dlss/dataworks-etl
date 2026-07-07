@@ -87,8 +87,13 @@ namespace :development do # rubocop:disable Metrics/BlockLength
     full_path = Rails.root.join(file_path)
     puts "Loading file at #{full_path}"
 
+    batch_size = 5000
+    counter = 0
+    total_counter = 0
     import_records = []
     CSV.foreach(full_path, headers: true) do |row|
+      counter = counter + 1
+      total_counter = total_counter + 1
       import_records << StanfordAuthor.new(sunet_id: row['sunetid'],
                                            cap_profile_id: row['cap_profile_id'],
                                            full_name: row['full_name'],
@@ -98,11 +103,17 @@ namespace :development do # rubocop:disable Metrics/BlockLength
                                            email: row['email'],
                                            active: row['active'].downcase == 'true',
                                            departments: row['all_departments']&.split('|'))
+      if counter == batch_size
+        puts "Created batch records for import: #{import_records.length}"
+        StanfordAuthor.import import_records
+        puts 'Finished importing records'
+        counter = 0
+        import_records = []
+      end
     end
 
-    puts "Created records for import: #{import_records.length}"
-    StanfordAuthor.import import_records
-    puts 'Finished importing records'
+    puts "Finished importing #{total_counter} records"
+    
   end
 
   desc 'Delete authors from stanford authors'
