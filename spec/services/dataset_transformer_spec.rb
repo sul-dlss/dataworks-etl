@@ -93,4 +93,21 @@ RSpec.describe DatasetTransformer do
       expect(Honeybadger).not_to have_received(:notify)
     end
   end
+
+  context 'when there is a provider set of metadata field and value defined for suppressing a dataset' do
+    before do
+      allow(Settings.redivis.suppress_filter).to receive_messages(
+        path: 'owner:fullName',
+        value: 'Test Owner'
+      )
+      allow(Honeybadger).to receive(:notify)
+    end
+
+    let(:dataset_records) { [redivis_dataset_record] }
+
+    it 'skips the dataset without notifying Honeybadger' do
+      expect(solr_doc).to be_nil
+      expect(Honeybadger).not_to have_received(:notify)
+    end
+  end
 end
