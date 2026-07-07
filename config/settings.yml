@@ -138,6 +138,17 @@ datacite:
     - 10.48324/dandi.000559/0.260528.0858
     - 10.48324/dandi.000070/0.260528.0919
     - 10.5880/gfz.2.8.2020.002
+    # Additional errors
+    - 10.5291/ill-data.1-01-227
+    - 10.26093/cds/vizier/be-57-7x
+    - 10.26093/cds/vizier/ba-wy-5t
+    - 10.26093/cds/vizier/ba-wy-2s
+    - 10.26093/cds/vizier/ba-xk-1y
+    - 10.26093/cds/vizier/ba-xk-9
+    - 10.26093/cds/vizier/ba-xt-11
+    - 10.26093/cds/vizier/ba-xt-24
+    - 10.26093/cds/vizier/ba-xv-41
+    - 10.26093/cds/vizier/ba-xz-4d
   suppress:
     # Datasets we do not want to bring in from Redivis instances through any queries
     # Shah Lab
