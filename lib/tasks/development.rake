@@ -96,7 +96,7 @@ namespace :development do # rubocop:disable Metrics/BlockLength
                                            last_name: row['last_name'],
                                            orcid: row['orcidid'],
                                            email: row['email'],
-                                           active: row['active'] == 'TRUE',
+                                           active: row['active'].downcase == 'true',
                                            departments: row['all_departments']&.split('|'))
     end
 
