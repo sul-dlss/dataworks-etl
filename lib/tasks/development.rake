@@ -79,6 +79,7 @@ namespace :development do # rubocop:disable Metrics/BlockLength
     # rubocop:enable Metrics/BlockLength
   end
 
+  # rubocop:disable Metrics/BlockLength
   desc 'Load author CSV into database'
   task :load_stanford_authors, [:file_path] => :environment do |_t, args|
     require 'csv'
@@ -92,8 +93,8 @@ namespace :development do # rubocop:disable Metrics/BlockLength
     total_counter = 0
     import_records = []
     CSV.foreach(full_path, headers: true) do |row|
-      counter = counter + 1
-      total_counter = total_counter + 1
+      counter += 1
+      total_counter += 1
       import_records << StanfordAuthor.new(sunet_id: row['sunetid'],
                                            cap_profile_id: row['cap_profile_id'],
                                            full_name: row['full_name'],
@@ -112,9 +113,17 @@ namespace :development do # rubocop:disable Metrics/BlockLength
       end
     end
 
+    # If there are any import records left over in the last iteration
+    if import_records.any?
+      puts "Created last batch records for import: #{import_records.length}"
+      StanfordAuthor.import import_records
+      puts 'Finished importing records'
+      total_counter += import_records.length
+    end
+
     puts "Finished importing #{total_counter} records"
-    
   end
+  # rubocop:enable Metrics/BlockLength
 
   desc 'Delete authors from stanford authors'
   task remove_stanford_authors: :environment do
