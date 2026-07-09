@@ -21,7 +21,7 @@ RSpec.describe DataworksMappers::Dryad do
                 name: 'Stanford University'
               }
             ],
-            name: 'Emma Harrison',
+            name: 'Harrison, Emma',
             name_identifiers: [
               { name_identifier: '0000-0003-1308-7523', name_identifier_scheme: 'ORCID' }
             ],
@@ -35,7 +35,7 @@ RSpec.describe DataworksMappers::Dryad do
                 name: 'University of Wyoming'
               }
             ],
-            name: 'Brandon McElroy',
+            name: 'McElroy, Brandon',
             name_type: 'Personal'
           },
           {
@@ -46,7 +46,7 @@ RSpec.describe DataworksMappers::Dryad do
                 name: 'Stanford University'
               }
             ],
-            name: 'Jane Willenbring',
+            name: 'Willenbring, Jane',
             name_type: 'Personal'
           }
         ],

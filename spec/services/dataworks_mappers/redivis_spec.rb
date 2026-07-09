@@ -52,4 +52,17 @@ RSpec.describe DataworksMappers::Redivis do
       expect(metadata[:access]).to eq('Public')
     end
   end
+
+  context 'when owner kind is user and name has no commas' do
+    before do
+      source['owner'] = {
+        kind: 'user',
+        fullName: 'Firstname Lastname'
+      }
+    end
+
+    it 'returns name in lastname, firstname format' do
+      expect(metadata[:creators]).to eq([{ name: 'Lastname, Firstname' }])
+    end
+  end
 end

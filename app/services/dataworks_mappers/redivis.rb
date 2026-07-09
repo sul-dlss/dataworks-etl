@@ -22,7 +22,7 @@ module DataworksMappers
     def perform_map
       {
         titles: [{ title: source[:name] }],
-        creators: [{ name: source[:owner][:fullName] }],
+        creators:,
         publication_year:,
         identifiers:,
         url: source[:url],
@@ -38,6 +38,21 @@ module DataworksMappers
     end
 
     private
+
+    def creators
+      owner = source[:owner]
+      name = owner[:fullName]
+      # if owner is a user, and the name has at least two different
+      # words with spaces and no commas
+      if owner['kind'].present? && owner['kind'] == 'user' &&
+         name.match?(/^[^,]+\s+[^,]+$/)
+
+        name_split = name.split
+        name = "#{name_split.last.strip}, #{name_split[0...-1].join(' ').strip}"
+      end
+
+      [{ name: name }]
+    end
 
     def publication_year
       return unless source[:createdAt]
