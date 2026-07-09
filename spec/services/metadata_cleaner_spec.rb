@@ -21,5 +21,9 @@ RSpec.describe MetadataCleaner do
     it 'removes leading and trailing white space' do
       expect(cleaned_up_doc['publisher_ssi']).to contain_exactly('figshare')
     end
+
+    it 'breaks out author fields by semicolon' do
+      expect(cleaned_up_doc['contributors_ssim']).to contain_exactly('Winnie', 'Eeyore', 'Tigger')
+    end
   end
 end
