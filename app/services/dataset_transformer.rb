@@ -84,8 +84,7 @@ class DatasetTransformer
   end
 
   def suppress?(dataset_record:)
-    suppress_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id) || 
-      suppress_by_metadata_filter(dataset_record:)
+    suppress_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id)
   end
 
   # Ignored datasets are expected to raise mapping errors; if they do not,
@@ -100,34 +99,8 @@ class DatasetTransformer
   # for valid datasets that we nevertheless do not want to index.
   def suppress_dataset_ids(provider:)
     @suppress_dataset_ids ||= {}
-    @suppress_dataset_ids[provider] ||= Settings[provider]&.suppress || []
+    @suppress_dataset_ids[provider] ||= DatasetSuppressQuery.new(provider:).suppression_ids
     @suppress_dataset_ids[provider]
-  end
-
-  # We want to also utilize a metadata filtering suppression method when configured
-  # Each provider can have a metadata path and target value specified in the settings
-  # Anything more complex than a metadata value match will need its own method
-  def suppress_by_metadata_filter(dataset_record:)
-    provider = dataset_record.provider
-    @filter ||= {}
-    @filter[provider] ||=  Settings[provider]&.suppress_filter || {}
-    
-    # If there are no specific metadata path and value pairs to suppress, we will return
-    return unless @filter[provider].present? && @filter[provider]['path'].present? && @filter[provider]['value'].present?
-
-    # Get the particular metadata path and corresponding value we wish to check for
-    value = @filter[provider]['value']
-    keys = @filter[provider]['path'].split(':')
-    metadata = dataset_record.source
-
-    keys.each do |key|
-      break unless metadata.is_a?(Hash)
-
-      metadata = metadata.key?(key) ? metadata[key] : metadata[key.to_sym]
-    end
-   
-    # If the value to suppress is included, we will suppress this dataset
-    return Array(metadata).include?(value) 
   end
 
   def check_mapping_success(dataset_record:)
