@@ -54,7 +54,7 @@ module DataworksMappers
     def creators
       Array(source[:authors]).map do |author|
         {
-          name: "#{author[:firstName]} #{author[:lastName]}",
+          name: "#{author[:lastName]}, #{author[:firstName]}",
           name_type: 'Personal',
           name_identifiers: name_identifiers_for(author),
           affiliation: affiliation_for(author)
