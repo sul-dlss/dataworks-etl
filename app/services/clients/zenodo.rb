@@ -10,7 +10,7 @@ module Clients
     # @param affiliation [String] name of the organization
     # @return [Array<Clients::ListResult>] array of ListResults for the datasets
     # @raise [Clients::Error] if the request fails
-    def list(affiliation:, page_size: 250)
+    def list(affiliation:, page_size: 100)
       page = 1
       [].tap do |results|
         while page
