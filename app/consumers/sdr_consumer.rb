@@ -72,21 +72,19 @@ class SdrConsumer < Racecar::Consumer
   # Do the item's non-release targets match any of our desired targets?
   def false_target?(change)
     false_targets = Array(change&.dig('false_targets')).map(&:downcase)
-    @targets.any? { |target| false_targets.include?(target) }
+    @targets.intersect?(false_targets)
   end
 
   # Is the item in any collection we should skip?
   def in_skipped_collection?(change)
     collections = Array(change&.dig('collections'))
-    @skip_collections.any? { |druid| collections.include?(druid) }
+    @skip_collections.intersect?(collections)
   end
 
   # Is the item a self-deposited dataset?
   # Checks both top-level type and subtypes for self-deposit resource types.
   def self_deposit_dataset?(cocina_record)
-    cocina_record.self_deposit_resource_types.flat_map(&:values).any? do |type|
-      DATASET_RESOURCE_TYPES.include?(type)
-    end
+    cocina_record.self_deposit_resource_types.flat_map(&:values).intersect?(DATASET_RESOURCE_TYPES)
   end
 
   # Public cocina record for an item; nil if not found
