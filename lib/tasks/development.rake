@@ -89,11 +89,9 @@ namespace :development do # rubocop:disable Metrics/BlockLength
     puts "Loading file at #{full_path}"
 
     batch_size = 5000
-    counter = 0
     total_counter = 0
     import_records = []
     CSV.foreach(full_path, headers: true) do |row|
-      counter += 1
       total_counter += 1
       import_records << StanfordAuthor.new(sunet_id: row['sunetid'],
                                            cap_profile_id: row['cap_profile_id'],
@@ -102,13 +100,12 @@ namespace :development do # rubocop:disable Metrics/BlockLength
                                            last_name: row['last_name'],
                                            orcid: row['orcidid'],
                                            email: row['email'],
-                                           active: row['active'].downcase == 'true',
+                                           active: row['active']&.downcase == 'true',
                                            departments: row['all_departments']&.split('|'))
-      if counter == batch_size
+      if import_records.length == batch_size
         puts "Created batch records for import: #{import_records.length}"
         StanfordAuthor.import import_records
         puts 'Finished importing records'
-        counter = 0
         import_records = []
       end
     end
@@ -118,7 +115,6 @@ namespace :development do # rubocop:disable Metrics/BlockLength
       puts "Created last batch records for import: #{import_records.length}"
       StanfordAuthor.import import_records
       puts 'Finished importing records'
-      total_counter += import_records.length
     end
 
     puts "Finished importing #{total_counter} records"
