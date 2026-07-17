@@ -57,16 +57,6 @@ class MetadataCleaner
 
   # Values may also be split out by semicolons for authors
   def semicolon_delimited(values)
-    return_values = []
-    values.each do |value|
-      if value.include?(';')
-        # splat operator will push each element of split result into array
-        return_values.push(*value.split(';').map(&:strip))
-      else
-        return_values << value
-      end
-    end
-
-    return_values
+    values.flat_map { |value| value.split(';').map(&:strip) }
   end
 end
