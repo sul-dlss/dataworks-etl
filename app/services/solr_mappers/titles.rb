@@ -3,6 +3,11 @@
 module SolrMappers
   # Maps Dataworks metadata to Solr metadata for titles
   class Titles
+    # Tags allowed in the display (HTML) title field. Only inline
+    # formatting that carries meaning in a title (italics for scientific names
+    # and journals, sub/superscript for notation).
+    DISPLAY_TAGS = %w[i em sub sup].freeze
+
     def self.call(...)
       new(...).call
     end
@@ -12,9 +17,10 @@ module SolrMappers
     end
 
     def call
-      # The schema requires that a title of any type be present
+      # The schema requires that a title of any type be present.
       {
-        title_tsim: primary_title,
+        title_tsim: text_titles,
+        title_html_tsm: html_titles,
         subtitle_tsim: subtitles,
         alternative_title_tsim: alternative_titles,
         translate_title_tsim: translated_titles,
@@ -26,12 +32,20 @@ module SolrMappers
 
     attr_reader :metadata
 
+    def text_titles
+      primary_title.map { |title| MarkupNormalizer.to_text(title) }
+    end
+
+    def html_titles
+      primary_title.map { |title| MarkupNormalizer.to_html(title, tags: DISPLAY_TAGS) }
+    end
+
     def primary_title
       # The Solr mapping requires a dedicated title field, so this ensures
       # the main title field is populated
-      (titles.presence || subtitles.presence || alternative_titles.presence ||
+      @primary_title ||= (titles.presence || subtitles.presence || alternative_titles.presence ||
               translated_titles.presence || other_titles)
-        .map { |title| title_with_version(title:) }
+                         .map { |title| title_with_version(title:) }
     end
 
     def titles
