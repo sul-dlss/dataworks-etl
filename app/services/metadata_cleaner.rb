@@ -4,6 +4,7 @@
 class MetadataCleaner
   # Fields for cleanup
   FIELDS = %w[creators_ssim contributors_ssim funders_ssim subjects_ssim publisher_ssi].freeze
+  AUTHOR_FIELDS = %w[creators_ssim contributors_ssim].freeze
 
   def self.call(...)
     new(...).call
@@ -20,7 +21,7 @@ class MetadataCleaner
 
   def cleanup_fields(solr_doc)
     FIELDS.each do |field|
-      solr_doc[field] = cleanup_field(solr_doc[field]) if solr_doc.key?(field)
+      solr_doc[field] = cleanup_field(field, solr_doc[field]) if solr_doc.key?(field)
     end
     solr_doc
   end
@@ -28,9 +29,10 @@ class MetadataCleaner
   # Pass in an array of values for a field and clean up each value
   # Cleanup: Split out string of subjects into individual subjects;
   # remove opening and closing parentheses; remove leading or trailing spaces.
-  def cleanup_field(values)
+  def cleanup_field(field, values)
     values = [values] unless values.is_a?(Array)
     delim = quote_delimited(values)
+    delim = semicolon_delimited(delim) if AUTHOR_FIELDS.include?(field)
     trimmed = delim.map { |val| val.delete_prefix('(').delete_suffix(')').strip }
 
     values.is_a?(Array) ? trimmed : trimmed[0]
@@ -51,5 +53,10 @@ class MetadataCleaner
     end
 
     return_values
+  end
+
+  # Values may also be split out by semicolons for authors
+  def semicolon_delimited(values)
+    values.flat_map { |value| value.split(';').map(&:strip) }
   end
 end
