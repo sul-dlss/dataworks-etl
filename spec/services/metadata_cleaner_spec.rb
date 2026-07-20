@@ -26,4 +26,25 @@ RSpec.describe MetadataCleaner do
       expect(cleaned_up_doc['contributors_ssim']).to contain_exactly('Winnie', 'Eeyore', 'Tigger')
     end
   end
+
+  context 'with parentheses' do
+    let(:solr_doc) do
+      {
+        'creators_ssim' => ['Auckland Academic Health Alliance (AAHA)', '(Alexander Second)'],
+        'funders_ssim' => ['Portable Network Graphics (PNG)'],
+        'subjects_ssim' => ['METAGENOME ASSEMBLED GENOMES (MAGs)']
+      }
+    end
+    let(:cleaned_up_doc) { described_class.call(solr_doc:) }
+
+    it 'keeps the closing parenthesis of a trailing acronym' do
+      expect(cleaned_up_doc['funders_ssim']).to eq(['Portable Network Graphics (PNG)'])
+      expect(cleaned_up_doc['subjects_ssim']).to eq(['METAGENOME ASSEMBLED GENOMES (MAGs)'])
+    end
+
+    it 'still unwraps a fully parenthesized value while keeping trailing acronyms' do
+      expect(cleaned_up_doc['creators_ssim']).to contain_exactly('Auckland Academic Health Alliance (AAHA)',
+                                                                 'Alexander Second')
+    end
+  end
 end
