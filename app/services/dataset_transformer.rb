@@ -3,7 +3,7 @@
 # Performs transformation from source metadata to Solr documents for a single dataset
 class DatasetTransformer
   # These providers are ordered by preference for mapping.
-  PROVIDERS = %w[sdr datacite local searchworks dryad redivis zenodo open_alex].freeze
+  PROVIDERS = %w[sdr datacite local searchworks dryad redivis zenodo].freeze
 
   # These fields are merged from the dataset records of other providers in preference order.
   MERGEABLE_FIELDS = [:variables_tsim].freeze
@@ -16,6 +16,9 @@ class DatasetTransformer
     @dataset_records = dataset_records
     @load_id = load_id
     @mapper_class = mapper_class
+    # We will generate a hash of a list of suppression ids for each provider.
+    # These ids require both reading from Settings and also other queries.
+    @suppress_by_provider = extract_suppression_ids
   end
 
   # @return [Hash] Solr document for the dataset.
@@ -84,7 +87,7 @@ class DatasetTransformer
   end
 
   def suppress?(dataset_record:)
-    suppress_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id)
+    @suppress_by_provider[dataset_record.provider]&.include?(dataset_record.dataset_id)
   end
 
   # Ignored datasets are expected to raise mapping errors; if they do not,
@@ -97,10 +100,8 @@ class DatasetTransformer
 
   # Suppressed datasets are always skipped without notification; they are used
   # for valid datasets that we nevertheless do not want to index.
-  def suppress_dataset_ids(provider:)
-    @suppress_dataset_ids ||= {}
-    @suppress_dataset_ids[provider] ||= DatasetSuppressQuery.new(provider:).suppression_ids
-    @suppress_dataset_ids[provider]
+  def extract_suppression_ids
+    PROVIDERS.index_with { |provider| DatasetSuppressQuery.new(provider:).suppression_ids.compact }
   end
 
   def check_mapping_success(dataset_record:)

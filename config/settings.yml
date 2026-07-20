@@ -12,9 +12,6 @@ redivis:
     - ~
   suppress:
     - ~
-  suppress_filter:
-    path: 'owner:fullName'
-    value: 'Some owner'
 
 zenodo:
 #   api_token: ~
