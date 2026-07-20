@@ -9,7 +9,7 @@ class DatasetSuppressQuery
   end
 
   def suppression_ids
-    ids = suppress_by_settings
+    ids = suppress_by_settings.dup
     ids.concat(suppress_datacite_by_query) if @provider == 'datacite'
 
     ids
