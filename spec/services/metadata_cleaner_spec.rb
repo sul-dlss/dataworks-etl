@@ -47,4 +47,31 @@ RSpec.describe MetadataCleaner do
                                                                  'Alexander Second')
     end
   end
+
+  context 'with hierarchical and marked-up subjects (#303)' do
+    let(:solr_doc) do
+      {
+        'subjects_ssim' => [
+          'EARTH SCIENCE &gt; LAND SURFACE &gt; SOILS',
+          'EARTH SCIENCE &gt; LAND SURFACE &gt; SOILS &gt; MICROFAUNA:GCMD',
+          '<i>Asclepias</i>',
+          'ANIMALS/VERTEBRATES'
+        ]
+      }
+    end
+    let(:cleaned_up_doc) { described_class.call(solr_doc:) }
+
+    it 'splits hierarchy, strips markup and scheme suffixes, and dedupes terms' do
+      expect(cleaned_up_doc['subjects_ssim']).to eq(
+        ['EARTH SCIENCE', 'LAND SURFACE', 'SOILS', 'MICROFAUNA', 'Asclepias', 'ANIMALS/VERTEBRATES']
+      )
+    end
+
+    it 'splits on a literal (unencoded) ">" hierarchy' do
+      doc = { 'subjects_ssim' => ['Earth Science > Solid Earth > Seismology > Earthquake Dynamics'] }
+      expect(described_class.call(solr_doc: doc)['subjects_ssim']).to eq(
+        ['Earth Science', 'Solid Earth', 'Seismology', 'Earthquake Dynamics']
+      )
+    end
+  end
 end
