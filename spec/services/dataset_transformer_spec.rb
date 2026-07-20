@@ -49,6 +49,35 @@ RSpec.describe DatasetTransformer do
             load_id:, provider_identifiers_map:).once
   end
 
+  context 'with markup in creator and contributor names' do
+    let(:dataset_records) { [datacite_dataset_record] }
+    let(:mapped_metadata) do
+      {
+        'titles' => [{ 'title' => 'A dataset' }],
+        'creators' => [{ 'name' => '<i>Asclepias</i>' }],
+        'contributors' => [{ 'name' => 'Ecology &amp; Evolution' }],
+        'identifiers' => [{ 'identifier' => datacite_dataset_record.doi, 'identifier_type' => 'DOI' }],
+        'publication_year' => '2023',
+        'url' => 'https://example.com/dataset',
+        'access' => 'Public',
+        'provider' => 'DataCite'
+      }
+    end
+
+    before do
+      allow(DataworksMappers::Datacite).to receive(:call).and_return(mapped_metadata)
+      allow(MetadataEnhancer).to receive(:call).and_return(mapped_metadata)
+    end
+
+    # Guards the reason NameNormalizer runs upstream of SolrMapper: the cleaned
+    # name must reach BOTH the flat facet field and the JSON struct.
+    it 'strips markup from names in the flat fields and the JSON structs' do
+      expect(solr_doc[:contributors_ssim]).to contain_exactly('Asclepias', 'Ecology & Evolution')
+      expect(JSON.parse(solr_doc[:creators_struct_ss]).pluck('name')).to eq(['Asclepias'])
+      expect(JSON.parse(solr_doc[:contributors_struct_ss]).pluck('name')).to eq(['Ecology & Evolution'])
+    end
+  end
+
   context 'when there is an error in mapping' do
     before do
       allow(DataworksMappers::Datacite).to receive(:call).and_raise(DataworksMappers::MappingError)
