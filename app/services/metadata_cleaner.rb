@@ -33,7 +33,7 @@ class MetadataCleaner
     values = [values] unless values.is_a?(Array)
     delim = quote_delimited(values)
     delim = semicolon_delimited(delim) if AUTHOR_FIELDS.include?(field)
-    trimmed = delim.map { |val| val.delete_prefix('(').delete_suffix(')').strip }
+    trimmed = delim.map { |val| unwrap_parens(val) }
 
     values.is_a?(Array) ? trimmed : trimmed[0]
   end
@@ -58,5 +58,12 @@ class MetadataCleaner
   # Values may also be split out by semicolons for authors
   def semicolon_delimited(values)
     values.flat_map { |value| value.split(';').map(&:strip) }
+  end
+
+  # Strip a pair of parentheses only when they wrap the whole value with nothing
+  # nested, so a trailing acronym such as "(PNG)" keeps its closing parenthesis.
+  def unwrap_parens(value)
+    stripped = value.strip
+    stripped.match?(/\A\([^()]*\)\z/) ? stripped[1...-1].strip : stripped
   end
 end
