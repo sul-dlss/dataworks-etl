@@ -8,7 +8,7 @@ RSpec.describe DatasetRecord do
     describe '.by_publisher' do
       # Set up record that should be returned
       let(:matching_record) do
-        described_class.create!({ id: 1, dataset_id: '1',
+        described_class.create!({ dataset_id: '1',
                                   provider: 'datacite',
                                   source: { data:
                                           { attributes:
@@ -17,7 +17,7 @@ RSpec.describe DatasetRecord do
       end
       # Set up record that should not be returned
       let(:excluded_record) do
-        described_class.create!({ id: 2, dataset_id: '2',
+        described_class.create!({ dataset_id: '2',
                                   provider: 'datacite',
                                   source: { data:
                                           { attributes:
