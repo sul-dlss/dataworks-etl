@@ -53,7 +53,7 @@ class DatasetTransformer
     "DataworksMappers::#{dataset_record.provider.camelize}".constantize
   end
 
-  def solr_doc_for(dataset_record:) # rubocop:disable Metrics/AbcSize
+  def solr_doc_for(dataset_record:) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     Honeybadger.context(dataset_record_id: dataset_record.id, provider: dataset_record.provider,
                         dataset_id: dataset_record.dataset_id)
     metadata = mapper_for(dataset_record:).call(source: dataset_record.source)
@@ -63,6 +63,10 @@ class DatasetTransformer
 
     # Add enhancements
     metadata = enhance_metadata(mapped_record: metadata, doi: dataset_record.doi).with_indifferent_access
+
+    # Strip markup from creator/contributor names before mapping so both the flat
+    # name fields and the JSON structs receive clean names.
+    metadata = NameNormalizer.call(mapped_record: metadata)
 
     # Call the Solr mapper (or vertex related transformation)
     mapper_class.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
