@@ -28,18 +28,23 @@ class MetadataCleaner
     solr_doc
   end
 
-  # Pass in an array of values for a field and clean up each value
-  # Cleanup: Split out string of subjects into individual subjects;
-  # remove opening and closing parentheses; remove leading or trailing spaces.
+  # Clean up a field's values and return them as a de-duplicated array:
+  # split combined strings into individual values, strip wrapping parentheses
+  # and whitespace from each, then de-duplicate.
   def cleanup_field(field, values)
-    values = [values] unless values.is_a?(Array)
-    delim = quote_delimited(values)
-    delim = semicolon_delimited(delim) if AUTHOR_FIELDS.include?(field)
-    delim = subject_delimited(delim) if field == 'subjects_ssim'
-    trimmed = delim.map { |val| unwrap_parens(val) }
-    trimmed = trimmed.uniq if field == 'subjects_ssim'
+    values = split_values(field, Array.wrap(values))
+    values = values.map { |value| unwrap_parens(value) }
+    values.uniq
+  end
 
-    values.is_a?(Array) ? trimmed : trimmed[0]
+  # Split combined strings into individual values. Every field splits embedded
+  # quoted, comma-separated strings; author fields also split on ";"; subjects
+  # split on their ">" hierarchy.
+  def split_values(field, values)
+    values = quote_delimited(values)
+    values = semicolon_delimited(values) if AUTHOR_FIELDS.include?(field)
+    values = subject_delimited(values) if field == 'subjects_ssim'
+    values
   end
 
   def quote_delimited(values)
