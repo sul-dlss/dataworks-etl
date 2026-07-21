@@ -39,6 +39,7 @@ RSpec.describe SolrMapper do
             provider_identifier_ssi: 'stanfordphs.prime_india:016c:v0_1',
             doi_ssi: '10.1234/5678',
             descriptions_tsim: ['My description', 'My abstract'],
+            descriptions_html_tsm: ['My description', 'My abstract'],
             creators_struct_ss: '[{"name":"A. Researcher"},{"name":"B. Researcher","name_type":"Personal","given_name":"B.","family_name":"Researcher","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}]},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}]}]',
             contributors_ids_sim: ['https://orcid.org/0000-0001-2345-6789', 'https://ror.org/00f54p054'],
             contributors_ssim: ['A. Researcher', 'B. Researcher', 'A. Organization', 'B. Organization', 'A. Contributor', 'B. Contributor'],
@@ -75,6 +76,40 @@ RSpec.describe SolrMapper do
       end
     end
     # rubocop:enable Layout/LineLength
+  end
+
+  context 'with rich-text descriptions of several types' do
+    let(:metadata) do
+      {
+        titles: [{ title: 'My title' }],
+        publication_year: '2023',
+        identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+        url: 'https://example.com/my-dataset',
+        access: 'Public',
+        provider: 'DataCite',
+        descriptions: [
+          { description: '<p>An <em>abstract</em> with <span style="color:red">markup</span>.</p>' },
+          { description: 'H<sub>2</sub>O sampling steps.', description_type: 'Methods' },
+          { description: 'See <a href="http://x" onclick="bad()">table</a>.', description_type: 'TechnicalInfo' }
+        ]
+      }
+    end
+
+    describe '#call' do
+      subject(:doc) { solr_mapper.call }
+
+      it 'strips markup for the searchable *_tsim fields, split by description family' do
+        expect(doc[:descriptions_tsim]).to eq(['An abstract with markup.'])
+        expect(doc[:methods_tsim]).to eq(['H2O sampling steps.'])
+        expect(doc[:other_descriptions_tsim]).to eq(['See table.'])
+      end
+
+      it 'keeps sanitized HTML for the display *_html_tsm fields, split by description family' do
+        expect(doc[:descriptions_html_tsm]).to eq(['<p>An <em>abstract</em> with markup.</p>'])
+        expect(doc[:methods_html_tsm]).to eq(['H<sub>2</sub>O sampling steps.'])
+        expect(doc[:other_descriptions_html_tsm]).to eq(['See <a href="http://x">table</a>.'])
+      end
+    end
   end
 
   context 'with minimal metadata record' do

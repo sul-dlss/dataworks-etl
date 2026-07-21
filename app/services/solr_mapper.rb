@@ -34,7 +34,6 @@ class SolrMapper
       load_id_ssi: load_id,
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
-      descriptions_tsim: descriptions_field,
       doi_ssi: doi,
       provider_identifier_ssi: provider_identifier_field,
       contributors_ssim: person_or_organization_names_fields('creators', 'contributors'),
@@ -47,9 +46,6 @@ class SolrMapper
       publisher_id_sim: publisher_id_field,
       publication_year_isi: metadata['publication_year'].to_i,
       subjects_ssim: subjects_field,
-      methods_tsim: descriptions_by_type_field(['Methods']),
-      other_descriptions_tsim: descriptions_by_type_field(%w[Other SeriesInformation TableOfContents
-                                                             TechnicalInfo]),
       language_ssi: metadata['language'],
       sizes_ssm: metadata['sizes'],
       formats_ssim: formats_field,
@@ -65,12 +61,30 @@ class SolrMapper
       stanford_contributor_bsi: stanford_contributor?,
       stanford_dataset_bsi: metadata['stanford_project'] || stanford_contributor?,
       department_ssim: department_field
-    }.merge(title_fields).merge(struct_fields).compact_blank
+    }.merge(title_fields).merge(struct_fields).merge(description_fields).compact_blank
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def title_fields
     SolrMappers::Titles.call(metadata:)
+  end
+
+  # Description fields as paired Solr fields: a plain-text *_tsim for search and
+  # a sanitized-HTML *_html_tsm for display. Source text is truncated first (see
+  # descriptions_field / descriptions_by_type_field), then normalized.
+  def description_fields
+    rich_text_fields('descriptions', descriptions_field)
+      .merge(rich_text_fields('methods', descriptions_by_type_field(['Methods'])))
+      .merge(rich_text_fields('other_descriptions',
+                              descriptions_by_type_field(%w[Other SeriesInformation TableOfContents TechnicalInfo])))
+  end
+
+  # @return [Hash] { "#{base}_tsim" => plain text, "#{base}_html_tsm" => sanitized HTML }
+  def rich_text_fields(base, values)
+    {
+      "#{base}_tsim": values.map { |value| RichTextNormalizer.to_text(value) },
+      "#{base}_html_tsm": values.map { |value| RichTextNormalizer.to_html(value) }
+    }
   end
 
   # Retrieve the identifier used by the provider themselves
