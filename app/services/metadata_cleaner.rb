@@ -5,6 +5,8 @@ class MetadataCleaner
   # Fields for cleanup
   FIELDS = %w[creators_ssim contributors_ssim funders_ssim subjects_ssim publisher_ssi].freeze
   AUTHOR_FIELDS = %w[creators_ssim contributors_ssim].freeze
+  # Trailing vocabulary-scheme acronym appended to a subject term, e.g. ":GCMD".
+  SUBJECT_SCHEME_SUFFIX = /\s*:\s*[A-Z][A-Z0-9]{2,}\z/
 
   def self.call(...)
     new(...).call
@@ -33,7 +35,9 @@ class MetadataCleaner
     values = [values] unless values.is_a?(Array)
     delim = quote_delimited(values)
     delim = semicolon_delimited(delim) if AUTHOR_FIELDS.include?(field)
+    delim = subject_delimited(delim) if field == 'subjects_ssim'
     trimmed = delim.map { |val| unwrap_parens(val) }
+    trimmed = trimmed.uniq if field == 'subjects_ssim'
 
     values.is_a?(Array) ? trimmed : trimmed[0]
   end
@@ -58,6 +62,16 @@ class MetadataCleaner
   # Values may also be split out by semicolons for authors
   def semicolon_delimited(values)
     values.flat_map { |value| value.split(';').map(&:strip) }
+  end
+
+  # GCMD-style subjects encode a hierarchy with ">" (raw or entity-encoded) and
+  # sometimes append a scheme acronym like ":GCMD"; markup such as <i> may also
+  # appear. Strip markup, split the hierarchy into terms, drop the scheme suffix,
+  # and remove blanks.
+  def subject_delimited(values)
+    values.flat_map do |value|
+      MarkupNormalizer.to_text(value).split('>').map { |term| term.sub(SUBJECT_SCHEME_SUFFIX, '') }
+    end.map(&:strip).compact_blank
   end
 
   # Strip a pair of parentheses only when they wrap the whole value with nothing
