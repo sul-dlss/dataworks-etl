@@ -11,6 +11,7 @@ RSpec.describe DatasetTransformer do
   let(:dataset_records) { [redivis_dataset_record, datacite_dataset_record] }
   let(:redivis_dataset_record) { create(:dataset_record) }
   let(:datacite_dataset_record) { create(:dataset_record, :datacite) }
+  let(:datacite_dataset_publisher_record) { create(:dataset_record, :datacite_with_publisher) }
 
   let(:load_id) { 'abc123' }
 
@@ -87,6 +88,20 @@ RSpec.describe DatasetTransformer do
     end
 
     let(:dataset_records) { [redivis_dataset_record] }
+
+    it 'skips the dataset without notifying Honeybadger' do
+      expect(solr_doc).to be_nil
+      expect(Honeybadger).not_to have_received(:notify)
+    end
+  end
+
+  context 'when there is a suppressed dataset based on suppression query' do
+    before do
+      allow(Settings.datacite).to receive(:suppress).and_return([])
+      allow(Honeybadger).to receive(:notify)
+    end
+
+    let(:dataset_records) { [datacite_dataset_publisher_record] }
 
     it 'skips the dataset without notifying Honeybadger' do
       expect(solr_doc).to be_nil

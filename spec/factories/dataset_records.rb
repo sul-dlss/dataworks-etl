@@ -71,5 +71,23 @@ FactoryBot.define do
         }
       end
     end
+
+    trait :datacite_with_publisher do
+      provider { 'datacite' }
+      dataset_id { doi }
+      sequence(:source) do |_n|
+        {
+          data: {
+            id: doi,
+            type: 'dois',
+            attributes: {
+              publisher: {
+                name: 'Environmental Molecular Sciences Laboratory'
+              }
+            }
+          }
+        }
+      end
+    end
   end
 end
