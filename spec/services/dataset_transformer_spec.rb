@@ -4,7 +4,11 @@ require 'rails_helper'
 
 RSpec.describe DatasetTransformer do
   subject(:solr_doc) do
-    described_class.call(dataset_records:, load_id:)
+    described_class.call(dataset_records:, load_id:, suppress_by_provider:)
+  end
+
+  let(:suppress_by_provider) do
+    DatasetSuppressQuery.suppression_ids_by_provider(providers: DatasetTransformer::PROVIDERS)
   end
 
   let(:openalex_client) { instance_double(Clients::OpenAlex) }

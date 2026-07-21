@@ -37,17 +37,29 @@ RSpec.describe TransformerLoader do
       dataset_records: contain_exactly(redivis_dataset_record_set.dataset_records.first,
                                        datacite_dataset_record_set.dataset_records.first),
       load_id: String,
-      mapper_class: SolrMapper
+      mapper_class: SolrMapper,
+      suppress_by_provider: Hash
     ).once
     expect(DatasetTransformer).to have_received(:call).with(
-      dataset_records: [redivis_dataset_record_set.dataset_records.last], load_id: String, mapper_class: SolrMapper
+      dataset_records: [redivis_dataset_record_set.dataset_records.last], load_id: String, mapper_class: SolrMapper,
+      suppress_by_provider: Hash
     ).once
     expect(DatasetTransformer).to have_received(:call).with(
-      dataset_records: [datacite_dataset_record_set.dataset_records.last], load_id: String, mapper_class: SolrMapper
+      dataset_records: [datacite_dataset_record_set.dataset_records.last], load_id: String, mapper_class: SolrMapper,
+      suppress_by_provider: Hash
     ).once
     expect(solr_service).to have_received(:add).with(solr_doc:).exactly(3).times
     expect(solr_service).to have_received(:commit).exactly(2).times # once after add, once after delete
     expect(solr_service).to have_received(:delete_by_query).with(query: '-load_id_ssi:"load123"').once
+  end
+
+  it 'builds the suppression map once per load rather than per dataset' do
+    allow(DatasetSuppressQuery).to receive(:suppression_ids_by_provider).and_return({})
+
+    described_class.call(load_id: 'load123')
+
+    # Three datasets are transformed, but the suppression map is built a single time.
+    expect(DatasetSuppressQuery).to have_received(:suppression_ids_by_provider).once
   end
 
   context 'when there is an error in mapping' do
