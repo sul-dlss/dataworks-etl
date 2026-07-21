@@ -12,13 +12,17 @@ class DatasetTransformer
     new(...).call
   end
 
-  def initialize(dataset_records:, load_id:, mapper_class: SolrMapper)
+  # @param dataset_records [Array<DatasetRecord>] the records for a single dataset, one per provider
+  # @param load_id [String] identifier for the current transform/load run
+  # @param suppress_by_provider [Hash{String => Array<String>}] map of provider to
+  #   suppressed dataset ids. Computed once per load by TransformerLoader and passed
+  #   in so the suppression queries do not run once per dataset.
+  # @param mapper_class [Class] the Solr mapper used to build the final document
+  def initialize(dataset_records:, load_id:, suppress_by_provider:, mapper_class: SolrMapper)
     @dataset_records = dataset_records
     @load_id = load_id
     @mapper_class = mapper_class
-    # We will generate a hash of a list of suppression ids for each provider.
-    # These ids require both reading from Settings and also other queries.
-    @suppress_by_provider = extract_suppression_ids
+    @suppress_by_provider = suppress_by_provider
   end
 
   # @return [Hash] Solr document for the dataset.
@@ -86,6 +90,8 @@ class DatasetTransformer
     ignore_dataset_ids(provider: dataset_record.provider).include?(dataset_record.dataset_id)
   end
 
+  # Suppressed datasets are always skipped without notification; they are used
+  # for valid datasets that we nevertheless do not want to index.
   def suppress?(dataset_record:)
     @suppress_by_provider[dataset_record.provider]&.include?(dataset_record.dataset_id)
   end
@@ -96,12 +102,6 @@ class DatasetTransformer
     @ignore_dataset_ids ||= {}
     @ignore_dataset_ids[provider] ||= Settings[provider]&.ignore || []
     @ignore_dataset_ids[provider]
-  end
-
-  # Suppressed datasets are always skipped without notification; they are used
-  # for valid datasets that we nevertheless do not want to index.
-  def extract_suppression_ids
-    PROVIDERS.index_with { |provider| DatasetSuppressQuery.new(provider:).suppression_ids.compact }
   end
 
   def check_mapping_success(dataset_record:)

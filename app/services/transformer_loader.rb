@@ -25,6 +25,13 @@ class TransformerLoader
 
   attr_reader :load_id, :mapper_class
 
+  # Suppression ids are computed once per load and passed to each DatasetTransformer,
+  # so the underlying Settings reads and suppression queries do not run per dataset.
+  def suppress_by_provider
+    @suppress_by_provider ||=
+      DatasetSuppressQuery.suppression_ids_by_provider(providers: DatasetTransformer::PROVIDERS)
+  end
+
   def dataset_record_sets
     @dataset_record_sets ||= DatasetRecordSet.select(:extractor, :list_args).group(:extractor, :list_args).pluck(
       :extractor, :list_args
@@ -56,7 +63,7 @@ class TransformerLoader
     list_dataset_ids.each_slice(100) do |dataset_ids|
       # Now run transform on this set of grouped records
       grouped_dataset_records(dataset_ids).each_value do |dataset_records|
-        solr_doc = DatasetTransformer.call(dataset_records:, load_id:, mapper_class:)
+        solr_doc = DatasetTransformer.call(dataset_records:, load_id:, mapper_class:, suppress_by_provider:)
         solr_docs << solr_doc if solr_doc
       rescue DataworksMappers::MappingError
         raise if fail_fast?
