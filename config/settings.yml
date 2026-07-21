@@ -149,6 +149,7 @@ datacite:
     - 10.26093/cds/vizier/ba-xt-24
     - 10.26093/cds/vizier/ba-xv-41
     - 10.26093/cds/vizier/ba-xz-4d
+    - 10.7910/dvn/ocznvy
   suppress:
     # Datasets we do not want to bring in from Redivis instances through any queries
     # Shah Lab
