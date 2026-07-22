@@ -57,6 +57,21 @@ RSpec.describe OpenalexEnhancer do
     end
   end
 
+  context 'when the OpenAlex client errors while enhancing' do
+    let(:references_count) { 1 }
+    let(:cited_by_count) { 1 }
+    let(:mapped_record) { { 'creators' => [{ 'name' => 'A. Researcher' }] } }
+
+    before do
+      allow(openalex_client).to receive(:query_relationship).and_raise(Clients::Error)
+      allow(Honeybadger).to receive(:notify)
+    end
+
+    it 'returns the original metadata record so the transform can continue' do
+      expect(enhanced_record).to eq(mapped_record)
+    end
+  end
+
   context 'when the relationship count is zero' do
     let(:references_count) { 0 }
     let(:cited_by_count) { 0 }
