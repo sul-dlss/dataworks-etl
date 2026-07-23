@@ -48,6 +48,15 @@ RSpec.describe MetadataCleaner do
     end
   end
 
+  context 'with duplicate values in a field' do
+    let(:solr_doc) { { 'contributors_ssim' => %w[Winnie Eeyore Winnie] } }
+    let(:cleaned_up_doc) { described_class.call(solr_doc:) }
+
+    it 'dedupes values within a field' do
+      expect(cleaned_up_doc['contributors_ssim']).to eq(%w[Winnie Eeyore])
+    end
+  end
+
   context 'with hierarchical and marked-up subjects (#303)' do
     let(:solr_doc) do
       {
