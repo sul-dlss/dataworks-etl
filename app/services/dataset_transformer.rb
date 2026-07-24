@@ -68,6 +68,10 @@ class DatasetTransformer
     # name fields and the JSON structs receive clean names.
     metadata = NameNormalizer.call(mapped_record: metadata)
 
+    # Clean and split creator/contributor affiliations (semicolon-delimited names
+    # become separate affiliations) before mapping.
+    metadata = AffiliationNormalizer.call(mapped_record: metadata)
+
     # Call the Solr mapper (or vertex related transformation)
     mapper_class.call(metadata:, doi: dataset_record.doi, id: dataset_record.external_dataset_id, load_id:,
                       provider_identifiers_map:)
