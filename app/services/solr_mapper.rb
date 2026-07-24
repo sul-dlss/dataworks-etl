@@ -259,7 +259,7 @@ class SolrMapper
   # Retrieve affiliation ids array given either creator or contributor field
   def affiliation_ids_for_role(role)
     Array(metadata[role]).flat_map do |role_entity|
-      role_entity['affiliation']&.pluck('affiliationIdentifier')
+      role_entity['affiliation']&.pluck('affiliation_identifier')
     end&.compact
   end
 

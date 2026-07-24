@@ -466,6 +466,29 @@ RSpec.describe SolrMapper do
       end
     end
 
+    context 'when a contributor affiliation id is the Stanford University RoR Id' do
+      let(:metadata) do
+        {
+          contributors: [
+            {
+              name: 'A. Researcher',
+              affiliation: [
+                {
+                  name: 'Some Institute',
+                  affiliation_identifier: 'https://ror.org/00f54p054',
+                  affiliation_identifier_scheme: 'ROR'
+                }
+              ]
+            }
+          ]
+        }
+      end
+
+      it 'identifies the dataset as having a stanford contributor' do
+        expect(solr_mapper).to be_stanford_contributor
+      end
+    end
+
     context 'when dataset is Stanford project but not contributor' do
       let(:metadata) do
         {
