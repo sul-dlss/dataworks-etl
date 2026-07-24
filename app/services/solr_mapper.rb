@@ -31,6 +31,7 @@ class SolrMapper
   def call
     {
       id: transform_id,
+      hashed_id_ssi: hashed_id,
       load_id_ssi: load_id,
       access_ssi: metadata['access'],
       provider_ssi: metadata['provider'],
@@ -150,6 +151,12 @@ class SolrMapper
   # Replace slashes and periods with underscores for Solr id to support Blacklight catalog display
   def transform_id
     id.gsub(%r{[.,/]}, '_')
+  end
+
+  # Hexadecimal digest of the Solr id, used by blacklight_dynamic_sitemap to bucket
+  # documents into sitemap chunks (via the hashed_id_field config in the UI app)
+  def hashed_id
+    Digest::MD5.hexdigest(transform_id)
   end
 
   # Transform MIME type formats to friendly names

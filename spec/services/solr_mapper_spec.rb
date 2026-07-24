@@ -27,6 +27,7 @@ RSpec.describe SolrMapper do
         expect(solr_mapper.call).to eq(
           {
             id: 'redivis-123',
+            hashed_id_ssi: '9053fe847ebb60e861dbcdecb785d399',
             load_id_ssi: 'abc123',
             title_tsim: ['My title V1.0'],
             title_html_tsm: ['My title V1.0'],
@@ -129,6 +130,7 @@ RSpec.describe SolrMapper do
         expect(solr_mapper.call).to eq(
           {
             id: 'redivis-123',
+            hashed_id_ssi: '9053fe847ebb60e861dbcdecb785d399',
             load_id_ssi: 'abc123',
             title_tsim: ['My title'],
             title_html_tsm: ['My title'],
@@ -394,6 +396,15 @@ RSpec.describe SolrMapper do
 
     it 'replaces characters correctly' do
       expect(solr_mapper.transform_id).to eq('10_1234_5678')
+    end
+  end
+
+  describe '#hashed_id' do
+    let(:metadata) { {} }
+    let(:id) { '10.1234/5678' }
+
+    it 'returns the hexadecimal MD5 digest of the transformed id' do
+      expect(solr_mapper.hashed_id).to eq('55e4e5641cd329289419385d0f4411a3')
     end
   end
 
