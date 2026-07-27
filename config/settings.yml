@@ -342,6 +342,9 @@ searchworks:
     - '13648508'
     - '13641651'
 
+dataverse:
+  api_token: ~
+
 purl_fetcher:
   url: https://purl-fetcher.stanford.edu
   targets: # Must be released to *all* of these in order to be indexed
