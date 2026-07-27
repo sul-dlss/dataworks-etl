@@ -2,6 +2,26 @@
 
 # Enhances a DataWorks schema metadata record based on the metadata on that record and related sources
 class StanfordEnhancer
+  # Department entries from the RIALTO affiliation data that are not useful to
+  # display, so they are dropped before departments are attached to a record.
+  EXCLUDED_DEPARTMENTS = [
+    'Academic Areas',
+    'Business Affairs',
+    "Dean's Office",
+    'DELETE NOT VALID',
+    'Doerr School Departments',
+    'Graduate Medical Education',
+    'Inter-Departmental Programs',
+    'Law Student Employees',
+    'Life Science Institutes (Independent Labs, Institutes, Centers - DoR)',
+    'Office of the Vice President for the Arts',
+    'Programs',
+    'Programs, Centers and Institutes',
+    'School of Medicine Centers & Programs',
+    'Stanford Introductory Studies',
+    'Vice President for SLAC'
+  ].freeze
+
   def initialize(mapped_record:)
     @mapped_record = mapped_record.with_indifferent_access
   end
@@ -35,7 +55,13 @@ class StanfordEnhancer
 
     # Update creators - if ORCID exists there is already a name identifiers block
     contributor[:name_identifiers] << cap_identifier
-    add_departments(contributor:, departments: author.departments) if author.departments.present?
+    departments = permitted_departments(author.departments)
+    add_departments(contributor:, departments:) if departments.present?
+  end
+
+  # Drop department entries we do not want to use from the RIALTO affiliation data.
+  def permitted_departments(departments)
+    Array(departments) - EXCLUDED_DEPARTMENTS
   end
 
   # Add departments to the affiliation section for creator/contributor metadata
