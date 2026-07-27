@@ -10,7 +10,7 @@ RSpec.describe DataverseEnhancer do
 
 
   before do
-    allow(Clients::Dataverse).to receive(:new).and_return(dataverse_client)
+    allow(Clients::Dataverse).to receive(:news).and_return(dataverse_client)
     allow(dataverse_client).to receive_messages(dataset_doi: dataverse_dataset)
   end
 
