@@ -65,8 +65,11 @@ module DataworksMappers
       all_contributors.reject(&:author?).map(&:call)
     end
 
+    # Use the publisher named in the record if present. SDR cocina metadata
+    # usually does not carry publisher information, so we fall back to the
+    # Stanford Digital Repository.
     def publisher
-      all_contributors.find(&:publisher?)&.call
+      all_contributors.find(&:publisher?)&.call || { name: 'Stanford Digital Repository' }
     end
 
     # If no publication year, fall back to year metadata was created

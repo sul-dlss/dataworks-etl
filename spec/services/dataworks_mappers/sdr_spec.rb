@@ -133,6 +133,27 @@ RSpec.describe DataworksMappers::Sdr do
     )
   end
 
+  it 'falls back to the Stanford Digital Repository as the publisher' do
+    expect(metadata[:publisher]).to eq({ name: 'Stanford Digital Repository' })
+  end
+
+  context 'when the record names a publisher' do
+    before do
+      source['description']['contributor'].push(
+        {
+          'name' => [{ 'value' => 'Some Other Publisher' }],
+          'role' => [
+            { 'value' => 'publisher', 'source' => { 'value' => 'DataCite properties' } }
+          ]
+        }
+      )
+    end
+
+    it 'keeps the publisher from the record' do
+      expect(metadata[:publisher]).to include(name: 'Some Other Publisher')
+    end
+  end
+
   it 'maps the publication year' do
     expect(metadata[:publication_year]).to eq('2018')
   end
