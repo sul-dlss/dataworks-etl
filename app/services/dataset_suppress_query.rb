@@ -10,7 +10,7 @@ class DatasetSuppressQuery
   REDIVIS_PUBLISHER = 'Redivis'
   # Identifier prefixes we wish to keep for sul, phsdata, pulse (Doerr), sdss_data_repository (Doerr)
 
-  REDIVIS_PREFIXES = ['sul.', 'phsdata.', 'sdss_data_repository.', 'pulse.'].freeze
+  REDIVIS_PREFIXES = %w[sul phsdata sdss_data_repository pulse].freeze
 
   # @param providers [Array<String>] providers to build suppression ids for
   # @return [Hash{String => Array<String>}] map of provider to suppressed dataset ids

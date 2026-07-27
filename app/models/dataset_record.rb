@@ -39,12 +39,18 @@ class DatasetRecord < ApplicationRecord
 
   # @return String query to be executed to return dataset records that
   # do not have identifiers which match any of the prefixes in exclude_prefixes
+  # Assumption: Prefixes are the portions before the first "." in the string
   # Query syntax assumes Postgres
   def self.identifier_jsonpath(exclude_prefixes)
     # Create the regular expression string for the prefixes using '|' to signify OR
-    regex_list = exclude_prefixes.map { |prefix| Regexp.escape(prefix) }.join('|')
+    # Regular expression escaping in Ruby is different than what is required for Postgres.
+    # If we want a more general solution for escaping additional characters,
+    # we should keep in mind escaping slashes
+    regex_list = exclude_prefixes.join('|')
     # The following translates into: does there exist identifier values in the
     # identifiers array that starts with any of the prefixes in the 'exclude_prefixes' array
-    "exists($.data.attributes.identifiers[*].identifier ? (@ like_regex \"^(#{regex_list})\" ) )"
+    # regex_list should resemble a pattern like "phs|sdss", and we are matching against phs. or sdss.
+    # Postgres requires four slashes here to escape the dot or period
+    "exists($.data.attributes.identifiers[*].identifier ? (@ like_regex \"^(#{regex_list})\\\\.\" ) )"
   end
 end

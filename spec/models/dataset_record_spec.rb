@@ -65,7 +65,7 @@ RSpec.describe DatasetRecord do
       end
 
       it 'returns only records that do not match provided prefixes' do
-        expect(described_class.by_excluding_prefix(['sul.']).pluck(:dataset_id)).to contain_exactly('4', '5')
+        expect(described_class.by_excluding_prefix(['sul']).pluck(:dataset_id)).to contain_exactly('4', '5')
       end
     end
   end
