@@ -47,7 +47,7 @@ RSpec.describe SolrMapper do
             funders_ssim: ['My funder', 'My other funder'],
             funders_ids_sim: ['https://ror.org/00f54p054'],
             url_ss: 'https://example.com/my-dataset',
-            contributors_struct_ss: '[{"name":"A. Contributor"},{"name":"B. Contributor","name_type":"Personal","given_name":"B.","family_name":"Contributor","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My contributor institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}],"contributor_type":"DataCollector"},{"name":"A. Organization"},{"name":"B. Organization","name_type":"Organizational","name_identifiers":[{"name_identifier":"https://ror.org/00f54p054"}],"affiliation":[{"name":"B. Parent Organization"}],"contributor_type":"RegistrationAgency"}]',
+            contributors_struct_ss: '[{"name":"A. Contributor"},{"name":"B. Contributor","name_type":"Personal","given_name":"B.","family_name":"Contributor","name_identifiers":[{"name_identifier":"https://orcid.org/0000-0001-2345-6789","name_identifier_scheme":"ORCID"}],"affiliation":[{"name":"My contributor institution","affiliation_identifier":"https://ror.org/00f54p054","affiliation_identifier_scheme":"ROR"}],"contributor_type":"DataCollector"},{"name":"A. Organization"}]',
             dates_struct_ss: '[{"date":"2023-01-01"},{"date":"2023-01-02T19:20:30+01:00"},{"date":"2023-01-03","date_type":"Updated"},{"date":"2022-01-01/2022-12-31"},{"date":"2022-11-25","date_type":"Coverage"},{"date":"1973"},{"date":"2008-06-08T00:00:00Z/2008-07-04T00:00:00Z"},{"date":"2006-12-20T00:00:00.000Z/2023-10-06T23:59:59.999Z"},{"date":"0600-01-01/1800-01-01"}]',
             funding_references_struct_ss: '[{"funder_name":"My funder"},{"funder_name":"My other funder","funder_identifier":"https://ror.org/00f54p054","funder_identifier_type":"ROR","award_number":"123456","award_uri":"https://doi.org/10.1234/5678","award_title":"My award title"}]',
             related_identifiers_struct_ss: '[{"related_identifier":"10.1234/5678"},{"related_identifier":"10.2345/6789","relation_type":"IsCitedBy","resource_type_general":"JournalArticle","related_identifier_type":"DOI"}]',
@@ -581,5 +581,83 @@ RSpec.describe SolrMapper do
       end
     end
     # rubocop:enable Layout/LineLength
+  end
+
+  describe 'excluded contributor types' do
+    context 'when a dataset has an excluded-type contributor alongside included contributors' do
+      let(:metadata) do
+        {
+          titles: [{ title: 'My title' }],
+          publication_year: '2023',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+          url: 'https://example.com/my-dataset',
+          access: 'Public',
+          provider: 'DataCite',
+          creators: [{ name: 'A. Creator' }],
+          contributors: [
+            {
+              name: 'A. Contributor',
+              contributor_type: 'DataCollector',
+              name_identifiers: [{ name_identifier: 'https://ror.org/kept' }],
+              affiliation: [{ name: 'Kept Affiliation' }]
+            },
+            {
+              name: 'Excluded Org',
+              contributor_type: 'RegistrationAgency',
+              name_identifiers: [{ name_identifier: 'https://ror.org/excluded' }],
+              affiliation: [{ name: 'Excluded Affiliation' }]
+            }
+          ]
+        }
+      end
+
+      it 'omits the excluded contributor from the searchable, facetable, and struct fields' do
+        expected_struct = [
+          {
+            name: 'A. Contributor',
+            contributor_type: 'DataCollector',
+            name_identifiers: [{ name_identifier: 'https://ror.org/kept' }],
+            affiliation: [{ name: 'Kept Affiliation' }]
+          }
+        ].to_json
+
+        expect(solr_mapper.call).to include(
+          contributors_ssim: ['A. Creator', 'A. Contributor'],
+          contributors_ids_sim: ['https://ror.org/kept'],
+          affiliation_names_sim: ['Kept Affiliation'],
+          contributors_struct_ss: expected_struct
+        )
+      end
+    end
+
+    context 'when the only contributor has an excluded type' do
+      let(:metadata) do
+        {
+          titles: [{ title: 'My title' }],
+          publication_year: '2023',
+          identifiers: [{ identifier: '10.1234/5678', identifier_type: 'DOI' }],
+          url: 'https://example.com/my-dataset',
+          access: 'Public',
+          provider: 'DataCite',
+          contributors: [{ name: 'Excluded', contributor_type: 'Sponsor' }]
+        }
+      end
+
+      it 'omits the contributors struct field' do
+        expect(solr_mapper.call).not_to include(:contributors_struct_ss)
+      end
+    end
+
+    context 'when a contributor with an excluded type is affiliated with Stanford' do
+      let(:metadata) do
+        {
+          contributors: [{ name: 'Stanford University', contributor_type: 'HostingInstitution' }]
+        }
+      end
+
+      it 'does not identify the dataset as having a stanford contributor' do
+        expect(solr_mapper).not_to be_stanford_contributor
+      end
+    end
   end
 end

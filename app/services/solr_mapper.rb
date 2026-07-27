@@ -9,6 +9,22 @@ class SolrMapper
   # but encoding can expand the length, so we are enforcing
   # a smaller length
   TEXT_LIMIT = 32_000
+
+  # Contributor types that should be excluded from the contributor list display
+  # and not searchable/facetable. Excluding them at index time keeps search,
+  # faceting, and display in agreement.
+  # Funder and ContactPerson still surface via their own fields
+  # (funding_references / access_contact), which are unaffected by this filter.
+  EXCLUDED_CONTRIBUTOR_TYPES = %w[
+    ContactPerson
+    Distributor
+    HostingInstitution
+    RegistrationAgency
+    RegistrationAuthority
+    Sponsor
+    Funder
+  ].freeze
+
   def self.call(...)
     new(...).call
   end
@@ -103,7 +119,7 @@ class SolrMapper
   # Get the name IDs for everything in the given fields (creators, contributors)
   def person_or_organization_ids_fields(*fields)
     fields.flat_map do |field|
-      Array(metadata[field]).map do |creator|
+      included_entities_for(field).map do |creator|
         creator['name_identifiers']&.pluck('name_identifier')
       end.flatten.compact
     end.uniq
@@ -212,13 +228,23 @@ class SolrMapper
 
   # Get the names for everything in the given fields (creators, contributors)
   def person_or_organization_names_fields(*fields)
-    fields.flat_map { |field| metadata[field]&.pluck('name') }.compact.uniq
+    fields.flat_map { |field| included_entities_for(field).pluck('name') }.compact.uniq
+  end
+
+  # Entities for a contributor field with the excluded types removed.
+  # This impacts Solr fields derived from contributors.
+  def included_entities_for(field)
+    entities = Array(metadata[field])
+    return entities unless field.to_s == 'contributors'
+
+    entities.reject { |entity| EXCLUDED_CONTRIBUTOR_TYPES.include?(entity['contributor_type']) }
   end
 
   def struct_fields
     %w[creators contributors dates rights_list funding_references
        related_identifiers access_contact].filter_map do |field|
-      [:"#{field}_struct_ss", metadata[field]&.to_json]
+      value = field == 'contributors' ? included_entities_for(field).presence : metadata[field]
+      [:"#{field}_struct_ss", value&.to_json]
     end.to_h
   end
 
@@ -244,21 +270,21 @@ class SolrMapper
 
   # Retrieve affiliation name array given either creator or contributor field
   def affiliation_names_for_role(role)
-    Array(metadata[role]).flat_map do |role_entity|
+    included_entities_for(role).flat_map do |role_entity|
       role_entity['affiliation']&.pluck('name')
     end&.compact
   end
 
   # Retrieve department names for roles
   def affiliation_department_names_for_role(role)
-    Array(metadata[role]).flat_map do |role_entity|
+    included_entities_for(role).flat_map do |role_entity|
       role_entity['affiliation']&.pluck('affiliation_department_name')
     end&.compact&.flatten
   end
 
   # Retrieve affiliation ids array given either creator or contributor field
   def affiliation_ids_for_role(role)
-    Array(metadata[role]).flat_map do |role_entity|
+    included_entities_for(role).flat_map do |role_entity|
       role_entity['affiliation']&.pluck('affiliation_identifier')
     end&.compact
   end
