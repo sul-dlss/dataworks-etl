@@ -6,7 +6,11 @@
 # provider => ids map in one pass (computed once per load by TransformerLoader and
 # passed to DatasetTransformer, so the suppression queries do not run per dataset).
 class DatasetSuppressQuery
-  DATACITE_PUBLISHER = 'Environmental Molecular Sciences Laboratory'
+  EMSL_PUBLISHER = 'Environmental Molecular Sciences Laboratory'
+  REDIVIS_PUBLISHER = 'Redivis'
+  # Identifier prefixes we wish to keep for sul, phsdata, pulse (Doerr), sdss_data_repository (Doerr)
+
+  REDIVIS_PREFIXES = %w[sul phsdata sdss_data_repository pulse].freeze
 
   # @param providers [Array<String>] providers to build suppression ids for
   # @return [Hash{String => Array<String>}] map of provider to suppressed dataset ids
@@ -18,19 +22,31 @@ class DatasetSuppressQuery
   # @return [Array<String>] suppressed dataset ids for the provider
   def self.suppression_ids(provider:)
     ids = suppress_by_settings(provider:).dup
-    ids.concat(suppress_datacite_by_query(provider:)) if provider == 'datacite'
+    if provider == 'datacite'
+      ids.concat(suppress_by_publisher_query(provider:))
+         .concat(suppress_by_identifier_query(provider:))
+    end
 
-    ids
+    ids.uniq
   end
 
   def self.suppress_by_settings(provider:)
     Settings[provider]&.suppress || []
   end
 
-  # Returns ids to be suppressed based on a particular query
-  def self.suppress_datacite_by_query(provider:)
-    DatasetRecord.where(provider:).by_publisher(DATACITE_PUBLISHER).pluck(:dataset_id)
+  # Returns ids to be suppressed based on a query for publisher
+  # Specific to Datacite as provider
+  def self.suppress_by_publisher_query(provider:)
+    DatasetRecord.where(provider:).by_publisher(EMSL_PUBLISHER).pluck(:dataset_id)
   end
 
-  private_class_method :suppression_ids, :suppress_by_settings, :suppress_datacite_by_query
+  # Returns ids to be suppressed based on Redivis identifier
+  # Specific to Datacite as provider and Redivis as publisher
+  def self.suppress_by_identifier_query(provider:)
+    DatasetRecord.where(provider:).by_publisher(REDIVIS_PUBLISHER)
+                 .by_excluding_prefix(REDIVIS_PREFIXES).pluck(:dataset_id)
+  end
+
+  private_class_method :suppression_ids, :suppress_by_settings, :suppress_by_publisher_query,
+                       :suppress_by_identifier_query
 end

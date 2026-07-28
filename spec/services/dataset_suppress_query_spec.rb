@@ -25,12 +25,41 @@ RSpec.describe DatasetSuppressQuery do
                                         { attributes:
                                           { publisher:
                                             { name: 'Shamwow' } } } } })
+        # This dataset should be returned for suppression b/c of Redivis identifier
+        DatasetRecord.create!({ dataset_id: '5',
+                                provider: 'datacite',
+                                source: { data:
+                                        { attributes:
+                                          {
+                                            publisher: { name: 'Redivis' },
+                                            identifiers: [{ identifier: 'levante.xyz' }]
+                                          } } } })
+        # This dataset should not be returned as the identifier is allowed
+        DatasetRecord.create!({ dataset_id: '6',
+                                provider: 'datacite',
+                                source: { data:
+                                        { attributes:
+                                          {
+                                            publisher: { name: 'Redivis' },
+                                            identifiers: [{ identifier: 'sul.xyz' }]
+                                          } } } })
+        # This dataset id should be returned b/c it was for
+        # Datacite provider, Redivis publisher, and has
+        # no identifiers within the metadata
+        DatasetRecord.create!({ dataset_id: '7',
+                                provider: 'datacite',
+                                source: { data:
+                                        { attributes:
+                                          {
+                                            publisher: { name: 'Redivis' },
+                                            identifiers: []
+                                          } } } })
       end
 
       it 'merges query and Settings ids for that provider' do
         result = described_class.suppression_ids_by_provider(providers: ['datacite'])
 
-        expect(result['datacite']).to contain_exactly('1', '3', '4')
+        expect(result['datacite']).to contain_exactly('1', '3', '4', '5', '7')
       end
     end
 

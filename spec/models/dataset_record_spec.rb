@@ -6,17 +6,15 @@ RSpec.describe DatasetRecord do
   # Test scope methods
   describe 'scopes' do
     describe '.by_publisher' do
-      # Set up record that should be returned
-      let(:matching_record) do
+      before do
+        # Set up record that should be returned
         described_class.create!({ dataset_id: '1',
                                   provider: 'datacite',
                                   source: { data:
                                           { attributes:
                                             { publisher:
                                               { name: 'Zenodo' } } } } })
-      end
-      # Set up record that should not be returned
-      let(:excluded_record) do
+        # Set up record that should not be returned
         described_class.create!({ dataset_id: '2',
                                   provider: 'datacite',
                                   source: { data:
@@ -26,7 +24,48 @@ RSpec.describe DatasetRecord do
       end
 
       it 'returns only records with matching publisher name' do
-        expect(described_class.by_publisher('Zenodo')).to contain_exactly(matching_record)
+        expect(described_class.by_publisher('Zenodo').pluck(:dataset_id)).to contain_exactly('1')
+      end
+    end
+
+    describe '.by_excluding_prefix' do
+      before do
+        # Set up records that should have their dataset ids returned by query
+        described_class.create!({ dataset_id: '4',
+                                  provider: 'datacite',
+                                  source: { data:
+                                  {
+                                    attributes:
+                                    {
+                                      publisher: { name: 'Redivis' },
+                                      identifiers: [{ identifier: 'levante.xyz.110' }]
+                                    }
+                                  } } })
+        described_class.create!({ dataset_id: '5',
+                                  provider: 'datacite',
+                                  source: { data:
+                                  {
+                                    attributes:
+                                    {
+                                      publisher: { name: 'Redivis' },
+                                      identifiers: [{ identifier: 'waffle.abc.111' }]
+                                    }
+                                  } } })
+        # This dataset should not be returned as it has the allowed (or excluded from query results) prefix
+        described_class.create!({ dataset_id: '7',
+                                  provider: 'datacite',
+                                  source: { data:
+                                  {
+                                    attributes:
+                                    {
+                                      publisher: { name: 'Redivis' },
+                                      identifiers: [{ identifier: 'sul.xyz.110' }]
+                                    }
+                                  } } })
+      end
+
+      it 'returns only records that do not match provided prefixes' do
+        expect(described_class.by_excluding_prefix(['sul']).pluck(:dataset_id)).to contain_exactly('4', '5')
       end
     end
   end
