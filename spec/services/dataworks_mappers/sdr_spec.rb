@@ -27,6 +27,39 @@ RSpec.describe DataworksMappers::Sdr do
     # See: https://github.com/sul-dlss/cocina-models/issues/816
     let(:source) { JSON.parse(file_fixture('sdr_affiliations.json').read) }
 
+    # cocina-models will forbid single-element structuredValues, so H3 will emit
+    # an affiliation with an institution and no department as a flat value instead
+    # of a one-element structuredValue.
+    context 'when an affiliation has been flattened (institution only, no department)' do
+      before do
+        source['description']['contributor'][0]['affiliation'] = [
+          {
+            'value' => 'Stanford University',
+            'identifier' => [
+              {
+                'type' => 'ROR',
+                'uri' => 'https://ror.org/00f54p054',
+                'source' => { 'code' => 'ror' }
+              }
+            ]
+          }
+        ]
+      end
+
+      it 'still maps the affiliation name and ROR identifier' do
+        expect(metadata[:creators].first[:affiliation]).to eq(
+          [
+            {
+              name: 'Stanford University',
+              affiliation_identifier: 'https://ror.org/00f54p054',
+              affiliation_identifier_scheme: 'ROR',
+              scheme_uri: 'https://ror.org/'
+            }
+          ]
+        )
+      end
+    end
+
     it 'maps the creators' do
       expect(metadata[:creators].first).to eq(
         {

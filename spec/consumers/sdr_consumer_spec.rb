@@ -179,6 +179,25 @@ RSpec.describe SdrConsumer do
       end
     end
 
+    # cocina-models will forbid single-element structuredValues, so H3 will emit
+    # a self-deposit resource type with a main type and no subtype as a flat value
+    # instead of a one-element structuredValue.
+    context 'when the self-deposit resource type has been flattened (no subtype)' do
+      before do
+        cocina['description']['form'][0] = {
+          'value' => 'Data',
+          'type' => 'resource type',
+          'source' => { 'value' => 'Stanford self-deposit resource types' }
+        }
+      end
+
+      it 'still recognizes it as a self-deposit dataset and indexes it' do
+        consumer.process(message)
+        expect(SdrEvents).to have_received(:report_indexing_scheduled).with('cz537wr8540', target: 'Dataworks')
+        expect(DatasetRecord.find_by(provider: 'sdr', dataset_id: 'cz537wr8540')).to be_present
+      end
+    end
+
     context 'when the item is dark' do
       before do
         # Make the object dark
