@@ -538,6 +538,33 @@ RSpec.describe DataworksMappers::Sdr do
     end
   end
 
+  # cocina_display 2.x's RelatedResource#to_s no longer falls back to note text,
+  # so we surface the preferred citation ourselves. See sul-dlss/dataworks-etl#607.
+  context 'when a related resource only has a preferred citation' do
+    before do
+      source['description']['relatedResource'] = []
+      source['description']['relatedResource'].push(
+        {
+          'type' => 'referenced by',
+          'note' => [
+            { 'type' => 'preferred citation', 'value' => 'Smith, J. (2020). A paper. Journal of Things.' }
+          ]
+        }
+      )
+    end
+
+    it 'uses the preferred citation as the title' do
+      expect(metadata[:related_items]).to include(
+        {
+          titles: [
+            { title: 'Smith, J. (2020). A paper. Journal of Things.' }
+          ],
+          relation_type: 'IsReferencedBy'
+        }
+      )
+    end
+  end
+
   context 'with contributors that provide funding information' do
     before do
       source['description']['contributor'].push(
