@@ -241,10 +241,21 @@ module DataworksMappers
 
       attr_reader :resource
 
-      # RelatedResource#to_s will use titles if present, falling back to
-      # preferred citation or other information as needed
+      # cocina_display 2.x's RelatedResource#to_s falls back to a URL or a
+      # generic type label but no longer to citation/note text, so for resources
+      # that only have descriptive text (no title, URL, or identifier) we surface
+      # a preferred citation or note value ourselves.
       def titles
-        [{ title: resource.to_s }]
+        [{ title: related_title }]
+      end
+
+      # Human-readable label for the related resource, preferring a title, then a
+      # citation, then any note value, then whatever #to_s can provide.
+      def related_title
+        resource.display_title.presence ||
+          resource.preferred_citation.presence ||
+          resource.notes.map(&:to_s).find(&:present?) ||
+          resource.to_s
       end
 
       def identifier

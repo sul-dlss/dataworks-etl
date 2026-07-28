@@ -45,7 +45,7 @@ gem 'thruster', require: false
 
 # Application gems
 gem 'activerecord-import'
-gem 'cocina_display', '~> 1' # For parsing SDR datasets
+gem 'cocina_display', '~> 2.9' # For parsing SDR datasets
 gem 'config'
 gem 'dor-event-client', '~> 1.1' # For reporting indexing status to SDR
 gem 'edtf'
