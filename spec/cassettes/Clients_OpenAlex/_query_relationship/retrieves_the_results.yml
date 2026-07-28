@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.openalex.org/works?cursor=*&filter=cites:W4398887383,type:!dataset%7Cdatabase%7Csoftware&per-page=200&select=id,doi,ids,type
+    uri: https://api.openalex.org/works?cursor=*&filter=cites:W4398887383,type:!dataset%7Cdatabase%7Csoftware&per-page=200&select=id,doi,ids
     body:
       encoding: US-ASCII
       string: ''
@@ -64,7 +64,7 @@ http_interactions:
   recorded_at: Thu, 20 Nov 2025 22:32:39 GMT
 - request:
     method: get
-    uri: https://api.openalex.org/works?cursor=Ils5OS4wLCAxMSwgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1czMTcxOTg3MTAzJ10i&filter=cites:W4398887383,type:!dataset%7Cdatabase%7Csoftware&per-page=200&select=id,doi,ids,type
+    uri: https://api.openalex.org/works?cursor=Ils5OS4wLCAxMSwgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1czMTcxOTg3MTAzJ10i&filter=cites:W4398887383,type:!dataset%7Cdatabase%7Csoftware&per-page=200&select=id,doi,ids
     body:
       encoding: US-ASCII
       string: ''
