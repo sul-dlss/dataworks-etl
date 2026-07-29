@@ -26,14 +26,6 @@ class DataverseEnhancer
     return @mapped_record if @dataverse_record.blank?
 
     add_publications_metadata
-  rescue Clients::Error => e
-    # Log any error that might occur with the client, then return the record
-    # un-enhanced so the transform continues (Honeybadger.notify returns a String,
-    # so it must not be the last expression).
-    error_msg = "Dataverse metadata enhancement client error, #{e}"
-    Rails.logger.error { error_msg }
-    Honeybadger.notify(error_msg)
-    @mapped_record
   end
 
   def add_publications_metadata
@@ -65,6 +57,9 @@ class DataverseEnhancer
     publication_parent_field = citation_fields.find do |field|
       field['typeName'] == 'publication' && field['value'].present?
     end
+
+    # If there is no publication block, we will return an empty array
+    return [] if publication_parent_field.blank?
 
     # 'value' is an array of objects where each object represents a single publication
     # We want to create our DataWorks schema related identifiers object for each

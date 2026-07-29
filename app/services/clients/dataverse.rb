@@ -15,12 +15,11 @@ module Clients
       base_conn
     end
 
-    # @param id [String] the DOI of the dataset
+    # @param doi [String] the DOI of the dataset
     def dataset_doi(doi:)
-      # params ?persistentId=doi:#{doi}&ignoreSettingExcludeEmailFromExport
+      # params ?persistentId=doi:#{doi}
       get_json(path: '/api/datasets/:persistentId/',
-               params: { persistentId: "doi:#{doi}",
-                         ignoreSettingExcludeEmailFromExport: nil })
+               params: { persistentId: "doi:#{doi}" })
     end
   end
 end

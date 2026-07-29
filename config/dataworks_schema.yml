@@ -548,7 +548,7 @@ components:
         - RedivisReference
         - SearchWorksReference
         - ZenodoId
-        - DASH-NRC
+        - DASH-NRS
     Identifier:
       type: object
       properties:
