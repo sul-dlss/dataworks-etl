@@ -68,5 +68,24 @@ RSpec.describe DatasetRecord do
         expect(described_class.by_excluding_prefix(['sul']).pluck(:dataset_id)).to contain_exactly('4', '5')
       end
     end
+
+    describe '.doi_starts_with' do
+      before do
+        # Set up record that should be returned
+        described_class.create!({ dataset_id: '1',
+                                  provider: 'datacite',
+                                  doi: '10.1234/1111',
+                                  source: {} })
+        # Set up record that should not be returned
+        described_class.create!({ dataset_id: '2',
+                                  provider: 'redivis',
+                                  doi: '10.2344/1111',
+                                  source: {} })
+      end
+
+      it 'returns only records with matching doi prefix' do
+        expect(described_class.doi_starts_with('10.1234/').pluck(:dataset_id)).to contain_exactly('1')
+      end
+    end
   end
 end

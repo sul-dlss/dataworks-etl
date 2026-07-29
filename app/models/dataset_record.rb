@@ -26,6 +26,13 @@ class DatasetRecord < ApplicationRecord
     where('NOT (source @@ ?::jsonpath)', identifier_jsonpath(exclude_prefixes))
   }
 
+  # Adding a scope to return dataset records whose DOIs start with a given prefix
+  # sanitize_sql_like will properly escape some characters:
+  # See https://api.rubyonrails.org/v7.1/classes/ActiveRecord/Sanitization/ClassMethods.html#method-i-sanitize_sql_like
+  scope :doi_starts_with, lambda { |doi_prefix|
+    where('doi LIKE ?', "#{sanitize_sql_like(doi_prefix)}%")
+  }
+
   # @return [String] unique identifier for the dataset (independent of the provider)
   def external_dataset_id
     doi || [provider, dataset_id].join('-')
