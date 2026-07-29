@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe MetadataEnhancer do
   let(:openalex_client) { instance_double(Clients::OpenAlex) }
+  let(:dataverse_client) { instance_double(Clients::Dataverse) }
 
   before do
     StanfordAuthor.create!(sunet_id: 123,
@@ -17,6 +18,8 @@ RSpec.describe MetadataEnhancer do
                            departments: ['Test Department 1', 'Academic Areas', 'Test Department 2'])
     allow(Clients::OpenAlex).to receive(:new).and_return(openalex_client)
     allow(openalex_client).to receive(:dataset_doi).and_return({})
+    allow(Clients::Dataverse).to receive(:new).and_return(dataverse_client)
+    allow(dataverse_client).to receive(:dataset_doi).and_return({})
   end
 
   context 'when creators or contributors have ORCIDs that map to our Stanford authors table' do
