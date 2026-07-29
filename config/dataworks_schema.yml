@@ -528,6 +528,7 @@ components:
         - EAN13
         - EISSN
         - Handle
+        - handle
         - IGSN
         - ISBN
         - ISSN
@@ -547,6 +548,7 @@ components:
         - RedivisReference
         - SearchWorksReference
         - ZenodoId
+        - DASH-NRS
     Identifier:
       type: object
       properties:

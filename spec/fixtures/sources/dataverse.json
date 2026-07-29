@@ -1,0 +1,370 @@
+{
+  "status": "OK",
+  "data": {
+    "id": 3758679,
+    "identifier": "DVN/REQH8F",
+    "persistentUrl": "https://doi.org/10.7910/DVN/REQH8F",
+    "protocol": "doi",
+    "authority": "10.7910",
+    "separator": "/",
+    "publisher": "Harvard Dataverse",
+    "publicationDate": "2020-03-18",
+    "storageIdentifier": "s3://10.7910/DVN/REQH8F",
+    "effectiveDatasetFileCountLimit": 1000,
+    "datasetFileUploadsAvailable": 996,
+    "datasetType": "dataset",
+    "locks": [],
+    "latestVersion": {
+      "id": 500243,
+      "datasetId": 3758679,
+      "datasetPersistentId": "doi:10.7910/DVN/REQH8F",
+      "datasetType": "dataset",
+      "storageIdentifier": "s3://10.7910/DVN/REQH8F",
+      "versionNumber": 1,
+      "internalVersionNumber": 4,
+      "versionMinorNumber": 1,
+      "versionState": "RELEASED",
+      "latestVersionPublishingState": "RELEASED",
+      "lastUpdateTime": "2025-08-11T11:57:36Z",
+      "releaseTime": "2025-08-11T11:57:36Z",
+      "createTime": "2025-08-08T21:31:57Z",
+      "publicationDate": "2020-03-18",
+      "citationDate": "2020-03-18",
+      "effectiveDatasetFileCountLimit": 1000,
+      "datasetFileUploadsAvailable": 996,
+      "license": {
+        "name": "CC0 1.0",
+        "uri": "http://creativecommons.org/publicdomain/zero/1.0",
+        "iconUri": "https://licensebuttons.net/p/zero/1.0/88x31.png",
+        "rightsIdentifier": "CC0-1.0",
+        "rightsIdentifierScheme": "SPDX",
+        "schemeUri": "https://spdx.org/licenses/",
+        "languageCode": "en"
+      },
+      "fileAccessRequest": false,
+      "metadataBlocks": {
+        "citation": {
+          "displayName": "Citation Metadata",
+          "name": "citation",
+          "fields": [
+            {
+              "typeName": "title",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "Replication Data for: “Latinos’ deportation fears by citizenship and legal status, 2007 to 2018.” Proceedings of the National Academy of Sciences."
+            },
+            {
+              "typeName": "author",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Asad, Asad L."
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Stanford University"
+                  },
+                  "authorIdentifierScheme": {
+                    "typeName": "authorIdentifierScheme",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "ORCID"
+                  },
+                  "authorIdentifier": {
+                    "typeName": "authorIdentifier",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "https://orcid.org/0000-0001-6416-562X",
+                    "expandedvalue": {
+                      "personName": "Asad, Asad",
+                      "@id": "https://orcid.org/0000-0001-6416-562X",
+                      "scheme": "ORCID",
+                      "@type": "https://schema.org/Person"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "datasetContact",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "datasetContactName": {
+                    "typeName": "datasetContactName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Asad, Asad"
+                  },
+                  "datasetContactAffiliation": {
+                    "typeName": "datasetContactAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Stanford University"
+                  },
+                  "datasetContactEmail": {
+                    "typeName": "datasetContactEmail",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "asadasad@stanford.edu"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "dsDescription",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "dsDescriptionValue": {
+                    "typeName": "dsDescriptionValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "This repository includes data from Asad’s study “Latinos’ deportation fears by citizenship and legal status, 2007 to 2018” published in the Proceedings of the National Academy of Sciences (2020). The replication files enable researchers to use publicly available data from the Pew Hispanic Center’s National Survey of Latinos (https://www.pewresearch.org/datasets/) to reproduce all analyses contained within the article."
+                  },
+                  "dsDescriptionDate": {
+                    "typeName": "dsDescriptionDate",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "2020-03-12"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "subject",
+              "multiple": true,
+              "typeClass": "controlledVocabulary",
+              "value": [
+                "Social Sciences"
+              ]
+            },
+            {
+              "typeName": "keyword",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "keywordValue": {
+                    "typeName": "keywordValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "fear, deportation, citizenship, legal status, Latinos"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "publication",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "publicationCitation": {
+                    "typeName": "publicationCitation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Asad, Asad L. 2020. “Latinos’ deportation fears by citizenship and legal status, 2007 to 2018.” Proceedings of the National Academy of Sciences."
+                  },
+                  "publicationIDType": {
+                    "typeName": "publicationIDType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "doi"
+                  },
+                  "publicationIDNumber": {
+                    "typeName": "publicationIDNumber",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "www.pnas.org/cgi/doi/10.1073/pnas.1915460117"
+                  }
+                },
+                {
+                  "publicationIDType": {
+                    "typeName": "publicationIDType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "isbn"
+                  },
+                  "publicationIDNumber": {
+                    "typeName": "publicationIDNumber",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "testISBN"
+                  }
+                },
+                {
+                  "publicationIDNumber": {
+                    "typeName": "publicationIDNumber",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "10.111.1345/testdoi"
+                  }
+                },
+                {
+                  "publicationRelationType": {
+                    "typeName": "publicationRelationType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "References"
+                  },
+                  "publicationIDType": {
+                    "typeName": "publicationIDType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "doi"
+                  },
+                  "publicationIDNumber": {
+                    "typeName": "publicationIDNumber",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "10.1073/123/123"
+                  }
+                },
+                {
+                  "publicationRelationType": {
+                    "typeName": "publicationRelationType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "IsReferencedBy"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "depositor",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "Asad, Asad L."
+            },
+            {
+              "typeName": "dateOfDeposit",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": "2020-03-12"
+            }
+          ]
+        }
+      },
+      "files": [
+        {
+          "label": "1-cleaning_public_020520.do",
+          "restricted": false,
+          "version": 1,
+          "datasetVersionId": 500243,
+          "dataFile": {
+            "id": 3758682,
+            "persistentId": "doi:10.7910/DVN/REQH8F/FMF21Q",
+            "pidURL": "https://doi.org/10.7910/DVN/REQH8F/FMF21Q",
+            "filename": "1-cleaning_public_020520.do",
+            "contentType": "application/x-stata-syntax",
+            "friendlyType": "Stata Syntax",
+            "filesize": 67445,
+            "storageIdentifier": "s3://dvn-cloud:170d1bbf1dd-3242fc461963",
+            "rootDataFileId": -1,
+            "md5": "638d3ba1dfeaefc5ce6d6dc73d6705d9",
+            "checksum": {
+              "type": "MD5",
+              "value": "638d3ba1dfeaefc5ce6d6dc73d6705d9"
+            },
+            "tabularData": false,
+            "creationDate": "2020-03-12",
+            "publicationDate": "2020-03-18",
+            "lastUpdateTime": "2025-08-11T11:57:36Z",
+            "fileAccessRequest": false
+          }
+        },
+        {
+          "label": "2-missingdata_013120.do",
+          "restricted": false,
+          "version": 1,
+          "datasetVersionId": 500243,
+          "dataFile": {
+            "id": 3758683,
+            "persistentId": "doi:10.7910/DVN/REQH8F/EFIA6O",
+            "pidURL": "https://doi.org/10.7910/DVN/REQH8F/EFIA6O",
+            "filename": "2-missingdata_013120.do",
+            "contentType": "application/x-stata-syntax",
+            "friendlyType": "Stata Syntax",
+            "filesize": 8821,
+            "storageIdentifier": "s3://dvn-cloud:170d1bbf4ef-fdecc36c5d9c",
+            "rootDataFileId": -1,
+            "md5": "f1cc1ef2252a4ddccab9b06cf1d3e4e7",
+            "checksum": {
+              "type": "MD5",
+              "value": "f1cc1ef2252a4ddccab9b06cf1d3e4e7"
+            },
+            "tabularData": false,
+            "creationDate": "2020-03-12",
+            "publicationDate": "2020-03-18",
+            "lastUpdateTime": "2025-08-11T11:57:36Z",
+            "fileAccessRequest": false
+          }
+        },
+        {
+          "label": "3-analysis_020520.do",
+          "restricted": false,
+          "version": 1,
+          "datasetVersionId": 500243,
+          "dataFile": {
+            "id": 3758680,
+            "persistentId": "doi:10.7910/DVN/REQH8F/BL2Q1O",
+            "pidURL": "https://doi.org/10.7910/DVN/REQH8F/BL2Q1O",
+            "filename": "3-analysis_020520.do",
+            "contentType": "application/x-stata-syntax",
+            "friendlyType": "Stata Syntax",
+            "filesize": 17259,
+            "storageIdentifier": "s3://dvn-cloud:170d1bbf791-168acb7f7f1a",
+            "rootDataFileId": -1,
+            "md5": "74a891b7c48f27dfe08d7182e68d4c54",
+            "checksum": {
+              "type": "MD5",
+              "value": "74a891b7c48f27dfe08d7182e68d4c54"
+            },
+            "tabularData": false,
+            "creationDate": "2020-03-12",
+            "publicationDate": "2020-03-18",
+            "lastUpdateTime": "2025-08-11T11:57:36Z",
+            "fileAccessRequest": false
+          }
+        },
+        {
+          "label": "knows_deported.do",
+          "restricted": false,
+          "version": 1,
+          "datasetVersionId": 500243,
+          "dataFile": {
+            "id": 3758681,
+            "persistentId": "doi:10.7910/DVN/REQH8F/PK0KUL",
+            "pidURL": "https://doi.org/10.7910/DVN/REQH8F/PK0KUL",
+            "filename": "knows_deported.do",
+            "contentType": "application/x-stata-syntax",
+            "friendlyType": "Stata Syntax",
+            "filesize": 15012,
+            "storageIdentifier": "s3://dvn-cloud:170d1bc009f-db468b6d4464",
+            "rootDataFileId": -1,
+            "md5": "518c407f2ec596f7e8ad74a1b197496d",
+            "checksum": {
+              "type": "MD5",
+              "value": "518c407f2ec596f7e8ad74a1b197496d"
+            },
+            "tabularData": false,
+            "creationDate": "2020-03-12",
+            "publicationDate": "2020-03-18",
+            "lastUpdateTime": "2025-08-11T11:57:36Z",
+            "fileAccessRequest": false
+          }
+        }
+      ]
+    }
+  }
+}
