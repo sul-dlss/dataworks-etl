@@ -54,12 +54,18 @@ RSpec.describe DatasetSuppressQuery do
                                             publisher: { name: 'Redivis' },
                                             identifiers: []
                                           } } } })
+        # This dataset id should be returned because the prefix starts with the SDR prefix we
+        # wish to suppress from DataCite
+        DatasetRecord.create!({ dataset_id: '8',
+                                provider: 'datacite',
+                                doi: '10.25740.1234',
+                                source: {} })
       end
 
       it 'merges query and Settings ids for that provider' do
         result = described_class.suppression_ids_by_provider(providers: ['datacite'])
 
-        expect(result['datacite']).to contain_exactly('1', '3', '4', '5', '7')
+        expect(result['datacite']).to contain_exactly('1', '3', '4', '5', '7', '8')
       end
     end
 

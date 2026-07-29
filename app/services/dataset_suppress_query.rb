@@ -9,8 +9,9 @@ class DatasetSuppressQuery
   EMSL_PUBLISHER = 'Environmental Molecular Sciences Laboratory'
   REDIVIS_PUBLISHER = 'Redivis'
   # Identifier prefixes we wish to keep for sul, phsdata, pulse (Doerr), sdss_data_repository (Doerr)
-
   REDIVIS_PREFIXES = %w[sul phsdata sdss_data_repository pulse].freeze
+  # DOI prefix for SDR which we want to exclude for Datacite
+  SDR_PREFIX = '10.25740'
 
   # @param providers [Array<String>] providers to build suppression ids for
   # @return [Hash{String => Array<String>}] map of provider to suppressed dataset ids
@@ -25,6 +26,7 @@ class DatasetSuppressQuery
     if provider == 'datacite'
       ids.concat(suppress_by_publisher_query(provider:))
          .concat(suppress_by_identifier_query(provider:))
+         .concat(suppress_by_doi_prefix(provider:))
     end
 
     ids.uniq
@@ -47,6 +49,12 @@ class DatasetSuppressQuery
                  .by_excluding_prefix(REDIVIS_PREFIXES).pluck(:dataset_id)
   end
 
+  # Returns ids to be suppressed by DOI prefix
+  # i.e. all dataset records for this provider whose DOI starts with this SDR prefix
+  def self.suppress_by_doi_prefix(provider:)
+    DatasetRecord.where(provider:).doi_starts_with(SDR_PREFIX).pluck(:dataset_id)
+  end
+
   private_class_method :suppression_ids, :suppress_by_settings, :suppress_by_publisher_query,
-                       :suppress_by_identifier_query
+                       :suppress_by_identifier_query, :suppress_by_doi_prefix
 end
