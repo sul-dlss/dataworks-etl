@@ -58,7 +58,7 @@ RSpec.describe DatasetSuppressQuery do
         # wish to suppress from DataCite
         DatasetRecord.create!({ dataset_id: '8',
                                 provider: 'datacite',
-                                doi: '10.25740.1234',
+                                doi: '10.25740/1234',
                                 source: {} })
       end
 

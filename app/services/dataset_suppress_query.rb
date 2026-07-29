@@ -11,7 +11,7 @@ class DatasetSuppressQuery
   # Identifier prefixes we wish to keep for sul, phsdata, pulse (Doerr), sdss_data_repository (Doerr)
   REDIVIS_PREFIXES = %w[sul phsdata sdss_data_repository pulse].freeze
   # DOI prefix for SDR which we want to exclude for Datacite
-  SDR_PREFIX = '10.25740'
+  SDR_PREFIX = '10.25740/'
 
   # @param providers [Array<String>] providers to build suppression ids for
   # @return [Hash{String => Array<String>}] map of provider to suppressed dataset ids
