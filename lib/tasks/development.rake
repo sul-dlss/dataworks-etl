@@ -143,4 +143,24 @@ namespace :development do # rubocop:disable Metrics/BlockLength
       end
     end
   end
+
+  # This is a task that runs the tasks responsible for copying over the
+  # Rialto data, emptying the database, and reloading the database
+  desc 'Manage Rialto author data'
+  task :manage_rialto_author_data,
+       %i[remote_path remote_user remote_host local_path backup_path] => :environment do |_t, args|
+    local_path = args[:local_path]
+    FileUtils.cp(local_path, args[:backup_path])
+
+    scp_status = system("scp #{args[:remote_user]}@#{args[:remote_host]}:#{args[:remote_path]} #{args[:local_path]}")
+
+    puts "Copying remote file status #{scp_status}"
+
+    if scp_status
+      # Drop the existing authors database
+      Rake::Task['development:remove_stanford_authors'].invoke
+      # Read in the new authors info
+      Rake::Task['development:load_stanford_authors'].invoke(local_path)
+    end
+  end
 end
