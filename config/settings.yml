@@ -3,6 +3,14 @@ extract_sleep: 0.5
 # Without authentication, Dryad allows 30 requests per minute
 dryad_extract_sleep: 2.5
 
+# RIALTO Stanford author (departmental affiliation) data.
+# The weekly CSV export lives on a read-only shared filesystem (Weka/NFS) mounted
+# on this host; RialtoAuthorRefreshJob reads it in place and reloads the
+# StanfordAuthor table on a schedule (see config/recurring.yml). Set file_path to
+# the mounted CSV path, per-environment (deploy/puppet).
+rialto:
+  file_path: ~
+
 solr:
   url: http://localhost:8983/solr/dataworks
 
@@ -409,6 +417,7 @@ honeybadger:
   searchworks_extract_job_icpsr_checkin: ~
   sdr_extract_job_checkin: ~
   transform_load_job_checkin: ~
+  rialto_author_refresh_job_checkin: ~
 
 courses:
   # These are made up courses for demonstration purposes.
