@@ -116,6 +116,27 @@ RSpec.describe OpenalexEnhancer do
     end
   end
 
+  context 'when the metadata record has related identifiers with an overlapping doi with different casing' do
+    let(:references_count) { 1 }
+    let(:cited_by_count) { 1 }
+    let(:mapped_record) do
+      {
+        'related_identifiers' => [{ 'related_identifier' => '10.1017/XPS.2021.16' }]
+      }
+    end
+    let(:overlap_doi) do
+      {
+        'related_identifer' => 'W3171987103',
+        'related_identifier_type' => 'OpenAlex',
+        'relation_type' => 'IsCitedBy'
+      }
+    end
+
+    it 'does not add any related publications' do
+      expect(enhanced_record['related_identifiers']).not_to include(hash_including(overlap_doi))
+    end
+  end
+
   context 'when open access status is true' do
     let(:references_count) { 0 }
     let(:cited_by_count) { 0 }

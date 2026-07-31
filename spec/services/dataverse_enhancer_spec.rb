@@ -88,4 +88,28 @@ RSpec.describe DataverseEnhancer do
       expect(enhanced_record['related_identifiers']).to include(mapped_record['related_identifiers'].first)
     end
   end
+
+  context 'when the metadata record has related identifiers with an overlapping doi with different case' do
+    # The existing record has a DOI without any relation type, whereas Dataverse
+    # gives us a relationship type. Since we already have this DOI in our
+    # existing set of related identifiers, we will not be copying over the new info.
+    let(:mapped_record) do
+      { 'url' => 'https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/REQH8F',
+        'related_identifiers' => [{
+          'related_identifier' => '10.111.1345/TestDOI'
+        }] }
+    end
+
+    let(:from_dataverse) do
+      {
+        'related_identifier' => '10.111.1345/testdoi'
+      }
+    end
+
+    it 'does not add the Dataverse info' do
+      expect(enhanced_record['related_identifiers'].size).to eq(4)
+      expect(enhanced_record['related_identifiers']).not_to include(hash_including(from_dataverse))
+      expect(enhanced_record['related_identifiers']).to include(mapped_record['related_identifiers'].first)
+    end
+  end
 end
