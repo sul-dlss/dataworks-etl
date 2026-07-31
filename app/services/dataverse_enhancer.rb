@@ -29,7 +29,7 @@ class DataverseEnhancer
   end
 
   def add_publications_metadata
-    # Extract relatded identifiers and titles for related publications
+    # Extract related identifiers and titles for related publications
     # Add these to the record and return
     related_publications = extract_publications
     if related_publications.size.positive?
