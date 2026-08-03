@@ -54,6 +54,13 @@ production:
         },
       ]
     schedule: every sunday
+  # Refresh RIALTO Stanford author (departmental affiliation) data from the weekly
+  # CSV export on the shared filesystem. The StanfordEnhancer consumes this data
+  # during the Saturday transform/load; a Monday refresh keeps it current through
+  # the week. Adjust the day/time to track when the weekly CSV export lands.
+  rialto_author_refresh:
+    class: RialtoAuthorRefreshJob
+    schedule: every monday at 6am
   tl:
     class: TransformLoadJob
     schedule: every saturday

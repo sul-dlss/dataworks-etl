@@ -1,0 +1,4 @@
+sunetid,cap_profile_id,full_name,first_name,last_name,orcidid,email,active,all_departments
+jsmith,12345,Jane Smith,Jane,Smith,0000-0001-2345-6789,jsmith@stanford.edu,true,Chemistry|Physics
+bwong,67890,Bob Wong,Bob,Wong,0000-0002-0000-0000,bwong@stanford.edu,False,Biology
+tlee,54321,Terry Lee,Terry,Lee,0000-0003-1111-2222,tlee@stanford.edu,TRUE,History
