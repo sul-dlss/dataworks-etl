@@ -76,8 +76,8 @@ class DataverseEnhancer
     # The possible values for Dataverse publication relationship types controlled vocabulary
     # are allow  within the DataWorks schema:
     # "IsCitedBy","Cites","IsSupplementTo","IsSupplementedBy","IsReferencedBy","References"
-    # When no relation is available, we will resort to "IsCitedBy"
-    id_relation = publication_field.dig('publicationRelationType', 'value') || 'IsCitedBy'
+    # When no relation type is available, we will keep this field empty
+    id_relation = publication_field.dig('publicationRelationType', 'value')
 
     # We create a mappig if both identifier is available and NOT already in the mapped record
     return unless id_number.present? && !exists_identifier?(id_number, id_type)

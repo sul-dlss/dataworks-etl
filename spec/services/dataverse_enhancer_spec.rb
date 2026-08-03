@@ -24,13 +24,10 @@ RSpec.describe DataverseEnhancer do
       # Fifth case (which should be returned): Some info but no identifier number
       expected_publications = [
         { 'related_identifier' => 'www.pnas.org/cgi/doi/10.1073/pnas.1915460117',
-          'related_identifier_type' => 'DOI',
-          'relation_type' => 'IsCitedBy' },
+          'related_identifier_type' => 'DOI' },
         { 'related_identifier' => 'testISBN',
-          'related_identifier_type' => 'ISBN',
-          'relation_type' => 'IsCitedBy' },
-        { 'related_identifier' => '10.111.1345/testdoi',
-          'relation_type' => 'IsCitedBy' },
+          'related_identifier_type' => 'ISBN' },
+        { 'related_identifier' => '10.111.1345/testdoi' },
         { 'related_identifier' => '10.1073/123/123',
           'related_identifier_type' => 'DOI',
           'relation_type' => 'References' }
