@@ -110,7 +110,7 @@ class DataverseEnhancer
   # Are the following identifier/identifier type combo already in the mapped record
   def exists_identifier?(id_number, id_type)
     # If there are no such identifiers, return false
-    # We are using downcase to handle any variations in cases in alphanumeric ids
+    # We are using casecmp to handle any variations in cases in alphanumeric ids
     return false unless @related_identifiers.any? { |ri| ri['related_identifier'].casecmp?(id_number) }
 
     # If identifier exists, compare id types as well
