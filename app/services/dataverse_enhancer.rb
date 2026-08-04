@@ -33,6 +33,8 @@ class DataverseEnhancer
     # Add these to the record and return
     related_publications = extract_publications
     if related_publications.size.positive?
+      Rails.logger.info("Dataverse related publications were found for #{@doi} : #{related_publications.size}")
+      Rails.logger.info(related_publications.to_s)
       # If array entry didn't exist, create it
       @mapped_record['related_identifiers'] = [] if @mapped_record['related_identifiers'].blank?
       # Concat whatever publications we do have to these
@@ -83,7 +85,7 @@ class DataverseEnhancer
     return unless id_number.present? && !exists_identifier?(id_number, id_type)
 
     # Normalize id number if it is a doi
-    id_number = normalize_dois(id_number) if id_type.blank? || id_type == 'doi'
+    id_number = normalize_dois(id_number, id_type)
 
     {
       'related_identifier' => id_number,
@@ -113,7 +115,8 @@ class DataverseEnhancer
   # Are the following identifier/identifier type combo already in the mapped record
   def exists_identifier?(id_number, id_type)
     # Normalize the id_number first
-    id_number = normalize_dois(id_number) if id_type == 'doi' || id_type.blank?
+    id_number = normalize_dois(id_number, id_type)
+
     # If there are no such identifiers, return false
     # We are using casecmp to handle any variations in cases in alphanumeric ids
     return false unless @related_identifiers.any? { |ri| ri['related_identifier'].casecmp?(id_number) }
@@ -127,7 +130,9 @@ class DataverseEnhancer
   end
 
   # Strip away any https://doi.org or doi: prefixes
-  def normalize_dois(id_number)
-    id_number.delete_prefix('https://openalex.org/').delete_prefix('doi:').strip
+  def normalize_dois(id_number, id_type)
+    return id_number unless id_type == 'doi' || id_type.blank?
+
+    id_number.delete_prefix('https://doi.org/').delete_prefix('doi:').strip
   end
 end

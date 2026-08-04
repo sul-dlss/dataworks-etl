@@ -24,7 +24,7 @@ class OpenalexEnhancer
     # Log any error that might occur with the client, then return the record
     # un-enhanced so the transform continues (Honeybadger.notify returns a String,
     # so it must not be the last expression).
-    error_msg = "OpenAlex metadata enhancement client error, #{e}"
+    error_msg = "OpenAlex metadata enhancement client error for #{@doi}, #{e}"
     Rails.logger.error { error_msg }
     Honeybadger.notify(error_msg)
     @mapped_record

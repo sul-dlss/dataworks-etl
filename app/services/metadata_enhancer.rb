@@ -31,6 +31,14 @@ class MetadataEnhancer
 
   # Enhance with Dataverse publications
   def enhance_with_dataverse
-    DataverseEnhancer.new(mapped_record: @mapped_record, doi: @doi).add_metadata
+    enhanced_record = DataverseEnhancer.new(mapped_record: @mapped_record, doi: @doi).add_metadata
+
+    mapped_length = @mapped_record['related_identifiers']&.length || 0
+    enhanced_length = enhanced_record['related_identifiers']&.length || 0
+    if mapped_length < enhanced_length
+      Rails.logger.info("Dataverse provided additional identifiers for #{@doi}")
+      Rails.logger.info(enhanced_record['related_identifiers'])
+    end
+    enhanced_record
   end
 end
