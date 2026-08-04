@@ -110,10 +110,11 @@ class DataverseEnhancer
   # Are the following identifier/identifier type combo already in the mapped record
   def exists_identifier?(id_number, id_type)
     # If there are no such identifiers, return false
-    return false unless @related_identifiers.any? { |ri| ri['related_identifier'] == id_number }
+    # We are using casecmp to handle any variations in cases in alphanumeric ids
+    return false unless @related_identifiers.any? { |ri| ri['related_identifier'].casecmp?(id_number) }
 
     # If identifier exists, compare id types as well
-    matching_id_info = @related_identifiers.find { |ri| ri['related_identifier'] == id_number }
+    matching_id_info = @related_identifiers.find { |ri| ri['related_identifier'].casecmp?(id_number) }
     # Assume DOI if no type at all
     matching_id_type = matching_id_info['related_identifier_type'] || 'DOI'
     # If identifiers are the same, return true if types are also the same

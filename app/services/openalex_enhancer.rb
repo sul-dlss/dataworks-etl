@@ -58,11 +58,17 @@ class OpenalexEnhancer
     # Query open alex for referenced works that not datasets, databases, software
     related_works = @client.query_relationship(relationship:, id: @id)
     related_works.filter_map do |related_work|
-      unless related_work['doi'].present? && @mapped_record_dois.include?(related_work['doi'].delete_prefix('https://doi.org/'))
+      unless related_work['doi'].present? && exists_identifier?(doi: related_work['doi'].delete_prefix('https://doi.org/'))
         model_related_work(relationship:,
                            related_work:)
       end
     end
+  end
+
+  # DOIs may use different cases, so we want to compare and see if any case
+  # variation exists for the DOI
+  def exists_identifier?(doi:)
+    @mapped_record_dois.any? { |d| d.casecmp?(doi) }
   end
 
   def model_related_work(relationship:, related_work:)

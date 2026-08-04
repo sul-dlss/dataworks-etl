@@ -98,21 +98,51 @@ RSpec.describe OpenalexEnhancer do
   context 'when the metadata record has related identifiers with an overlapping doi' do
     let(:references_count) { 1 }
     let(:cited_by_count) { 1 }
+    # This exact doi is also returned by OpenAlex and is already present in the mapped record
     let(:mapped_record) do
       {
         'related_identifiers' => [{ 'related_identifier' => '10.1017/xps.2021.16' }]
       }
     end
-    let(:overlap_doi) do
-      {
-        'related_identifer' => 'W3171987103',
-        'related_identifier_type' => 'OpenAlex',
-        'relation_type' => 'IsCitedBy'
-      }
+    let(:expected_identifiers) do
+      [
+        {
+          'related_identifier' => 'W2163881983',
+          'related_identifier_type' => 'OpenAlex',
+          'relation_type' => 'Cites'
+        },
+        { 'related_identifier' => '10.1017/xps.2021.16' }
+      ]
     end
 
-    it 'does not add any related publications' do
-      expect(enhanced_record['related_identifiers']).not_to include(hash_including(overlap_doi))
+    it 'does not add any overlapping related publications from OpenAlex' do
+      expect(enhanced_record['related_identifiers']).to match_array(expected_identifiers)
+    end
+  end
+
+  context 'when the metadata record has related identifiers with an overlapping doi with different casing' do
+    let(:references_count) { 1 }
+    let(:cited_by_count) { 1 }
+    # The doi in the OpenAlex result is https://doi.org/10.1017/xps.2021.16.
+    # What we already have is that same DOI with a different letter casing.
+    let(:mapped_record) do
+      {
+        'related_identifiers' => [{ 'related_identifier' => '10.1017/XPS.2021.16' }]
+      }
+    end
+    let(:expected_identifiers) do
+      [
+        {
+          'related_identifier' => 'W2163881983',
+          'related_identifier_type' => 'OpenAlex',
+          'relation_type' => 'Cites'
+        },
+        { 'related_identifier' => '10.1017/XPS.2021.16' }
+      ]
+    end
+
+    it 'does not add any overlapping related publications from OpenAlex' do
+      expect(enhanced_record['related_identifiers']).to match_array(expected_identifiers)
     end
   end
 
