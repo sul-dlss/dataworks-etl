@@ -9,6 +9,9 @@ module Clients
   class Base
     attr_reader :url, :conn, :username, :password
 
+    # We will caputre specific headers for debugging
+    DEBUG_HEADERS = %w[www-authenticate server via date content-type].freeze
+
     def initialize(url: nil, api_token: nil, username: nil, password: nil, conn: nil)
       @url = url
       @api_token = api_token
@@ -20,15 +23,7 @@ module Clients
     def get_json(path:, params: {})
       conn.get(path, params.compact).body
     rescue Faraday::Error => e
-      status = ''
-      headers = ''
-      body = ''
-      if e.response.present?
-        status = e.response[:status]
-        headers = e.response[:headers]
-        body = e.response[:body]
-      end
-      raise Error, "Connection err: #{e.message} #{status} #{headers} #{body}"
+      raise Error, error_message(e)
     rescue JSON::ParserError => e
       raise Error, "JSON parsing error: #{e.message}"
     end
@@ -36,6 +31,21 @@ module Clients
     private
 
     attr_reader :api_token
+
+    def error_message(error)
+      status = ''
+      headers = ''
+      body = ''
+      if error.response.present?
+        status = error.response[:status]
+        # We capture the headers if
+        headers = error.response[:headers].select { |key, _| DEBUG_HEADERS.include?(key.downcase) }
+        # Body may be very long so we are just capturing the first 300 characters
+        body = error.response[:body][0, 300] if error.response[:body].present?
+      end
+
+      "Connection err: #{error.message} | #{status} | #{headers} | #{body}"
+    end
 
     def new_conn
       Faraday.new({ url: }.compact) do |f|
