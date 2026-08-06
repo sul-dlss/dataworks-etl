@@ -6,7 +6,8 @@ RSpec.describe DataverseEnhancer do
   let(:dataverse_client) { instance_double(Clients::Dataverse) }
   let(:mapped_record) { { 'url' => 'https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/REQH8F' } }
   let(:dataverse_dataset) { JSON.parse(File.read('spec/fixtures/sources/dataverse.json')) }
-  let(:enhanced_record) { described_class.new(mapped_record:, doi: '10.7910/DVN/REQH8F').add_metadata }
+  let(:enhancer) { described_class.new(mapped_record:, doi: '10.7910/DVN/REQH8F') }
+  let(:enhanced_record) { enhancer.add_metadata }
 
   before do
     allow(Clients::Dataverse).to receive(:new).and_return(dataverse_client)
@@ -107,6 +108,27 @@ RSpec.describe DataverseEnhancer do
       expect(enhanced_record['related_identifiers'].size).to eq(4)
       expect(enhanced_record['related_identifiers']).not_to include(hash_including(from_dataverse))
       expect(enhanced_record['related_identifiers']).to include(mapped_record['related_identifiers'].first)
+    end
+  end
+
+  describe '#exists_identifier?' do
+    let(:mapped_record) do
+      { 'url' => 'https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/REQH8F',
+        'related_identifiers' => [{
+          'related_identifier' => '10.111.1345/1234'
+        }] }
+    end
+
+    context 'when dataverse doi begins with https://doi.org but otherwise matches existing identifier' do
+      it 'identifies overlapping identifier' do
+        expect(enhancer.exists_identifier?('https://doi.org/10.111.1345/1234', 'doi')).to be(true)
+      end
+    end
+
+    context 'when dataverse doi begins with doi: but otherwise matches existing identifier' do
+      it 'identifies overlapping identifier' do
+        expect(enhancer.exists_identifier?('doi:10.111.1345/1234', 'doi')).to be(true)
+      end
     end
   end
 end

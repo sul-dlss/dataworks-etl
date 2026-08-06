@@ -82,6 +82,9 @@ class DataverseEnhancer
     # We create a mappig if both identifier is available and NOT already in the mapped record
     return unless id_number.present? && !exists_identifier?(id_number, id_type)
 
+    # Normalize id number if it is a doi
+    id_number = normalize_doi(id_number, id_type)
+
     {
       'related_identifier' => id_number,
       'relation_type' => id_relation,
@@ -109,6 +112,9 @@ class DataverseEnhancer
 
   # Are the following identifier/identifier type combo already in the mapped record
   def exists_identifier?(id_number, id_type)
+    # Normalize the id_number first
+    id_number = normalize_doi(id_number, id_type)
+
     # If there are no such identifiers, return false
     # We are using casecmp to handle any variations in cases in alphanumeric ids
     return false unless @related_identifiers.any? { |ri| ri['related_identifier'].casecmp?(id_number) }
@@ -119,5 +125,12 @@ class DataverseEnhancer
     matching_id_type = matching_id_info['related_identifier_type'] || 'DOI'
     # If identifiers are the same, return true if types are also the same
     matching_id_type == map_identifier_type(id_type || 'doi')
+  end
+
+  # Strip away any https://doi.org or doi: prefixes
+  def normalize_doi(id_number, id_type)
+    return id_number unless id_type == 'doi' || id_type.blank?
+
+    id_number.delete_prefix('https://doi.org/').delete_prefix('doi:').strip
   end
 end
