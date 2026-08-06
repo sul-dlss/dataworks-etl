@@ -5,14 +5,17 @@ module Clients
   # metadata for individual dataset
   class Dataverse < Clients::Base
     def initialize(api_token:, url: 'https://dataverse.harvard.edu', conn: nil)
-      super(url: url, api_token: api_token, conn: conn)
+      # We will not pass this into the base initializer b/c we do not use
+      # the bearer token pattern
+      @api_token = api_token
+      super(url: url, conn: conn)
     end
 
     # Dataverse prefers we pass in the api token in the X-Dataverse-key header
     def new_conn
       base_conn = super
-      base_conn.headers['X-Dataverse-key'] = api_token
-      Rails.logger.info("API token exists? #{api_token.present?}")
+      base_conn.headers['X-Dataverse-key'] = @api_token
+      Rails.logger.info("API token exists? #{@api_token.present?}")
       base_conn
     end
 
