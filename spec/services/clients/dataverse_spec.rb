@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Clients::Dataverse, :vcr do
-  let(:client) { described_class.new(api_token: Settings.dataverse.api_token) }
+  let(:client) { described_class.new(dataverse_token: Settings.dataverse.api_token) }
 
   describe '.dataset_doi' do
     let(:dataset) { client.dataset_doi(doi: '10.7910/dvn/reqh8f') }

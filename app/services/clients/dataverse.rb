@@ -4,14 +4,17 @@ module Clients
   # Client for interacting with the Harvard Dataverse API and for retrieving
   # metadata for individual dataset
   class Dataverse < Clients::Base
-    def initialize(api_token:, url: 'https://dataverse.harvard.edu', conn: nil)
-      super(url: url, api_token: api_token, conn: conn)
+    def initialize(dataverse_token:, url: 'https://dataverse.harvard.edu', conn: nil)
+      # Passing in api_token into constructor will pass in Bearer heading
+      # which we do not want in additon to the X-Dataverse-key header
+      @dataverse_token = dataverse_token
+      super(url: url, conn: conn)
     end
 
     # Dataverse prefers we pass in the api token in the X-Dataverse-key header
     def new_conn
       base_conn = super
-      base_conn.headers['X-Dataverse-key'] = api_token
+      base_conn.headers['X-Dataverse-key'] = @dataverse_token
       base_conn
     end
 
