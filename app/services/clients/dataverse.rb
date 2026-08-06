@@ -12,6 +12,7 @@ module Clients
     def new_conn
       base_conn = super
       base_conn.headers['X-Dataverse-key'] = api_token
+      Rails.logger.info("API token exists? #{api_token.present?}")
       base_conn
     end
 
