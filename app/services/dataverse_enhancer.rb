@@ -33,6 +33,8 @@ class DataverseEnhancer
     # Add these to the record and return
     related_publications = extract_publications
     if related_publications.size.positive?
+      Rails.logger.info("Dataverse related publications are returned for #{@doi}")
+      Rails.logger.info("Dataverse related: #{related_publications}")
       # If array entry didn't exist, create it
       @mapped_record['related_identifiers'] = [] if @mapped_record['related_identifiers'].blank?
       # Concat whatever publications we do have to these
