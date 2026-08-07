@@ -14,16 +14,15 @@ module Clients
     # Dataverse prefers we pass in the api token in the X-Dataverse-key header
     def new_conn
       Rails.logger.info('Dataverse token does not exist') if @dataverse_token.blank?
-      base_conn = super
-      base_conn.headers['X-Dataverse-key'] = @dataverse_token
-      base_conn
+      super
+      # base_conn.headers['X-Dataverse-key'] = @dataverse_token
     end
 
     # @param doi [String] the DOI of the dataset
     def dataset_doi(doi:)
       # params ?persistentId=doi:#{doi}
       get_json(path: '/api/datasets/:persistentId/',
-               params: { persistentId: "doi:#{doi}" })
+               params: { persistentId: "doi:#{doi}", key: @dataverse_token })
     end
   end
 end
