@@ -8,7 +8,7 @@ class DataverseEnhancer
   def initialize(mapped_record:, doi:)
     @mapped_record = mapped_record
     @doi = doi
-    @client = Clients::Dataverse.new(api_token: Settings.dataverse.api_token)
+    @client = Clients::Dataverse.new(dataverse_token: Settings.dataverse.api_token)
     @related_identifiers = map_record_related_identifiers
     @dataverse_record = @client.dataset_doi(doi: @doi) if check_dataverse?
   rescue Clients::Error => e
