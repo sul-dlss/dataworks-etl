@@ -160,6 +160,19 @@ datacite:
     - 10.7910/dvn/ocznvy
     # date error
     - 10.57761/3rx8-pg25
+    # date format not supported e.g. 19-Feb-2021
+    - 10.26093/cds/vizier.22480029
+    - 10.26093/cds/vizier.22710055
+    - 10.26093/cds/vizier.19450094
+    - 10.26093/cds/vizier/bc-ny/ljg
+    - 10.26093/cds/vizier/bc-nz/lbad
+    - 10.26093/cds/vizier/bb-7d-10
+    - 10.26093/cds/vizier/bb-7x-7
+    - 10.26093/cds/vizier/bg-fj-2gf
+    - 10.26093/cds/vizier/bg-fk-55p
+    - 10.26093/cds/vizier/bg-fn-104
+    - 10.26093/cds/vizier/bg-g4-2ng
+    - 10.26093/cds/vizier/bg-g8-nc
   suppress:
     # Datasets we do not want to bring in from Redivis instances through any queries
     # Shah Lab
