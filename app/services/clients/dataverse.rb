@@ -23,6 +23,9 @@ module Clients
     # @param doi [String] the DOI of the dataset
     def dataset_doi(doi:)
       # params ?persistentId=doi:#{doi}
+      Rails.logger.info("Dataverse client retrieving #{doi} with #{conn.headers}")
+      # Add short sleep
+      sleep(0.5)
       get_json(path: '/api/datasets/:persistentId/',
                params: { persistentId: "doi:#{doi}" })
     end
