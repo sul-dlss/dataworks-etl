@@ -9,8 +9,7 @@ RSpec.describe OpenalexEnhancer do
       'id' => 'abc',
       'doi' => 'testdoi',
       'referenced_works_count' => references_count,
-      'cited_by_count' => cited_by_count,
-      'open_access' => { 'is_oa' => open_access_status }
+      'cited_by_count' => cited_by_count
     }
   end
 
@@ -143,25 +142,6 @@ RSpec.describe OpenalexEnhancer do
 
     it 'does not add any overlapping related publications from OpenAlex' do
       expect(enhanced_record['related_identifiers']).to match_array(expected_identifiers)
-    end
-  end
-
-  context 'when open access status is true' do
-    let(:references_count) { 0 }
-    let(:cited_by_count) { 0 }
-
-    it 'adds open access to the rights list' do
-      expect(enhanced_record['rights_list']).to include({ 'rights' => 'Open access' })
-    end
-  end
-
-  context 'when open access status is false' do
-    let(:references_count) { 0 }
-    let(:cited_by_count) { 0 }
-    let(:open_access_status) { false }
-
-    it 'adds open access to the rights list' do
-      expect(enhanced_record['rights_list']).to include({ 'rights' => 'Not open access' })
     end
   end
 end
