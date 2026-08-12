@@ -10,7 +10,13 @@ class DataverseEnhancer
     @doi = doi
     @client = Clients::Dataverse.new(dataverse_token: Settings.dataverse.api_token)
     @related_identifiers = map_record_related_identifiers
-    @dataverse_record = @client.dataset_doi(doi: @doi) if check_dataverse?
+    if check_dataverse?
+      # Wait a second before making this call
+      Rails.logger.info("Waiting one second before making call to Dataverse for #{@doi}")
+      sleep 1
+      @dataverse_record = @client.dataset_doi(doi: @doi)
+      Rails.logger.info("Call made for Dataverse #{@doi}")
+    end
   rescue Clients::Error => e
     # We do not want Honeybadger notifications if a particular
     # enhancement fails
@@ -39,6 +45,8 @@ class DataverseEnhancer
       @mapped_record['related_identifiers'] = [] if @mapped_record['related_identifiers'].blank?
       # Concat whatever publications we do have to these
       @mapped_record['related_identifiers'].concat(related_publications)
+    else
+      Rails.logger.info("No Dataverse related publications returned for #{@doi}")
     end
     @mapped_record
   end

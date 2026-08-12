@@ -13,7 +13,6 @@ module Clients
 
     # Dataverse prefers we pass in the api token in the X-Dataverse-key header
     def new_conn
-      Rails.logger.info('Dataverse token does not exist') if @dataverse_token.blank?
       base_conn = super
       base_conn.headers['User-Agent'] = 'DataWorks Stanford Application - hudakhan@stanford.edu'
       base_conn.headers['X-Dataverse-key'] = @dataverse_token
@@ -23,9 +22,7 @@ module Clients
     # @param doi [String] the DOI of the dataset
     def dataset_doi(doi:)
       # params ?persistentId=doi:#{doi}
-      Rails.logger.info("Dataverse client retrieving #{doi} with #{conn.headers}")
       # Add short sleep
-      sleep(0.5)
       get_json(path: '/api/datasets/:persistentId/',
                params: { persistentId: "doi:#{doi}" })
     end
