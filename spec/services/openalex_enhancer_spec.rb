@@ -29,7 +29,6 @@ RSpec.describe OpenalexEnhancer do
 
   let(:mapped_record) { {} }
   let(:enhanced_record) { described_class.new(mapped_record:, doi: 'testdoi').add_metadata }
-  let(:open_access_status) { true }
 
   before do
     allow(Clients::OpenAlex).to receive(:new).and_return(openalex_client)
