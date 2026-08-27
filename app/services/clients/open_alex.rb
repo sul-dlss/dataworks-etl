@@ -88,7 +88,7 @@ module Clients
         cursor: cursor,
         filter: "#{relationship}:#{id},type:!dataset|database|software",
         'per-page': page_size,
-        select: 'id,doi,ids,type'
+        select: 'id,doi,ids'
       }
     end
 
