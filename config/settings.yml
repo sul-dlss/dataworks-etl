@@ -173,6 +173,10 @@ datacite:
     - 10.26093/cds/vizier/bg-fn-104
     - 10.26093/cds/vizier/bg-g4-2ng
     - 10.26093/cds/vizier/bg-g8-nc
+    - 10.1594/pangaea.995439
+    # Publisher identifier scheme not in our list
+    - 10.48324/dandi.000302/0.260825.0031
+
   suppress:
     # Datasets we do not want to bring in from Redivis instances through any queries
     # Shah Lab
