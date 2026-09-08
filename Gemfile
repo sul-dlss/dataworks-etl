@@ -89,3 +89,6 @@ group :deployment do
   gem 'capistrano-rails', require: false
   gem 'dlss-capistrano', require: false
 end
+
+# Pin until Faraday is updated to support v3, see: https://github.com/lostisland/faraday/pull/1687
+gem 'json', '~> 2.21'
