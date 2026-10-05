@@ -33,9 +33,7 @@ datacite:
   ignore:
     # OpenNeuro datasets that do not have title elements and thus cannot validate against our schema
     - 10.18112/openneuro.ds003871.v1.0.2
-    - 10.18112/openneuro.ds004475.v1.0.3
     - 10.18112/openneuro.ds004475.v1.0.2
-    - 10.18112/openneuro.ds004475.v1.0.1
     - 10.18112/openneuro.ds004475.v1.0.0
     - 10.18112/openneuro.ds004374.v1.0.0
     - 10.18112/openneuro.ds004373.v1.0.0
@@ -176,6 +174,18 @@ datacite:
     - 10.1594/pangaea.995439
     # Publisher identifier scheme not in our list
     - 10.48324/dandi.000302/0.260825.0031
+    - 10.48324/dandi.001550/0.260916.081
+    # Date format incorrect e.g 30-Nov-2022
+    - 10.26093/cds/vizier.22590018
+    - 10.26093/cds/vizier.75313973
+    - 10.26093/cds/vizier/bc-nz/lbh
+    - 10.26093/cds/vizier/bc-p2/lbh
+    - 10.26093/cds/vizier/ba-y1-d
+    - 10.26093/cds/vizier/ba-yp-1k
+    - 10.26093/cds/vizier/bb-7z-8
+    - 10.26093/cds/vizier/bc-p3/lbhb
+    - 10.26093/cds/vizier/be-5a-3t
+    - 10.26093/cds/vizier/bj-29-sh
 
   suppress:
     # Datasets we do not want to bring in from Redivis instances through any queries
