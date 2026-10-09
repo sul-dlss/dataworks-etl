@@ -5,7 +5,7 @@ class DataciteExtractJob < ExtractJob
   include Checkinable
 
   def perform(affiliation: nil, affiliation_id: nil, client_id: nil, provider_id: nil)
-    @organization = affiliation || client_id
+    @organization = affiliation || client_id || provider_id
     dataset_record_set = Extractors::Datacite.call(affiliation:, affiliation_id:, client_id:, provider_id:)
     dataset_record_set.update!(job_id: @job_id) if @job_id
 
