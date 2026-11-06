@@ -24,7 +24,7 @@ redivis:
 zenodo:
 #   api_token: ~
   ignore:
-    - 10.5281/zenodo.17306298
+    - 10.5281/zenodo.23351848
 
 datacite:
   username: ~
@@ -289,8 +289,6 @@ datacite:
 
 dryad:
    ignore:
-    # Has empty creator with no name and just name type, i.e. { name_type: 'Personal' }
-    - doi:10.5061/dryad.k3j9kd5ng
 
 # searchworks:
 #   ignore:
