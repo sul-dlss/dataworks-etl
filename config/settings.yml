@@ -288,7 +288,7 @@ datacite:
     - 10.18112/openneuro.ds006209.v1.0.0
 
 dryad:
-   ignore:
+   ignore: ~
 
 # searchworks:
 #   ignore:
