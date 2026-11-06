@@ -92,3 +92,6 @@ end
 
 # Pin until Faraday is updated to support v3, see: https://github.com/lostisland/faraday/pull/1687
 gem 'json', '~> 2.21'
+
+# Pinning to handle rails advisory
+gem 'activestorage', '~> 8.0.5', '>= 8.0.5.2'
