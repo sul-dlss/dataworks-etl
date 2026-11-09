@@ -24,7 +24,7 @@ redivis:
 zenodo:
 #   api_token: ~
   ignore:
-    - 10.5281/zenodo.17306298
+    - 10.5281/zenodo.23351848
 
 datacite:
   username: ~
@@ -32,21 +32,10 @@ datacite:
   contact_email: doi-contact@lists.stanford.edu  # Used in User-Agent header for Datacite API requests
   ignore:
     # OpenNeuro datasets that do not have title elements and thus cannot validate against our schema
-    - 10.18112/openneuro.ds003871.v1.0.2
-    - 10.18112/openneuro.ds004475.v1.0.2
-    - 10.18112/openneuro.ds004475.v1.0.0
     - 10.18112/openneuro.ds004374.v1.0.0
     - 10.18112/openneuro.ds004373.v1.0.0
-    - 10.18112/openneuro.ds004367.v1.0.2
-    - 10.18112/openneuro.ds004367.v1.0.1
-    - 10.18112/openneuro.ds004367.v1.0.0
     - 10.18112/openneuro.ds004364.v1.0.0
     - 10.18112/openneuro.ds004363.v1.0.0
-    - 10.18112/openneuro.ds004092.v1.0.1
-    - 10.18112/openneuro.ds004092.v1.0.0
-    - 10.18112/openneuro.ds003871.v1.0.1
-    - 10.18112/openneuro.ds003871.v1.0.0
-    - 10.18112/openneuro.ds003126.v1.0.0
     - 10.18112/openneuro.ds003122.v1.0.0
     - 10.18112/openneuro.ds002862.v1.0.0
     - 10.18112/openneuro.ds002862.v1.0.1
@@ -56,7 +45,6 @@ datacite:
     - 10.18112/openneuro.ds002851.v1.0.0
     - 10.18112/openneuro.ds002856.v1.0.0
     - 10.18112/openneuro.ds002850.v1.0.0
-    - 10.18112/openneuro.ds002732.v1.0.0
     # Hyphens in the dates that are not regular hyphens and throw off parsing
     - 10.7267/n98g8hmr
     # Name identifier scheme uses https://orcid.org instead of ORCID
@@ -88,10 +76,7 @@ datacite:
     - 10.7288/v4/magic/20328
     # name type without any name
     - 10.5281/zenodo.17306298
-    # date element missing although date property is present
-    - 10.48322/22dk-a715
     # Additional failing elements
-    - 10.48322/4x4p-sr85
     - 10.48322/f9tw-dz15
     - 10.48322/f2z0-rs29
     - 10.48322/e9dg-yp34
@@ -143,7 +128,6 @@ datacite:
     - 10.5281/zenodo.20221722
     - 10.48324/dandi.000559/0.260528.0858
     - 10.48324/dandi.000070/0.260528.0919
-    - 10.5880/gfz.2.8.2020.002
     # Additional errors
     - 10.5291/ill-data.1-01-227
     - 10.26093/cds/vizier/be-57-7x
@@ -175,6 +159,8 @@ datacite:
     # Publisher identifier scheme not in our list
     - 10.48324/dandi.000302/0.260825.0031
     - 10.48324/dandi.001550/0.260916.0811
+    - 10.60533/ember-dandi.000564/0.261015.2324
+    - 10.48324/dandi.002034/0.261019.2146
     # Date format incorrect e.g 30-Nov-2022
     - 10.26093/cds/vizier.22590018
     - 10.26093/cds/vizier.75313973
@@ -186,7 +172,7 @@ datacite:
     - 10.26093/cds/vizier/bc-p3/lbhb
     - 10.26093/cds/vizier/be-5a-3t
     - 10.26093/cds/vizier/bj-29-sh
-
+    - 10.26093/cds/vizier/bc-p7/lif
   suppress:
     # Datasets we do not want to bring in from Redivis instances through any queries
     # Shah Lab
@@ -302,9 +288,7 @@ datacite:
     - 10.18112/openneuro.ds006209.v1.0.0
 
 dryad:
-   ignore:
-    # Has empty creator with no name and just name type, i.e. { name_type: 'Personal' }
-    - doi:10.5061/dryad.k3j9kd5ng
+   ignore: ~
 
 # searchworks:
 #   ignore:
